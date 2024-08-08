@@ -19,7 +19,48 @@ public class QBoard extends EntityPathBase<Board> {
 
     public static final QBoard board = new QBoard("board");
 
+    public final org.hidog.global.entities.QBaseMemberEntity _super = new org.hidog.global.entities.QBaseMemberEntity(this);
+
+    public final BooleanPath active = createBoolean("active");
+
     public final StringPath bid = createString("bid");
+
+    public final StringPath bName = createString("bName");
+
+    public final StringPath category = createString("category");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    //inherited
+    public final StringPath createdBy = _super.createdBy;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
+
+    public final StringPath gid = createString("gid");
+
+    public final NumberPath<Integer> listOrder = createNumber("listOrder", Integer.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    //inherited
+    public final StringPath modifiedBy = _super.modifiedBy;
+
+    public final NumberPath<Integer> pageCountMobile = createNumber("pageCountMobile", Integer.class);
+
+    public final NumberPath<Integer> pageCountPc = createNumber("pageCountPc", Integer.class);
+
+    public final NumberPath<Integer> rowsPerPage = createNumber("rowsPerPage", Integer.class);
+
+    public final BooleanPath useComment = createBoolean("useComment");
+
+    public final BooleanPath useEditor = createBoolean("useEditor");
+
+    public final BooleanPath useUploadFile = createBoolean("useUploadFile");
+
+    public final BooleanPath useUploadImage = createBoolean("useUploadImage");
 
     public QBoard(String variable) {
         super(Board.class, forVariable(variable));
