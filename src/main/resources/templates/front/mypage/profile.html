@@ -2,11 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
     <main layout:fragment="content">
-        <h1 th:text="#{프로필_수정하기}"></h1>
-        <div class="button">
-            <a th:href="@{/app/mypage/profile}">
-                <button type="submit" th:text="#{프로필_수정하기}"></button>
-            </a>
-        </div>
+        <head>
+            <title>프로필 이미지 변경</title>
+            <link th:href="@{/front/css/mypage/profile.css}" rel="stylesheet">
+        </head>
+        <body>
+            <h1>프로필 이미지 변경</h1>
+
+            <!-- 현재 프로필 이미지 -->
+            <img id="currentProfileImage" th:src="@{/images/default-profile.png}" alt="현재 프로필 이미지" onclick="openPopup()">
+            <p>프로필 이미지를 클릭하면 이미지를 변경할 수 있어요.</p>
+
+            <!-- 팝업 창 -->
+            <div id="popup" class="popup" style="display:none;">
+                <div class="popup-content">
+                    <span class="close" onclick="closePopup()">&times;</span>
+                    <h2>프로필 이미지 변경</h2>
+                    <form th:action="@{/mypage/profile}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="profileImage" accept="image/*" required>
+                        <button type="submit">저장</button>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                function openPopup() {
+                    document.getElementById("popup").style.display = "block";
+                }
+
+                function closePopup() {
+                    document.getElementById("popup").style.display = "none";
+                }
+            </script>
+        </body>
     </main>
 </html>
