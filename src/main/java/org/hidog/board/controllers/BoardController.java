@@ -24,7 +24,7 @@ public class BoardController {
     @GetMapping("/list/{bid}")
     public String list(@PathVariable("bid") String bid, Model model) {
 
-        return "board/list";
+        return "front/board/list";
     }
 
     /**
@@ -37,33 +37,33 @@ public class BoardController {
     @GetMapping("/view/{seq}")
     public String view(@PathVariable("seq") Long seq, Model model) {
 
-        return "board/view";
+        return "front/board/view";
     }
 
     /**
      * 게시글 작성
      *
-     * @param bid
+     * @param bid : 게시판 아이디
      * @param model
      * @return
      */
     @GetMapping("/write/{bid}")
     public String write(@PathVariable("bid") String bid, Model model) {
 
-        return "board/write";
+        return "front/board/write";
     }
 
     /**
      * 게시글 수정
      *
-     * @param seq
+     * @param seq : 게시글 번호
      * @param model
      * @return
      */
     @GetMapping("/update/{seq}")
     public String update(@PathVariable("seq") Long seq, Model model) {
 
-        return "board/update";
+        return "front/board/update";
     }
 
     /**
@@ -75,20 +75,20 @@ public class BoardController {
     @PostMapping("/save")
     public String save(@Valid RequestBoardData form, Errors errors, Model model) {
 
-        return "board/list";
+        return "front/board/list";
     }
 
 
     /**
      * 게시글 삭제
      *
-     * @param seq
+     * @param seq : 게시글 번호
      * @param model
      * @return
      */
     @GetMapping("/delete/{seq}")
     public String delete(@PathVariable("seq") Long seq, Model model) {
 
-        return "redirect:/board/list/" + board.getBid();
+        return "redirect:/front//board/list/" + board.getBid();
     }
 }
