@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+    <main layout:fragment="content">
+        <h1 th:text="#{마이_페이지}"></h1>
+        <div class="buttons">
+            <a th:href="@{/app/mypage/info}">
+                <button type="submit" th:text="#{회원_정보_보기}"></button>
+            </a>
+            <a th:href="@{/app/mypage/profile}">
+                <button type="submit" th:text="#{프로필_수정하기}"></button>
+            </a>
+            <a th:href="@{/app/mypage/like}">
+                <button type="button" th:text="#{찜_목록_보기}"></button>
+            </a>
+            <a th:href="@{/app/mypage/post}">
+                <button type="button" th:text="#{내가_쓴_글_보기}"></button>
+            </a>
+            <a th:href="@{/app/mypage/sellAndBuy}">
+                <button type="button" th:text="#{판매_내역_구매_내역_보기}"></button>
+            </a>
+        </div>
+    </main>
+</html>
