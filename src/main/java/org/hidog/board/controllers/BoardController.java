@@ -73,7 +73,7 @@ public class BoardController {
      * @return
      */
     @PostMapping("/save")
-    public String save(@Valid RequestBoardData form, Errors errors, Model model) {
+    public String save(@Valid RequestBoard form, Errors errors, Model model) {
 
         return "front/board/list";
     }

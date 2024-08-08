@@ -3,6 +3,25 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
     <main layout:fragment="content">
-        게시글 작성
+        <h1 th:text="#{글쓰기}"></h1>
+        <form method="post" autocomplete="off" th:object="${requestBoard}" th:action="@{/board/save}">
+            <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+            <dl>
+                <dt th:text="#{글_제목}">글 제목</dt>
+                <dd>
+                    <input type="text" name="title" th:field="*{seq}">
+                    <div class="error" th:each="err : ${#fields.errors('title')}" th:text="${err}"></div>
+                </dd>
+            </dl>
+            <dl>
+                <dt th:text="#{내용}">내용</dt>
+                <dd>
+                    <!--            <input type="text" name="content" th:field="*{content}">-->
+                    <textarea name="content" th:field="*{content}"></textarea>
+                    <div class="error" th:each="err : ${#fields.errors('content')}" th:text="${err}"></div>
+                </dd>
+            </dl>
+            <button type="submit" th:text="#{작성완료}">작성완료</button>
+        </form>
     </main>
 </html>
