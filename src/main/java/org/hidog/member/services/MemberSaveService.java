@@ -49,13 +49,8 @@ public class MemberSaveService {
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
         String password = form.getPassword();
-        String mobile = form.getMobile();
-        if (StringUtils.hasText(mobile)) {
-            mobile = mobile.replaceAll("\\D", "");
-        }
 
         member.setUserName(form.getUserName());
-        member.setMobile(mobile);
 
         if (StringUtils.hasText(password)) {
             String hash = passwordEncoder.encode(password);
@@ -68,12 +63,6 @@ public class MemberSaveService {
     }
 
     public void save(Member member, List<Authority> authorities) {
-        //휴대폰 번호 숫자만 기록
-        String mobile = member.getMobile();
-        if (StringUtils.hasText(mobile)) {
-            mobile = mobile.replaceAll("\\D", "");
-            member.setMobile(mobile);
-        }
 
         memberRepository.saveAndFlush(member);
         if (authorities != null) {
