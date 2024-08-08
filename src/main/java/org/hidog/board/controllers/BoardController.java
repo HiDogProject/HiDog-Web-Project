@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
@@ -24,6 +28,7 @@ public class BoardController {
     @GetMapping("/list/{bid}")
     public String list(@PathVariable("bid") String bid, Model model) {
 
+
         return "front/board/list";
     }
 
@@ -35,7 +40,8 @@ public class BoardController {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute RequestBoard board, Model model) {
+        model.addAttribute("board", board);
 
         return "front/board/view";
     }
@@ -48,7 +54,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid, Model model) {
+    public String write(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
 
         return "front/board/write";
     }
@@ -90,5 +96,37 @@ public class BoardController {
     public String delete(@PathVariable("seq") Long seq, Model model) {
 
         return "redirect:/front//board/list/" + board.getBid();
+    }
+
+    /**
+     * 보드 관련 컨트롤러 공통 처리
+     *
+     * @param mode
+     * @param model
+     */
+    private void commonProcess(String mode, Model model) {
+        mode = Objects.requireNonNullElse(mode, ""); // mode가 null이면 ""을 기본값
+
+        List<String> addCommonCss = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
+
+        addCss.add("member/style");  // 회원 공통 스타일
+        /*
+        if (mode.equals("join")) {
+            addCommonScript.add("fileManager");
+            addCss.add("member/join");
+            addScript.add("member/join");
+
+        } else if (mode.equals("login")) {
+            addCss.add("member/login");
+        }
+         */
+
+        model.addAttribute("addCommonCss", addCommonCss);
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("addScript", addScript);
     }
 }
