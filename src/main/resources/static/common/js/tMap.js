@@ -1,40 +1,57 @@
-// 페이지가 로딩이 된 후 호출하는 함수입니다.
-var map,marker;
-var lonlat;
-var markers = [];
-document.addEventListener('DOMContentLoaded', function() {
-        initTmap();
-    }
-);
+const mapLib = {
+    /**
+     * 지도 로드
+     *
+     * @param mapId : 지도를 출력할 요소 id 이름
+     * @param width : 지도 너비
+     * @param height: 지도 높이
+     * @param options - 옵션
+     *               - center: { lat: 위도, lng: 경도} - 필수
+     *               - zoom : 확대 정도(1~10) / 숫자가 작을 수록 확대
+     - markerImage: 공통 마커 이미지 주소, 개별 마커 이미지가 있는 경우는 그걸로 대체,
+     *               - marker : [{ lat: 위도, lng: 경도, info: html 데이터(인포윈도우), image: 이미지 주소 - 마커이미지}]
+     */
+    load(mapId, width = 300, height = 300, options) {
+        const mapEl = document.getElementById(mapId);
+        if (!mapEl || !options?.center) return;
 
-function initTmap() {
-    // map 생성
-    // Tmapv3.Map을 이용하여, 지도가 들어갈 div, 넓이, 높이를 설정합니다.
-    var map = new Tmapv3.Map("map_div", { // 지도가 생성될 div
-        center: new Tmapv3.LatLng(37.56520450, 126.98702028),
-        width: "80%",    // 지도의 넓이
-        height: "600px",    // 지도의 높이
-        zoom: 16    // 지도 줌레벨
-    });
 
-    map.on("Click", function(evt) {
-        removeMarkers()
-        lngLat = evt.data.lngLat;
-        console.log(lngLat);
-        marker = new Tmapv3.Marker({
-            position: new Tmapv3.LatLng(lngLat._lat,lngLat._lng),
-            map: map
+        mapEl.style.width = `${width}px`;
+        mapEl.style.height = `${height}px`;
+
+        let { center, marker, markerImage } = options;
+
+        // 지도 가운데 좌표 처리
+        const zoom = options?.zoom ?? 5; // 기본값 5
+        const position = new Tmapv3.LatLng(center.lat, center.lng);
+        const map = new Tmapv3.Map(mapEl, {
+            center: position,
+            zoom: zoom,
         });
+        // 지도 가운데 좌표 처리 E
 
-        markers.push(marker);
-    });
-}
+        // 마커 출력 처리 S
+        if (marker) {
+            if (!Array.isArray(marker)) marker = [marker];
 
-// 모든 마커를 제거하는 함수입니다.
-function removeMarkers() {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
+            const markers = marker.map(m => {
+                const opt = { position: new Tmapv3.LatLng(m.lat, m.lng)};
+
+                // // 마커 이미지 처리
+                // const mi = markerImage ? markerImage : m.image;
+                // if (mi) {
+                //     const mImage = marker.icon(mi, new Tmapv3.Size(64, 69), {offset: new Tmapv3.Point(27, 69)});
+                //     opt.image = mImage;
+                // }
+
+                const _marker = new Tmapv3.Marker(opt);
+
+                _marker.setMap(map);
+
+                return _marker;
+            });
+
+        } // endif
+        // 마커 출력 처리 E
     }
-    markers = [];
-}
-
+};
