@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+
+<th:block layout:fragment="addCommonScript">
+    <script src="https://apis.openapi.sk.com/tmap/vectorjs?version=1&appKey=AMJpAtQzfg6RGV9RB1oHM3ZaCPp0T0Qx4nYhDbCZ"></script>
+</th:block>
+
+<main layout:fragment="content">
+    <h1 th:text="#{맵}"></h1>
+    <div id="map_div"></div>
+</main>
+
+</html>

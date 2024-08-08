@@ -1,0 +1,26 @@
+spring:
+  #JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+  #라이브 리로드 설정(배포 시 설정 x false)
+  devtools:
+    livereload:
+      enabled: false
+
+  #정적 자원 설정(css, js, image ...)
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+  #타임리프 설정
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+
+#파일 업로드 경로 설정, ubuntu 서버
+file:
+  upload:
+    path: /home/ubuntu/uploads
+    url: /upload/
