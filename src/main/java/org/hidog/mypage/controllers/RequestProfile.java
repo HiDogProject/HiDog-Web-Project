@@ -11,6 +11,4 @@ public class RequestProfile {
     private String password;
 
     private String confirmPassword;
-
-    private String mobile;
 }
