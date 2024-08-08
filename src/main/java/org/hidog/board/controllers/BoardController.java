@@ -1,0 +1,92 @@
+package org.hidog.board.controllers;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.hidog.board.entities.Board;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/board")
+@RequiredArgsConstructor
+public class BoardController {
+
+    private Board board;
+
+    /**
+     * 게시판 목록
+     * @param bid : 게시판 아이디
+     * @param model
+     * @return
+     */
+    @GetMapping("/list/{bid}")
+    public String list(@PathVariable("bid") String bid, Model model) {
+
+        return "board/list";
+    }
+
+    /**
+     * 게시글 보기
+     *
+     * @param seq : 게시글 번호
+     * @param model
+     * @return
+     */
+    @GetMapping("/view/{seq}")
+    public String view(@PathVariable("seq") Long seq, Model model) {
+
+        return "board/view";
+    }
+
+    /**
+     * 게시글 작성
+     *
+     * @param bid
+     * @param model
+     * @return
+     */
+    @GetMapping("/write/{bid}")
+    public String write(@PathVariable("bid") String bid, Model model) {
+
+        return "board/write";
+    }
+
+    /**
+     * 게시글 수정
+     *
+     * @param seq
+     * @param model
+     * @return
+     */
+    @GetMapping("/update/{seq}")
+    public String update(@PathVariable("seq") Long seq, Model model) {
+
+        return "board/update";
+    }
+
+    @GetMapping("/reply/{seq}")
+    public String reply(@PathVariable("seq") Long parentSeq, Model model) {
+
+        return "board/write";
+    }
+
+    /**
+     * 게시글 등록, 수정
+     *
+     * @param model
+     * @return
+     */
+    @PostMapping("/save")
+    public String save(@Valid RequestBoardData form, Errors errors, Model model) {
+
+        return "board/list";
+    }
+
+    @GetMapping("/delete/{seq}")
+    public String delete(@PathVariable("seq") Long seq, Model model) {
+
+        return "redirect:/board/list/" + board.getBid();
+    }
+}
