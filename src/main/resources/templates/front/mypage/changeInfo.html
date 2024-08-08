@@ -3,37 +3,5 @@
       layout:decorate="~{front/layouts/main}">
     <section layout:fragment="content">
         <h1 th:text="#{회원_정보_수정하기}"></h1>
-        <form name="frmProfile" method="POST" th:action="${@utils.url('/mypage/info')}" th:object="${requestChangeInfo}" autocomplete="off">
-            <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
-            <dl>
-                <dt th:text="#{이메일}"></dt>
-                <dd th:text="${loggedMember.email}"></dd>
-            </dl>
-            <dl>
-                <dt th:text="#{비밀번호}"></dt>
-                <dd>
-                    <input type="password" name="password" th:field="*{password}">
-                    <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
-                </dd>
-            </dl>
-            <dl>
-                <dt th:text="#{회원명}"></dt>
-                <dd>
-                    <input type="text" name="userName" th:field="*{nickName}">
-                    <div class="error" th:each="err : ${#fields.errors('nickName')}" th:text="${err}"></div>
-                </dd>
-            </dl>
-            <dl>
-                <dt th:text="#{주소}"></dt>
-                <dd>
-                    <input type="text" name="userName" th:field="*{address1}">
-                    <div class="error" th:each="err : ${#fields.errors('address1')}" th:text="${err}"></div>
-                    <input type="text" name="userName" th:field="*{address2}">
-                    <div class="error" th:each="err : ${#fields.errors('address2')}" th:text="${err}"></div>
-                </dd>
-            </dl>
-            <button type="reset" th:text="#{다시_입력}"></button>
-            <button type="submit" th:text="#{수정하기}"></button>
-        </form>
     </section>
 </html>
