@@ -35,7 +35,6 @@ public class MyPageController {
 
         Member member = memberUtil.getMember();
         form.setUserName(member.getUserName());
-        form.setMobile(member.getMobile());
 
         return "front/mypage/info";
     }

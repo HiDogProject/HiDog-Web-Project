@@ -1,6 +1,5 @@
 package org.hidog.mypage.validators;
 
-import org.hidog.global.validators.MobileValidator;
 import org.hidog.global.validators.PasswordValidator;
 import org.hidog.mypage.controllers.RequestProfile;
 import org.springframework.stereotype.Component;
@@ -9,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class ProfileUpdateValidator implements Validator, PasswordValidator, MobileValidator {
+public class ProfileUpdateValidator implements Validator, PasswordValidator{
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -35,7 +34,6 @@ public class ProfileUpdateValidator implements Validator, PasswordValidator, Mob
         RequestProfile form = (RequestProfile) target;
         String password = form.getPassword();
         String confirmPassword = form.getConfirmPassword();
-        String mobile = form.getMobile();
 
         // 1. 비밀번호가 입력된 경우
         if (StringUtils.hasText(password)) {
@@ -47,14 +45,9 @@ public class ProfileUpdateValidator implements Validator, PasswordValidator, Mob
                 errors.rejectValue("confirmPassword", "Mismatch.password");
             }
 
-            if (!alphaCheck(password, false) || !numberCheck(password) || !specialCharsCheck(password)) {
+            if (!alphaCheck(password) || !numberCheck(password) || !specialCharsCheck(password)) {
                 errors.rejectValue("password", "Complexity");
             }
-        }
-
-        // 2. 휴대전화번호가 입력된 경우
-        if (StringUtils.hasText(mobile) && !mobileCheck(mobile)) {
-            errors.rejectValue("mobile", "Mobile");
         }
     }
 }

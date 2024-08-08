@@ -1,7 +1,6 @@
 package org.hidog.member.validators;
 
 import lombok.RequiredArgsConstructor;
-import org.hidog.global.validators.MobileValidator;
 import org.hidog.global.validators.PasswordValidator;
 import org.hidog.member.controllers.RequestJoin;
 import org.hidog.member.repositories.MemberRepository;
@@ -11,8 +10,9 @@ import org.springframework.validation.Validator;
 
 @Component
 @RequiredArgsConstructor
-public class JoinValidator implements Validator, PasswordValidator, MobileValidator {
+public class JoinValidator implements Validator, PasswordValidator {
     private final MemberRepository memberRepository;
+
     @Override
     public boolean supports(Class<?> clazz) {
         return clazz.isAssignableFrom(RequestJoin.class);
@@ -24,21 +24,14 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
             return;
         }
 
-        /**
-         * 1. 이미 가입된 회원인지 체크
-         * 2. 비밀번호, 비밀번호 확인 일치 여부
-         * 3. 비밀번호 복잡성 체크
-         * 4. 휴대전화번호 형식 체크
-         */
-
         RequestJoin form = (RequestJoin) target;
         String email = form.getEmail();
         String password = form.getPassword();
         String confirmPassword = form.getConfirmPassword();
-        String mobile = form.getMobile();
+
 //      1. 이미 가입된 회원인지 체크
-        if(memberRepository.exists(email)){
-            errors.rejectValue("email","Duplicated");
+        if (memberRepository.exists(email)) {
+            errors.rejectValue("email", "Duplicated");
         }
 
         //2. 비밀번호, 비밀번호 확인 일치 여부
@@ -47,13 +40,8 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
         }
 
         // 3. 비밀번호 복잡성 체크 - 알파벳 대소문자 각각 1개 이상, 숫자 1개 이상, 특수문자 1개 이상
-        if (!alphaCheck(password, false) || !numberCheck(password) || !specialCharsCheck(password)) {
+        if (!alphaCheck(password) || !numberCheck(password) || !specialCharsCheck(password)) {
             errors.rejectValue("password", "Complexity");
-        }
-
-        // 4. 휴대전화번호 형식 체크
-        if (!mobileCheck(mobile)) {
-            errors.rejectValue("mobile", "Mobile");
         }
     }
 }
