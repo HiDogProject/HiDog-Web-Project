@@ -66,12 +66,6 @@ public class BoardController {
         return "board/update";
     }
 
-    @GetMapping("/reply/{seq}")
-    public String reply(@PathVariable("seq") Long parentSeq, Model model) {
-
-        return "board/write";
-    }
-
     /**
      * 게시글 등록, 수정
      *
@@ -84,6 +78,14 @@ public class BoardController {
         return "board/list";
     }
 
+
+    /**
+     * 게시글 삭제
+     *
+     * @param seq
+     * @param model
+     * @return
+     */
     @GetMapping("/delete/{seq}")
     public String delete(@PathVariable("seq") Long seq, Model model) {
 
