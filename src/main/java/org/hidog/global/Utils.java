@@ -15,6 +15,7 @@ import org.springframework.validation.FieldError;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Component("utils")
@@ -24,6 +25,16 @@ public class Utils { // 빈의 이름 - utils
     private final MessageSource messageSource;
     private final HttpServletRequest request;
     private final DiscoveryClient discoveryClient;
+
+    private static final ResourceBundle commonsBundle;
+    private static final ResourceBundle validationsBundle;
+    private static final ResourceBundle errorsBundle;
+
+    static {
+        commonsBundle = ResourceBundle.getBundle("messages.commons");
+        validationsBundle = ResourceBundle.getBundle("messages.validations");
+        errorsBundle = ResourceBundle.getBundle("messages.errors");
+    }
 
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
@@ -73,6 +84,22 @@ public class Utils { // 빈의 이름 - utils
         ms.setUseCodeAsDefaultMessage(true);
         return messages;
     }
+
+    public static String getMessage(String code, String type) {
+        type = StringUtils.hasText(type) ? type : "validations";
+
+        ResourceBundle bundle = null;
+        if (type.equals("commons")) {
+            bundle = commonsBundle;
+        } else if (type.equals("errors")) {
+            bundle = errorsBundle;
+        } else {
+            bundle = validationsBundle;
+        }
+
+        return bundle.getString(code);
+    }
+
     public String getMessage(String code){
         List<String> messages = getCodeMessages(new String[]{code});
 
