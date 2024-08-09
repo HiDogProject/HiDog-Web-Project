@@ -1,13 +1,13 @@
 /**
-* 파일 업로드, 삭제, 조회 공통 기능
-*
-*/
+ * 파일 업로드, 삭제, 조회 공통 기능
+ *
+ */
 
 const fileManager = {
     /**
-    * 파일 업로드
-    *
-    */
+     * 파일 업로드
+     *
+     */
     upload(files, options) {
 
         const { gid, location, single, imageOnly, done } = options;
@@ -70,18 +70,66 @@ const fileManager = {
         }
     },
     /**
-    * 파일 삭제
-    *
-    */
-    delete() {
+     * 파일 삭제
+     *
+     * @param seq : 파일 등록 번호
+     */
+    delete(seq) {
+        if (!seq) return;
+
+        const { ajaxLoad } = commonLib;
+
+        (async () => {
+            try {
+                const fileInfo = await ajaxLoad(`/file/delete/${seq}`, 'DELETE');
+
+                if (typeof parent.fileDeleteCallback === 'function') {
+                    parent.fileDeleteCallback(fileInfo);
+                }
+
+            } catch (err) {
+                alert(err.message);
+                console.error(err);
+            }
+        })();
+
+
 
     },
     /**
-    * 파일 조회
-    *
-    */
-    search() {
+     * 파일 조회
+     *
+     * @param params - seq 값이 있으면 개별 조회, gid, location이 있으면 목록 조회
+     *               - seq가 가장 우선적으로 조회
+     */
+    search(params) {
+        const { seq, gid, location } = params;
+        if (!seq || !gid) return;
 
+        let requestUrl = "/file";
+        if (seq) {
+            requestUrl += `/info/${seq}`;
+        } else {
+            requestUrl += `/list/${gid}`;
+            if (location) requestUrl += `?location=${location}`;
+        }
+
+        const { ajaxLoad } = commonLib;
+        (async () => {
+            try {
+                const response = await ajaxLoad(requestUrl);
+                if (response.isSuccess) {
+                    const data = response.data;
+
+                    if (typeof parent.fileSearchCallback === 'function') {
+                        parent.fileSearchCallback(data);
+                    }
+                }
+            } catch (err) {
+                alert(err.message);
+                console.error(err);
+            }
+        })();
     }
 };
 
