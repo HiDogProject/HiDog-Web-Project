@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div class="layout_width">
-    <form name="frmSave" method="post" th:action="@{/board/save}" autocomplete="off">
-        <input type="hidden" name="mode" value="write">
+    <div class="layout_width">
+        <form name="frmSave" method="post" th:action="@{/board/save}" autocomplete="off">
+            <input type="hidden" name="mode" value="write">
 
-        <th:block th:replace="~{front/board/_form}"></th:block>
+            <th:block th:replace="~{front/board/_form}"></th:block>
 
-        <div class="submit_btns">
-            <button type="reset" th:text="#{다시입력}"></button>
-            <button type="submit" th:text="#{작성하기}"></button>
-        </div>
-    </form>
-</div>
+            <div class="submit_btns">
+                <button type="reset" th:text="#{다시입력}"></button>
+                <button type="submit" th:text="#{작성하기}"></button>
+            </div>
+        </form>
+    </div>
 </html>
