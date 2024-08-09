@@ -9,12 +9,12 @@
             <link rel="stylesheet" href="styles.css">
         </head>
         <h1 th:text="#{마이_페이지}"></h1>
+        <a th:href="@{/app/mypage/profile}">
+            <button type="submit" th:text="#{프로필_수정하기}"></button>
+        </a>
         <div class="buttons">
             <a th:href="@{/app/mypage/info}">
                 <button type="submit" th:text="#{회원_정보}"></button>
-            </a>
-            <a th:href="@{/app/mypage/profile}">
-                <button type="submit" th:text="#{프로필_수정하기}"></button>
             </a>
             <a th:href="@{/app/mypage/like}">
                 <button type="button" th:text="#{찜_목록_보기}"></button>
