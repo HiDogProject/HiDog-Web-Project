@@ -2,7 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <h1 th:text="#{회원_정보_보기}"></h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>회원 정보</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <h1 th:text="#{회원_정보}"></h1>
+    <body>
+        <div class="container">
+            <div class="info-box">
+                <div class="info-row">
+                    <label>닉네임 : </label>
+                    <span>인간</span> <!-- 예시 데이터 -->
+                </div>
+                <div class="info-row">
+                    <label>이메일 : </label>
+                    <span>user01@test.org</span> <!-- 예시 데이터 -->
+                </div>
+                <div class="info-row">
+                    <label>비밀번호 : </label>
+                    <span>aA12345!</span> <!-- 예시 데이터 -->
+                </div>
+                <div class="info-row">
+                    <label>주소 : </label>
+                    <span>서울특별시 마포구 신촌로 176</span> <!-- 예시 데이터 -->
+                </div>
+                <div class="info-row">
+                    <label>가입일 : </label>
+                    <span>2023-01-01</span> <!-- 예시 데이터 -->
+                </div>
+            </div>
+
+            <div class="button-box">
+                <a href="/changeInfo" class="button">회원 정보 수정</a>
+            </div>
+        </div>
+    </body>
     <a th:href="@{/app/mypage/myhome}">
         <button type="button" th:text="#{마이_페이지}"></button>
     </a>
