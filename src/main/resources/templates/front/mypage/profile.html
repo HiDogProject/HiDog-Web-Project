@@ -16,7 +16,10 @@
             <div id="popup" class="popup" style="display:none;">
                 <div class="popup-content">
                     <form th:action="@{/mypage/profile}" method="post" enctype="multipart/form-data">
-                        <input type="file" name="profileImage" accept="image/*" required>
+                        <div class="file-input-wrapper">
+                            <input type="file" name="profileImage" accept="image/*" required>
+                            <button type="button" onclick="document.querySelector('input[type=file]').click();">파일 선택</button>
+                        </div>
                         <span class="close" onclick="closePopup()">&times;</span>
                         <button type="submit">저장</button>
                     </form>
