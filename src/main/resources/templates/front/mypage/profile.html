@@ -9,7 +9,8 @@
         <body>
             <h1>프로필 이미지 변경</h1>
 
-            <img id="currentProfileImage" th:src="@{/images/default-profile.png}" alt="프로필" onclick="openPopup()">
+            <img id="currentProfileImage" th:src="${session.profileImage ?: '/images/default-profile.png'}"
+                 alt="프로필" onclick="openPopup()">
 
             <!-- 팝업 창 -->
             <div id="popup" class="popup" style="display:none;">
