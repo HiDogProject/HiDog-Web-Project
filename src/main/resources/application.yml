@@ -48,13 +48,12 @@ spring:
     password: ${mail.password}
     properties:
       mail:
-        transport:
-          protocol: smtp
         smtp:
           timeout: 5000
           auth: true
           starttls:
             enable: true
+        debug: true
 
 #파일 업로드 경로 설정
 file:

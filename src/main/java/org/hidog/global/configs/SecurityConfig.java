@@ -1,6 +1,7 @@
 package org.hidog.global.configs;
 
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.hidog.member.services.LoginSuccessHandler;
 import org.hidog.member.services.MemberAuthenticationEntryPoint;
@@ -39,8 +40,13 @@ public class SecurityConfig {
 
         http.logout(logout -> {
             logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-//                    .logoutSuccessHandler()
-                    .logoutSuccessUrl("/member/login");
+                    .logoutSuccessHandler((req, res, e) -> {
+
+                        HttpSession session = req.getSession();
+                        session.removeAttribute("device");
+
+                        res.sendRedirect(req.getContextPath() + "/member/login");
+                    });
         });
         /* 로그인, 로그아웃 E */
         /* 인가(접근 통제) 설정 S*/
