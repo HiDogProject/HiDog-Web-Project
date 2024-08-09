@@ -9,24 +9,26 @@
             <link rel="stylesheet" href="styles.css">
         </head>
         <h1 th:text="#{마이_페이지}"></h1>
-        <div>
-            <img id="profileImage" th:src="${profileImage}" alt="프로필 이미지">
+        <div class="profile-container">
+            <div class="profile-image">
+                <img id="profileImage" th:src="${profileImage}">
+            </div>
+            <a th:href="@{/app/mypage/profile}">
+                <button type="submit" class="btn" th:text="#{프로필}"></button>
+            </a>
         </div>
-        <a th:href="@{/app/mypage/profile}">
-            <button type="submit" th:text="#{프로필}"></button>
-        </a>
         <div class="buttons">
             <a th:href="@{/app/mypage/info}">
-                <button type="submit" th:text="#{회원_정보}"></button>
+                <button type="submit" class="btn" th:text="#{회원_정보}"></button>
             </a>
             <a th:href="@{/app/mypage/like}">
-                <button type="button" th:text="#{찜_목록_보기}"></button>
+                <button type="button" class="btn" th:text="#{찜_목록_보기}"></button>
             </a>
             <a th:href="@{/app/mypage/post}">
-                <button type="button" th:text="#{내가_쓴_글_보기}"></button>
+                <button type="button" class="btn" th:text="#{내가_쓴_글_보기}"></button>
             </a>
             <a th:href="@{/app/mypage/sellAndBuy}">
-                <button type="button" th:text="#{판매_내역_구매_내역_보기}"></button>
+                <button type="button" class="btn" th:text="#{판매_내역_구매_내역_보기}"></button>
             </a>
         </div>
     </main>
