@@ -36,7 +36,7 @@ public class MyPageController {
     @GetMapping("/changeInfo")
     public String changeMemberInfo(Model model) {
         commonProcess("changeInfo", model);
-        // 본인 인증 로직
+        // 본인 인증 로직 : 비밀번호 입력 -> 통과 시 회원 수정 페이지로 이동 / 실패 시 회원 정보 페이지로 이동
         return "front/mypage/changeInfo";
     }
 
