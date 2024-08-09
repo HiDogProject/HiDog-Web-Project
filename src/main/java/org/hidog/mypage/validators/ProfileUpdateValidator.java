@@ -31,16 +31,11 @@ public class ProfileUpdateValidator implements Validator, PasswordValidator{
 
         RequestProfile form = (RequestProfile) target;
         String password = form.getPassword();
-        String confirmPassword = form.getConfirmPassword();
 
         // 1. 비밀번호가 입력된 경우
         if (StringUtils.hasText(password)) {
             if (password.length() < 8) {
                 errors.rejectValue("password", "Size");
-            }
-
-            if (!password.equals(confirmPassword)) {
-                errors.rejectValue("confirmPassword", "Mismatch.password");
             }
 
             if (!alphaCheck(password) || !numberCheck(password) || !specialCharsCheck(password)) {
