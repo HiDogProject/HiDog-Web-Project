@@ -9,8 +9,11 @@
             <link rel="stylesheet" href="styles.css">
         </head>
         <h1 th:text="#{마이_페이지}"></h1>
+        <div>
+            <img id="profileImage" th:src="${profileImage}" alt="프로필 이미지">
+        </div>
         <a th:href="@{/app/mypage/profile}">
-            <button type="submit" th:text="#{프로필_수정하기}"></button>
+            <button type="submit" th:text="#{프로필}"></button>
         </a>
         <div class="buttons">
             <a th:href="@{/app/mypage/info}">
