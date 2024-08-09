@@ -1,46 +1,45 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{front/layouts/mypage}">
-<section layout:fragment="content">
-    <h1 th:text="#{내_정보수정}"></h1>
-    <form name="frmUpdate" method="POST" th:action="${@utils.url('/mypage/info')}" autocomplete="off" th:object="${requestProfile}">
-        <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
-        <dl>
-            <dt th:text="#{이메일}"></dt>
-            <dd th:text="${loggedMember.email}"></dd>
-        </dl>
-        <dl>
-            <dt th:text="#{회원명}"></dt>
-            <dd>
-                <input type="text" name="userName" th:field="*{userName}">
-                <div class="error" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
-            </dd>
-         </dl>
-        <dl>
-            <dt th:text="#{비밀번호}"></dt>
-            <dd>
-                <input type="password" name="password" th:field="*{password}">
-                <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{비밀번호_확인}"></dt>
-            <dd>
-                <input type="password" name="confirmPassword" th:field="*{confirmPassword}">
-                <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{휴대전화번호}"></dt>
-            <dd>
-                <input type="text" name="mobile" th:field="*{mobile}">
-                <div class="error" th:each="err : ${#fields.errors('mobile')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <button type="reset" th:text="#{다시입력}"></button>
-        <button type="submit" th:text="#{수정하기}"></button>
-    </form>
-</section>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+    <main layout:fragment="content">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>회원 정보</title>
+            <link rel="stylesheet" href="styles.css">
+        </head>
+        <h1 th:text="#{회원_정보}"></h1>
+        <body>
+            <div class="container">
+                <div class="info-box">
+                    <div class="info-row">
+                        <label>닉네임 : </label>
+                        <span>인간</span> <!-- 예시 데이터 -->
+                    </div>
+                    <div class="info-row">
+                        <label>이메일 : </label>
+                        <span>user01@test.org</span> <!-- 예시 데이터 -->
+                    </div>
+                    <div class="info-row">
+                        <label>비밀번호 : </label>
+                        <span>aA12345!</span> <!-- 예시 데이터 -->
+                    </div>
+                    <div class="info-row">
+                        <label>주소 : </label>
+                        <span>서울특별시 마포구 신촌로 176</span> <!-- 예시 데이터 -->
+                    </div>
+                </div>
+
+                <div class="button-box">
+                    <a href="/changeInfo" class="button">회원 정보 수정</a>
+                </div>
+            </div>
+        </body>
+        <a th:href="@{/app/mypage/myhome}">
+            <button type="button" th:text="#{마이_페이지}"></button>
+        </a>
+        <a th:href="@{/app/mypage/changeInfo}">
+            <button type="button" th:text="#{회원_정보_수정하기}"></button>
+        </a>
+    </main>
 </html>

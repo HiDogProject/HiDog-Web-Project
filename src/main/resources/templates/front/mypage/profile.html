@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+    <main layout:fragment="content">
+        <head>
+            <title>프로필</title>
+            <link th:href="@{/front/css/mypage/profile.css}" rel="stylesheet">
+        </head>
+        <body>
+            <h1>프로필 이미지 변경</h1>
+
+            <img id="currentProfileImage" th:src="${session.profileImage ?: '/images/default-profile.png'}"
+                 alt="프로필" onclick="openPopup()">
+
+            <!-- 팝업 창 -->
+            <div id="popup" class="popup" style="display:none;">
+                <div class="popup-content">
+                    <form th:action="@{/mypage/profile}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="profileImage" accept="image/*" required>
+                        <span class="close" onclick="closePopup()">&times;</span>
+                        <button type="submit">저장</button>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                function openPopup() {
+                    document.getElementById("popup").style.display = "block";
+                }
+
+                function closePopup() {
+                    document.getElementById("popup").style.display = "none";
+                }
+            </script>
+        </body>
+    </main>
+</html>

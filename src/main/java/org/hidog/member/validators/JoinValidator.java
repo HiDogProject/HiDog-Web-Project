@@ -24,6 +24,13 @@ public class JoinValidator implements Validator, PasswordValidator {
             return;
         }
 
+        /**
+         * 1. 이미 가입된 회원인지 체크
+         * 2. 비밀번호, 비밀번호 확인 일치 여부
+         * 3. 비밀번호 복잡성 체크
+         * 4. 휴대전화번호 형식 체크
+         */
+
         RequestJoin form = (RequestJoin) target;
         String email = form.getEmail();
         String password = form.getPassword();
