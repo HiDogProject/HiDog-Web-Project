@@ -12,6 +12,7 @@
             <div class="container">
                 <!-- 비밀번호 인증 폼 -->
                 <div id="passwordForm" th:if="${!authenticated}">
+                    <h2>본인 인증</h2>
                     <form action="#" th:action="@{/mypage/changeInfo}" method="post">
                         <label for="checkPassword">비밀번호 : </label>
                         <input type="password" id="checkPassword" name="password" required>
