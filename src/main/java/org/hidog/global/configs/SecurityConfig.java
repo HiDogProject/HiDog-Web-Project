@@ -3,7 +3,6 @@ package org.hidog.global.configs;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.hidog.member.services.LoginFailureHandler;
 import org.hidog.member.services.LoginSuccessHandler;
 import org.hidog.member.services.MemberAuthenticationEntryPoint;
 import org.hidog.member.services.MemberInfoService;
@@ -34,9 +33,9 @@ public class SecurityConfig {
                     .usernameParameter("email")
                     .passwordParameter("password")
                     .successHandler(new LoginSuccessHandler())
-                    .failureHandler(new LoginFailureHandler());
+//                    .failureHandler(new LoginFailureHandler());
 //                    .successForwardUrl("/")
-//                    .failureUrl("/member/login?error=true");
+                    .failureUrl("/member/login?error=true");
         });
 
         http.logout(logout -> {

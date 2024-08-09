@@ -19,8 +19,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         session.removeAttribute("requestLogin");
 
         //로그인 성공시 - redirectUrl 이 있으면 해당 주소로 이동, 아니면 메인 페이지 이동
-        String redirectUrl = StringUtils.hasText(request.getParameter("redirectUrl")) ? (request.getParameter("redirectUrl").trim()) : "/";
+        String redirectUrl = StringUtils.hasText(request.getParameter("redirectUrl")) ? (request.getParameter("redirectUrl").trim()) : "/app";
 
-        response.sendRedirect(request.getContextPath() + redirectUrl);
+         response.sendRedirect(request.getContextPath() + redirectUrl);
     }
 }
