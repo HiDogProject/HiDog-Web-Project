@@ -17,7 +17,7 @@ public class EmailSendTest {
     void sendTest() {
         EmailMessage message = new EmailMessage("sunkyu0384@naver.com", "제목", "내용");
         boolean success = emailSendService.sendMail(message);
-
+        // 변경!!!
         assertTrue(success);
     }
 }
