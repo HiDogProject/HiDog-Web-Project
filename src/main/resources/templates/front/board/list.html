@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{front/layouts/main}">
-    <main layout:fragment="content">
-        게시판 목록
-    </main>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="default">
+    <th:block th:replace="~{front/board/skins/default/_list_items::default}"></th:block>
+</th:block>
 </html>
