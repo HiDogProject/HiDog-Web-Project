@@ -1,11 +1,9 @@
 package org.hidog.board.controllers;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/list/{bid}")
-    public String list(@PathVariable("bid") String bid, Model model) {
+    public String list() {
 
 
         return "front/board/list";
@@ -40,8 +38,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, @ModelAttribute RequestBoard board, Model model) {
-        model.addAttribute("board", board);
+    public String view() {
 
         return "front/board/view";
     }
@@ -54,7 +51,8 @@ public class BoardController {
      * @return
      */
     @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
+    public String write(@PathVariable("bid") String bid,
+                        @ModelAttribute RequestBoard form, Model model) {
 
         return "front/board/write";
     }
@@ -67,7 +65,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/update/{seq}")
-    public String update(@PathVariable("seq") Long seq, Model model) {
+    public String update() {
 
         return "front/board/update";
     }
@@ -79,7 +77,7 @@ public class BoardController {
      * @return
      */
     @PostMapping("/save")
-    public String save(@Valid RequestBoard form, Errors errors, Model model) {
+    public String save() {
 
         return "front/board/list";
     }
@@ -93,7 +91,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/delete/{seq}")
-    public String delete(@PathVariable("seq") Long seq, Model model) {
+    public String delete() {
 
         return "redirect:/front//board/list/" + board.getBid();
     }
@@ -112,7 +110,7 @@ public class BoardController {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
-        addCss.add("member/style");  // 회원 공통 스타일
+        addCss.add("board/style");  // 보드 공통 스타일
         /*
         if (mode.equals("join")) {
             addCommonScript.add("fileManager");
