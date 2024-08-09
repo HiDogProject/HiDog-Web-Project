@@ -40,7 +40,7 @@ public class MemberController implements ExceptionProcessor {
         commonProcess("join", model);
 
 
-        return utils.tpl("member/join");
+        return "front/member/join";
     }
 
     @PostMapping("/join")
@@ -71,7 +71,7 @@ public class MemberController implements ExceptionProcessor {
             }
         }
 
-        return utils.tpl("member/login");
+        return "front/member/login";
 
     }
 
