@@ -81,33 +81,36 @@ public class Utils { // 빈의 이름 - utils
 
     /**
      * 접속 장비가 모바일인지 체크
+     *
+     * @return
      */
-    public boolean isMobile(){
+    public boolean isMobile() {
 
-        //모바일 수동 전환 체크, 처리
+        // 모바일 수동 전환 체크, 처리
         HttpSession session = request.getSession();
-        String device = session.getAttribute("device").toString();
+        String device = (String)session.getAttribute("device");
 
-        if(StringUtils.hasText(device)){
+        if (StringUtils.hasText(device)) {
             return device.equals("MOBILE");
         }
 
-        //User-Agent 요청 헤더 정보
+        // User-Agent 요청 헤더 정보
         String ua = request.getHeader("User-Agent");
+
         String pattern = ".*(iPhone|iPod|iPad|BlackBerry|Android|Windows CE|LG|MOT|SAMSUNG|SonyEricsson).*";
 
         return ua.matches(pattern);
     }
 
     /**
-     * 모바일 PC 뷰 템플릿 경로 생성
+     * 모바일, PC 뷰 템플릿 경로 생성
+     *
      * @param path
      * @return
      */
-    public String tpl(String path){
+    public String tpl(String path) {
         String prefix = isMobile() ? "mobile/" : "front/";
 
         return prefix + path;
-
     }
 }
