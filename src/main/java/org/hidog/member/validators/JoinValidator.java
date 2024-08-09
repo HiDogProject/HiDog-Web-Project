@@ -35,8 +35,9 @@ public class JoinValidator implements Validator, PasswordValidator {
         String email = form.getEmail();
         String password = form.getPassword();
         String confirmPassword = form.getConfirmPassword();
+        String userName = form.getUserName();
 
-//      1. 이미 가입된 회원인지 체크
+        //1. 이미 가입된 회원인지 체크
         if (memberRepository.exists(email)) {
             errors.rejectValue("email", "Duplicated");
         }
@@ -49,6 +50,11 @@ public class JoinValidator implements Validator, PasswordValidator {
         // 3. 비밀번호 복잡성 체크 - 알파벳 대소문자 각각 1개 이상, 숫자 1개 이상, 특수문자 1개 이상
         if (!alphaCheck(password) || !numberCheck(password) || !specialCharsCheck(password)) {
             errors.rejectValue("password", "Complexity");
+        }
+
+        //4. 닉네임 중복 체크
+        if (memberRepository.existsByUserName(userName)) {
+            errors.rejectValue("userName", "Duplicated");
         }
     }
 }

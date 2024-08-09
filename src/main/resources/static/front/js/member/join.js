@@ -1,7 +1,7 @@
 /**
-* 프로필 이미지 업로드 후속 처리
-*
-*/
+ * 프로필 이미지 업로드 후속 처리
+ *
+ */
 function fileUploadCallback(files) {
     if (files.length === 0) {
         return;
@@ -10,7 +10,7 @@ function fileUploadCallback(files) {
     const file = files[0];
     let html = document.getElementById("image-file-tpl").innerHTML;
     html = html.replace(/\[seq\]/g, file.seq)
-                .replace(/\[fileUrl\]/g, file.fileUrl);
+        .replace(/\[fileUrl\]/g, file.fileUrl);
 
     const domParser = new DOMParser();
     const dom = domParser.parseFromString(html, 'text/html');
@@ -29,6 +29,14 @@ function fileUploadCallback(files) {
         const seq = this.dataset.seq;
         fileManager.delete(seq);
     });
+}
 
 
+/**
+ * 파일 삭제 후 후속 처리
+ *
+ */
+function fileDeleteCallback(file) {
+    const targetEl = document.querySelector(".profile-image");
+    if (targetEl) targetEl.innerHTML = "";
 }
