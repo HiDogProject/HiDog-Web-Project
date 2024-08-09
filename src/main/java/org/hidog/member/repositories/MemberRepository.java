@@ -14,14 +14,14 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
     Optional<Member> findByEmail(String email);
 
     @EntityGraph(attributePaths = "authorities")
-    Optional<Member> findByNickName(String userName);  // 닉네임으로 조회
+    Optional<Member> findByUserName(String userName);  // 닉네임으로 조회
 
     default boolean exists(String email) {
         QMember member = QMember.member;
         return exists(member.email.eq(email));
     }
 
-    default boolean existsByNickName(String userName) {  // 닉네임으로 존재 여부 확인
+    default boolean existsByUserName(String userName) {  // 닉네임으로 존재 여부 확인
         QMember member = QMember.member;
         return exists(member.userName.eq(userName));
     }

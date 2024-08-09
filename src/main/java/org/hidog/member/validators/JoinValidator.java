@@ -46,7 +46,7 @@ public class JoinValidator implements Validator, PasswordValidator {
         }
 
         //4. 닉네임 중복 체크
-        if (memberRepository.existsByNickName(userName)) {
+        if (memberRepository.existsByUserName(userName)) {
             errors.rejectValue("userName", "Duplicated");
         }
     }

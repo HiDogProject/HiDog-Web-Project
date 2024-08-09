@@ -11,5 +11,4 @@ import java.util.List;
 
 public interface AuthoritiesRepository extends JpaRepository<Authorities, AuthoritiesId>, QuerydslPredicateExecutor<Authorities> {
     List<Authorities> findByMember(Member member);
-    List<Authorities> findByNickname(Member member);
 }

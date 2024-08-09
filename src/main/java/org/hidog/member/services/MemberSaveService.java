@@ -38,7 +38,7 @@ public class MemberSaveService {
         Member member = new ModelMapper().map(form, Member.class);
 
         // 닉네임 중복 체크
-        if (memberRepository.existsByNickName(member.getUserName())) {
+        if (memberRepository.existsByUserName(member.getUserName())) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");  // 중복 시 예외 발생
         }
 
@@ -61,7 +61,7 @@ public class MemberSaveService {
 
 
         // 닉네임 중복 체크
-        if (memberRepository.existsByNickName(userName) && !member.getUserName().equals(userName)) {
+        if (memberRepository.existsByUserName(userName) && !member.getUserName().equals(userName)) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");  // 중복 시 예외 발생
         }
 
