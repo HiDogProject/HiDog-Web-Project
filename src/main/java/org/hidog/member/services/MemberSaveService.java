@@ -12,6 +12,7 @@ import org.hidog.member.repositories.AuthoritiesRepository;
 import org.hidog.member.repositories.MemberRepository;
 import org.hidog.mypage.controllers.RequestProfile;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,12 @@ public class MemberSaveService {
      */
     public void save(RequestJoin form) {
         Member member = new ModelMapper().map(form, Member.class);
+
+        // 닉네임 중복 체크
+        if (memberRepository.existsByNickName(member.getUserName())) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");  // 중복 시 예외 발생
+        }
+
         String hash = passwordEncoder.encode(member.getPassword());
         member.setPassword(hash);
         save(member, List.of(Authority.USER));
@@ -48,9 +55,17 @@ public class MemberSaveService {
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
+        String userName = form.getUserName();
         String password = form.getPassword();
 
-        member.setUserName(form.getUserName());
+
+        // 닉네임 중복 체크
+        if (memberRepository.existsByNickName(userName) && !member.getUserName().equals(userName)) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");  // 중복 시 예외 발생
+        }
+
+        member.setUserName(userName);
 
         if (StringUtils.hasText(password)) {
             String hash = passwordEncoder.encode(password);
