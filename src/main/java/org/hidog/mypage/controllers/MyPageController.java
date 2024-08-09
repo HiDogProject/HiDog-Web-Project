@@ -3,11 +3,18 @@ package org.hidog.mypage.controllers;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hidog.global.configs.FileProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,11 +23,20 @@ import java.util.Objects;
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
 public class MyPageController {
+    private final FileProperties properties;
 
-    // 마이 페이지 홈
     @GetMapping("/myhome")
-    public String mypage(Model model) {
-        commonProcess("myhome", model);
+    public String mypage(Model model, HttpSession session) {
+        // 세션에서 프로필 이미지 경로 가져와 모델에 추가
+        String profileImage = (String) session.getAttribute("profileImage");
+
+        if (profileImage == null) {
+            profileImage = "/images/default-profile.png"; // 기본 이미지 경로
+        }
+        model.addAttribute("profileImage", profileImage);
+
+        commonProcess("myhome", model); // 공통 프로세스 처리
+
         return "front/mypage/myhome";
     }
 
@@ -90,12 +106,24 @@ public class MyPageController {
 
     // 프로필 이미지 변경 후 변경 내용 반영
     @PostMapping("/profile")
-    public String saveProfileImage(@Valid RequestProfile form, Errors errors, Model model) {
-        commonProcess("profile", model);
-        if (errors.hasErrors()) {
+    public String saveProfileImage(@RequestParam("profileImage") MultipartFile profileImage, HttpSession session, Model model) {
+        // 이미지 저장 경로
+        String uploadDirectory = properties.getPath();
+        String fileName = profileImage.getOriginalFilename();
+        Path filePath = Paths.get(uploadDirectory, fileName);
+
+        try {
+            Files.createDirectories(filePath.getParent()); // 디렉토리가 없는 경우 -> 생성
+            profileImage.transferTo(new File(filePath.toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("error", "이미지 저장 실패");
             return "front/mypage/profile";
         }
-        // 프로필 이미지 저장 코드 추가 예정..
+
+        // 세션에 저장된 사용자 정보에 프로필 이미지 경로 저장
+        session.setAttribute("profileImage", properties.getUrl() + fileName);
+
         return "redirect:/mypage/myhome";
     }
 
@@ -133,26 +161,35 @@ public class MyPageController {
         List<String> addScript = new ArrayList<>(); // 새로운 빈 ArrayList 객체 생성해 addScript 변수에 할당 -> addScript 리스트 = 특정 페이지에서만 사용될 스크립트 파일 경로 저장
 
         addCss.add("mypage/style"); // 마이 페이지 공통 스타일 적용
-        if (mode.equals("myhome")) { // 마이 페이지 기본 페이지
-            addCss.add("mypage/myhome");
-        } else if (mode.equals("info")) { // 회원 정보 확인 페이지
-            addCss.add("mypage/info");
-        } else if (mode.equals("changeInfo")) { // 회원 정보 수정 페이지
-            addCss.add("mypage/changeInfo");
-            addScript.add("mypage/changeInfo");
-        } else if (mode.equals("profile")) { // 프로필 수정 (페이지 X -> 이미지 클릭 시 팝업 창 생성)
-            addCss.add("mypage/profile");
-            addScript.add("mypage/profile");
-        } else if (mode.equals("like")) { // 찜 목록 페이지
-            addCss.add("mypage/like");
-        } else if (mode.equals("post")) { // 내가 쓴 글 목록 페이지
-            addCss.add("mypage/post");
-        } else if (mode.equals("sellAndBuy")) { // 판매 내역 & 구매 내역 페이지
-            addCss.add("mypage/sellAndBuy");
+        switch (mode) {
+            case "myhome":
+                addCss.add("mypage/myhome"); // 마이 페이지 홈
+                break;
+            case "info":
+                addCss.add("mypage/info"); // 회원 정보 확인 페이지
+                break;
+            case "changeInfo":
+                addCss.add("mypage/changeInfo");
+                addScript.add("mypage/changeInfo"); // 회원 정보 수정 페이지
+                break;
+            case "profile":
+                addCss.add("mypage/profile");
+                addScript.add("mypage/profile"); // 프로필 페이지
+                break;
+            case "like":
+                addCss.add("mypage/like"); // 찜 목록 페이지
+                break;
+            case "post":
+                addCss.add("mypage/post"); // 글 목록 페이지
+                break;
+            case "sellAndBuy":
+                addCss.add("mypage/sellAndBuy"); // 판매 & 구매 내역 페이지
+                break;
         }
 
         model.addAttribute("addCss", addCss); // addCss 리스트 -> "addCss"라는 이름으로 model 객체에 추가 | model 객체 = 컨트롤러와 뷰 사이의 데이터 전달하는 역할 | 뷰에서 "addCss"라는 이름 사용해 addCss 리스트 내용 접근
         model.addAttribute("addCommonScript", addCommonScript); // addCommonScript 리스트 -> "addCommonScript"라는 이름으로 model 객체에 추가 | 뷰에서 "addCommonScript"라는 이름 사용해 addCommonScript 리스트 내용 접근
         model.addAttribute("addScript", addScript); // addScript 리스트 -> "addScript"라는 이름으로 model 객체에 추가 | 뷰에서 "addScript"라는 이름 사용해 addScript 리스트 내용 접근
+        model.addAttribute("pageName", mode); // 현재 페이지 이름을 모델에 추가
     }
 }
