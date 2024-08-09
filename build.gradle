@@ -47,7 +47,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-mail:3.3.2' // 이메일 인증
+    implementation 'org.springframework.boot:spring-boot-starter-mail' // 이메일 인증
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis' //redis
     implementation 'org.springframework.session:spring-session-data-redis' //redis session
