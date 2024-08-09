@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+    <main layout:fragment="content">
+        <h1>게시글 제목</h1>
+        <p th:text="${boardData.content}">게시글 내용</p>
+        <a th:href="@{/board/list/{bid}(bid=${board.bid})}">목록으로 돌아가기</a>
+        <a th:href="@{/board/write/{bid}(bid=${board.bid})}">글 작성</a>
+        <a th:href="@{/board/update/{seq}(seq=${boardData.seq})}">글 수정</a>
+        <a th:href="@{/board/delete/{seq}(seq=${boardData.seq})}">글 삭제</a>
+    </main>
+</html>
