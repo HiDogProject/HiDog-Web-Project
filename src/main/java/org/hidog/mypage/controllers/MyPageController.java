@@ -1,13 +1,12 @@
 package org.hidog.mypage.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,21 +33,52 @@ public class MyPageController {
 
     // 마이 페이지 -> 회원 정보 수정 버튼 클릭 시 본인 인증 후 회원 정보 수정 페이지로 이동
     @GetMapping("/changeInfo")
-    public String changeMemberInfo(Model model) {
-        commonProcess("changeInfo", model);
-        // 본인 인증 로직 : 비밀번호 입력 -> 통과 시 회원 수정 페이지로 이동 / 실패 시 회원 정보 페이지로 이동
+    public String changeInfo(Model model, HttpSession session) {
+        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
+        model.addAttribute("authenticated", authenticated != null && authenticated);
+
+        // 인증된 경우, 프로필 객체를 모델에 추가
+        if (authenticated != null && authenticated) {
+            RequestProfile profile = new RequestProfile();
+            // 실제 사용자 정보를 불러와 profile 에 설정
+            profile.setUserName("인간"); // 예시
+            profile.setEmail("user01@test.org"); // 예시
+            profile.setPassword("aA12345!"); // 예기
+            profile.setAddress("서울특별시 마포구 신촌로 176"); // 예시
+            model.addAttribute("profile", profile);
+        }
+
         return "front/mypage/changeInfo";
     }
 
-    // 회원 정보 수정 페이지에서 수정 내용 저장 및 정보 변경, 마이 페이지 홈으로 이동
     @PostMapping("/changeInfo")
-    public String saveChangedMemberInfo(@Valid RequestProfile form, Errors errors, Model model) {
-        commonProcess("changeInfo", model);
-        if (errors.hasErrors()) {
-            return "front/mypage/changeInfo";
+    public String changeInfo(@RequestParam(value = "password", required = false) String password,
+                             @Valid @ModelAttribute("profile") RequestProfile form,
+                             Errors errors, HttpSession session, Model model) {
+
+        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
+
+        if (password != null) {
+            // 비밀번호 확인 로직
+            String correctPassword = "userActualPassword"; // 실제 비밀번호 로직
+            if (password.equals(correctPassword)) {
+                session.setAttribute("authenticated", true);
+                authenticated = true;
+            } else {
+                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+            }
         }
-        // 회원 정보 수정 코드
-        return "redirect:/mypage/myhome";
+
+        if (authenticated != null && authenticated) {
+            if (errors.hasErrors()) {
+                return "front/mypage/changeInfo";
+            }
+            // 회원 정보 수정 코드 (서비스 호출 등) 예: mypageService.updateUserProfile(form);
+            return "redirect:/mypage/myhome";
+        }
+
+        model.addAttribute("authenticated", false);
+        return "front/mypage/changeInfo";
     }
 
     // 마이 페이지 -> 프로필 클릭 시 이미지 변경 창이 팝업으로 생성
@@ -65,7 +95,7 @@ public class MyPageController {
         if (errors.hasErrors()) {
             return "front/mypage/profile";
         }
-        // 프로필 이미지 저장 코드
+        // 프로필 이미지 저장 코드 추가 예정..
         return "redirect:/mypage/myhome";
     }
 
