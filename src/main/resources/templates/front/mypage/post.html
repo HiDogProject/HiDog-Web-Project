@@ -9,5 +9,10 @@
             <link rel="stylesheet" href="styles.css">
         </head>
         <h1 th:text="#{내가_쓴_글_보기}"></h1>
+        <div class="button-container">
+            <a th:href="@{/app/mypage/myhome}">
+                <button type="button" class="btn" th:text="#{마이_페이지}"></button>
+            </a>
+        </div>
     </main>
 </html>
