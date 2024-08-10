@@ -7,6 +7,10 @@ import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
+import org.hidog.board.validators.BoardFormValidator;
+import org.hidog.file.entities.FileInfo;
+import org.hidog.file.services.FileInfoService;
+import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.springframework.stereotype.Controller;
@@ -28,6 +32,9 @@ public class BoardController {
     private final BoardInfoService boardInfoService;
     private final BoardSaveService boardSaveService;
     private final MemberUtil memberUtil;
+    private final BoardFormValidator boardFormValidator;
+    private final FileInfoService fileInfoService;
+    private final Utils utils;
 
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
@@ -43,11 +50,11 @@ public class BoardController {
     public String list() {
 
 
-        return "front/board/list";
+        return utils.tpl("board/list");
     }
 
     /**
-     * 게시글 보기
+     * 게시글 1개 보기
      *
      * @param seq : 게시글 번호
      * @param model
@@ -56,7 +63,7 @@ public class BoardController {
     @GetMapping("/view/{seq}")
     public String view() {
 
-        return "front/board/view";
+        return utils.tpl("board/view");
     }
 
     /**
@@ -78,7 +85,7 @@ public class BoardController {
         }
          */
 
-        return "front/board/write";
+        return utils.tpl("board/write");
     }
 
     /**
@@ -96,7 +103,7 @@ public class BoardController {
         model.addAttribute("requestBoard", form);
 
 
-        return "front/board/update";
+        return utils.tpl("board/update");
     }
 
     /**
@@ -111,9 +118,9 @@ public class BoardController {
         String mode = form.getMode();
         commonProcess(bid, mode, model);
 
-        //boardFormValidator.validate(form, errors);
+        boardFormValidator.validate(form, errors);
 
-        /*
+
         if (errors.hasErrors()) {
             String gid = form.getGid();
 
@@ -125,15 +132,13 @@ public class BoardController {
 
             return utils.tpl("board/" + mode);
         }
-         */
+
 
         // 게시글 저장 처리
         BoardData boardData = boardSaveService.save(form);
 
-        String redirectURL = "redirect:/member/join";
-        //redirectURL += board.getLocationAfterWriting().equals("view") ? "view/" + boardData.getSeq() : "list/" + form.getBid();
 
-        return redirectURL;
+        return utils.tpl(("board/view/" + boardData.getSeq()));
     }
 
 

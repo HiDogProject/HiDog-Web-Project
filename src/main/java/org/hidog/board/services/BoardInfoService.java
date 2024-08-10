@@ -15,7 +15,7 @@ public class BoardInfoService {
     private final BoardDataRepository boardDataRepository;
 
     /**
-     * 게시글 조회(엔티티)
+     * 게시글 1개 조회(엔티티)
      *
      * @param seq : 게시글 번호
      * @return

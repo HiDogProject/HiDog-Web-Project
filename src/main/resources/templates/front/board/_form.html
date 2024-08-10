@@ -7,7 +7,7 @@
     <input type="hidden" name="gid" th:field="*{gid}">
     <input th:if="*{parentSeq != null}" type="hidden" name="parentSeq" th:field="*{parentSeq}">
 
-<!--    <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>-->
+    <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
     <dl>
         <dt th:text="#{작성자}"></dt>

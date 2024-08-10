@@ -1,15 +1,23 @@
 package org.hidog.board.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hidog.global.entities.BaseMemberEntity;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Data @Builder
-@NoArgsConstructor @AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(indexes = @Index(name="idx_board_basic", columnList = "listOrder DESC, createdAt DESC"))
 public class Board extends BaseMemberEntity {
     @Id
@@ -40,9 +48,6 @@ public class Board extends BaseMemberEntity {
     private boolean useUploadImage; // 이미지 첨부 사용 여부
 
     private boolean useUploadFile; // 파일 첨부 사용 여부
-
-    //@Column(length=10, nullable = false)
-    //private String locationAfterWriting = "list"; // 글 작성 후 이동 위치
 
     @Lob
     private String category; // 게시판 분류
@@ -83,3 +88,4 @@ public class Board extends BaseMemberEntity {
         return categories;
     }
 }
+

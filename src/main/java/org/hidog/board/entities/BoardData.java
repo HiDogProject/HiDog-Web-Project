@@ -46,7 +46,7 @@ public class BoardData extends BaseEntity {
     private boolean notice;  // 공지글 여부 - true : 공지글
 
     @Column(nullable = false)
-    private String subject;
+    private String subject; // 게시글 제목
 
     @Lob
     @Column(nullable = false)

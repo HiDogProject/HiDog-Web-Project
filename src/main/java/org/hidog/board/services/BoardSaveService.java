@@ -55,10 +55,10 @@ public class BoardSaveService {
             data.setBoard(board);
         }
 
-        data.setPoster(form.getPoster());
-        data.setSubject(form.getSubject());
-        data.setContent(form.getContent());
-        data.setCategory(form.getCategory());
+        data.setPoster(form.getPoster()); // 작성자
+        data.setSubject(form.getSubject()); // 게시글 제목
+        data.setContent(form.getContent()); // 게시글 내용
+        data.setCategory(form.getCategory()); // 게시판 분류
         //data.setEditorView(data.getBoard().isUseEditor());
 
 
