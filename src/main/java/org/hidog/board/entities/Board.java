@@ -41,6 +41,9 @@ public class Board extends BaseMemberEntity {
 
     private boolean useUploadFile; // 파일 첨부 사용 여부
 
+    //@Column(length=10, nullable = false)
+    //private String locationAfterWriting = "list"; // 글 작성 후 이동 위치
+
     @Lob
     private String category; // 게시판 분류
 
