@@ -4,6 +4,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.configs.FileProperties;
+import org.hidog.mypage.entities.RequestProfile;
+import org.hidog.mypage.entities.WishList;
+import org.hidog.mypage.services.WishListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -23,7 +26,9 @@ import java.util.Objects;
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
 public class MyPageController {
+
     private final FileProperties properties;
+    private final WishListService wishListService;
 
     @GetMapping("/myhome")
     public String mypage(Model model, HttpSession session) {
@@ -59,7 +64,7 @@ public class MyPageController {
             // 실제 사용자 정보를 불러와 profile 에 설정
             profile.setUserName("인간"); // 예시
             profile.setEmail("user01@test.org"); // 예시
-            profile.setPassword("aA12345!"); // 예기
+            profile.setPassword("aA12345!"); // 예시
             profile.setAddress("서울특별시 마포구 신촌로 176"); // 예시
             model.addAttribute("profile", profile);
         }
@@ -128,10 +133,32 @@ public class MyPageController {
     }
 
     // 마이 페이지 -> 찜한 목록 보기 버튼 클릭 시 찜 목록 페이지로 이동
-    @GetMapping("/like")
+    /* @GetMapping("/like")
     public String viewLike(Model model) {
         commonProcess("like", model);
         return "front/mypage/like";
+    } */
+
+    @GetMapping("/like")
+    public String viewLike(Model model, @RequestParam(value = "productId", required = false) Long productId) {
+        Long userId = getCurrentUserId();
+
+        // 삭제 버튼 클릭 시 찜 목록 삭제
+        if (productId != null) {
+            wishListService.removeProductFrimWishList(userId, productId);
+        }
+
+        // 찜 목록 불러옴
+        List<WishList> wishlist = wishListService.getWishListForUser(userId);
+        model.addAttribute("wishlist", wishlist);
+
+        return "front/mypage/like";  // 찜 목록 페이지로 이동
+    }
+
+    // 현재 사용자 ID를 가져오는 메서드 (세션이나 인증을 통해 구현 필요)
+    private Long getCurrentUserId() {
+        // 실제 구현은 세션이나 인증된 사용자로부터 ID를 가져오는 로직 필요
+        return 1L;
     }
 
     // 마이 페이지 -> 작성한 글 목록 보기 버튼 클릭 시 글 목록 페이지로 이동
