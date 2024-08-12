@@ -158,7 +158,7 @@ public class MyPageController {
     // 현재 사용자 ID를 가져오는 메서드 (세션이나 인증을 통해 구현 필요)
     private Long getCurrentUserId() {
         // 실제 구현은 세션이나 인증된 사용자로부터 ID를 가져오는 로직 필요
-        return 1L; // 예시로 1L 반환
+        return 1L;
     }
 
     // 마이 페이지 -> 작성한 글 목록 보기 버튼 클릭 시 글 목록 페이지로 이동
