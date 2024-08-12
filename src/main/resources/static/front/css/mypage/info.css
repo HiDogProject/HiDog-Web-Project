@@ -9,7 +9,7 @@ body {
 h1 {
     text-align: center; /* 제목 가운데 정렬 */
     margin: 20px 0; /* 제목 상하 여백 */
-    font-size: 1.5em; /* 제목 크기 설정 */
+    font-size: 2em; /* 제목 크기 설정 */
 }
 
 /* 컨테이너 스타일 */

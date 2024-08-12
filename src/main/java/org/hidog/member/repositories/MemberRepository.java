@@ -19,6 +19,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
         QMember member = QMember.member;
         return exists(member.email.eq(email));
     }
-
+    
     boolean existsByUserName(String userName);
 }

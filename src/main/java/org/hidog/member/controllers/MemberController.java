@@ -71,7 +71,7 @@ public class MemberController implements ExceptionProcessor {
     }
 
     @GetMapping("/login")
-    public String login(@Valid @ModelAttribute RequestLogin form, Errors errors, Model model) {
+    public String login(@ModelAttribute RequestLogin form, Errors errors, Model model) {
         commonProcess("login", model);
 
         String code = form.getCode();
@@ -82,10 +82,10 @@ public class MemberController implements ExceptionProcessor {
                 return "redirect:" + utils.redirectUrl("/member/password/reset");
             }
         }
-
         return utils.tpl("member/login");
-
     }
+
+
 
     /**
      * 회원 관련 컨트롤러 공통 처리

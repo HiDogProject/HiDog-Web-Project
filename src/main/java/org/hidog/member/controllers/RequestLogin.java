@@ -12,6 +12,7 @@ public class RequestLogin implements Serializable {
     @NotBlank
     private String password;
 
+
     private boolean success = true;
     private String code;
     private String defaultMessage;

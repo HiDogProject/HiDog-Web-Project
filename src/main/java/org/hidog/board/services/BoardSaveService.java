@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -44,12 +42,14 @@ public class BoardSaveService {
         BoardData data = null;
         if (seq != null && mode.equals("update")) { // 글 수정
             data = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
+            System.out.println("1");
         } else { // 글 작성
             data = new BoardData();
             data.setGid(form.getGid());
             data.setIp(request.getRemoteAddr());
             data.setUa(request.getHeader("User-Agent"));
             data.setMember(memberUtil.getMember());
+            System.out.println("2");
 
             Board board = boardRepository.findById(form.getBid()).orElse(null);
             data.setBoard(board);
