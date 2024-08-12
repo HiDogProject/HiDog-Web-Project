@@ -18,6 +18,8 @@
     <link th:if="${addCommonCss != null}" rel="stylesheet" type="text/css"
           th:each="cssFile: ${addCommonCss}" th:href="${@utils.url(#strings.concat('/common/css/', cssFile, '.css'))}">
 
+    <script th:if="${tmapJavascriptKey != null}" th:src="${'https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=' + tmapJavascriptKey}"></script>
+
     <link th:if="${addCss != null}" rel="stylesheet" type="text/css"
           th:each="cssFile: ${addCss}" th:href="${@utils.url(#strings.concat('/mobile/css/', cssFile, '.css'))}">
     <th:block layout:fragment="addCss"></th:block>
