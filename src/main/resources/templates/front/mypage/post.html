@@ -10,7 +10,7 @@
         </head>
         <h1 th:text="#{내가_쓴_글_보기}"></h1>
         <div class="button-container">
-            <a th:href="@{/mypage/myhome}">
+            <a th:href="${@utils.url('/mypage/myhome')}">
                 <button type="button" class="btn" th:text="#{마이_페이지}"></button>
             </a>
         </div>
