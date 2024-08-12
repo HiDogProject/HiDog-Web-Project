@@ -55,7 +55,7 @@ public class MemberController implements ExceptionProcessor {
 
         memberSaveService.save(form);
 
-        return "redirect:/member/login";
+        return "redirect:" + utils.redirectUrl("/member/login");
     }
 
     @GetMapping("/login")
@@ -67,7 +67,7 @@ public class MemberController implements ExceptionProcessor {
             errors.reject(code, form.getDefaultMessage());
             //비번이 만료인 경우 비번 재설정 페이지 이동
             if (code.equals("CredentialsExpired.Login")) {
-                return "redirect:/member/password/reset ";
+                return "redirect:" + utils.redirectUrl("/member/password/reset");
             }
         }
 

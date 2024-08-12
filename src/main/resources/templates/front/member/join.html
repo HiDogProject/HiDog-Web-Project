@@ -12,7 +12,7 @@
 <main layout:fragment="content">
 
     <h1>회원 가입</h1>
-    <form name="frmRegist" method="POST" th:action="@{join}" autocomplete="off" th:object="${requestJoin}">
+    <form name="frmRegist" method="post" th:action="${@utils.redirectUrl('/member/join')}" autocomplete="off" th:object="${requestJoin}">
         <!-- 글로벌 오류 메시지 -->
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
