@@ -105,7 +105,7 @@ public class BoardController {
         model.addAttribute("requestBoard", form);
 
 
-        return utils.tpl("board/write");
+        return utils.tpl("board/update");
     }
 
     /**

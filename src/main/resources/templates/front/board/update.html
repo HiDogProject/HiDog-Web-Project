@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
     <div class="layout_width">
         <form name="frmSave" method="post" th:action="${@utils.redirectUrl('/board/save')}" autocomplete="off">
             <input type="hidden" name="mode" value="update">
@@ -14,4 +15,5 @@
             </div>
         </form>
     </div>
+</main>
 </html>
