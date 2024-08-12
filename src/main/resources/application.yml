@@ -21,7 +21,7 @@ spring:
         format_sql: true
         use_sql_comments: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 
   #라이브 리로드 설정(배포 시 설정 x false)
   devtools:
@@ -48,13 +48,12 @@ spring:
     password: ${mail.password}
     properties:
       mail:
-        transport:
-          protocol: smtp
         smtp:
           timeout: 5000
           auth: true
           starttls:
             enable: true
+        debug: true
 
 #파일 업로드 경로 설정
 file:

@@ -15,22 +15,25 @@ public class Member extends BaseEntity implements Serializable {
     @Id @GeneratedValue
     private Long seq;
 
-    @Column(length=45, nullable = false)
-    private String gid;
-
-    @Column(length = 65, unique = true, nullable = false)
+    @Column(length = 65, nullable = false, unique = true)
     private String email;
 
-    @Column(length = 65,nullable = false)
+    @Column(length = 65, nullable = false)
     private String password;
 
-    @Column(length = 40,nullable = false)
+    @Column(length = 40, nullable = false, unique = true)
     private String userName;
 
-    @Column(length=15,nullable = false)
-    private String mobile;
+    @Column(length = 60, nullable = false)
+    private String address;
+
+    @Column(length = 60)
+    private String detailAddress;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;
+
+    /*@Transient
+    private FileInfo profileImage; */
 }

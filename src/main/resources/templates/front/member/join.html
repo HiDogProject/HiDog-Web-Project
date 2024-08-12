@@ -1,69 +1,85 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
+
+<head>
+    <title>회원 가입</title>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+
+<body>
 <main layout:fragment="content">
-    <h1 th:text="#{회원가입}"></h1>
-    <form name="frmRegist" method="post" th:action="@{/member/join}" autocomplete="off" th:object="${requestJoin}">
+
+    <h1>회원 가입</h1>
+    <form name="frmRegist" method="post" th:action="${@utils.redirectUrl('/member/join')}" autocomplete="off" th:object="${requestJoin}">
+        <!-- 글로벌 오류 메시지 -->
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
-        <input type="hidden" name="gid" th:field="*{gid}">
+
+        <!-- 이메일 입력 필드 -->
         <dl>
-            <dt th:text="#{이메일}"></dt>
+            <dt>이메일</dt>
             <dd>
-                <input type="text" name="email" th:field="*{email}">
-                <div class="error" th:each="err:${#fields.errors('email')}" th:text="${err}"></div>
+                <input type="email" id="email" name="email" th:field="*{email}" />
+                <div class="error" th:if="${#fields.hasErrors('email')}" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
             </dd>
         </dl>
+
+        <!-- 비밀번호 입력 필드 -->
         <dl>
-            <dt th:text="#{비밀번호}"></dt>
+            <dt>비밀번호</dt>
             <dd>
-                <input type="password" name="password" th:field="*{password}">
-                <div class="error" th:each="err:${#fields.errors('password')}" th:text="${err}"></div>
+                <input type="password" id="password" name="password" th:field="*{password}" />
+                <div class="error" th:if="${#fields.hasErrors('password')}" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
             </dd>
         </dl>
+
+        <!-- 비밀번호 확인 입력 필드 -->
         <dl>
-            <dt th:text="#{비밀번호_확인}"></dt>
+            <dt>비밀번호 확인</dt>
             <dd>
-                <input type="password" name="confirmPassword" th:field="*{confirmPassword}">
-                <div class="error" th:each="err:${#fields.errors('confirmPassword')}" th:text="${err}"></div>
+                <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" />
+                <div class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
             </dd>
         </dl>
+
+        <!-- 닉네임 입력 필드 -->
         <dl>
-            <dt th:text="#{회원명}"></dt>
+            <dt>닉네임</dt>
             <dd>
-                <input type="text" name="userName" th:field="*{userName}">
-                <div class="error" th:each="err:${#fields.errors('userName')}" th:text="${err}"></div>
+                <input type="text" id="userName" name="userName" th:field="*{userName}" />
+                <div class="error" th:if="${#fields.hasErrors('userName')}" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
             </dd>
         </dl>
+
+        <!-- 주소 입력 필드 -->
         <dl>
-            <dt th:text="#{휴대전화번호}"></dt>
+            <dt>주소</dt>
             <dd>
-                <input type="text" name="mobile" th:field="*{mobile}">
-                <div class="error" th:each="err:${#fields.errors('mobile')}" th:text="${err}"></div>
+                <input type="text" id="user_postcode" placeholder="우편번호" readonly>
+                <input type="button" onclick="user_execDaumPostcode()" value="우편번호 찾기"><br>
+                <input type="text" id="user_address" name="address" placeholder="주소" readonly><br>
+                <input type="text" id="user_extraAddress" placeholder="참고항목" readonly>
+                <input type="text" id="user_detailAddress" name="detailAddress" placeholder="상세주소">
             </dd>
         </dl>
-        <dl>
-            <dt th:text="#{프로필_이미지}"></dt>
-            <dd>
-                <div class="profile-image"></div>
-                <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true"></button>
-            </dd>
-        </dl>
+
+        <!-- 약관 동의 체크박스 -->
         <div class="terms">
-            <div class="tit" th:text="#{회원가입_약관}">
-                약관제목쓰
-            </div>
-            <div class="terms-contents">
-                약관쓰
-            </div>
-            <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}">
-            <label for="agree" th:text="#{회원가입_약관_동의}"></label>
-            <div class="error" th:each="err:${#fields.errors('agree')}" th:text="${err}"></div>
+            <div class="tit">회원가입 약관</div>
+            <div class="terms-contents">약관 내용 뭐하지</div>
+            <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}" />
+            <label for="agree">약관 동의</label>
+            <div class="error" th:if="${#fields.hasErrors('agree')}" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
         </div>
+
+        <!-- 버튼 -->
         <div class="buttons">
-            <button type="submit" th:text="#{회원가입}"></button>
-            <button type="reset" th:text="#{다시입력}"></button>
+            <button type="reset">다시 입력</button>
+            <button type="submit">가입하기</button>
         </div>
     </form>
-    <script th:replace="~{common/_file_tpl::image}"></script>
 </main>
+</body>
+
 </html>

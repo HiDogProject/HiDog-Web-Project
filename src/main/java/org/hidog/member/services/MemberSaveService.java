@@ -10,7 +10,7 @@ import org.hidog.member.entities.Member;
 import org.hidog.member.exceptions.MemberNotFoundException;
 import org.hidog.member.repositories.AuthoritiesRepository;
 import org.hidog.member.repositories.MemberRepository;
-import org.hidog.mypage.controllers.RequestProfile;
+import org.hidog.mypage.entities.RequestProfile;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +35,12 @@ public class MemberSaveService {
      */
     public void save(RequestJoin form) {
         Member member = new ModelMapper().map(form, Member.class);
+
+        // 닉네임 중복 체크
+        if (memberRepository.existsByUserName(member.getUserName())) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");  // 중복 시 예외 발생
+        }
+
         String hash = passwordEncoder.encode(member.getPassword());
         member.setPassword(hash);
         save(member, List.of(Authority.USER));
@@ -48,14 +54,17 @@ public class MemberSaveService {
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
+        String userName = form.getUserName();
         String password = form.getPassword();
-        String mobile = form.getMobile();
-        if (StringUtils.hasText(mobile)) {
-            mobile = mobile.replaceAll("\\D", "");
+
+
+        // 닉네임 중복 체크
+        if (memberRepository.existsByUserName(userName) && !member.getUserName().equals(userName)) {
+            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");  // 중복 시 예외 발생
         }
 
-        member.setUserName(form.getUserName());
-        member.setMobile(mobile);
+        member.setUserName(userName);
 
         if (StringUtils.hasText(password)) {
             String hash = passwordEncoder.encode(password);
@@ -68,12 +77,6 @@ public class MemberSaveService {
     }
 
     public void save(Member member, List<Authority> authorities) {
-        //휴대폰 번호 숫자만 기록
-        String mobile = member.getMobile();
-        if (StringUtils.hasText(mobile)) {
-            mobile = mobile.replaceAll("\\D", "");
-            member.setMobile(mobile);
-        }
 
         memberRepository.saveAndFlush(member);
         if (authorities != null) {

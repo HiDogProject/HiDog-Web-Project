@@ -1,7 +1,9 @@
 package org.hidog.global.configs;
 
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.hidog.global.Utils;
 import org.hidog.member.services.LoginFailureHandler;
 import org.hidog.member.services.LoginSuccessHandler;
 import org.hidog.member.services.MemberAuthenticationEntryPoint;
@@ -22,26 +24,34 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final MemberInfoService memberInfoService;
+    private final Utils utils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler();
+        LoginFailureHandler loginFailureHandler = new LoginFailureHandler();
+        loginSuccessHandler.setUtils(utils);
+        loginFailureHandler.setUtils(utils);
+
         /* 로그인, 로그아웃 S */
         http.formLogin(f -> {
             f.loginPage("/member/login")
                     .usernameParameter("email")
                     .passwordParameter("password")
-                    .successHandler(new LoginSuccessHandler())
-                    .failureHandler(new LoginFailureHandler());
-//                    .successForwardUrl("/")
-//                    .failureUrl("/member/login?error=true");
+                    .successHandler(loginSuccessHandler)
+                    .failureHandler(loginFailureHandler);
         });
 
         http.logout(logout -> {
             logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-//                    .logoutSuccessHandler()
-                    .logoutSuccessUrl("/member/login");
+                    .logoutSuccessHandler((req, res, e) -> {
+
+                        HttpSession session = req.getSession();
+                        session.removeAttribute("device");
+
+                        res.sendRedirect(req.getContextPath() + "/member/login");
+                    });
         });
         /* 로그인, 로그아웃 E */
         /* 인가(접근 통제) 설정 S*/
@@ -64,7 +74,7 @@ public class SecurityConfig {
             c.rememberMeParameter("autoLogin")
                     .tokenValiditySeconds(60*60*24*15) // 15일간 유효
                     .userDetailsService(memberInfoService) //재로그인할 때 인증을 위해
-                    .authenticationSuccessHandler(new LoginSuccessHandler()); // 자동 로그인 성공-> handler가 처리
+                    .authenticationSuccessHandler(loginSuccessHandler); // 자동 로그인 성공-> handler가 처리
         });
         /*자동 로그인 설정 E*/
 
