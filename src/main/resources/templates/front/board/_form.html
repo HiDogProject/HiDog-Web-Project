@@ -45,17 +45,18 @@
         </dd>
     </dl>
 
-    <dl th:if="${board != null && board.useUploadFile != null && board.useUploadFile}">
+<!--    <dl th:if="${board != null && board.useUploadFile != null && board.useUploadFile}">-->
         <dt th:text="#{파일첨부}"></dt>
         <dd>
-            <button type="button" class="upload_files" data-location="attach" th:text="#{파일선택}"></button>
-            <div class="uploaded_files" id="attach_files">
+            <button type="button" class="fileUploads" data-location="attach" th:text="#{파일선택}"></button>
+            <div class="fileUploads" id="attach_files">
                 <th:block th:if="*{attachFiles != null && !attachFiles.isEmpty()}" th:each="item : *{attachFiles}">
                     <th:block th:replace="~{common/_attach_file::item}"></th:block>
                 </th:block>
             </div>
         </dd>
     </dl>
-
+    <script th:replace="~{common/_file_tpl::attach_tpl}"></script>
+<!--    <script th:replace="~{common/_file_tpl::editor_tpl}"></script>-->
 </th:block>
 </html>
