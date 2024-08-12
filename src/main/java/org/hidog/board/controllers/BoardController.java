@@ -2,7 +2,6 @@ package org.hidog.board.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.MemberUtils;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.services.BoardInfoService;
@@ -12,7 +11,6 @@ import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
-import org.hidog.member.entities.Member;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -138,7 +136,7 @@ public class BoardController {
         BoardData boardData = boardSaveService.save(form);
 
 
-        return utils.tpl(("board/view/" + boardData.getSeq()));
+        return utils.tpl("board/view/" + boardData.getSeq());
     }
 
 
@@ -152,7 +150,8 @@ public class BoardController {
     @GetMapping("/delete/{seq}")
     public String delete() {
 
-        return "redirect:/front//board/list/" + board.getBid();
+        //return "redirect://front/board/list/" + board.getBid();
+        return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
 
 
@@ -198,12 +197,12 @@ public class BoardController {
             }
              */
 
-            /*
+
             // 이미지 또는 파일 첨부를 사용하는 경우
             if (board.isUseUploadImage() || board.isUseUploadFile()) {
                 addCommonScript.add("fileManager");
             }
-             */
+
 
             //addScript.add("board/form");
 
