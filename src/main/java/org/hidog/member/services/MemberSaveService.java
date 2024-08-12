@@ -28,10 +28,16 @@ public class MemberSaveService {
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
     private final HttpSession session;
+
+    // 회원 정보 수정 시 본인인증 -> 비밀번호
+    public boolean checkPassword(String email, String rawPassword) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        return passwordEncoder.matches(rawPassword, member.getPassword());
+    }
+
     /**
      * 회원 가입 처리
-     *
-     * @param form
+     * @param form 회원 가입 폼
      */
     public void save(RequestJoin form) {
         Member member = new ModelMapper().map(form, Member.class);
@@ -48,7 +54,7 @@ public class MemberSaveService {
 
     /**
      * 회원정보 수정
-     * @param form
+     * @param form 회원 정보 수정 폼
      */
     public void save(RequestProfile form) {
         Member member = memberUtil.getMember();
@@ -57,7 +63,6 @@ public class MemberSaveService {
 
         String userName = form.getUserName();
         String password = form.getPassword();
-
 
         // 닉네임 중복 체크
         if (memberRepository.existsByUserName(userName) && !member.getUserName().equals(userName)) {
@@ -76,18 +81,20 @@ public class MemberSaveService {
         session.setAttribute("userInfoChanged", true);
     }
 
+    /**
+     * 회원 및 권한 저장
+     * @param member       회원
+     * @param authorities  권한 리스트
+     */
     public void save(Member member, List<Authority> authorities) {
-
         memberRepository.saveAndFlush(member);
         if (authorities != null) {
             List<Authorities> items = authoritiesRepository.findByMember(member);
             authoritiesRepository.deleteAll(items);
             authoritiesRepository.flush();
 
-            items = authorities.stream().map(authority -> Authorities.builder()
-                    .member(member)
-                    .authority(authority)
-                    .build()).toList();
+            items = authorities.stream()
+                    .map(authority -> Authorities.builder().member(member).authority(authority).build()).toList();
             authoritiesRepository.saveAllAndFlush(items);
         }
     }
