@@ -6,22 +6,21 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>회원 정보 수정</title>
-            <link rel="stylesheet" href="styles.css">
+            <link rel="stylesheet" href="/front/css/mypage/changeInfo.css">
         </head>
         <body>
             <div class="container">
                 <!-- 비밀번호 인증 폼 -->
+                <h2>본인 인증</h2>
                 <div id="passwordForm" th:if="${!authenticated}">
-                    <h2>본인 인증</h2>
                     <form action="#" th:action="@{/mypage/changeInfo}" method="post">
                         <label for="checkPassword">비밀번호 : </label>
                         <input type="password" id="checkPassword" name="password" required>
-                        <br>
-                        <button type="submit">인증하기</button>
+                        <button type="submit" class="button">인증하기</button>
                     </form>
                     <!-- 인증 실패 시 에러 메시지 표시 -->
-                    <div th:if="${error}">
-                        <p style="color: red;" th:text="${error}"></p>
+                    <div th:if="${error}" class="error-message">
+                        <p th:text="${error}"></p>
                     </div>
                 </div>
 

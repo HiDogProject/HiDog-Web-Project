@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <script th:fragment="image" type="text/html" id="image-file-tpl">
-        <div class="image-file-box" id="file-[seq]">
-            <div class="xi-close remove" data-seq="[seq]"></div>
-            <div class="inner" style="background:url('[fileUrl]') no-repeat center center; background-size: cover;" data-url="[fileUrl]"></div>
-        </div>
-    </script>
+<script th:fragment="image" type="text/html" id="image-file-tpl">
+    <div class="image-file-box" id="file-[seq]">
+        <div class="xi-close remove" data-seq="[seq]"></div>
+        <div class="inner" style="background:url('[fileUrl]') no-repeat center center; background-size: cover;" data-url="[fileUrl]"></div>
+    </div>
+</script>
+
+<script type="text/html" id="attach_tpl" th:fragment="attach_tpl">
+    <span class="file_tpl_box" id="file_[seq]">
+        <a th:href="@{/file/download/[seq]}">[fileName]</a>
+        <a th:href="@{/file/delete/[seq]}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
+            <i class="xi-close"></i>
+        </a>
+    </span>
+</script>
 </html>
