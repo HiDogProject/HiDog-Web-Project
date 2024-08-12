@@ -6,10 +6,11 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>회원 정보</title>
-            <link rel="stylesheet" href="styles.css">
+            <link rel="stylesheet" href="/front/css/mypage/info.css">
         </head>
-        <h1 th:text="#{회원_정보}"></h1>
         <body>
+            <h1 th:text="#{회원_정보}"></h1>
+
             <div class="container">
                 <div class="info-box">
                     <div class="info-row">
@@ -29,17 +30,11 @@
                         <span>서울특별시 마포구 신촌로 176</span> <!-- 예시 데이터 -->
                     </div>
                 </div>
-
-                <div class="button-box">
-                    <a href="/changeInfo" class="button">회원 정보 수정</a>
-                </div>
+            </div>
+            <div class="button-container">
+                <a th:href="@{/mypage/myhome}" class="button">마이 페이지</a>
+                <a th:href="@{/mypage/changeInfo}" class="button">회원 정보 수정하기</a>
             </div>
         </body>
-        <a th:href="@{/app/mypage/myhome}">
-            <button type="button" th:text="#{마이_페이지}"></button>
-        </a>
-        <a th:href="@{/app/mypage/changeInfo}">
-            <button type="button" th:text="#{회원_정보_수정하기}"></button>
-        </a>
     </main>
 </html>

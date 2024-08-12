@@ -2,7 +2,7 @@ package org.hidog.mypage.services;
 
 import lombok.RequiredArgsConstructor;
 import org.hidog.member.services.MemberSaveService;
-import org.hidog.mypage.controllers.RequestProfile;
+import org.hidog.mypage.entities.RequestProfile;
 import org.springframework.stereotype.Service;
 
 @Service
