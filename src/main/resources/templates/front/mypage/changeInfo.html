@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+    <section layout:fragment="content">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>회원 정보 수정</title>
+            <link rel="stylesheet" href="/front/css/mypage/changeInfo.css">
+        </head>
+        <body>
+            <div class="container">
+                <!-- 비밀번호 인증 폼 -->
+                <h2>본인 인증</h2>
+                <div id="passwordForm" th:if="${!authenticated}">
+                    <form action="#" th:action="@{/mypage/changeInfo}" method="post">
+                        <label for="checkPassword">비밀번호 : </label>
+                        <input type="password" id="checkPassword" name="password" required>
+                        <button type="submit" class="button">인증하기</button>
+                    </form>
+                    <!-- 인증 실패 시 에러 메시지 표시 -->
+                    <div th:if="${error}" class="error-message">
+                        <p th:text="${error}"></p>
+                    </div>
+                </div>
+
+                <!-- 회원 정보 수정 폼 -->
+                <div id="editInfoForm" th:if="${authenticated}">
+                    <div class="info-box">
+                        <form action="#" th:action="@{/mypage/changeInfo}" method="post" th:object="${profile}">
+                            <div class="info-row">
+                                <label for="name">닉네임 : </label>
+                                <input type="text" id="name" name="name" th:value="${profile.name}">
+                            </div>
+                            <div class="info-row">
+                                <label for="email">이메일 : </label>
+                                <input type="email" id="email" name="email" th:value="${profile.email}">
+                            </div>
+                            <div class="info-row">
+                                <label for="password">비밀번호 : </label>
+                                <input type="password" id="password" name="password" th:value="${profile.password}">
+                            </div>
+                            <div class="info-row">
+                                <label for="address">주소 : </label>
+                                <input type="text" id="address" name="address" th:value="${profile.address}">
+                            </div>
+                            <div class="button-box">
+                                <button type="submit" class="button">저장</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </section>
+</html>

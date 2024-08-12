@@ -1,7 +1,7 @@
 package org.hidog.mypage.validators;
 
 import org.hidog.global.validators.PasswordValidator;
-import org.hidog.mypage.controllers.RequestProfile;
+import org.hidog.mypage.entities.RequestProfile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -27,22 +27,15 @@ public class ProfileUpdateValidator implements Validator, PasswordValidator{
          *      - 자리수 체크
          *      - 비밀번호 복잡성 체크
          *      - 비밀번호 확인 일치 여부 체크
-         * 2. 휴대전화번호가 입력된 경우
-         *      - 형식 체크
          */
 
         RequestProfile form = (RequestProfile) target;
         String password = form.getPassword();
-        String confirmPassword = form.getConfirmPassword();
 
         // 1. 비밀번호가 입력된 경우
         if (StringUtils.hasText(password)) {
             if (password.length() < 8) {
                 errors.rejectValue("password", "Size");
-            }
-
-            if (!password.equals(confirmPassword)) {
-                errors.rejectValue("confirmPassword", "Mismatch.password");
             }
 
             if (!alphaCheck(password) || !numberCheck(password) || !specialCharsCheck(password)) {

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+    <main layout:fragment="content">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>마이 페이지</title>
+            <link rel="stylesheet" href="/front/css/mypage/myhome.css">
+        </head>
+        <h1 th:text="#{마이_페이지}"></h1>
+        <div class="profile-container">
+            <div class="profile-image">
+                <img id="profileImage" th:src="${profileImage}">
+            </div>
+            <a th:href="@{/mypage/profile}">
+                <button type="submit" class="btn" th:text="#{프로필}"></button>
+            </a>
+        </div>
+        <div class="buttons">
+            <a th:href="@{/mypage/info}">
+                <button type="submit" class="btn" th:text="#{회원_정보}"></button>
+            </a>
+            <a th:href="@{/mypage/like}">
+                <button type="button" class="btn" th:text="#{찜_목록_보기}"></button>
+            </a>
+            <a th:href="@{/mypage/post}">
+                <button type="button" class="btn" th:text="#{내가_쓴_글_보기}"></button>
+            </a>
+            <a th:href="@{/mypage/sellAndBuy}">
+                <button type="button" class="btn" th:text="#{판매_내역_구매_내역_보기}"></button>
+            </a>
+        </div>
+    </main>
+</html>
