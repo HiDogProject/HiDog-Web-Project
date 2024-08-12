@@ -46,6 +46,8 @@ public class QBoardData extends EntityPathBase<BoardData> {
 
     public final NumberPath<Long> listOrder = createNumber("listOrder", Long.class);
 
+    public final StringPath listOrder2 = createString("listOrder2");
+
     public final StringPath longText1 = createString("longText1");
 
     public final StringPath longText2 = createString("longText2");
