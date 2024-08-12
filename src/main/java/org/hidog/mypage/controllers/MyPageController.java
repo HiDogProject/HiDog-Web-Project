@@ -3,10 +3,16 @@ package org.hidog.mypage.controllers;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hidog.global.Utils;
 import org.hidog.global.configs.FileProperties;
+import org.hidog.mypage.entities.Post;
 import org.hidog.mypage.entities.RequestProfile;
 import org.hidog.mypage.entities.WishList;
+import org.hidog.mypage.services.PostService;
 import org.hidog.mypage.services.WishListService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -29,6 +35,8 @@ public class MyPageController {
 
     private final FileProperties properties;
     private final WishListService wishListService;
+    private final PostService postService;
+    private final Utils utils;
 
     @GetMapping("/myhome")
     public String mypage(Model model, HttpSession session) {
@@ -42,14 +50,14 @@ public class MyPageController {
 
         commonProcess("myhome", model); // 공통 프로세스 처리
 
-        return "front/mypage/myhome";
+        return utils.tpl("mypage/myhome");
     }
 
     // 마이 페이지 -> 회원 정보 확인 버튼 클릭 시 회원 정보 페이지로 이동
     @GetMapping("/info")
     public String viewMemberInfo(Model model) {
         commonProcess("info", model);
-        return "front/mypage/info";
+        return utils.tpl("mypage/changeInfo");
     }
 
     // 마이 페이지 -> 회원 정보 수정 버튼 클릭 시 본인 인증 후 회원 정보 수정 페이지로 이동
@@ -69,7 +77,7 @@ public class MyPageController {
             model.addAttribute("profile", profile);
         }
 
-        return "front/mypage/changeInfo";
+        return utils.tpl("mypage/changeInfo");
     }
 
     @PostMapping("/changeInfo")
@@ -92,21 +100,21 @@ public class MyPageController {
 
         if (authenticated != null && authenticated) {
             if (errors.hasErrors()) {
-                return "front/mypage/changeInfo";
+                return utils.tpl("mypage/changeInfo");
             }
             // 회원 정보 수정 코드 (서비스 호출 등) 예: mypageService.updateUserProfile(form);
-            return "redirect:/mypage/myhome";
+            return "redirect:" + utils.redirectUrl("/mypage/myhome");
         }
 
         model.addAttribute("authenticated", false);
-        return "front/mypage/changeInfo";
+        return utils.tpl("mypage/changeInfo");
     }
 
     // 마이 페이지 -> 프로필 클릭 시 이미지 변경 창이 팝업으로 생성
     @GetMapping("/profile")
     public String changeProfileImage(Model model) {
         commonProcess("profile", model);
-        return "front/mypage/profile";
+        return utils.tpl("mypage/profile");
     }
 
     // 프로필 이미지 변경 후 변경 내용 반영
@@ -123,22 +131,16 @@ public class MyPageController {
         } catch (IOException e) {
             e.printStackTrace();
             model.addAttribute("error", "이미지 저장 실패");
-            return "front/mypage/profile";
+            return utils.tpl("mypage/profile");
         }
 
         // 세션에 저장된 사용자 정보에 프로필 이미지 경로 저장
         session.setAttribute("profileImage", properties.getUrl() + fileName);
 
-        return "redirect:/mypage/myhome";
+        return "redirect:" + utils.redirectUrl("/mypage/myhome");
     }
 
     // 마이 페이지 -> 찜한 목록 보기 버튼 클릭 시 찜 목록 페이지로 이동
-    /* @GetMapping("/like")
-    public String viewLike(Model model) {
-        commonProcess("like", model);
-        return "front/mypage/like";
-    } */
-
     @GetMapping("/like")
     public String viewLike(Model model, @RequestParam(value = "productId", required = false) Long productId) {
         Long userId = getCurrentUserId();
@@ -152,27 +154,49 @@ public class MyPageController {
         List<WishList> wishlist = wishListService.getWishListForUser(userId);
         model.addAttribute("wishlist", wishlist);
 
-        return "front/mypage/like";  // 찜 목록 페이지로 이동
+        return utils.tpl("mypage/like");
     }
 
-    // 현재 사용자 ID를 가져오는 메서드 (세션이나 인증을 통해 구현 필요)
+    // 현재 사용자 ID 가져옴 (세션이나 인증을 통해 구현 필요)
     private Long getCurrentUserId() {
         // 실제 구현은 세션이나 인증된 사용자로부터 ID를 가져오는 로직 필요
         return 1L;
     }
 
-    // 마이 페이지 -> 작성한 글 목록 보기 버튼 클릭 시 글 목록 페이지로 이동
+    // 마이 페이지 -> 작성한 글 목록 보기 버튼 클릭 시 글 목록 페이지 이동
     @GetMapping("/post")
     public String viewMyPost(Model model) {
-        commonProcess("post", model);
-        return "front/mypage/post";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+
+            // 사용자 이름 -> 사용자 ID 조회
+            Long userId = findUserIdByUsername(username);
+
+            // 사용자 ID로 게시글 조회
+            List<Post> posts = postService.getPostsByUserId(userId);
+
+            model.addAttribute("posts", posts);
+            return utils.tpl("mypage/post");
+        }
+
+        // 인증된 사용자가 없으면 로그인 페이지로 이동
+        return utils.tpl("mypage/post"); // return "redirect:/login"; <- 로그인 완성되면 이거로 바꾸기!!
+    }
+
+    private Long findUserIdByUsername(String username) {
+        // 데이터베이스 -> 사용자 ID 조회 => 회원 관련 서비스, 레포지토리 사용
+        // Member member = memberRepository.findByUserName(username).orElseThrow(() -> new RuntimeException("User not found"));
+        return 1L;
     }
 
     // 마이 페이지 -> 판매 & 구매 내역 버튼 클릭 시 판매 & 구매 내역 페이지로 이동
     @GetMapping("/sellAndBuy")
     public String viewSellAndBuy(Model model) {
         commonProcess("sellAndBuy", model);
-        return "front/mypage/sellAndBuy";
+        return utils.tpl("mypage/sellAndBuy");
     }
 
     /**

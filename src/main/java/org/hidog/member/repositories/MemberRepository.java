@@ -1,6 +1,5 @@
 package org.hidog.member.repositories;
 
-
 import org.hidog.member.entities.Member;
 import org.hidog.member.entities.QMember;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -26,4 +25,3 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
         return exists(member.userName.eq(userName));
     }
 }
-

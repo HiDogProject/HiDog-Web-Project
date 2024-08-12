@@ -13,21 +13,21 @@
             <div class="profile-image">
                 <img id="profileImage" th:src="${profileImage}">
             </div>
-            <a th:href="@{/mypage/profile}">
+            <a th:href="${@utils.url('/mypage/profile')}">
                 <button type="submit" class="btn" th:text="#{프로필}"></button>
             </a>
         </div>
         <div class="buttons">
-            <a th:href="@{/mypage/info}">
+            <a th:href="${@utils.url('/mypage/info')}">
                 <button type="submit" class="btn" th:text="#{회원_정보}"></button>
             </a>
-            <a th:href="@{/mypage/like}">
+            <a th:href="${@utils.url('/mypage/like')}">
                 <button type="button" class="btn" th:text="#{찜_목록_보기}"></button>
             </a>
-            <a th:href="@{/mypage/post}">
+            <a th:href="${@utils.url('/mypage/post')}">
                 <button type="button" class="btn" th:text="#{내가_쓴_글_보기}"></button>
             </a>
-            <a th:href="@{/mypage/sellAndBuy}">
+            <a th:href="${@utils.url('/mypage/sellAndBuy')}">
                 <button type="button" class="btn" th:text="#{판매_내역_구매_내역_보기}"></button>
             </a>
         </div>
