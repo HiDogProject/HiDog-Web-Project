@@ -12,17 +12,17 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ApiConfigService {
     private final ConfigInfoService infoService;
-
     private Map<String, String> configs;
 
     public String get(String code) {
+
+        Map<String, String> configs = getAll();
         return configs == null ? "" : Objects.requireNonNullElse(configs.get(code), "");
     }
 
     private Map<String, String> getAll() {
         if (configs == null) {
-            configs = infoService.get("apiConfig", new TypeReference<Map<String, String>>() {
-            }).orElseGet(null);
+            configs = infoService.get("apiConfig", new TypeReference<Map<String, String>>() {}).orElseGet(null);
         }
 
         return configs;
