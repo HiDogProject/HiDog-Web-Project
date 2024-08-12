@@ -1,14 +1,23 @@
 package org.hidog.board.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.MemberUtils;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
+import org.hidog.board.validators.BoardFormValidator;
+import org.hidog.file.entities.FileInfo;
+import org.hidog.file.services.FileInfoService;
+import org.hidog.global.Utils;
+import org.hidog.member.MemberUtil;
+import org.hidog.member.entities.Member;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,6 +31,10 @@ public class BoardController {
 
     private final BoardInfoService boardInfoService;
     private final BoardSaveService boardSaveService;
+    private final MemberUtil memberUtil;
+    private final BoardFormValidator boardFormValidator;
+    private final FileInfoService fileInfoService;
+    private final Utils utils;
 
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
@@ -37,11 +50,11 @@ public class BoardController {
     public String list() {
 
 
-        return "front/board/list";
+        return utils.tpl("board/list");
     }
 
     /**
-     * 게시글 보기
+     * 게시글 1개 보기
      *
      * @param seq : 게시글 번호
      * @param model
@@ -50,7 +63,7 @@ public class BoardController {
     @GetMapping("/view/{seq}")
     public String view() {
 
-        return "front/board/view";
+        return utils.tpl("board/view");
     }
 
     /**
@@ -63,9 +76,16 @@ public class BoardController {
     @GetMapping("/write/{bid}")
     public String write(@PathVariable("bid") String bid,
                         @ModelAttribute RequestBoard form, Model model) {
+        commonProcess(bid, "write", model);
 
+        /*
+        if (memberUtil.isLogin()) {
+            Member member = memberUtil.getMember();
+            form.setPoster(member.getUserName());
+        }
+         */
 
-        return "front/board/write";
+        return utils.tpl("board/write");
     }
 
     /**
@@ -83,7 +103,7 @@ public class BoardController {
         model.addAttribute("requestBoard", form);
 
 
-        return "front/board/update";
+        return utils.tpl("board/update");
     }
 
     /**
@@ -93,9 +113,32 @@ public class BoardController {
      * @return
      */
     @PostMapping("/save")
-    public String save() {
+    public String save(@Valid RequestBoard form, Errors errors, Model model) {
+        String bid = form.getBid();
+        String mode = form.getMode();
+        commonProcess(bid, mode, model);
 
-        return "front/board/list";
+        boardFormValidator.validate(form, errors);
+
+
+        if (errors.hasErrors()) {
+            String gid = form.getGid();
+
+            List<FileInfo> editorFiles = fileInfoService.getList(gid, "editor");
+            List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
+
+            form.setEditorFiles(editorFiles);
+            form.setAttachFiles(attachFiles);
+
+            return utils.tpl("board/" + mode);
+        }
+
+
+        // 게시글 저장 처리
+        BoardData boardData = boardSaveService.save(form);
+
+
+        return utils.tpl(("board/view/" + boardData.getSeq()));
     }
 
 
@@ -130,38 +173,39 @@ public class BoardController {
         List<String> addCommonCss = new ArrayList<>();
         List<String> addCss = new ArrayList<>();
 
-        addScript.add("board/common"); // 게시판 공통 스크립트
+        //addScript.add("board/common"); // 게시판 공통 스크립트
+
 
         /*
         // 게시판 설정 처리 S
         board = configInfoService.get(bid);
 
         // 접근 권한 체크
-        boardAuthService.accessCheck(mode, board);
-
-        // 스킨별 css, js 추가
-        String skin = board.getSkin();
-        addCss.add("board/skin_" + skin);
-        addScript.add("board/skin_" + skin);
+        //boardAuthService.accessCheck(mode, board);
 
         model.addAttribute("board", board);
         // 게시판 설정 처리 E
          */
 
 
+
         //String pageTitle = board.getBName(); // 게시판명이 기본 타이틀
 
         if (mode.equals("write") || mode.equals("update") || mode.equals("reply")) { // 쓰기 또는 수정
+            /*
             if (board.isUseEditor()) { // 에디터 사용하는 경우
                 addCommonScript.add("ckeditor5/ckeditor");
             }
+             */
 
+            /*
             // 이미지 또는 파일 첨부를 사용하는 경우
             if (board.isUseUploadImage() || board.isUseUploadFile()) {
                 addCommonScript.add("fileManager");
             }
+             */
 
-            addScript.add("board/form");
+            //addScript.add("board/form");
 
             /*
             pageTitle += " ";
