@@ -23,7 +23,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         //세션에 남아있는 requestLogin 값 제거
         session.removeAttribute("requestLogin");
-
         //로그인 성공시 - redirectUrl 이 있으면 해당 주소로 이동, 아니면 메인 페이지 이동
         String redirectUrl = StringUtils.hasText(request.getParameter("redirectUrl")) ? (request.getParameter("redirectUrl").trim()) : "/";
 
