@@ -1,6 +1,5 @@
 package org.hidog.member.repositories;
 
-
 import org.hidog.member.entities.Member;
 import org.hidog.member.entities.QMember;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -16,14 +15,10 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
     @EntityGraph(attributePaths = "authorities")
     Optional<Member> findByUserName(String userName);  // 닉네임으로 조회
 
-    default boolean exists(String email) {
+    default boolean existsByEmail(String email) {
         QMember member = QMember.member;
         return exists(member.email.eq(email));
     }
 
-    default boolean existsByUserName(String userName) {  // 닉네임으로 존재 여부 확인
-        QMember member = QMember.member;
-        return exists(member.userName.eq(userName));
-    }
+    boolean existsByUserName(String userName);
 }
-

@@ -48,7 +48,8 @@
             <dt>닉네임</dt>
             <dd>
                 <input type="text" id="userName" name="userName" th:field="*{userName}" />
-                <div class="error" th:if="${#fields.hasErrors('userName')}" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
+                <button type="button" id="checkUserName">중복 확인</button>
+                <div id="userNameError" class="error"></div>
             </dd>
         </dl>
 
