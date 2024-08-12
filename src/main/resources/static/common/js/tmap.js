@@ -1,13 +1,18 @@
 const tmapLib = {
     departure: null, // 출발지 LatLng 객체
     arrival: null, // 도착지 latLng 객체
+    via: [],   // 경유지 LatLng 객체 배열
     markers: [], // 마커
     resultDrawArr: [],
     mapId: null,
     width: '100%',
     height: '400px',
     zoom: 17,
+    currentAction: null, // start, end, via
     load(mapId, width, height, zoom) {
+        // 버튼 이벤트 리스너
+
+
         this.mapId = mapId;
         this.width = width;
         this.height = height;
@@ -25,38 +30,34 @@ const tmapLib = {
                 scrollwheel : true
             });
 
-            /**
-             * 지도 좌표 클릭 처리
-             *
-             * 좌표는 총 2개 - 출발지 좌표, 도착 좌표
-             *       출발지 좌표, 도착 좌표가 모두 체크된 경우 -> 경로 표기
-             */
+            // 지도 클릭 이벤트
             map.addListener("click", function(e) {
-                const opt = { position : e.latLng, map }
+                const opt = { position : e.latLng, map };
 
-                if (!tmapLib.departure) { // 출발지 좌표 객체
+                if (tmapLib.currentAction === 'start') { // 출발지 선택
                     tmapLib.departure = e.latLng;
                     const marker = new Tmapv2.Marker(opt);
                     tmapLib.markers.push(marker);
+                    tmapLib.currentAction = null;
+                    console.log(e.latLng)
 
-                } else if (tmapLib.departure && !tmapLib.arrival) { // 도착지 좌표
+                } else if (tmapLib.currentAction === 'end') { // 도착지 선택
                     tmapLib.arrival = e.latLng;
-
                     const marker = new Tmapv2.Marker(opt);
                     tmapLib.markers.push(marker);
+                    tmapLib.currentAction = null;
 
-                    // 경로 표기
-                    tmapLib.route(map);
+                } else if (tmapLib.currentAction === 'via') { // 경유지 추가
+                    tmapLib.via.push(e.latLng);
+                    const marker = new Tmapv2.Marker(opt);
+                    tmapLib.markers.push(marker);
+                    console.log(tmapLib.via)
                 }
-
-
             });
         });
     },
-    /**
-     * 출발지 -> 도착지 최단 경로 표기
-     *
-     */
+
+    // 경로 그리기
     route(map) {
         const appKey = document.querySelector("meta[name='tmap_apikey']")?.content;
 
@@ -66,17 +67,21 @@ const tmapLib = {
 
         const { ajaxLoad } = commonLib;
 
-        const { departure, arrival } = this;
+        const viaPoints = tmapLib.via.map((point) => ({
+            viaX: point._lng,
+            viaY: point._lat
+        }));
 
         const data = {
-            startX : departure._lng,
-            startY : departure._lat,
-            endX : arrival._lng,
-            endY : arrival._lat,
+            startX : this.departure._lng,
+            startY : this.departure._lat,
+            endX : this.arrival._lng,
+            endY : this.arrival._lat,
             reqCoordType : "WGS84GEO",
             resCoordType : "EPSG3857",
             startName : "출발지",
-            endName : "도착지"
+            endName : "도착지",
+            viaPoints
         };
 
         const headers = { appKey };
@@ -89,8 +94,6 @@ const tmapLib = {
                 const drawInfoArr = [];
                 for (let i in resultData) {
                     const geometry = resultData[i].geometry;
-                    const properties = resultData[i].properties;
-                    let polyline_;
 
                     if (geometry.type === "LineString") { // 경로 선 표기
                         for (let j in geometry.coordinates) {
@@ -100,67 +103,24 @@ const tmapLib = {
                             );
 
                             const convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latLng);
-
                             const convertChange = new Tmapv2.LatLng(
                                 convertPoint._lat,
                                 convertPoint._lng
                             );
-
                             drawInfoArr.push(convertChange);
                         }
-                    } else { // geometry.type : Point - 경유지 표기
-                        let markerImg = "";
-                        let pType = "";
-                        let size;
-
-                        if (properties.pointType == "S") { //출발지 마커
-                            /*
-                           markerImg = "/upload/tmap/marker/pin_r_m_s.png";
-                            */
-                            pType = "S";
-                            //size = new Tmapv2.Size(24, 38);
-                        } else if (properties.pointType == "E") { //도착지 마커
-                            //markerImg = "/upload/tmap/marker/pin_r_m_e.png";
-                            pType = "E";
-                            //size = new Tmapv2.Size(24, 38);
-                        } else { //각 포인트 마커 - 경유지
-                            //markerImg = "http://topopen.tmap.co.kr/imgs/point.png";
-                            pType = "P";
-                            //size = new Tmapv2.Size(8, 8);
-                        }
-
-                        // 경로들의 결과값들을 포인트 객체로 변환
-                        const latlon = new Tmapv2.Point(
-                            geometry.coordinates[0],
-                            geometry.coordinates[1]);
-
-                        // 포인트 객체를 받아 좌표값으로 다시 변환
-                        const convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latlon);
-
-                        const routeInfoObj = {
-                            //markerImage : markerImg,
-                            lng : convertPoint._lng,
-                            lat : convertPoint._lat,
-                            pointType : pType
-                        };
-
-                        // Marker 추가
-                        const marker = new Tmapv2.Marker({ position : new Tmapv2.LatLng(routeInfoObj.lat, routeInfoObj.lng),
-                            //icon : routeInfoObj.markerImage,
-                            //iconSize : size,
-                            map});
-
-                        tmapLib.markers.push(marker);
                     }
-                } // endfor
+                }
 
                 tmapLib.drawLine(drawInfoArr, map);
+
 
             } catch (err) {
                 console.error(err);
             }
         })();
     },
+
     drawLine(arrPoint, map) {
         const polyline_ = new Tmapv2.Polyline({
             path : arrPoint,
@@ -170,12 +130,11 @@ const tmapLib = {
         });
         this.resultDrawArr.push(polyline_);
     },
-    /**
-     * 초기화
-     *
-     */
+
+    // 초기화
     reset() {
         this.departure = this.arrival = null;
+        this.via = [];
         this.markers.forEach(m => {
             try {
                 m?.setMap(null);
@@ -188,4 +147,6 @@ const tmapLib = {
         });
         this.markers = this.resultDrawArr = [];
     }
+
 };
+
