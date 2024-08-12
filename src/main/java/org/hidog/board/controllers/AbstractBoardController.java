@@ -4,114 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.services.BoardInfoService;
-import org.hidog.board.services.BoardSaveService;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
-@RequestMapping("/board")
 @RequiredArgsConstructor
-@Transactional
-public class BoardController {
+public abstract class AbstractBoardController {
 
-    private final BoardInfoService boardInfoService;
-    private final BoardSaveService boardSaveService;
+    protected BoardInfoService boardInfoService;
 
-    private Board board; // 게시판 설정
-    private BoardData boardData; // 게시글
-
-
-    /**
-     * 게시판 목록
-     * @param bid : 게시판 아이디
-     * @param model
-     * @return
-     */
-    @GetMapping("/list/{bid}")
-    public String list() {
-
-
-        return "front/board/list";
-    }
-
-    /**
-     * 게시글 보기
-     *
-     * @param seq : 게시글 번호
-     * @param model
-     * @return
-     */
-    @GetMapping("/view/{seq}")
-    public String view() {
-
-        return "front/board/view";
-    }
-
-    /**
-     * 게시글 작성
-     *
-     * @param bid : 게시판 아이디
-     * @param model
-     * @return
-     */
-    @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid,
-                        @ModelAttribute RequestBoard form, Model model) {
-
-
-        return "front/board/write";
-    }
-
-    /**
-     * 게시글 수정
-     *
-     * @param seq : 게시글 번호
-     * @param model
-     * @return
-     */
-    @GetMapping("/update/{seq}")
-    public String update(@PathVariable("seq") Long seq, Model model) {
-        commonProcess(seq, "update", model);
-
-        RequestBoard form = boardInfoService.getForm(boardData);
-        model.addAttribute("requestBoard", form);
-
-
-        return "front/board/update";
-    }
-
-    /**
-     * 게시글 등록, 수정
-     *
-     * @param model
-     * @return
-     */
-    @PostMapping("/save")
-    public String save() {
-
-        return "front/board/list";
-    }
-
-
-    /**
-     * 게시글 삭제
-     *
-     * @param seq : 게시글 번호
-     * @param model
-     * @return
-     */
-    @GetMapping("/delete/{seq}")
-    public String delete() {
-
-        return "redirect:/front//board/list/" + board.getBid();
-    }
-
+    protected Board board; // 게시판 설정
+    protected BoardData boardData; // 게시글
 
     /**
      * 게시판의 공통 처리 - 글목록, 글쓰기 등 게시판 ID가 있는 경우
