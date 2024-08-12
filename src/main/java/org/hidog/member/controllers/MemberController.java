@@ -6,16 +6,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.member.services.MemberSaveService;
+import org.hidog.member.services.MemberService;
 import org.hidog.member.validators.JoinValidator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 
 @Slf4j
@@ -27,6 +31,7 @@ public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
     private final MemberSaveService memberSaveService;
+    private final MemberService memberService;
     private final Utils utils;
 
 
@@ -39,7 +44,7 @@ public class MemberController implements ExceptionProcessor {
     public String join(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
 
-
+        model.addAttribute("EmailAuthVerified", false);
         return utils.tpl("member/join");
     }
 
@@ -50,12 +55,19 @@ public class MemberController implements ExceptionProcessor {
         joinValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
+            model.addAttribute(form);
             return utils.tpl("member/join");
         }
 
         memberSaveService.save(form);
 
         return "redirect:" + utils.redirectUrl("/member/login");
+    }
+
+    @GetMapping("/join/check-username")
+    public ResponseEntity<Boolean> checkUserName(@RequestParam("userName") String userName) {
+        boolean exists = memberService.existsByUserName(userName);
+        return ResponseEntity.ok(exists); // exists가 true이면 중복, false이면 사용 가능
     }
 
     @GetMapping("/login")
@@ -94,7 +106,7 @@ public class MemberController implements ExceptionProcessor {
             addCss.add("member/join");
             addScript.add("member/join");
             addScript.add("member/joinAddress");
-
+            addScript.add("member/joinNickName");
 
         } else if (mode.equals("login")) {
             addCss.add("member/login");
