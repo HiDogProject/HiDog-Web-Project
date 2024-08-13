@@ -20,28 +20,28 @@ import java.util.UUID;
 @Table(indexes = {
         @Index(name="idx_boardData_basic", columnList = "notice DESC, listOrder DESC, listOrder2 ASC, createdAt DESC")
 })
-public class BoardData extends BaseEntity {
+public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 시간
     @Id @GeneratedValue
     private Long seq; // 게시글 번호
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="bid")
+    @ManyToOne(fetch = FetchType.LAZY) // 게시판입장에서 게시글은 여러개 // many가 관계의 주인, 외래키도 있는 곳
+    @JoinColumn(name="bid") // 게시판 별 게시글 구분
     private Board board;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // 권한설정 // 한명의 회원이 여러개의 게시글 작성 -> 게시글 : many, 회원 : one
     @JoinColumn(name="memberSeq")
     private Member member;
 
     @Column(length=65, nullable = false)
-    private String gid = UUID.randomUUID().toString();
+    private String gid = UUID.randomUUID().toString(); // 게시글하나에 여러개의 파일을 묶는 groupid
 
     @Column(length=60)
-    private String category; // 분류
+    private String category; // 게시글 분류
 
     @Column(length=40, nullable = false)
     private String poster; // 작성자
 
-    //private String guestPw; // 비회원 비밀번호
+    private String guestPw; // 비회원 비밀번호(수정, 삭제)
 
     private boolean notice;  // 공지글 여부 - true : 공지글
 
@@ -50,13 +50,18 @@ public class BoardData extends BaseEntity {
 
     @Lob
     @Column(nullable = false)
-    private String content;
+    private String content; // 게시글 내용
 
-    private int viewCount; // 조회수
+    private int viewCount; // 조회수 // 우리 사이트는 조회수가 그렇게 많진 않을 테니 자료형 int로,,,
 
     private int commentCount; // 댓글 수
 
-    private boolean editorView; // true : 에디터를 통해서 작성
+    private boolean editorView; // true : 에디터를 통해서 작성한 경우
+    // 에디터 작성글은 기본적으로 html형태로 데이터가 들어감
+    // 에디터 사용하지 않은 글은 <\n>로 들어감 -> <br> 태그로 바꾸어 주어야 함
+    // 에디터를 사용하다가 사용하지않은경우가 있을 수 있음
+    // 에디터를 사용하는 경우 : 그냥 출력
+    // 에디터를 사용하지 않은경우 : \n -> <br> 로 바꿔서 출력
 
     //private Long parentSeq; // 부모 게시글 번호 - 답글인 경우
 

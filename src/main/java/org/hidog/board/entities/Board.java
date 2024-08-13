@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
+@Entity // 게시판 설정은 조회만 필요, 게시판 설정1개가 게시판 한개
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,6 +25,7 @@ public class Board extends BaseMemberEntity {
     @Id
     @Column(length=30)
     private String bid; // 게시판 아이디
+    // 게시판id별로 게시글 구분
 
     @Column(length=65, nullable = false)
     private String gid = UUID.randomUUID().toString();
