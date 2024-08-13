@@ -46,11 +46,13 @@ public class JoinValidator implements Validator, PasswordValidator {
         if (!password.equals(confirmPassword)) {
             errors.rejectValue("confirmPassword", "Mismatch.password");
         }
-
+/*
         // 3. 비밀번호 복잡성 체크 - 알파벳 대소문자 각각 1개 이상, 숫자 1개 이상, 특수문자 1개 이상
         if (!alphaCheck(password) || !numberCheck(password) || !specialCharsCheck(password)) {
             errors.rejectValue("password", "Complexity");
         }
+
+ */
 
         //4. 닉네임 중복 체크
         if (memberRepository.existsByUserName(userName)) {

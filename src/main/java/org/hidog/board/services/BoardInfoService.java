@@ -3,6 +3,7 @@ package org.hidog.board.services;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.controllers.RequestBoard;
 import org.hidog.board.entities.BoardData;
+import org.hidog.board.exceptions.BoardDataNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

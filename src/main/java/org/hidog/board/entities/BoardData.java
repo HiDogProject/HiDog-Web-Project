@@ -11,7 +11,6 @@ import org.hidog.global.entities.BaseEntity;
 import org.hidog.member.entities.Member;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -27,14 +26,16 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
 
     @ManyToOne(fetch = FetchType.LAZY) // 게시판입장에서 게시글은 여러개 // many가 관계의 주인, 외래키도 있는 곳
     @JoinColumn(name="bid") // 게시판 별 게시글 구분
+    //@Column(updatable=false)
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY) // 권한설정 // 한명의 회원이 여러개의 게시글 작성 -> 게시글 : many, 회원 : one
     @JoinColumn(name="memberSeq")
+    //@Column(updatable=false)
     private Member member;
 
-    @Column(length=65, nullable = false)
-    private String gid = UUID.randomUUID().toString(); // 게시글하나에 여러개의 파일을 묶는 groupid
+    @Column(length=65, nullable = false, updatable=false)
+    private String gid; // 게시글하나에 여러개의 파일을 묶는 groupid
 
     @Column(length=60)
     private String category; // 게시글 분류
@@ -74,11 +75,12 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
 
     //private int depth; // 답글 들여쓰기 정도
 
-    @Column(length=20)
+    @Column(length=20, updatable=false)
     private String ip; // IP 주소
     // 커뮤니티 사이트의 경우 이상한 회원 차단시키는 용
+    // updatable=false : 내가 차단시킨 회원의 ip가 내 ip로 수정되면 안됨, 그럼 내가 차단됨
 
-    @Column(length=150)
+    @Column(length=150, updatable=false)
     private String ua; // User-Agent : 브라우저 정보
     // 통계 : 요즘 사용자는 어떤 장비를 통해서 브라우저 접속하나, 사용자는 보통 모바일, pc 중에 어떤걸 통해 많이 접속하나
 
