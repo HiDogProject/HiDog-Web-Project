@@ -3,11 +3,14 @@ package org.hidog.mypage.controllers;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
+import org.hidog.member.entities.Member;
+import org.hidog.member.services.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public class MyPageController {
 
     private final Utils utils;
     private final MemberUtil memberUtil;
+    private final MemberService memberService;
 
     /**
      * 1) mypage/myhome 입력 시 마이 페이지 홈으로 이동
@@ -52,8 +56,32 @@ public class MyPageController {
         return utils.tpl("mypage/info");
     }
 
+    @GetMapping("/changeInfo")
+    public String changeInfoPage(Model model) {
+        if (!memberUtil.isLogin()) {
+            return "redirect:/mypage/myhome"; // 로그인하지 않은 경우 마이 페이지로 이동
+        }
+
+        Member member = memberUtil.getMember();
+        model.addAttribute("member", member);
+        commonProcess("changeInfo", model);
+
+        return utils.tpl("mypage/changeInfo"); // 템플릿 경로
+    }
+
     @PostMapping("/changeInfo")
-    public String changeInfo(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 회원 정보 수정할 수 있도록
+    public String changeInfo(@RequestParam String userName, @RequestParam String password, @RequestParam String address, Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 회원 정보 수정할 수 있도록
+        if (!memberUtil.isLogin()) {
+            return "redirect:/mypage/myhome";
+        }
+        Member member = memberUtil.getMember();
+        member.setUserName(userName);
+        member.setPassword(password);
+        member.setAddress(address);
+
+        memberService.updateMember(member); // 회원 정보 수정 서비스 호출
+
+        model.addAttribute("successMessage", "회원 정보가 수정되었습니다.");
         commonProcess("changeInfo", model);
         return utils.tpl("mypage/changeInfo");
     }
