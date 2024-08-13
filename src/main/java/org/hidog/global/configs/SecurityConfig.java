@@ -60,7 +60,7 @@ public class SecurityConfig {
                     .anyRequest().permitAll();
         });
         http.exceptionHandling(c -> {
-            c.authenticationEntryPoint(new MemberAuthenticationEntryPoint())//예외 가
+            c.authenticationEntryPoint(new MemberAuthenticationEntryPoint())//예외
                     .accessDeniedHandler((req, res, e) -> {
                         res.sendError(HttpStatus.UNAUTHORIZED.value());
                     });

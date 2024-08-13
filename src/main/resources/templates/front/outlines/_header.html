@@ -6,7 +6,7 @@
     <a th:href="@{/}">
         <button type="submit" th:text="#{메인화면}"></button>
     </a>
-    <a th:href="@{/app/map/main}">
+    <a th:href="${@utils.redirectUrl('/tmap/test')}">
         <button type="submit" th:text="#{맵}"></button>
     </a>
     <a th:href="${@utils.redirectUrl('/board/list' + bid)}">
