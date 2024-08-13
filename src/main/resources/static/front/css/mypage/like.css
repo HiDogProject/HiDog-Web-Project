@@ -40,7 +40,7 @@ h1 {
 }
 
 .wishlist-table th {
-    background-color: #f1f1f1; /* 헤더 셀 배경색 */
+    background-color: #96AED0; /* 헤더 셀 배경색 */
     font-weight: bold; /* 헤더 셀 폰트 굵기 설정 */
     text-align: center; /* 헤더 텍스트 중앙 정렬 */
 }
