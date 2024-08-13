@@ -108,20 +108,11 @@ public class MemberController implements ExceptionProcessor {
             addCss.add("member/join");
             addScript.add("member/join");
             addScript.add("member/joinAddress");
-
             addScript.add("member/form");
-
-
             addScript.add("member/joinNickName");
 
-
-        }
-        if (mode.equals("login")) {
-            addScript.add("member/form");
+        } else if (mode.equals("login")) {
             addCss.add("member/login");
-        }  else if (mode.equals("join")) { // 회원가입
-            addCss.add("member/join");
-            addScript.add("member/join");
         }
 
         model.addAttribute("addCss", addCss);
