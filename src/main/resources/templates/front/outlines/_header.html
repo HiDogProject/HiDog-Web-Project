@@ -3,10 +3,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="common">
     <h1>상단 영역</h1>
-    <a th:href="@{/app}">
+
+
+    <a th:href="@{/}">
         <button type="submit" th:text="#{메인화면}"></button>
     </a>
-    <a th:href="@{/app/map/main}">
+    <a th:href="@{/map/main}">
         <button type="submit" th:text="#{맵}"></button>
     </a>
     <th:block sec:authorize="isAnonymous()">
@@ -19,10 +21,10 @@
     </th:block>
     <th:block sec:authorize="isAuthenticated()">
         <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>
-        <a th:href="${@util.redirectUrl('/member/logout')}">
+        <a th:href="@{/member/logout'}">
             <button type="submit" th:text="#{로그아웃}"></button>
         </a>
-        <a th:href="@{@utils.redirect('/mypage')}">
+        <a th:href="@{/mypage}">
             <button type="submit" th:text="#{마이페이지}"></button>
         </a>
         <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin}" target="_blank">

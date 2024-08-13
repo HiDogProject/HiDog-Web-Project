@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{front/layouts/main}">
+
 <main layout:fragment="content">
     <h1 th:text="#{로그인}"></h1>
     <form name="frmLogin" method="post" th:action="${@utils.redirectUrl('/member/login')}" autocomplete="off" th:object="${requestLogin}">

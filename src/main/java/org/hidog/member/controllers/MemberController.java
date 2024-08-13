@@ -71,7 +71,7 @@ public class MemberController implements ExceptionProcessor {
             }
         }
 
-        return "front/member/login";
+        return utils.tpl("member/login");
 
     }
 
@@ -94,10 +94,16 @@ public class MemberController implements ExceptionProcessor {
             addCss.add("member/join");
             addScript.add("member/join");
             addScript.add("member/joinAddress");
+            addScript.add("member/form");
 
 
-        } else if (mode.equals("login")) {
+        }
+        if (mode.equals("login")) {
+            addScript.add("member/form");
             addCss.add("member/login");
+        }  else if (mode.equals("join")) { // 회원가입
+            addCss.add("member/join");
+            addScript.add("member/join");
         }
 
         model.addAttribute("addCss", addCss);

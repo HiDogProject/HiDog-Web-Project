@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.configs.FileProperties;
-import org.hidog.mypage.entities.RequestProfile;
 import org.hidog.mypage.entities.WishList;
 import org.hidog.mypage.services.WishListService;
 import org.springframework.stereotype.Controller;

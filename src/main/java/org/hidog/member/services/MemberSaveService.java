@@ -10,7 +10,7 @@ import org.hidog.member.entities.Member;
 import org.hidog.member.exceptions.MemberNotFoundException;
 import org.hidog.member.repositories.AuthoritiesRepository;
 import org.hidog.member.repositories.MemberRepository;
-import org.hidog.mypage.entities.RequestProfile;
+import org.hidog.mypage.controllers.RequestProfile;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
