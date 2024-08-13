@@ -24,10 +24,10 @@
     </th:block>
     <th:block sec:authorize="isAuthenticated()">
         <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>
-            <a th:href="${@utils.redirectUrl('app/member/logout')}">
+            <a th:href="@{app/member/logout}">
             <button type="submit" th:text="#{로그아웃}"></button>
         </a>
-        <a th:href="@{app/mypage}">
+        <a th:href="${@utils.redirectUrl('/app/mypage')}">
             <button type="submit" th:text="#{마이페이지}"></button>
         </a>
         <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin}" target="_blank">
