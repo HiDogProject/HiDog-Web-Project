@@ -11,10 +11,13 @@
     <a th:href="@{/map/main}">
         <button type="submit" th:text="#{맵}"></button>
     </a>
+    <a th:href="${@utils.redirectUrl('/board/list' + bid)}">
+        <button type="submit" th:text="#{게시판}"></button>
+    </a>
     <th:block sec:authorize="isAnonymous()">
         <a th:href="${@utils.redirectUrl('/member/login')}">
     <button type="submit" th:text="#{로그인}"></button>
-</a>
+        </a>
         <a th:href="${@utils.redirectUrl('/member/join')}">
         <button type="submit" th:text="#{회원가입}"></button>
     </a>

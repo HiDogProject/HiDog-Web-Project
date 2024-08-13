@@ -6,6 +6,7 @@
     <meta name="csrf_token" th:content="${_csrf.token}">
     <meta name="csrf_header" th:content="${_csrf.headerName}">
     <meta name="viewport" content="width=device-width,user-scalable=yes,initial-scale=1.0, minimum-scale=0.5,maximum-scale=2.0">
+    <meta th:if="${tmapJavascriptKey != null && tmapJavascriptKey != ''}" name="tmap_apikey" th:content="${tmapJavascriptKey}">
     <title>
         <th:block th:if="${pageTitle != null}"
         th:text="${#strings.concat(pageTitle, ' - ')}"></th:block>
@@ -17,6 +18,8 @@
     <th:block layout:fragment="addCommonCss"></th:block>
     <link th:if="${addCommonCss != null}" rel="stylesheet" type="text/css"
           th:each="cssFile: ${addCommonCss}" th:href="${@utils.url(#strings.concat('/common/css/', cssFile, '.css'))}">
+
+    <script th:if="${tmapJavascriptKey != null}" th:src="${'https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=' + tmapJavascriptKey}"></script>
 
     <link th:if="${addCss != null}" rel="stylesheet" type="text/css"
           th:each="cssFile: ${addCss}" th:href="${@utils.url(#strings.concat('/mobile/css/', cssFile, '.css'))}">
