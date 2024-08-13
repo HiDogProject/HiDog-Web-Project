@@ -19,7 +19,8 @@ import java.util.UUID;
 @NoArgsConstructor @AllArgsConstructor
 @Table(indexes = {
         @Index(name="idx_boardData_basic", columnList = "notice DESC, listOrder DESC, listOrder2 ASC, createdAt DESC")
-})
+}) // @Index : 빠르게 조회위해 사용
+// notice DESC : 공지는 항상 앞에 나와야 하니 orderby desc, createdAt DESC : 최신글이 먼저 나오도록
 public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 시간
     @Id @GeneratedValue
     private Long seq; // 게시글 번호
@@ -41,9 +42,10 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
     @Column(length=40, nullable = false)
     private String poster; // 작성자
 
+    @Column(length=65) // 나중에 비크립트해시화 할거라 length=65
     private String guestPw; // 비회원 비밀번호(수정, 삭제)
 
-    private boolean notice;  // 공지글 여부 - true : 공지글
+    private boolean notice;  // 공지글 여부 - true : 공지글 // 공지는 항상 앞에 나와야 하니 오더바이 desc // 1, 0 형태
 
     @Column(nullable = false)
     private String subject; // 게시글 제목
@@ -74,31 +76,42 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
 
     @Column(length=20)
     private String ip; // IP 주소
+    // 커뮤니티 사이트의 경우 이상한 회원 차단시키는 용
 
     @Column(length=150)
     private String ua; // User-Agent : 브라우저 정보
+    // 통계 : 요즘 사용자는 어떤 장비를 통해서 브라우저 접속하나, 사용자는 보통 모바일, pc 중에 어떤걸 통해 많이 접속하나
 
-    private Long num1; // 추가 필드 : 정수
-    private Long num2; // 추가 필드 : 정수
-    private Long num3; // 추가 필드 : 정수
+    private Long num1; // 추가 필드1 : 정수
+    private Long num2; // 추가 필드2 : 정수
+    private Long num3; // 추가 필드3 : 정수
+    // 추가필드가 필요한 이유 : 게시글을 쓰는데 상품후기, 상품문의를 만들고 싶음
+    // -> 상품번호가 필요함,
+    // -> 근데 보드데이터엔티티에 상품번호 칼럼을 넣기엔 너무 짜침 + 다양하게 활용 힘듬
+    // -> 추가필드를 활용하자
+    // num1 = 상품번호로 활용
 
     @Column(length=100)
-    private String text1; // 추가 필드 : 한줄 텍스트
+    private String text1; // 추가 필드1 : 한줄 텍스트
 
     @Column(length=100)
-    private String text2; // 추가 필드 : 한줄 텍스트
+    private String text2; // 추가 필드2 : 한줄 텍스트
 
     @Column(length=100)
-    private String text3; // 추가 필드 : 한줄 텍스트
+    private String text3; // 추가 필드3 : 한줄 텍스트
+
+    // ex) 상품 후기?
 
     @Lob
-    private String longText1; // 추가 필드 : 여러줄 텍스트
+    private String longText1; // 추가 필드1 : 여러줄 텍스트
 
     @Lob
-    private String longText2; // 추가 필드 : 여러줄 텍스트
+    private String longText2; // 추가 필드2 : 여러줄 텍스트
 
     @Lob
-    private String longText3; // 추가 필드 : 여러줄 텍스트
+    private String longText3; // 추가 필드3 : 여러줄 텍스트
+
+    // ex) QnA
 
     @Transient
     private List<FileInfo> editorFiles; // 에디터 첨부 파일
