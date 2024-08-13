@@ -3,9 +3,11 @@ package org.hidog.member.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hidog.global.entities.BaseEntity;
+import org.hidog.mypage.entities.SellRecord;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -34,6 +36,6 @@ public class Member extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;
 
-    /*@Transient
-    private FileInfo profileImage; */
+    @OneToMany(mappedBy = "member")
+    private Set<SellRecord> sellRecords;
 }
