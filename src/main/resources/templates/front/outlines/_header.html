@@ -8,7 +8,7 @@
     <a th:href="@{/app}">
         <button type="submit" th:text="#{메인화면}"></button>
     </a>
-    <a th:href="@{app/map/main}">
+    <a th:href="@{app/tmap}">
         <button type="submit" th:text="#{맵}"></button>
     </a>
     <a th:href="${@utils.redirectUrl('/board/list' + bid)}">
@@ -24,7 +24,7 @@
     </th:block>
     <th:block sec:authorize="isAuthenticated()">
         <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>
-            <a th:href="${@utils.redirectUrl('/member/logout')}">
+            <a th:href="${@utils.redirectUrl('app/member/logout')}">
             <button type="submit" th:text="#{로그아웃}"></button>
         </a>
         <a th:href="@{app/mypage}">
