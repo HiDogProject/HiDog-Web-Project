@@ -26,12 +26,12 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
 
     @ManyToOne(fetch = FetchType.LAZY) // 게시판입장에서 게시글은 여러개 // many가 관계의 주인, 외래키도 있는 곳
     @JoinColumn(name="bid") // 게시판 별 게시글 구분
-    @Column(updatable=false)
+    //@Column(updatable=false)
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY) // 권한설정 // 한명의 회원이 여러개의 게시글 작성 -> 게시글 : many, 회원 : one
     @JoinColumn(name="memberSeq")
-    @Column(updatable=false)
+    //@Column(updatable=false)
     private Member member;
 
     @Column(length=65, nullable = false, updatable=false)
