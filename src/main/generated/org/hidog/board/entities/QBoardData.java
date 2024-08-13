@@ -28,8 +28,6 @@ public class QBoardData extends EntityPathBase<BoardData> {
 
     public final StringPath category = createString("category");
 
-    public final NumberPath<Integer> commentCount = createNumber("commentCount", Integer.class);
-
     public final StringPath content = createString("content");
 
     //inherited
@@ -38,48 +36,20 @@ public class QBoardData extends EntityPathBase<BoardData> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> deletedAt = _super.deletedAt;
 
-    public final BooleanPath editorView = createBoolean("editorView");
-
     public final StringPath gid = createString("gid");
 
-    public final StringPath ip = createString("ip");
-
-    public final NumberPath<Long> listOrder = createNumber("listOrder", Long.class);
-
-    public final StringPath listOrder2 = createString("listOrder2");
-
-    public final StringPath longText1 = createString("longText1");
-
-    public final StringPath longText2 = createString("longText2");
-
-    public final StringPath longText3 = createString("longText3");
+    public final StringPath guestPw = createString("guestPw");
 
     public final org.hidog.member.entities.QMember member;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final BooleanPath notice = createBoolean("notice");
-
-    public final NumberPath<Long> num1 = createNumber("num1", Long.class);
-
-    public final NumberPath<Long> num2 = createNumber("num2", Long.class);
-
-    public final NumberPath<Long> num3 = createNumber("num3", Long.class);
-
     public final StringPath poster = createString("poster");
 
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public final StringPath subject = createString("subject");
-
-    public final StringPath text1 = createString("text1");
-
-    public final StringPath text2 = createString("text2");
-
-    public final StringPath text3 = createString("text3");
-
-    public final StringPath ua = createString("ua");
 
     public final NumberPath<Integer> viewCount = createNumber("viewCount", Integer.class);
 
