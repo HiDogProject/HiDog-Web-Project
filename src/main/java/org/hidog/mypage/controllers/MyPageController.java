@@ -1,33 +1,15 @@
 package org.hidog.mypage.controllers;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.Utils;
-import org.hidog.global.configs.FileProperties;
-import org.hidog.member.entities.Member;
-import org.hidog.member.exceptions.MemberNotFoundException;
-import org.hidog.member.repositories.MemberRepository;
-import org.hidog.member.services.MemberSaveService;
-import org.hidog.mypage.entities.*;
-import org.hidog.mypage.repositories.BuyRecordRepository;
-import org.hidog.mypage.repositories.SellRecordRepository;
-import org.hidog.mypage.services.PostService;
-import org.hidog.mypage.services.WishListService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hidog.member.MemberUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,10 +19,78 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MyPageController {
 
-    private final FileProperties properties;
+    private final Utils utils;
+    private final MemberUtil memberUtil;
+
+    /**
+     * 1) mypage/myhome 입력 시 마이 페이지 홈으로 이동
+     * 2) 마이 페이지 홈 -> 버튼 O (회원 정보 확인 버튼, 프로필 버튼, 찜 목록 버튼, 게시글 버튼, 판매 내역 & 구매 내역 버튼)
+     * 3) 회원 정보 확인 버튼 클릭 시 회원 정보 페이지 (/mypage/info)로 이동 -> 로그인한 사용자의 정보가 나오고 그 아래에 메인 페이지 버튼 / 회원 정보 수정 버튼
+     * -> 회원 정보 수정 버튼 클릭 시 로그인할 때 사용한 비밀번호로 본인 인증 -> 성공 시 회원 정보 수정 페이지 (/mypage/changInfo)로 이동 | 실패 시 마이 페이지로 이동
+     * 4) 원형 프로필 클릭 시 프로필 이미지 수정 팝업 생성 -> 이미지 저장 버튼 클릭 시 수정된 이미지로 변경 및 마이 페이지 홈에 가만히 있음
+     * 5) 찜 목록 버튼 클릭 시 찜 목록 페이지 (/mypage/like)로 이동 -> 사진첩 처럼 이미지 목록으로 찜한 내역 목록화된 페이지 나옴
+     * 6) 게시글 버튼 클릭 시 게시글 페이지 (/mypage/post)로 이동 -> 표 형태로 작성한 글 목록 나옴
+     * 7) 판매 내역 & 구매 내역 버튼 클릭 시 판매 내역 & 구매 내역 페이지 (/mypage/sellAndBuy)로 이동 -> 5)와 동일하게 목록화된 페이지 나옴
+     */
+    // 마이 페이지 홈
+    @GetMapping("/myhome")
+    public String myHome(Model model) {
+        commonProcess("myhome", model);
+        return utils.tpl("mypage/myhome");
+    }
+
+    // 마이 페이지 -> 회원 정보 확인 페이지
+    @GetMapping("/info")
+    public String memberInfo(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 회원 정보 확인할 수 있도록
+        commonProcess("info", model);
+
+        if (memberUtil.isLogin()) { // 로그인한 경우 : 사용자 -> 회원 정보 확인 가능
+            model.addAttribute("member", memberUtil.getMember());
+        } else { // 로그인 하지 않은 경우
+            model.addAttribute("errorMessage", "로그인 후 이용할 수 있습니다!");
+        }
+        return utils.tpl("mypage/info");
+    }
+
+    @PostMapping("/changeInfo")
+    public String changeInfo(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 회원 정보 수정할 수 있도록
+        commonProcess("changeInfo", model);
+        return utils.tpl("mypage/changeInfo");
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model) { // 프로필 이미지 페이지 오픈
+        commonProcess("profile", model);
+        return utils.tpl("mypage/profile");
+    }
+
+    @PostMapping("/profile")
+    public String updateProfileImage(MultipartFile profileImage) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 프로필 이미지 수정할 수 있도록
+        return "redirect:" + utils.redirectUrl("mypage/myhome");
+    }
+
+    @GetMapping("/like")
+    public String like(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인이 찜한 목록 확인할 수 있도록
+        commonProcess("like", model);
+        return utils.tpl("mypage/like");
+    }
+
+    @GetMapping("/post")
+    public String post(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인이 쓴 게시글 확인할 수 있도록
+        commonProcess("post", model);
+        return utils.tpl("mypage/post");
+    }
+
+    @GetMapping("/sellAndBuy")
+    public String sellAndBuy(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인의 판매 & 구매 내역 확인할 수 있도록
+        commonProcess("sellAndBuy", model);
+        return utils.tpl("mypage/sellAndBuy");
+    }
+
+/*  private final FileProperties properties;
     private final WishListService wishListService;
     private final PostService postService;
-    private final MemberSaveService memberSaveService;
+    private final MyPageService myPageService;
     private final MemberRepository memberRepository;
     private final SellRecordRepository sellRecordRepository;
     private final BuyRecordRepository buyRecordRepository;
@@ -49,28 +99,43 @@ public class MyPageController {
     // 마이 페이지 기본 홈 (+ 프로필 이미지 저장 시 마이 페이지 홈으로 이동 경로)
     @GetMapping("/myhome")
     public String mypage(Model model, HttpSession session) {
-        String profileImage = (String) session.getAttribute("profileImage"); // 세션에서 프로필 이미지 경로 가져와 모델에 추가
+        String profileImage = (String) session.getAttribute("profileImage");
 
         if (profileImage == null) {
             profileImage = "/images/default-profile.png"; // 기본 이미지 경로
         }
         model.addAttribute("profileImage", profileImage);
 
-        commonProcess("myhome", model); // 공통 프로세스 처리
+        commonProcess("myhome", model);
 
         return utils.tpl("mypage/myhome");
     }
 
     // 마이 페이지 -> 회원 정보 확인 버튼 클릭 시 회원 정보 페이지로 이동
     @GetMapping("/info")
-    public String viewMemberInfo(Model model) {
-        commonProcess("info", model);
-        return utils.tpl("mypage/info");
+    public String viewMemberInfo(HttpSession session, Model model) {
+        String email = (String) session.getAttribute("userEmail");
+
+        if (email != null) {
+            Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
+            RequestProfile profile = new RequestProfile();
+            profile.setUserName(member.getUserName());
+            profile.setEmail(member.getEmail());
+            profile.setAddress(member.getAddress());
+            profile.setPassword("********");
+
+            model.addAttribute("profile", profile);
+            return utils.tpl("mypage/info");
+        } else {
+            return "redirect:" + utils.redirectUrl("/member/login");
+        }
     }
 
     // 마이 페이지 -> 회원 정보 수정 버튼 클릭 시 본인 인증 후 회원 정보 수정 페이지로 이동
     @GetMapping("/changeInfo")
     public String changeInfo(Model model, HttpSession session) {
+        // 세션에서 인증 상태 확인
         Boolean authenticated = (Boolean) session.getAttribute("authenticated");
         model.addAttribute("authenticated", authenticated != null && authenticated);
 
@@ -86,36 +151,56 @@ public class MyPageController {
                 profile.setEmail(member.getEmail());
                 profile.setAddress(member.getAddress());
                 model.addAttribute("profile", profile);
+            } else {
+                model.addAttribute("error", "이메일을 찾을 수 없습니다.");
             }
         }
-
         return utils.tpl("mypage/changeInfo");
     }
 
-    // 마이 페이지 -> 회원 정보 수정 버튼 클릭 시 본인 인증 후 회원 정보 수정 페이지로 이동
-    /*@GetMapping("/changeInfo")
-    public String changeInfo(Model model, HttpSession session) {
-        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
-        model.addAttribute("authenticated", authenticated != null && authenticated);
+    @PostMapping("/changeInfo")
+    public String changeInfo(@RequestParam(value = "password", required = false) String password,
+                             @Valid @ModelAttribute("profile") RequestProfile form,
+                             Errors errors, HttpSession session, Model model) {
 
-        // 인증된 경우, 프로필 객체를 모델에 추가
-        if (authenticated != null && authenticated) {
-            String email = (String) session.getAttribute("userEmail");
-            if (email != null) {
-                Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-                RequestProfile profile = new RequestProfile();
-                profile.setUserName(member.getUserName());
-                profile.setEmail(member.getEmail());
-                profile.setAddress(member.getAddress());
-                model.addAttribute("profile", profile);
+        // 세션에서 인증 상태 확인
+        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
+        String email = (String) session.getAttribute("userEmail");
+
+        if (password != null) {
+            if (email == null) {
+                model.addAttribute("error", "사용자 정보가 세션에 없습니다.");
+                return utils.tpl("mypage/changeInfo");
+            }
+
+            // 비밀번호 확인
+            boolean isPasswordCorrect = myPageService.checkPassword(email, password);
+
+            if (isPasswordCorrect) {
+                session.setAttribute("authenticated", true);
+                authenticated = true;
+            } else {
+                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+                return utils.tpl("mypage/changeInfo");
             }
         }
 
+        if (authenticated != null && authenticated) {
+            if (errors.hasErrors()) {
+                return utils.tpl("mypage/changeInfo");
+            }
+
+            // 회원 정보 수정
+            myPageService.updateMemberInfo(email, form);
+            session.setAttribute("userInfoChanged", true);
+            return "redirect:" + utils.redirectUrl("/mypage/myhome");
+        }
+
+        model.addAttribute("authenticated", false);
         return utils.tpl("mypage/changeInfo");
-    } */
+    }
 
-
-    @PostMapping("/changeInfo")
+    /*@PostMapping("/changeInfo")
     public String changeInfo(@RequestParam(value = "password", required = false) String password,
                              @Valid @ModelAttribute("profile") RequestProfile form,
                              Errors errors, HttpSession session, Model model) {
@@ -134,7 +219,7 @@ public class MyPageController {
             }
 
             // 비밀번호 확인
-            boolean isPasswordCorrect = memberSaveService.checkPassword(email, password);
+            boolean isPasswordCorrect = myPageService.checkPassword(email, password);
 
             if (isPasswordCorrect) {
                 session.setAttribute("authenticated", true);
@@ -150,77 +235,8 @@ public class MyPageController {
             }
 
             // 회원 정보 수정
-            memberSaveService.save(form);
+            myPageService.save(form);
             session.setAttribute("userInfoChanged", true);
-            return "redirect:" + utils.redirectUrl("/mypage/myhome");
-        }
-
-        model.addAttribute("authenticated", false);
-        return utils.tpl("mypage/changeInfo");
-    }
-
-    /*@PostMapping("/changeInfo")
-    public String changeInfo(@RequestParam(value = "password", required = false) String password, @Valid @ModelAttribute("profile") RequestProfile form, Errors errors, HttpSession session, Model model) {
-
-        // 세션에서 인증 상태 확인
-        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
-
-        if (password != null) {
-            String email = (String) session.getAttribute("userEmail");
-            if (email == null) {
-                model.addAttribute("error", "사용자 정보가 세션에 없습니다.");
-                return utils.tpl("mypage/changeInfo");
-            }
-
-            // 비밀번호 확인
-            boolean isPasswordCorrect = memberSaveService.checkPassword(email, password);
-
-            if (isPasswordCorrect) {
-                session.setAttribute("authenticated", true);
-                authenticated = true;
-            } else {
-                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-            }
-        }
-
-        if (authenticated != null && authenticated) {
-            if (errors.hasErrors()) {
-                return utils.tpl("mypage/changeInfo");
-            }
-
-            // 회원 정보 수정
-            memberSaveService.save(form);
-            session.setAttribute("userInfoChanged", true);
-            return "redirect:" + utils.redirectUrl("/mypage/myhome");
-        }
-
-        model.addAttribute("authenticated", false);
-        return utils.tpl("mypage/changeInfo");
-    } */
-
-    /*@PostMapping("/changeInfo")
-    public String changeInfo(@RequestParam(value = "password", required = false) String password,
-                             @Valid @ModelAttribute("profile") RequestProfile form,
-                             Errors errors, HttpSession session, Model model) {
-
-        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
-
-        if (password != null) {
-            // 비밀번호 확인 로직
-            String correctPassword = "userActualPassword"; // 실제 비밀번호 로직
-            if (password.equals(correctPassword)) {
-                session.setAttribute("authenticated", true);
-                authenticated = true;
-            } else {
-                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-            }
-        }
-
-        if (authenticated != null && authenticated) {
-            if (errors.hasErrors()) {
-                return utils.tpl("mypage/changeInfo");
-            }
-            // 회원 정보 수정 코드 (서비스 호출 등) 예: mypageService.updateUserProfile(form);
             return "redirect:" + utils.redirectUrl("/mypage/myhome");
         }
 
@@ -229,7 +245,7 @@ public class MyPageController {
     } */
 
     // 마이 페이지 -> 프로필 클릭 시 이미지 변경 창이 팝업으로 생성
-    @GetMapping("/profile")
+/*    @GetMapping("/profile")
     public String changeProfileImage(Model model) {
         commonProcess("profile", model);
         return utils.tpl("mypage/profile");
@@ -275,9 +291,8 @@ public class MyPageController {
         return utils.tpl("mypage/like");
     }
 
-    // 현재 사용자 ID 가져옴 (세션이나 인증을 통해 구현 필요)
+    // 현재 사용자 ID 가져옴
     private Long getCurrentUserId() {
-        // 실제 구현은 세션이나 인증된 사용자로부터 ID를 가져오는 로직 필요
         return 1L;
     }
 
@@ -305,8 +320,6 @@ public class MyPageController {
     }
 
     private Long findUserIdByUsername(String username) {
-        // 데이터베이스 -> 사용자 ID 조회 => 회원 관련 서비스, 레포지토리 사용
-        // Member member = memberRepository.findByUserName(username).orElseThrow(() -> new RuntimeException("User not found"));
         return 1L;
     }
 
@@ -317,32 +330,7 @@ public class MyPageController {
         return utils.tpl("mypage/sellAndBuy");
     } */
 
-    /*@GetMapping("/sellAndBuy")
-    public String viewSellAndBuy(Model model, HttpSession session) {
-        // 세션 : 이메일 가져옴
-        String email = (String) session.getAttribute("userEmail");
-
-        // 세션에 이메일 존재하는지 확인
-        if (email == null) {
-            // 비로그인 -> 로그인 페이지로 이동
-            return "redirect:/login";
-        }
-
-        // 이메일로 사용자 정보 조회
-        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-
-        // 판매 및 구매 내역 조회
-        List<SellRecord> sellRecords = sellRecordRepository.findByMember(member);
-        List<BuyRecord> buyRecords = buyRecordRepository.findByMember(member);
-
-        // 조회된 데이터 모델에 추가
-        model.addAttribute("sellRecords", sellRecords);
-        model.addAttribute("buyRecords", buyRecords);
-
-        return utils.tpl("mypage/sellAndBuy");
-    } */
-
-    @GetMapping("/sellAndBuy")
+/*    @GetMapping("/sellAndBuy")
     public String viewSellAndBuy(Model model, HttpSession session) {
         // 이메일을 세션에서 가져오기
         String email = (String) session.getAttribute("userEmail");
@@ -360,7 +348,7 @@ public class MyPageController {
         model.addAttribute("buyRecords", buyRecords);
 
         return utils.tpl("mypage/sellAndBuy");
-    }
+    } */
 
     /**
      * 마이 페이지 공통
@@ -370,40 +358,40 @@ public class MyPageController {
     private void commonProcess(String mode, Model model) {
         mode = Objects.requireNonNullElse(mode, "myhome"); // mode 변수가 null 인지 체크 -> mode 가 null 이면 "myhome" 문자열로 초기화 -> null 이 아니면 mode 는 원래의 값 유지
 
-        List<String> addCss = new ArrayList<>(); // 새로운 빈 ArrayList 객체 생성해 addCss 변수에 할당 -> addCss 리스트 = 이 메서드에서 사용될 CSS 파일 경로 저장
-        List<String> addCommonScript = new ArrayList<>(); // 새로운 빈 ArrayList 객체 생성해 addCommonScript 변수에 할당 -> addCommonScript 리스트 = 공통으로 사용될 스크립트 파일 경로 저장
-        List<String> addScript = new ArrayList<>(); // 새로운 빈 ArrayList 객체 생성해 addScript 변수에 할당 -> addScript 리스트 = 특정 페이지에서만 사용될 스크립트 파일 경로 저장
+        List<String> addCss = new ArrayList<>();
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
 
-        addCss.add("mypage/style"); // 마이 페이지 공통 스타일 적용
+        addCss.add("mypage/style"); // 마이 페이지 공통
         switch (mode) {
-            case "myhome":
-                addCss.add("mypage/myhome"); // 마이 페이지 홈
+            case "myhome": // 마이 페이지 홈
+                addCss.add("mypage/myhome");
                 break;
-            case "info":
-                addCss.add("mypage/info"); // 회원 정보 확인 페이지
+            case "info": // 회원 정보 확인 페이지
+                addCss.add("mypage/info");
                 break;
-            case "changeInfo":
+            case "changeInfo": // 회원 정보 수정 페이지
                 addCss.add("mypage/changeInfo");
-                addScript.add("mypage/changeInfo"); // 회원 정보 수정 페이지
+                addScript.add("mypage/changeInfo");
                 break;
-            case "profile":
+            case "profile": // 프로필 페이지
                 addCss.add("mypage/profile");
-                addScript.add("mypage/profile"); // 프로필 페이지
+                addScript.add("mypage/profile");
                 break;
-            case "like":
-                addCss.add("mypage/like"); // 찜 목록 페이지
+            case "like": // 찜 목록 페이지
+                addCss.add("mypage/like");
                 break;
-            case "post":
-                addCss.add("mypage/post"); // 글 목록 페이지
+            case "post": // 글 목록 페이지
+                addCss.add("mypage/post");
                 break;
-            case "sellAndBuy":
-                addCss.add("mypage/sellAndBuy"); // 판매 & 구매 내역 페이지
+            case "sellAndBuy": // 판매 & 구매 내역 페이지
+                addCss.add("mypage/sellAndBuy");
                 break;
         }
 
-        model.addAttribute("addCss", addCss); // addCss 리스트 -> "addCss"라는 이름으로 model 객체에 추가 | model 객체 = 컨트롤러와 뷰 사이의 데이터 전달하는 역할 | 뷰에서 "addCss"라는 이름 사용해 addCss 리스트 내용 접근
-        model.addAttribute("addCommonScript", addCommonScript); // addCommonScript 리스트 -> "addCommonScript"라는 이름으로 model 객체에 추가 | 뷰에서 "addCommonScript"라는 이름 사용해 addCommonScript 리스트 내용 접근
-        model.addAttribute("addScript", addScript); // addScript 리스트 -> "addScript"라는 이름으로 model 객체에 추가 | 뷰에서 "addScript"라는 이름 사용해 addScript 리스트 내용 접근
-        model.addAttribute("pageName", mode); // 현재 페이지 이름을 모델에 추가
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("addScript", addScript);
+        model.addAttribute("pageName", mode);
     }
 }
