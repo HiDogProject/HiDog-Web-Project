@@ -11,6 +11,8 @@ import java.util.UUID;
 public class RequestBoard {
     private String mode = "write"; // write : 글작성, update : 글 수정, reply : 답글(부모게시글, 자식게시글) // 글 작성을 많이 하니 write로 기본값 설정
     private Long seq; // 게시글 번호 - 게시글 수정 시 필요(선별적인 필수) // 선별적인 필수 -> 검증이 필요함 -> 밸리데이터 정의해야 함(BoardValidator)
+
+    @NotBlank
     private String bid; // 게시판 ID
     private String gid = UUID.randomUUID().toString();// UUID.randomUUID().toString(); : 글을 최초 작성할때는 랜덤으로 gid부여 // 수정때는 db에 있는 gid 가져오기
 

@@ -40,4 +40,5 @@ public class MemberInfoService implements UserDetailsService {
                 .member(member)
                 .build();
     }
+
 }

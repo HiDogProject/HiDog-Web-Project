@@ -1,4 +1,4 @@
-package org.hidog.mypage.entities;
+package org.hidog.mypage.controllers;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

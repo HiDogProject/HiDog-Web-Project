@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +45,7 @@ public class MemberController implements ExceptionProcessor {
 
         model.addAttribute("EmailAuthVerified", false);
         return utils.tpl("member/join");
+
     }
 
     @PostMapping("/join")
@@ -82,7 +82,9 @@ public class MemberController implements ExceptionProcessor {
                 return "redirect:" + utils.redirectUrl("/member/password/reset");
             }
         }
+
         return utils.tpl("member/login");
+
     }
 
 
@@ -106,6 +108,7 @@ public class MemberController implements ExceptionProcessor {
             addCss.add("member/join");
             addScript.add("member/join");
             addScript.add("member/joinAddress");
+            addScript.add("member/form");
             addScript.add("member/joinNickName");
 
         } else if (mode.equals("login")) {

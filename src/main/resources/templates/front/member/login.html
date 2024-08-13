@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{front/layouts/main}">
+
+<head>
+    <title>로그인</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
 <main layout:fragment="content">
     <h1 th:text="#{로그인}"></h1>
     <form name="frmLogin" method="post" th:action="${@utils.redirectUrl('/member/login')}" autocomplete="off" th:object="${requestLogin}">
@@ -27,6 +33,10 @@ layout:decorate="~{front/layouts/main}">
 
         <div class="error global" th:each="err: ${#fields.globalErrors()}" th:text="${err}"></div>
         <button type="submit" th:text="로그인"></button>
+        <div>
+        <a th:href="@{/member/find-username}" th:text="#{아이디_찾기}">Find Username</a>
+        <a th:href="@{/member/reset-password}" th:text="#{비밀번호_찾기}">Reset Password</a>
+        </div>
     </form>
 </main>
 </html>
