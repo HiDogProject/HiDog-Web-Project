@@ -26,7 +26,7 @@ public class TMapController {
 
     @GetMapping("/test")
     public String tmapTest(Model model) {
-
+        model.addAttribute("addCommonCss", List.of("tmap"));
         model.addAttribute("addCommonScript", List.of("tmap"));
         model.addAttribute("addScript", List.of("tmap/test"));
 
