@@ -5,11 +5,14 @@
     <h1>상단 영역</h1>
 
 
-    <a th:href="@{/}">
+    <a th:href="@{/app}">
         <button type="submit" th:text="#{메인화면}"></button>
     </a>
-    <a th:href="@{/map/main}">
+    <a th:href="@{app/map/main}">
         <button type="submit" th:text="#{맵}"></button>
+    </a>
+    <a th:href="${@utils.redirectUrl('/board/list' + bid)}">
+        <button type="submit" th:text="#{게시판}"></button>
     </a>
     <th:block sec:authorize="isAnonymous()">
         <a th:href="${@utils.redirectUrl('/member/login')}">
@@ -21,10 +24,10 @@
     </th:block>
     <th:block sec:authorize="isAuthenticated()">
         <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>
-        <a th:href="@{/member/logout'}">
+            <a th:href="${@utils.redirectUrl('/member/logout')}">
             <button type="submit" th:text="#{로그아웃}"></button>
         </a>
-        <a th:href="@{/mypage}">
+        <a th:href="@{app/mypage}">
             <button type="submit" th:text="#{마이페이지}"></button>
         </a>
         <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin}" target="_blank">
