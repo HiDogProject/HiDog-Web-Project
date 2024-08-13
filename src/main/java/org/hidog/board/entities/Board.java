@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hidog.file.entities.FileInfo;
 import org.hidog.global.entities.BaseMemberEntity;
+import org.hidog.member.constants.Authority;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
+@Entity // 게시판 설정은 조회만 필요, 게시판 설정1개가 게시판 한개
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,6 +25,7 @@ public class Board extends BaseMemberEntity {
     @Id
     @Column(length=30)
     private String bid; // 게시판 아이디
+    // 게시판id별로 게시글 구분
 
     @Column(length=65, nullable = false)
     private String gid = UUID.randomUUID().toString();
@@ -40,6 +43,7 @@ public class Board extends BaseMemberEntity {
 
     private int pageCountMobile = 5; // Mobile 페이지 구간 갯수
 
+    private boolean useReply; // 답글 사용 여부
 
     private boolean useComment; // 댓글 사용 여부
 
@@ -49,10 +53,17 @@ public class Board extends BaseMemberEntity {
 
     private boolean useUploadFile; // 파일 첨부 사용 여부
 
+    @Column(length=10, nullable = false)
+    private String locationAfterWriting = "list"; // 글 작성 후 이동 위치
+
+    private boolean showListBelowView; // 글 보기 하단 게시글 목록 노출 여부
+
+    @Column(length=10, nullable = false)
+    private String skin = "default"; // 스킨
+
     @Lob
     private String category; // 게시판 분류
 
-    /*
     @Enumerated(EnumType.STRING)
     @Column(length=20, nullable = false)
     private Authority listAccessType = Authority.ALL; // 권한 설정 - 글목록
@@ -67,9 +78,23 @@ public class Board extends BaseMemberEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(length=20, nullable = false)
-    private Authority commentAccessType = Authority.ALL; // 권한 설정 - 댓글
-     */
+    private Authority replyAccessType = Authority.ALL; // 권한 설정 - 답글
 
+    @Enumerated(EnumType.STRING)
+    @Column(length=20, nullable = false)
+    private Authority commentAccessType = Authority.ALL; // 권한 설정 - 댓글
+
+    @Lob
+    private String htmlTop; // 게시판 상단 HTML
+
+    @Lob
+    private String htmlBottom; // 게시판 하단 HTML
+
+    @Transient
+    private List<FileInfo> htmlTopImages; // 게시판 상단 Top 이미지
+
+    @Transient
+    private List<FileInfo> htmlBottomImages; // 게시판 하단 Bottom 이미지
 
     /**
      * 분류 List 형태로 변환
