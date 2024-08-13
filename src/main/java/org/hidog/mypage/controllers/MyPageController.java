@@ -9,9 +9,9 @@ import org.hidog.member.entities.Member;
 import org.hidog.member.exceptions.MemberNotFoundException;
 import org.hidog.member.repositories.MemberRepository;
 import org.hidog.member.services.MemberSaveService;
-import org.hidog.mypage.entities.Post;
-import org.hidog.mypage.entities.RequestProfile;
-import org.hidog.mypage.entities.WishList;
+import org.hidog.mypage.entities.*;
+import org.hidog.mypage.repositories.BuyRecordRepository;
+import org.hidog.mypage.repositories.SellRecordRepository;
 import org.hidog.mypage.services.PostService;
 import org.hidog.mypage.services.WishListService;
 import org.springframework.security.core.Authentication;
@@ -42,6 +42,8 @@ public class MyPageController {
     private final PostService postService;
     private final MemberSaveService memberSaveService;
     private final MemberRepository memberRepository;
+    private final SellRecordRepository sellRecordRepository;
+    private final BuyRecordRepository buyRecordRepository;
     private final Utils utils;
 
     @GetMapping("/myhome")
@@ -308,9 +310,54 @@ public class MyPageController {
     }
 
     // 마이 페이지 -> 판매 & 구매 내역 버튼 클릭 시 판매 & 구매 내역 페이지로 이동
-    @GetMapping("/sellAndBuy")
+    /*@GetMapping("/sellAndBuy")
     public String viewSellAndBuy(Model model) {
         commonProcess("sellAndBuy", model);
+        return utils.tpl("mypage/sellAndBuy");
+    } */
+
+    /*@GetMapping("/sellAndBuy")
+    public String viewSellAndBuy(Model model, HttpSession session) {
+        // 세션 : 이메일 가져옴
+        String email = (String) session.getAttribute("userEmail");
+
+        // 세션에 이메일 존재하는지 확인
+        if (email == null) {
+            // 비로그인 -> 로그인 페이지로 이동
+            return "redirect:/login";
+        }
+
+        // 이메일로 사용자 정보 조회
+        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
+        // 판매 및 구매 내역 조회
+        List<SellRecord> sellRecords = sellRecordRepository.findByMember(member);
+        List<BuyRecord> buyRecords = buyRecordRepository.findByMember(member);
+
+        // 조회된 데이터 모델에 추가
+        model.addAttribute("sellRecords", sellRecords);
+        model.addAttribute("buyRecords", buyRecords);
+
+        return utils.tpl("mypage/sellAndBuy");
+    } */
+
+    @GetMapping("/sellAndBuy")
+    public String viewSellAndBuy(Model model, HttpSession session) {
+        // 이메일을 세션에서 가져오기
+        String email = (String) session.getAttribute("userEmail");
+
+        // 이메일로 사용자 정보 조회
+        Member member = memberRepository.findByEmail(email)
+                .orElse(null); // 로그인하지 않은 사용자는 null 반환
+
+        // 로그인하지 않은 경우에도 빈 리스트를 반환합니다.
+        List<SellRecord> sellRecords = (member != null) ? sellRecordRepository.findByMember(member) : List.of();
+        List<BuyRecord> buyRecords = (member != null) ? buyRecordRepository.findByMember(member) : List.of();
+
+        // 조회된 데이터 모델에 추가
+        model.addAttribute("sellRecords", sellRecords);
+        model.addAttribute("buyRecords", buyRecords);
+
         return utils.tpl("mypage/sellAndBuy");
     }
 
