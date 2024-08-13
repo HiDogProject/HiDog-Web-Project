@@ -41,8 +41,6 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath password = createString("password");
 
-    public final SetPath<org.hidog.mypage.entities.SellRecord, org.hidog.mypage.entities.QSellRecord> sellRecords = this.<org.hidog.mypage.entities.SellRecord, org.hidog.mypage.entities.QSellRecord>createSet("sellRecords", org.hidog.mypage.entities.SellRecord.class, org.hidog.mypage.entities.QSellRecord.class, PathInits.DIRECT2);
-
     public final NumberPath<Long> seq = createNumber("seq", Long.class);
 
     public final StringPath userName = createString("userName");
