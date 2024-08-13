@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +86,8 @@ public class MemberController implements ExceptionProcessor {
         return utils.tpl("member/login");
 
     }
+
+
 
     /**
      * 회원 관련 컨트롤러 공통 처리
