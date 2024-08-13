@@ -46,10 +46,10 @@ public class MyPageController {
     private final BuyRecordRepository buyRecordRepository;
     private final Utils utils;
 
+    // 마이 페이지 기본 홈 (+ 프로필 이미지 저장 시 마이 페이지 홈으로 이동 경로)
     @GetMapping("/myhome")
     public String mypage(Model model, HttpSession session) {
-        // 세션에서 프로필 이미지 경로 가져와 모델에 추가
-        String profileImage = (String) session.getAttribute("profileImage");
+        String profileImage = (String) session.getAttribute("profileImage"); // 세션에서 프로필 이미지 경로 가져와 모델에 추가
 
         if (profileImage == null) {
             profileImage = "/images/default-profile.png"; // 기본 이미지 경로
@@ -68,6 +68,7 @@ public class MyPageController {
         return utils.tpl("mypage/info");
     }
 
+    // 마이 페이지 -> 회원 정보 수정 버튼 클릭 시 본인 인증 후 회원 정보 수정 페이지로 이동
     @GetMapping("/changeInfo")
     public String changeInfo(Model model, HttpSession session) {
         Boolean authenticated = (Boolean) session.getAttribute("authenticated");
