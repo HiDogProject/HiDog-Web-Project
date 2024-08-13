@@ -33,8 +33,7 @@ public class MemberUtil {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
-
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
             /*
             if (session.getAttribute("userInfoChanged") != null) { // 회원 정보를 변경한 경우

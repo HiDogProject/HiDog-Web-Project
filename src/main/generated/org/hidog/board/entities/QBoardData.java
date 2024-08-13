@@ -42,6 +42,8 @@ public class QBoardData extends EntityPathBase<BoardData> {
 
     public final StringPath gid = createString("gid");
 
+    public final StringPath guestPw = createString("guestPw");
+
     public final StringPath ip = createString("ip");
 
     public final NumberPath<Long> listOrder = createNumber("listOrder", Long.class);
