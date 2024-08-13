@@ -31,7 +31,7 @@ const tmapLib = {
 
             // 지도 클릭 이벤트
             this.map.addListener('click', (e) => {
-                const opt = { position: e.latLng, map: this.map, icon: "" };
+                const opt = { position: e.latLng, map: this.map, icon: "", iconSize: null };
 
                 if (this.currentAction === 'start') { // 출발지 선택
                     if (this.departure != null) {
@@ -40,6 +40,8 @@ const tmapLib = {
                     }
                     this.departure = e.latLng;
                     this.arrival =e.latLng;
+                    opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg'
+                    opt.iconSize = new Tmapv2.Size(50, 50);
                     const marker = new Tmapv2.Marker(opt);
                     this.markers.push(marker);
                     this.currentAction = null;
@@ -51,6 +53,8 @@ const tmapLib = {
                         return;
                     }
                     this.via.push(e.latLng);
+                    opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f6a9.svg'
+                    opt.iconSize = new Tmapv2.Size(50,50);
                     const marker = new Tmapv2.Marker(opt);
                     this.markers.push(marker);
                     this.currentAction = null;
