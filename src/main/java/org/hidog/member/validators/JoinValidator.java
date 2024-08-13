@@ -38,7 +38,7 @@ public class JoinValidator implements Validator, PasswordValidator {
         String userName = form.getUserName();
 
         //1. 이미 가입된 회원인지 체크
-        if (memberRepository.exists(email)) {
+        if (memberRepository.existsByEmail(email)) {
             errors.rejectValue("email", "Duplicated");
         }
 

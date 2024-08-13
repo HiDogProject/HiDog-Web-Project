@@ -2,7 +2,6 @@ package org.hidog.board.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.MemberUtils;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.services.BoardInfoService;
@@ -12,7 +11,6 @@ import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
-import org.hidog.member.entities.Member;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -47,7 +45,9 @@ public class BoardController {
      * @return
      */
     @GetMapping("/list/{bid}")
-    public String list() {
+    public String list(@PathVariable("bid") String bid, Model model) {
+        commonProcess(bid, "list", model);
+
 
 
         return utils.tpl("board/list");
@@ -61,7 +61,8 @@ public class BoardController {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view() {
+    public String view(@PathVariable("seq") Long seq, Model model) {
+        commonProcess(seq, "view", model);
 
         return utils.tpl("board/view");
     }
@@ -100,6 +101,7 @@ public class BoardController {
         commonProcess(seq, "update", model);
 
         RequestBoard form = boardInfoService.getForm(boardData);
+        System.out.println("form:" + form);
         model.addAttribute("requestBoard", form);
 
 
@@ -138,7 +140,7 @@ public class BoardController {
         BoardData boardData = boardSaveService.save(form);
 
 
-        return utils.tpl(("board/view/" + boardData.getSeq()));
+        return "redirect:" + utils.redirectUrl("/board/list/" + bid);
     }
 
 
@@ -152,7 +154,8 @@ public class BoardController {
     @GetMapping("/delete/{seq}")
     public String delete() {
 
-        return "redirect:/front//board/list/" + board.getBid();
+        //return "redirect://front/board/list/" + board.getBid();
+        return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
 
 
@@ -198,12 +201,14 @@ public class BoardController {
             }
              */
 
-            /*
+
             // 이미지 또는 파일 첨부를 사용하는 경우
-            if (board.isUseUploadImage() || board.isUseUploadFile()) {
+
+            //if (board.isUseUploadImage() || board.isUseUploadFile()) {
                 addCommonScript.add("fileManager");
-            }
-             */
+            //}
+
+
 
             //addScript.add("board/form");
 
