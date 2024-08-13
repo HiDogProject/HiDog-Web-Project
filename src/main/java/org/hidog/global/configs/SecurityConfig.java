@@ -50,7 +50,7 @@ public class SecurityConfig {
                         HttpSession session = req.getSession();
                         session.removeAttribute("device");
 
-                        res.sendRedirect(req.getContextPath() + "/member/login");
+                        res.sendRedirect(req.getContextPath() + utils.redirectUrl("/member/login"));
                     });
         });
         /* 로그인, 로그아웃 E */
