@@ -12,8 +12,8 @@ const tmapLib = {
 
     // 지도 로딩 및 초기화
     load(mapId, width, height, zoom) {
-        this.width = width ?? '100%';
-        this.height = height ?? '400px';
+        this.width = width ?? '80%';
+        this.height = height ?? '600px';
         this.zoom = zoom || 17;
 
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -70,7 +70,7 @@ const tmapLib = {
         }
         const { ajaxLoad } = commonLib;
 
-// 경유지 좌표를 passList 형식으로 변환
+        // 경유지 좌표를 passList 형식으로 변환
         const passList = this.via.map(point => `${point.lng()},${point.lat()}`).join('_');
 
 
