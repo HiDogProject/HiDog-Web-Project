@@ -1,7 +1,7 @@
 package org.hidog.mypage.validators;
 
 import org.hidog.global.validators.PasswordValidator;
-import org.hidog.mypage.entities.RequestProfile;
+import org.hidog.mypage.controllers.RequestProfile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;

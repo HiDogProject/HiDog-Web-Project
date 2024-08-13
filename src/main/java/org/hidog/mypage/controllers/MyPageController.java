@@ -10,7 +10,6 @@ import org.hidog.member.exceptions.MemberNotFoundException;
 import org.hidog.member.repositories.MemberRepository;
 import org.hidog.member.services.MemberSaveService;
 import org.hidog.mypage.entities.Post;
-import org.hidog.mypage.entities.RequestProfile;
 import org.hidog.mypage.entities.WishList;
 import org.hidog.mypage.services.PostService;
 import org.hidog.mypage.services.WishListService;

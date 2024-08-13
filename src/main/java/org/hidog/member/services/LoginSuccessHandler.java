@@ -28,5 +28,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 
         response.sendRedirect(utils.redirectUrl(redirectUrl));
+       // response.sendRedirect(request.getContextPath() + redirectUrl);
     }
 }
