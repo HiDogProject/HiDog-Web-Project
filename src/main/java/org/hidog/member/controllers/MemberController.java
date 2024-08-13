@@ -6,16 +6,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.member.services.MemberSaveService;
+import org.hidog.member.services.MemberService;
 import org.hidog.member.validators.JoinValidator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 
 @Slf4j
@@ -27,6 +31,7 @@ public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
     private final MemberSaveService memberSaveService;
+    private final MemberService memberService;
     private final Utils utils;
 
 
@@ -39,7 +44,7 @@ public class MemberController implements ExceptionProcessor {
     public String join(@ModelAttribute RequestJoin form, Model model) {
         commonProcess("join", model);
 
-
+        model.addAttribute("EmailAuthVerified", false);
         return utils.tpl("member/join");
     }
 
@@ -50,6 +55,7 @@ public class MemberController implements ExceptionProcessor {
         joinValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
+            model.addAttribute(form);
             return utils.tpl("member/join");
         }
 
@@ -58,8 +64,14 @@ public class MemberController implements ExceptionProcessor {
         return "redirect:" + utils.redirectUrl("/member/login");
     }
 
+    @GetMapping("/join/check-username")
+    public ResponseEntity<Boolean> checkUserName(@RequestParam("userName") String userName) {
+        boolean exists = memberService.existsByUserName(userName);
+        return ResponseEntity.ok(exists); // exists가 true이면 중복, false이면 사용 가능
+    }
+
     @GetMapping("/login")
-    public String login(@Valid @ModelAttribute RequestLogin form, Errors errors, Model model) {
+    public String login(@ModelAttribute RequestLogin form, Errors errors, Model model) {
         commonProcess("login", model);
 
         String code = form.getCode();
@@ -70,10 +82,10 @@ public class MemberController implements ExceptionProcessor {
                 return "redirect:" + utils.redirectUrl("/member/password/reset");
             }
         }
-
         return utils.tpl("member/login");
-
     }
+
+
 
     /**
      * 회원 관련 컨트롤러 공통 처리
@@ -94,7 +106,7 @@ public class MemberController implements ExceptionProcessor {
             addCss.add("member/join");
             addScript.add("member/join");
             addScript.add("member/joinAddress");
-
+            addScript.add("member/joinNickName");
 
         } else if (mode.equals("login")) {
             addCss.add("member/login");
