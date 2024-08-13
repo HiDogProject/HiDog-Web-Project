@@ -6,6 +6,7 @@ import org.hidog.board.controllers.RequestBoard;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
+import org.hidog.board.exceptions.BoardNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.board.repositories.BoardRepository;
 import org.hidog.file.services.FileUploadService;
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
-@Transactional
+@Transactional // 게시판 설정 // 엔티티 영속성상태를 계속 보장하기 위해 넣어줌
 @RequiredArgsConstructor
 public class BoardSaveService {
 
@@ -33,6 +34,8 @@ public class BoardSaveService {
         mode = StringUtils.hasText(mode) ? mode.trim() : "write"; // requestBoard 에서 이미 write 기본값 했는데 왜 해? // 커맨드객체에서 값을 넘겨줄 때 빈값으로 넘겨줄 때도 있다...?
 
         Long seq = form.getSeq();
+        String gid = form.getGid();
+        BoardData data = null;
 
         /*
         // 수정 권한 체크
@@ -41,28 +44,31 @@ public class BoardSaveService {
         }
          */
 
-        BoardData data = null;
         if (seq != null && mode.equals("update")) { // 글 수정
             data = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
-            System.out.println("1");
         } else { // 글 작성
-            data = new BoardData();
-            data.setGid(form.getGid());
-            data.setIp(request.getRemoteAddr());
-            data.setUa(request.getHeader("User-Agent"));
-            data.setMember(memberUtil.getMember());
-            System.out.println("2");
+           String bid = form.getBid();
+           Board board = boardRepository.findById(bid).orElseThrow(BoardNotFoundException::new);
 
-            Board board = boardRepository.findById(form.getBid()).orElse(null);
-            data.setBoard(board);
+           data= BoardData.builder()
+                   .gid(gid)
+                   .board(board)
+                   .member(memberUtil.getMember())
+                   .ip(request.getRemoteAddr())
+                   .ua(request.getHeader("User-Agent"))
+                   .build();
         }
+
+
+        /* 글 작성, 글 수정 공통 S */
 
         data.setPoster(form.getPoster()); // 작성자
         data.setSubject(form.getSubject()); // 게시글 제목
         data.setContent(form.getContent()); // 게시글 내용
         data.setCategory(form.getCategory()); // 게시판 분류
-        //data.setEditorView(data.getBoard().isUseEditor());
+        data.setEditorView(data.getBoard().isUseEditor());
 
+        /* 글 작성, 글 수정 공통 E */
 
         boardDataRepository.saveAndFlush(data);
 
