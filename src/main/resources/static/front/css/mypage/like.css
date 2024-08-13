@@ -54,11 +54,6 @@ h1 {
     text-decoration: underline; /* 링크에 커서 올렸을 때 밑줄 표시 */
 }
 
-.cancel-link {
-    color: #dc3545; /* 취소 링크 색상 */
-    font-weight: bold; /* 취소 링크 폰트 굵기 설정 */
-}
-
 /* 버튼 컨테이너 설정 */
 .button-container {
     display: flex;
