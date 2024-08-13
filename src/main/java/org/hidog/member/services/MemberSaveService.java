@@ -29,12 +29,6 @@ public class MemberSaveService {
     private final MemberUtil memberUtil;
     private final HttpSession session;
 
-    // 회원 정보 수정 시 본인인증 -> 비밀번호
-    public boolean checkPassword(String email, String rawPassword) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-        return passwordEncoder.matches(rawPassword, member.getPassword());
-    }
-
     /**
      * 회원 가입 처리
      * @param form 회원 가입 폼
