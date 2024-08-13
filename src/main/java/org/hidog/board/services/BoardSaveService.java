@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.hidog.board.controllers.RequestBoard;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
+import org.hidog.board.exceptions.BoardDataNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.board.repositories.BoardRepository;
 import org.hidog.file.services.FileUploadService;
@@ -26,9 +27,10 @@ public class BoardSaveService {
     private final HttpServletRequest request;
 
     public BoardData save(RequestBoard form) {
+        // 반환값 BoardData : 게시글 작성 이후 이동하려면 게시글 정보가 필요함 (게시글번호 or 게시판아이디)
 
         String mode = form.getMode();
-        mode = StringUtils.hasText(mode) ? mode : "write";
+        mode = StringUtils.hasText(mode) ? mode.trim() : "write"; // requestBoard 에서 이미 write 기본값 했는데 왜 해? // 커맨드객체에서 값을 넘겨줄 때 빈값으로 넘겨줄 때도 있다...?
 
         Long seq = form.getSeq();
 

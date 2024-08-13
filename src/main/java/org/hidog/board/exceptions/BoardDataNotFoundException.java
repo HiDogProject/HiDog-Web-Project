@@ -1,4 +1,4 @@
-package org.hidog.board.services;
+package org.hidog.board.exceptions;
 
 import org.hidog.global.exceptions.script.AlertBackException;
 import org.springframework.http.HttpStatus;
