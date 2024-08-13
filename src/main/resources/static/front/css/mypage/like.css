@@ -40,7 +40,7 @@ h1 {
 }
 
 .wishlist-table th {
-    background-color: #f1f1f1; /* 헤더 셀 배경색 */
+    background-color: #96AED0; /* 헤더 셀 배경색 */
     font-weight: bold; /* 헤더 셀 폰트 굵기 설정 */
     text-align: center; /* 헤더 텍스트 중앙 정렬 */
 }
@@ -52,11 +52,6 @@ h1 {
 
 .wishlist-table td a:hover {
     text-decoration: underline; /* 링크에 커서 올렸을 때 밑줄 표시 */
-}
-
-.cancel-link {
-    color: #dc3545; /* 취소 링크 색상 */
-    font-weight: bold; /* 취소 링크 폰트 굵기 설정 */
 }
 
 /* 버튼 컨테이너 설정 */
