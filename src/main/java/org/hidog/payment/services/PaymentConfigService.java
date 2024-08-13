@@ -1,4 +1,4 @@
-package org.hidog.order.services;
+package org.hidog.payment.services;
 
 import lombok.RequiredArgsConstructor;
 import org.hidog.config.services.ConfigInfoService;

@@ -1,4 +1,4 @@
-package org.hidog.order.controllers;
+package org.hidog.payment.controllers;
 
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.springframework.stereotype.Controller;
@@ -13,8 +13,9 @@ public class PaymentController implements ExceptionProcessor {
 
     @ResponseBody
     @PostMapping("/process")
-    public void process() {
-        System.out.println("process");
+    public void process(PayAuthResult result) {
+
+        System.out.println(result);
     }
 
     @RequestMapping("/close")

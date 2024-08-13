@@ -1,4 +1,4 @@
-package org.hidog.order.constants;
+package org.hidog.payment.constants;
 
 import java.util.List;
 

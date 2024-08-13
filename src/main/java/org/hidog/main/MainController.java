@@ -1,8 +1,8 @@
 package org.hidog.main;
 
 import lombok.RequiredArgsConstructor;
-import org.hidog.order.services.PaymentConfig;
-import org.hidog.order.services.PaymentConfigService;
+import org.hidog.payment.services.PaymentConfig;
+import org.hidog.payment.services.PaymentConfigService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,9 @@ public class MainController {
         int price = 100;
 
         PaymentConfig config = configService.get(oid, price);
+
         System.out.println(config);
+
         model.addAttribute("config", config);
         model.addAttribute("oid", oid);
         model.addAttribute("price", price);
