@@ -15,7 +15,7 @@ public class EmailVerifyService {
     private final HttpSession session;
 
     public boolean sendCode(String email) {
-        int authNum = (int)(Math.random() * 99999);
+        int authNum = (int)(Math.random() * 900000) + 100000;
 
         session.setAttribute("EmailAuthNum", authNum);
         session.setAttribute("EmailAuthStart", System.currentTimeMillis());
