@@ -31,7 +31,7 @@ const tmapLib = {
 
             // 지도 클릭 이벤트
             this.map.addListener('click', (e) => {
-                const opt = { position: e.latLng, map: this.map, icon : markerImg,};
+                const opt = { position: e.latLng, map: this.map, icon: "" };
 
                 if (this.currentAction === 'start') { // 출발지 선택
                     if (this.departure != null) {
@@ -39,23 +39,13 @@ const tmapLib = {
                         return;
                     }
                     this.departure = e.latLng;
+                    this.arrival =e.latLng;
                     const marker = new Tmapv2.Marker(opt);
                     this.markers.push(marker);
                     this.currentAction = null;
                     console.log('출발지:', e.latLng);
 
-                } else if (this.currentAction === 'end') { // 도착지 선택
-                    if (this.arrival != null) {
-                        alert("도착지는 1개까지 입력이 가능합니다.");
-                        return;
-                    }
-                    this.arrival = e.latLng;
-                    const marker = new Tmapv2.Marker(opt);
-                    this.markers.push(marker);
-                    this.currentAction = null;
-                    console.log('도착지:', e.latLng);
-
-                } else if (this.currentAction === 'via') { // 경유지 추가
+                }  else if (this.currentAction === 'via') { // 경유지 추가
                     if (this.via.length > 5) {
                         alert("경유지는 최대 5개까지 선택할 수 있습니다.");
                         return;

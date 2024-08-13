@@ -5,9 +5,6 @@ window.addEventListener("DOMContentLoaded", function() {
    const startEl = document.getElementById("start");
    startEl.addEventListener("click", () => tmapLib.currentAction = 'start');
 
-   const endEl = document.getElementById("end");
-   endEl.addEventListener("click", () => tmapLib.currentAction = 'end');
-
    const viasEl = document.getElementById("vias");
    viasEl.addEventListener("click", () => tmapLib.currentAction = 'via');
 
