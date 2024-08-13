@@ -3,11 +3,9 @@ package org.hidog.member.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hidog.global.entities.BaseEntity;
-import org.hidog.mypage.entities.SellRecord;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -35,7 +33,4 @@ public class Member extends BaseEntity implements Serializable {
     @ToString.Exclude
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;
-
-    @OneToMany(mappedBy = "member")
-    private Set<SellRecord> sellRecords;
 }
