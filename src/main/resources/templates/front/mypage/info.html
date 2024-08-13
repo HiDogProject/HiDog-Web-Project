@@ -15,19 +15,19 @@
                 <div class="info-box">
                     <div class="info-row">
                         <label>닉네임 : </label>
-                        <span>인간</span> <!-- 예시 데이터 -->
+                        <span th:text="${profile.userName}"></span>
                     </div>
                     <div class="info-row">
                         <label>이메일 : </label>
-                        <span>user01@test.org</span> <!-- 예시 데이터 -->
+                        <span th:text="${profile.email}"></span>
                     </div>
                     <div class="info-row">
                         <label>비밀번호 : </label>
-                        <span>aA12345!</span> <!-- 예시 데이터 -->
+                        <span th:text="${profile.password}">********</span>
                     </div>
                     <div class="info-row">
                         <label>주소 : </label>
-                        <span>서울특별시 마포구 신촌로 176</span> <!-- 예시 데이터 -->
+                        <span th:text="${profile.address}"></span>
                     </div>
                 </div>
             </div>
