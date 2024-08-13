@@ -50,7 +50,7 @@ public class SecurityConfig {
                         HttpSession session = req.getSession();
                         session.removeAttribute("device");
 
-                        res.sendRedirect(req.getContextPath() + "/member/login");
+                        res.sendRedirect(req.getContextPath() + utils.redirectUrl("/member/login"));
                     });
         });
         /* 로그인, 로그아웃 E */
@@ -60,7 +60,7 @@ public class SecurityConfig {
                     .anyRequest().permitAll();
         });
         http.exceptionHandling(c -> {
-            c.authenticationEntryPoint(new MemberAuthenticationEntryPoint())//예외 가
+            c.authenticationEntryPoint(new MemberAuthenticationEntryPoint())//예외
                     .accessDeniedHandler((req, res, e) -> {
                         res.sendError(HttpStatus.UNAUTHORIZED.value());
                     });
