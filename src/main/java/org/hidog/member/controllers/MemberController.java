@@ -26,7 +26,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes({"requestLogin", "EmailAuthVerified"})
+@SessionAttributes("EmailAuthVerified")
 public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
