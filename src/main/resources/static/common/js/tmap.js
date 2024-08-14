@@ -31,7 +31,7 @@ const tmapLib = {
 
             // 지도 클릭 이벤트
             this.map.addListener('click', (e) => {
-                const opt = { position: e.latLng, map: this.map, icon: "" };
+                const opt = { position: e.latLng, map: this.map, icon: "", iconSize: null };
 
                 if (this.currentAction === 'start') { // 출발지 선택
                     if (this.departure != null) {
@@ -40,10 +40,27 @@ const tmapLib = {
                     }
                     this.departure = e.latLng;
                     this.arrival =e.latLng;
-                    const marker = new Tmapv2.Marker(opt);
-                    this.markers.push(marker);
+                    opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg'
+                    opt.iconSize = new Tmapv2.Size(50, 50);
+                    const startMarker = new Tmapv2.Marker(opt);
+                    this.markers.push(startMarker);
                     this.currentAction = null;
                     console.log('출발지:', e.latLng);
+
+                    let clickable = true;
+
+                    // 마커 클릭 시 경로 숨기기
+                    startMarker.addListener('click', () => {
+                        if (clickable) {
+                        this.hideRoute();
+                        clickable = false;
+                        console.log("숨김")
+                    } else {
+                        this.showRoute();
+                        clickable = true;
+                        console.log("노출")
+                        }
+                    });
 
                 }  else if (this.currentAction === 'via') { // 경유지 추가
                     if (this.via.length > 5) {
@@ -51,6 +68,8 @@ const tmapLib = {
                         return;
                     }
                     this.via.push(e.latLng);
+                    opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f6a9.svg'
+                    opt.iconSize = new Tmapv2.Size(50,50);
                     const marker = new Tmapv2.Marker(opt);
                     this.markers.push(marker);
                     this.currentAction = null;
@@ -119,6 +138,7 @@ const tmapLib = {
 
             this.drawLine(drawInfoArr);
 
+
         } catch (err) {
         }
     },
@@ -127,11 +147,21 @@ const tmapLib = {
     drawLine(arrPoint) {
         const polyline_ = new Tmapv2.Polyline({
             path: arrPoint,
-            strokeColor: '#DD0000', // 경로 선 색상
+            strokeColor: '#ff0090', // 경로 선 색상
             strokeWeight: 6, // 두께
             map: this.map
         });
         this.resultDrawArr.push(polyline_);
+    },
+
+    // 경로 숨기기
+    hideRoute() {
+        this.resultDrawArr.forEach(d => d.setMap(null));
+    },
+
+    // 경로 표시 하기
+    showRoute() {
+        this.resultDrawArr.forEach(d => d.setMap(this.map));
     },
 
     // 초기화
@@ -140,6 +170,7 @@ const tmapLib = {
         this.via = []; // 경유점 초기화
         this.markers.forEach(m => m.setMap(null));
         this.resultDrawArr.forEach(d => d.setMap(null));
-        this.markers = this.resultDrawArr = [];
+        this.markers = [];
+        this.resultDrawArr = [];
     }
 };
