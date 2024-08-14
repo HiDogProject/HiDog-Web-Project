@@ -15,6 +15,6 @@ public class MemberService {
     }
 
     public void updateMember(Member member) {
-        memberRepository.save(member); // 또는 필요한 업데이트 로직 구현
+        memberRepository.save(member);
     }
 }

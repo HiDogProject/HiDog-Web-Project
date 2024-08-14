@@ -53,13 +53,15 @@ public class MyPageController {
         } else { // 로그인 하지 않은 경우
             model.addAttribute("errorMessage", "로그인 후 이용할 수 있습니다!");
         }
+
         return utils.tpl("mypage/info");
     }
 
+    // 회원 정보 확인 페이지 -> 회원 정보 수정 페이지 이동
     @GetMapping("/changeInfo")
     public String changeInfoPage(Model model) {
         if (!memberUtil.isLogin()) {
-            return "redirect:/mypage/myhome"; // 로그인하지 않은 경우 마이 페이지로 이동
+            return "redirect:" + utils.redirectUrl("mypage/myhome"); // 로그인하지 않은 경우 마이 페이지로 이동
         }
 
         Member member = memberUtil.getMember();
@@ -69,11 +71,13 @@ public class MyPageController {
         return utils.tpl("mypage/changeInfo"); // 템플릿 경로
     }
 
+    // 회원 정보 수정 페이지
     @PostMapping("/changeInfo")
     public String changeInfo(@RequestParam String userName, @RequestParam String password, @RequestParam String address, Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 회원 정보 수정할 수 있도록
         if (!memberUtil.isLogin()) {
-            return "redirect:/mypage/myhome";
+            return "redirect:" + utils.redirectUrl("mypage/myhome");
         }
+
         Member member = memberUtil.getMember();
         member.setUserName(userName);
         member.setPassword(password);
@@ -86,194 +90,42 @@ public class MyPageController {
         return utils.tpl("mypage/changeInfo");
     }
 
+    // 프로필 페이지
     @GetMapping("/profile")
     public String profile(Model model) { // 프로필 이미지 페이지 오픈
         commonProcess("profile", model);
         return utils.tpl("mypage/profile");
     }
 
+    // 프로필 이미지 클릭 -> 수정
     @PostMapping("/profile")
     public String updateProfileImage(MultipartFile profileImage) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 프로필 이미지 수정할 수 있도록
         return "redirect:" + utils.redirectUrl("mypage/myhome");
     }
 
+    // 찜 목록 페이지
     @GetMapping("/like")
     public String like(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인이 찜한 목록 확인할 수 있도록
         commonProcess("like", model);
         return utils.tpl("mypage/like");
     }
 
+    // 게시글 페이지
     @GetMapping("/post")
     public String post(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인이 쓴 게시글 확인할 수 있도록
         commonProcess("post", model);
         return utils.tpl("mypage/post");
     }
 
+    // 판매 내역 & 구매 내역 페이지
     @GetMapping("/sellAndBuy")
     public String sellAndBuy(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인의 판매 & 구매 내역 확인할 수 있도록
         commonProcess("sellAndBuy", model);
         return utils.tpl("mypage/sellAndBuy");
     }
 
-/*  private final FileProperties properties;
-    private final WishListService wishListService;
-    private final PostService postService;
-    private final MyPageService myPageService;
-    private final MemberRepository memberRepository;
-    private final SellRecordRepository sellRecordRepository;
-    private final BuyRecordRepository buyRecordRepository;
-    private final Utils utils;
-
-    // 마이 페이지 기본 홈 (+ 프로필 이미지 저장 시 마이 페이지 홈으로 이동 경로)
-    @GetMapping("/myhome")
-    public String mypage(Model model, HttpSession session) {
-        String profileImage = (String) session.getAttribute("profileImage");
-
-        if (profileImage == null) {
-            profileImage = "/images/default-profile.png"; // 기본 이미지 경로
-        }
-        model.addAttribute("profileImage", profileImage);
-
-        commonProcess("myhome", model);
-
-        return utils.tpl("mypage/myhome");
-    }
-
-    // 마이 페이지 -> 회원 정보 확인 버튼 클릭 시 회원 정보 페이지로 이동
-    @GetMapping("/info")
-    public String viewMemberInfo(HttpSession session, Model model) {
-        String email = (String) session.getAttribute("userEmail");
-
-        if (email != null) {
-            Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-
-            RequestProfile profile = new RequestProfile();
-            profile.setUserName(member.getUserName());
-            profile.setEmail(member.getEmail());
-            profile.setAddress(member.getAddress());
-            profile.setPassword("********");
-
-            model.addAttribute("profile", profile);
-            return utils.tpl("mypage/info");
-        } else {
-            return "redirect:" + utils.redirectUrl("/member/login");
-        }
-    }
-
-    // 마이 페이지 -> 회원 정보 수정 버튼 클릭 시 본인 인증 후 회원 정보 수정 페이지로 이동
-    @GetMapping("/changeInfo")
-    public String changeInfo(Model model, HttpSession session) {
-        // 세션에서 인증 상태 확인
-        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
-        model.addAttribute("authenticated", authenticated != null && authenticated);
-
-        // 인증된 경우, 프로필 객체를 모델에 추가
-        if (authenticated != null && authenticated) {
-            String email = (String) session.getAttribute("userEmail");
-            // 디버깅 로그 추가
-            System.out.println("Session email in GET /changeInfo: " + email);
-            if (email != null) {
-                Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-                RequestProfile profile = new RequestProfile();
-                profile.setUserName(member.getUserName());
-                profile.setEmail(member.getEmail());
-                profile.setAddress(member.getAddress());
-                model.addAttribute("profile", profile);
-            } else {
-                model.addAttribute("error", "이메일을 찾을 수 없습니다.");
-            }
-        }
-        return utils.tpl("mypage/changeInfo");
-    }
-
-    @PostMapping("/changeInfo")
-    public String changeInfo(@RequestParam(value = "password", required = false) String password,
-                             @Valid @ModelAttribute("profile") RequestProfile form,
-                             Errors errors, HttpSession session, Model model) {
-
-        // 세션에서 인증 상태 확인
-        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
-        String email = (String) session.getAttribute("userEmail");
-
-        if (password != null) {
-            if (email == null) {
-                model.addAttribute("error", "사용자 정보가 세션에 없습니다.");
-                return utils.tpl("mypage/changeInfo");
-            }
-
-            // 비밀번호 확인
-            boolean isPasswordCorrect = myPageService.checkPassword(email, password);
-
-            if (isPasswordCorrect) {
-                session.setAttribute("authenticated", true);
-                authenticated = true;
-            } else {
-                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-                return utils.tpl("mypage/changeInfo");
-            }
-        }
-
-        if (authenticated != null && authenticated) {
-            if (errors.hasErrors()) {
-                return utils.tpl("mypage/changeInfo");
-            }
-
-            // 회원 정보 수정
-            myPageService.updateMemberInfo(email, form);
-            session.setAttribute("userInfoChanged", true);
-            return "redirect:" + utils.redirectUrl("/mypage/myhome");
-        }
-
-        model.addAttribute("authenticated", false);
-        return utils.tpl("mypage/changeInfo");
-    }
-
-    /*@PostMapping("/changeInfo")
-    public String changeInfo(@RequestParam(value = "password", required = false) String password,
-                             @Valid @ModelAttribute("profile") RequestProfile form,
-                             Errors errors, HttpSession session, Model model) {
-
-        // 세션에서 인증 상태 확인
-        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
-
-        // 디버깅 로그 추가
-        String email = (String) session.getAttribute("userEmail");
-        System.out.println("Session email in POST /changeInfo: " + email);
-
-        if (password != null) {
-            if (email == null) {
-                model.addAttribute("error", "사용자 정보가 세션에 없습니다.");
-                return utils.tpl("mypage/changeInfo");
-            }
-
-            // 비밀번호 확인
-            boolean isPasswordCorrect = myPageService.checkPassword(email, password);
-
-            if (isPasswordCorrect) {
-                session.setAttribute("authenticated", true);
-                authenticated = true;
-            } else {
-                model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-            }
-        }
-
-        if (authenticated != null && authenticated) {
-            if (errors.hasErrors()) {
-                return utils.tpl("mypage/changeInfo");
-            }
-
-            // 회원 정보 수정
-            myPageService.save(form);
-            session.setAttribute("userInfoChanged", true);
-            return "redirect:" + utils.redirectUrl("/mypage/myhome");
-        }
-
-        model.addAttribute("authenticated", false);
-        return utils.tpl("mypage/changeInfo");
-    } */
-
-    // 마이 페이지 -> 프로필 클릭 시 이미지 변경 창이 팝업으로 생성
-/*    @GetMapping("/profile")
+/* // 마이 페이지 -> 프로필 클릭 시 이미지 변경 창이 팝업으로 생성
+    @GetMapping("/profile")
     public String changeProfileImage(Model model) {
         commonProcess("profile", model);
         return utils.tpl("mypage/profile");
