@@ -1,46 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
-    <main layout:fragment="content">
-        <head>
-            <title>프로필</title>
-            <link th:href="@{/front/css/mypage/profile.css}" rel="stylesheet">
-        </head>
-        <body>
-            <h1>프로필 이미지 변경</h1>
-            <img id="currentProfileImage" th:src="${session.profileImage ?: '/images/default-profile.png'}"
-                     alt="프로필" onclick="openPopup()">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>프로필</title>
+        <link rel="stylesheet" th:href="@{/front/css/mypage/profile.css}">
+    </head>
+    <body>
+        <main layout:fragment="content">
+            <div class="container">
+                <h1>프로필 이미지 변경</h1>
 
-            <!-- 팝업 창 -->
-            <div id="popup" class="popup" style="display:none;">
-                <div class="popup-content">
-                    <form th:action="${@utils.url('/mypage/profile')}" method="post" enctype="multipart/form-data">
-                        <div class="file-input-wrapper">
+                <!-- 프로필 이미지 표시 -->
+                <div class="profile-container">
+                    <img id="profileImage" th:src="@{${fileUploadUrl}${member.profileImage}}" alt="Profile Image" class="profile-image">
+                    <button id="editProfileImageBtn" class="button">프로필 이미지 수정</button>
+                </div>
+
+                <!-- 프로필 수정 팝업 창 -->
+                <div id="profileImageModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>프로필 이미지 수정</h2>
+                        <form id="profileImageForm" action="/mypage/profile" method="POST" enctype="multipart/form-data">
                             <input type="file" name="profileImage" accept="image/*" required>
-                            <button type="button" onclick="document.querySelector('input[type=file]').click();">파일 선택</button>
-                        </div>
-                        <span class="close" onclick="closePopup()">&times;</span>
-                        <button type="submit">저장</button>
-                    </form>
+                            <button type="submit" class="button">저장하기</button>
+                        </form>
+                        <div id="message"></div>
+                    </div>
                 </div>
             </div>
-
-            <script>
-                function openPopup() {
-                    document.getElementById("popup").style.display = "block";
-                }
-
-                function closePopup() {
-                    document.getElementById("popup").style.display = "none";
-                }
-            </script>
-
-            <!-- 마이 페이지 버튼을 중앙에 배치 -->
-            <div class="button-container">
-                <a th:href="${@utils.url('/mypage/myhome')}">
-                   <button type="button" class="btn" th:text="#{마이_페이지}"></button>
-                </a>
-            </div>
-        </body>
-    </main>
+            <script src="/js/mypage/profile.js"></script>
+        </main>
+    </body>
 </html>
