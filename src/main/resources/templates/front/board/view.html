@@ -3,44 +3,20 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <th:block th:object="${boardData}">
-        <div class="subject">
-            <th:block th:text="*{subject}"></th:block>
-        </div>
-        <div class="post_info">
-            <div class="left">
-                <span>
-                    <th:block th:text="#{작성자}"></th:block> :
-                    <th:block th:text="*{poster}"></th:block>
-                    <th:block th:if="*{member != null}" th:text="*{'(' + member.email + ')'}"></th:block>
-                </span>
+    <th:block th:if="${board.skin == null || board.skin == 'default'}">
+        <th:block th:replace="~{front/board/skins/default/view::default}"></th:block>
+    </th:block>
 
-                <span>
-                    <th:block th:text="#{조회수}"></th:block> :
-                    <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
-                </span>
-            </div>
+    <th:block th:if="${board.skin == 'fleamarket'}">
+        <th:block th:replace="~{front/board/skins/gallery/view::fleamarket}"></th:block>
+    </th:block>
 
-            <div class="right">
-                <span>
-                    IP : <th:block th:text="*{ip}"></th:block>
-                </span>
-                <span>
-                    <th:block th:text="#{작성일시}"></th:block>
-                    <th:block th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></th:block>
-                </span>
-            </div>
+    <th:block th:if="${board.skin == 'walk'}">
+        <th:block th:replace="~{front/board/skins/qna/view::walk}"></th:block>
+    </th:block>
 
-            <div class="board_btns">
-                <a th:href="@{/board/write/{bid}(bid=${board.bid})}" th:text="#{글쓰기}" class="btn"></a>
-
-                <a th:if="*{showEditButton}" th:href="@{/board/update/{seq}(seq=*{seq})}" th:text="#{글수정}" class="btn"></a>
-
-                <a th:if="*{showDeleteButton}" th:href="@{/board/delete/{seq}(seq=*{seq})}" th:text="#{글삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
-
-                <a th:if
-            </div>
-        </div>
+    <th:block th:if="${board.showListBelowView}">
+        <th:block th:replace="~{front/board/_list_items::items}"></th:block>
     </th:block>
 </main>
 </html>
