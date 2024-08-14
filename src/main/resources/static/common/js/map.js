@@ -63,7 +63,7 @@ const tmapLib = {
                     });
 
                 }  else if (this.currentAction === 'via') { // 경유지 추가
-                    if (this.via.length > 5) {
+                    if (this.via.length > 4) {
                         alert("경유지는 최대 5개까지 선택할 수 있습니다.");
                         return;
                     }
