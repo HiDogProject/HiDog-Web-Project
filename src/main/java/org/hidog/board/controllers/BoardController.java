@@ -4,9 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
+import org.hidog.board.services.BoardDeleteService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
 import org.hidog.board.validators.BoardFormValidator;
+import org.hidog.config.services.ConfigInfoService;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.Utils;
@@ -28,11 +30,14 @@ import java.util.List;
 public class BoardController {
 
     private final BoardInfoService boardInfoService;
+    private final BoardDeleteService boardDeleteService;
     private final BoardSaveService boardSaveService;
     private final MemberUtil memberUtil;
     private final BoardFormValidator boardFormValidator;
     private final FileInfoService fileInfoService;
     private final Utils utils;
+
+    protected final ConfigInfoService configInfoService;
 
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
@@ -45,7 +50,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/list/{bid}")
-    public String list(@PathVariable("bid") String bid, Model model) {
+    public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(bid, "list", model);
 
 
@@ -63,6 +68,8 @@ public class BoardController {
     @GetMapping("/view/{seq}")
     public String view(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "view", model);
+
+        boardInfoService.get(seq);
 
         return utils.tpl("board/view");
     }
@@ -152,7 +159,10 @@ public class BoardController {
      * @return
      */
     @GetMapping("/delete/{seq}")
-    public String delete() {
+    public String delete(@PathVariable("seq") Long seq, Model model) {
+        commonProcess(seq, "deelete", model);
+
+        boardDeleteService.delete(seq);
 
         //return "redirect://front/board/list/" + board.getBid();
         return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
@@ -179,16 +189,20 @@ public class BoardController {
         //addScript.add("board/common"); // 게시판 공통 스크립트
 
 
-        /*
+
         // 게시판 설정 처리 S
         board = configInfoService.get(bid);
 
         // 접근 권한 체크
         //boardAuthService.accessCheck(mode, board);
 
+        // 스킨별 css, js 추가
+        String skin = board.getSkin();
+        addCss.add("board/skin_" + skin);
+        addScript.add("board/skin_" + skin);
+
         model.addAttribute("board", board);
         // 게시판 설정 처리 E
-         */
 
 
 

@@ -1,9 +1,17 @@
+/* 전체 컨테이너 설정 */
+main {
+    font-family: Arial, sans-serif; /* 기본 폰트 설정 */
+    background-color: #f4f4f4; /* 배경색 설정 */
+    padding: 20px; /* 전체 패딩 설정 */
+}
+
 /* body */
 body {
-    font-family: Arial, sans-serif; /* 기본 폰트 설정 */
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* 배경색 설정 */
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #FFF; /* 배경색 설정 */
 }
 
 h1 {
@@ -109,7 +117,7 @@ form button[type="submit"]:hover {
     display: flex;
     justify-content: center; /* 가로 방향 중앙 정렬 */
     align-items: center; /* 세로 방향 중앙 정렬 */
-    height: 100vh; /* 컨테이너가 전체 화면 높이 차지하도록 설정 */
+    height: 180px;
 }
 
 /* 버튼 스타일 적용 */

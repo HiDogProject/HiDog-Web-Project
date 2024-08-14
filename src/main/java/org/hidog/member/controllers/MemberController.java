@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes("requestLogin")
+@SessionAttributes({"requestLogin", "EmailAuthVerified"})
 public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
@@ -49,7 +50,7 @@ public class MemberController implements ExceptionProcessor {
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
+    public String joinPs(@Valid RequestJoin form, Errors errors, Model model, SessionStatus sessionStatus) {
         commonProcess("join", model);
 
         joinValidator.validate(form, errors);
@@ -60,6 +61,7 @@ public class MemberController implements ExceptionProcessor {
         }
 
         memberSaveService.save(form);
+        sessionStatus.setComplete();
 
         return "redirect:" + utils.redirectUrl("/member/login");
     }

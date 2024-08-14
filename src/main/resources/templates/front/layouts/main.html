@@ -3,8 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-<!--    <meta name="csrf_token" th:content="${_csrf.token}">-->
-<!--    <meta name="csrf_header" th:content="${_csrf.headerName}">-->
+    <meta name="csrf_token" th:content="${_csrf.token}">
+    <meta name="csrf_header" th:content="${_csrf.headerName}">
     <meta th:if="${tmapJavascriptKey != null && tmapJavascriptKey != ''}" name="tmap_apikey" th:content="${tmapJavascriptKey}">
 
     <title>
@@ -25,7 +25,9 @@
           th:each="cssFile: ${addCss}" th:href="${@utils.url(#strings.concat('/front/css/', cssFile, '.css'))}">
     <th:block layout:fragment="addCss"></th:block>
 
-    <script th:src="${@utils.url('/common/js/common.js')}"></script>
+    <th:block th:if="${skipCommonJs != true}">
+        <script th:src="${@utils.url('/common/js/common.js')}"></script>
+    </th:block>
     <script th:src="${@utils.url('/front/js/common.js')}"></script>
 
     <th:block layout:fragment="addCommonScript"></th:block>

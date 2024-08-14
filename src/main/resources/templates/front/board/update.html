@@ -3,17 +3,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <div class="layout_width">
-        <form name="frmSave" method="post" th:action="${@utils.redirectUrl('/board/save')}" autocomplete="off">
-            <input type="hidden" name="mode" value="update">
+    <th:block th:if="${board.skin == null || board.skin == 'default'}">
+        <th:block th:replace="~{front/board/skins/default/update::default}"></th:block>
+    </th:block>
 
-            <th:block th:replace="~{front/board/_form}"></th:block>
+    <th:block th:if="${board.skin == 'fleamarket'}">
+        <th:block th:replace="~{front/board/skins/gallery/update::fleamarket}"></th:block>
+    </th:block>
 
-            <div class="submit_btns">
-                <button type="reset" th:text="#{다시입력}"></button>
-                <button type="submit" th:text="#{수정하기}"></button>
-            </div>
-        </form>
-    </div>
+    <th:block th:if="${board.skin == 'walk'}">
+        <th:block th:replace="~{front/board/skins/qna/update::walk}"></th:block>
+    </th:block>
 </main>
 </html>
