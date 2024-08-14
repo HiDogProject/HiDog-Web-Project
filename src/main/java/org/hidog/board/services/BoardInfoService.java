@@ -24,7 +24,6 @@ public class BoardInfoService {
     public BoardData get(Long seq) {
         BoardData boardData = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
 
-
         return boardData;
     }
 
