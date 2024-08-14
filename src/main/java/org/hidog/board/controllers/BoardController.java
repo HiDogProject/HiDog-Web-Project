@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
+import org.hidog.board.services.BoardDeleteService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
 import org.hidog.board.validators.BoardFormValidator;
@@ -28,6 +29,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardInfoService boardInfoService;
+    private final BoardDeleteService boardDeleteService;
     private final BoardSaveService boardSaveService;
     private final MemberUtil memberUtil;
     private final BoardFormValidator boardFormValidator;
@@ -45,7 +47,7 @@ public class BoardController {
      * @return
      */
     @GetMapping("/list/{bid}")
-    public String list(@PathVariable("bid") String bid, Model model) {
+    public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(bid, "list", model);
 
 
@@ -152,7 +154,10 @@ public class BoardController {
      * @return
      */
     @GetMapping("/delete/{seq}")
-    public String delete() {
+    public String delete(@PathVariable("seq") Long seq, Model model) {
+        commonProcess(seq, "deelete", model);
+
+        boardDeleteService.delete(seq);
 
         //return "redirect://front/board/list/" + board.getBid();
         return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
