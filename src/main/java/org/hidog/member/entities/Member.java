@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Builder
+@Builder @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class Member extends BaseEntity implements Serializable {
     @Id @GeneratedValue
@@ -33,4 +33,6 @@ public class Member extends BaseEntity implements Serializable {
     @ToString.Exclude
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;
+
+    private String profileImageFilename;
 }
