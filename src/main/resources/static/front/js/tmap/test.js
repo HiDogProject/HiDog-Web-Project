@@ -9,12 +9,23 @@ window.addEventListener("DOMContentLoaded", function() {
    viasEl.addEventListener("click", () => tmapLib.currentAction = 'via');
 
    const completeEl = document.getElementById("complete");
-   completeEl.addEventListener("click", () => tmapLib.route(tmapLib.mapId));
+   completeEl.addEventListener("click", () => {
+      if (tmapLib.resultDrawArr.length == 0) {
+         tmapLib.route(tmapLib.mapId)
+      } else {
+         console.log(tmapLib.resultDrawArr)
+         return;
+      }
+      viasEl.style.display = 'none';
+      startEl.style.display = 'none';
+   });
 
 
    const resetEl = document.getElementById("reset");
    resetEl.addEventListener("click", function() {
-      if (confirm("정말 다시 선택?")) {
+      if (confirm("정말 다시 선택 하시겠습니까??")) {
+         viasEl.style.display = '';
+         startEl.style.display = '';
          tmapLib.reset();
       }
    });
