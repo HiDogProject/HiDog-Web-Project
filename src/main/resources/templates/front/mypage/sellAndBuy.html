@@ -8,11 +8,56 @@
             <title>판매 내역 & 구매 내역</title>
             <link rel="stylesheet" href="/front/css/mypage/sellAndBuy.css">
         </head>
-        <h1 th:text="#{판매_내역_구매_내역_보기}"></h1>
-        <div class="button-container">
-            <a th:href="${@utils.url('/mypage/myhome')}">
-                <button type="button" class="btn" th:text="#{마이_페이지}"></button>
-            </a>
-        </div>
+        <body>
+            <h1 th:text="#{판매_내역_구매_내역_보기}">판매 내역 & 구매 내역</h1>
+            <div class="container">
+                <!-- 판매 내역 테이블 -->
+                <h2>판매 내역</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>아이디</th>
+                        <th>상품명</th>
+                        <th>가격</th>
+                        <th>판매 날짜</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="record : ${sellRecords}">
+                        <td th:text="${record.id}"></td>
+                        <td th:text="${record.itemName}"></td>
+                        <td th:text="${record.price}"></td>
+                        <td th:text="${record.date}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- 구매 내역 테이블 -->
+                <h2>구매 내역</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>아이디</th>
+                        <th>상품명</th>
+                        <th>가격</th>
+                        <th>구매 날짜</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="record : ${buyRecords}">
+                        <td th:text="${record.id}"></td>
+                        <td th:text="${record.itemName}"></td>
+                        <td th:text="${record.price}"></td>
+                        <td th:text="${record.date}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="button-container">
+                <a th:href="@{/mypage/myhome}">
+                    <button type="button" class="btn" th:text="#{마이_페이지}">마이 페이지</button>
+                </a>
+            </div>
+        </body>
     </main>
 </html>
