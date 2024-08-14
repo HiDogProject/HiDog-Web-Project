@@ -66,6 +66,8 @@ public class BoardController {
     public String view(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "view", model);
 
+        boardInfoService.get(seq);
+
         return utils.tpl("board/view");
     }
 
