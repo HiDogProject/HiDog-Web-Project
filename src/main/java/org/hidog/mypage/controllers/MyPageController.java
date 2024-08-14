@@ -5,17 +5,17 @@ import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.hidog.member.services.MemberService;
+import org.hidog.mypage.services.MyPageService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @RequestMapping("/mypage")
@@ -25,6 +25,10 @@ public class MyPageController {
     private final Utils utils;
     private final MemberUtil memberUtil;
     private final MemberService memberService;
+    private final MyPageService myPageService;
+
+    @Value("${file.upload.url}")
+    private String fileUploadUrl;
 
     /**
      * 1) mypage/myhome 입력 시 마이 페이지 홈으로 이동
@@ -68,7 +72,7 @@ public class MyPageController {
         model.addAttribute("member", member);
         commonProcess("changeInfo", model);
 
-        return utils.tpl("mypage/changeInfo"); // 템플릿 경로
+        return utils.tpl("mypage/changeInfo");
     }
 
     // 회원 정보 수정 페이지
@@ -92,15 +96,40 @@ public class MyPageController {
 
     // 프로필 페이지
     @GetMapping("/profile")
-    public String profile(Model model) { // 프로필 이미지 페이지 오픈
+    public String profile(Model model) {
+        if (!memberUtil.isLogin()) { // 로그인 상태가 아닌 경우 로그인 페이지로 이동
+            return "redirect:" + utils.redirectUrl("member/login");
+        }
+
+        Member member = memberUtil.getMember();
+        model.addAttribute("member", member);
+        model.addAttribute("fileUploadUrl", fileUploadUrl);
         commonProcess("profile", model);
         return utils.tpl("mypage/profile");
     }
 
     // 프로필 이미지 클릭 -> 수정
-    @PostMapping("/profile")
-    public String updateProfileImage(MultipartFile profileImage) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 프로필 이미지 수정할 수 있도록
-        return "redirect:" + utils.redirectUrl("mypage/myhome");
+    @PostMapping("/profile") @ResponseBody
+    public Map<String, Object> updateProfileImage(@AuthenticationPrincipal UserDetails userDetails,
+                                                  @RequestParam("profileImage") MultipartFile profileImage) {
+        Map<String, Object> response = new HashMap<>();
+        if (!memberUtil.isLogin()) { // 로그인 상태가 아닌 경우 메세지 나옴
+            response.put("success", false);
+            response.put("message", "로그인 필요!");
+            return response;
+        }
+
+        try {
+            Long memberId = memberUtil.getMember().getSeq();
+            myPageService.saveProfileImage(memberId, profileImage);
+            response.put("success", true);
+            response.put("successMessage", "프로필 이미지 수정 성공");
+        } catch (IOException e) {
+            response.put("success", false);
+            response.put("errorMessage", "프로필 이미지 수정 실패");
+        }
+
+        return response;
     }
 
     // 찜 목록 페이지
@@ -124,37 +153,7 @@ public class MyPageController {
         return utils.tpl("mypage/sellAndBuy");
     }
 
-/* // 마이 페이지 -> 프로필 클릭 시 이미지 변경 창이 팝업으로 생성
-    @GetMapping("/profile")
-    public String changeProfileImage(Model model) {
-        commonProcess("profile", model);
-        return utils.tpl("mypage/profile");
-    }
-
-    // 프로필 이미지 변경 후 변경 내용 반영
-    @PostMapping("/profile")
-    public String saveProfileImage(@RequestParam("profileImage") MultipartFile profileImage, HttpSession session, Model model) {
-        // 이미지 저장 경로
-        String uploadDirectory = properties.getPath();
-        String fileName = profileImage.getOriginalFilename();
-        Path filePath = Paths.get(uploadDirectory, fileName);
-
-        try {
-            Files.createDirectories(filePath.getParent()); // 디렉토리가 없는 경우 -> 생성
-            profileImage.transferTo(new File(filePath.toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("error", "이미지 저장 실패");
-            return utils.tpl("mypage/profile");
-        }
-
-        // 세션에 저장된 사용자 정보에 프로필 이미지 경로 저장
-        session.setAttribute("profileImage", properties.getUrl() + fileName);
-
-        return "redirect:" + utils.redirectUrl("/mypage/myhome");
-    }
-
-    // 마이 페이지 -> 찜한 목록 보기 버튼 클릭 시 찜 목록 페이지로 이동
+/*  // 마이 페이지 -> 찜한 목록 보기 버튼 클릭 시 찜 목록 페이지로 이동
     @GetMapping("/like")
     public String viewLike(Model model, @RequestParam(value = "productId", required = false) Long productId) {
         Long userId = getCurrentUserId();
@@ -266,6 +265,9 @@ public class MyPageController {
                 break;
             case "sellAndBuy": // 판매 & 구매 내역 페이지
                 addCss.add("mypage/sellAndBuy");
+                break;
+            default:
+                addCss.add("mypage/myhome");
                 break;
         }
 
