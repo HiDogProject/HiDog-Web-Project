@@ -8,6 +8,7 @@ import org.hidog.board.services.BoardDeleteService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
 import org.hidog.board.validators.BoardFormValidator;
+import org.hidog.config.services.ConfigInfoService;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.Utils;
@@ -35,6 +36,8 @@ public class BoardController {
     private final BoardFormValidator boardFormValidator;
     private final FileInfoService fileInfoService;
     private final Utils utils;
+
+    protected final ConfigInfoService configInfoService;
 
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
@@ -186,16 +189,20 @@ public class BoardController {
         //addScript.add("board/common"); // 게시판 공통 스크립트
 
 
-        /*
+
         // 게시판 설정 처리 S
         board = configInfoService.get(bid);
 
         // 접근 권한 체크
         //boardAuthService.accessCheck(mode, board);
 
+        // 스킨별 css, js 추가
+        String skin = board.getSkin();
+        addCss.add("board/skin_" + skin);
+        addScript.add("board/skin_" + skin);
+
         model.addAttribute("board", board);
         // 게시판 설정 처리 E
-         */
 
 
 
