@@ -9,7 +9,9 @@
 
         <div class="flex sb aic" th:if="${mode == null || mode != 'search'}">
             <h1 th:replace="~{front/board/skins/default/_board_title::title}"></h1>
-            <a th:href="@{/board/write/{bid}(bid=${board.bid})}" th:text="#{글쓰기}" class="write_btn"></a>
+            <form th:action="@{/board/write/{bid}(bid=${board.bid})}" method="get">
+                <button type="submit" class="write_btn" th:text="#{글쓰기}"></button>
+            </form>
         </div>
 
         <th:block th:if="${boardData == null && !#strings.isEmpty(board.htmlTop)}" th:utext="${board.htmlTop}"></th:block>
@@ -25,17 +27,11 @@
 
             <li th:unless="${items == null || items.isEmpty()}"
                 th:each="item : ${items}" th:object="${item}" class="item">
-<!--                <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">-->
-                <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject">
-                    <span class="notice" th:if="*{notice}">
-                        [<th:block th:text="#{공지}"></th:block>]
-                    </span>
-<!--                    <th:block th:if="*{parentSeq != null}">RE</th:block>-->
-                    <span class='category' th:if="*{category}" th:text="*{'[' + category + ']'}"></span>
-                    <th:block th:text="*{subject}"></th:block>
-                </a>
 
                 <div class="post_info">
+                    <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject">
+                        <th:block th:text="*{subject}"></th:block>
+                    </a>
                     <span class="poster">
                         <th:block th:text="*{poster}"></th:block>
                         <th:block th:if="*{member != null}"
