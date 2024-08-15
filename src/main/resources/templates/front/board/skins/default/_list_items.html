@@ -14,10 +14,10 @@
 
         <th:block th:if="${boardData == null && !#strings.isEmpty(board.htmlTop)}" th:utext="${board.htmlTop}"></th:block>
 
-        <div class="total">
-            Total : <th:block
-                th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>
-        </div>
+<!--        <div class="total">-->
+<!--            Total : <th:block-->
+<!--                th:text="${pagination.total >= 1000 ? #numbers.formatInteger(pagination.total, 3, 'COMMA') : pagination.total}"></th:block>-->
+<!--        </div>-->
 
         <ul class="items">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
@@ -25,11 +25,12 @@
 
             <li th:unless="${items == null || items.isEmpty()}"
                 th:each="item : ${items}" th:object="${item}" class="item">
-                <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
+<!--                <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">-->
+                <a th:href="@{/board/view/{seq}(seq=*{seq})}" class="subject">
                     <span class="notice" th:if="*{notice}">
                         [<th:block th:text="#{공지}"></th:block>]
                     </span>
-                    <th:block th:if="*{parentSeq != null}">RE</th:block>
+<!--                    <th:block th:if="*{parentSeq != null}">RE</th:block>-->
                     <span class='category' th:if="*{category}" th:text="*{'[' + category + ']'}"></span>
                     <th:block th:text="*{subject}"></th:block>
                 </a>
@@ -67,7 +68,7 @@
         </div>
         <!--// list_search -->
 
-        <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+<!--        <th:block th:replace="~{common/_pagination::pagination}"></th:block>-->
 
         <th:block th:if="${boardData == null && !#strings.isEmpty(board.htmlBottom)}" th:utext="${board.htmlBottom}"></th:block>
 

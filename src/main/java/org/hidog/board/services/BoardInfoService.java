@@ -1,24 +1,41 @@
 package org.hidog.board.services;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.hidog.board.controllers.BoardDataSearch;
 import org.hidog.board.controllers.RequestBoard;
+import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
+import org.hidog.board.entities.QBoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
+import org.hidog.config.services.ConfigInfoService;
+import org.hidog.global.ListData;
+import org.hidog.global.Pagination;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class BoardInfoService {
+    private final EntityManager em;
     private final BoardDataRepository boardDataRepository;
+    private final ConfigInfoService configInfoService;
 
     private final HttpServletRequest request;
 
@@ -107,5 +124,44 @@ public class BoardInfoService {
         boardData.setShowDeleteButton(showDeleteButton);
 
         /* 수정, 삭제 권한 정보 처리 E */
+    }
+
+    /**
+     * 특정 게시판 목록을 조회
+     *
+     * @param bid : 게시판 ID
+     * @param search
+     * @return
+     */
+    public ListData<BoardData> getList(String bid, BoardDataSearch search) {
+        Board board = StringUtils.hasText(bid) ? configInfoService.get(bid) : new Board();
+
+        PathBuilder<BoardData> pathBuilder = new PathBuilder<>(BoardData.class, "boardData");
+
+        QBoardData boardData = QBoardData.boardData;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+
+        if (StringUtils.hasText(bid)) {
+            andBuilder.and(boardData.board.bid.eq(bid)); // 게시판 ID
+        }
+
+        List<BoardData> items = new JPAQueryFactory(em)
+                .selectFrom(boardData)
+                .leftJoin(boardData.member)
+                .fetchJoin()
+                //.offset(offset)
+                //.limit(limit)
+                .where(andBuilder)
+                .orderBy(
+                        new OrderSpecifier(Order.DESC, pathBuilder.get("notice")),
+                        new OrderSpecifier(Order.DESC, pathBuilder.get("listOrder")),
+                        new OrderSpecifier(Order.ASC, pathBuilder.get("listOrder2")),
+                        new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt"))
+                )
+                .fetch();
+
+
+
+        return new ListData<>(items);
     }
 }
