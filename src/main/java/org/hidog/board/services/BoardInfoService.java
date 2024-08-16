@@ -16,8 +16,10 @@ import org.hidog.board.entities.BoardData;
 import org.hidog.board.entities.QBoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
+import org.hidog.board.repositories.BoardRepository;
 import org.hidog.config.services.ConfigInfoService;
 import org.hidog.global.ListData;
+import org.hidog.global.Pagination;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.modelmapper.ModelMapper;
@@ -42,6 +44,7 @@ public class BoardInfoService {
     private final MemberUtil memberUtil;
     private final JPAQueryFactory jpaQueryFactory;
     private final OffsetScrollPositionHandlerMethodArgumentResolver offsetResolver;
+    private final BoardRepository boardRepository;
 
     /**
      * 게시글 1개 조회(엔티티)
@@ -50,11 +53,64 @@ public class BoardInfoService {
      * @return
      */
     public BoardData get(Long seq) {
-        BoardData boardData = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
+        BoardData item = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
 
-        addBoardData(boardData);
+        addInfo(item);
 
-        return boardData;
+        return item;
+    }
+
+    /**
+     * 게시글 추가 정보 처리, 추가 데이터 처리
+     *          - 업로드한 파일 목록
+     *          에디터 이미지 목록, 첨부 파일 이미지 목록
+     *          - 권한 : 글쓰기, 글수정, 글 삭제, 글 조회 가능 여부
+     *          - 댓글
+     * @param item
+     */
+    public void addInfo(BoardData item) {
+        /* 수정, 삭제 권한 정보 처리 S */
+        boolean editable = false, deletable = false, mine = false;
+        Member _member = item.getMember(); // null - 비회원, X null -> 회원
+
+        // 관리자 -> 삭제, 수정 모두 가능
+        if (memberUtil.isAdmin()) {
+            editable = true;
+            deletable = true;
+        }
+
+        // 회원 -> 직접 작성한 게시글만 삭제, 수정 가능
+        Member member = memberUtil.getMember();
+        if (_member != null && memberUtil.isLogin() && _member.getEmail().equals(member.getEmail())) {
+            editable = true;
+            deletable = true;
+            mine = true;
+        }
+
+        // 비회원 -> 비회원 비밀번호가 확인 된 경우 삭제, 수정 가능
+        // 비회원 비밀번호 인증 여부 세션에 있는 guest_confirmed_게시글번호 true -> 인증
+        HttpSession session = request.getSession();
+        String key = "guest_confirmed_" + item.getSeq();
+        Boolean guestConfirmed = (Boolean)session.getAttribute(key);
+        if (_member == null && guestConfirmed != null && guestConfirmed) {
+            editable = true;
+            deletable = true;
+            mine = true;
+        }
+
+        item.setEditable(editable);
+        item.setDeletable(deletable);
+        item.setMine(mine);
+
+        // 수정 버튼 노출 여부
+        // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
+        boolean showEditButton = memberUtil.isAdmin() || mine || _member == null;
+        boolean showDeleteButton = showEditButton;
+
+        item.setShowEditButton(showEditButton);
+        item.setShowDeleteButton(showDeleteButton);
+
+        /* 수정, 삭제 권한 정보 처리 E */
     }
 
     /**
@@ -78,55 +134,7 @@ public class BoardInfoService {
         return form;
     }
 
-    /**
-     * 게시글 추가 정보 처리
-     *
-     * @param boardData
-     */
-    public void addBoardData(BoardData boardData) {
-        /* 수정, 삭제 권한 정보 처리 S */
-        boolean editable = false, deletable = false, mine = false;
-        Member _member = boardData.getMember(); // null - 비회원, X null -> 회원
 
-        // 관리자 -> 삭제, 수정 모두 가능
-        if (memberUtil.isAdmin()) {
-            editable = true;
-            deletable = true;
-        }
-
-        // 회원 -> 직접 작성한 게시글만 삭제, 수정 가능
-        Member member = memberUtil.getMember();
-        if (_member != null && memberUtil.isLogin() && _member.getEmail().equals(member.getEmail())) {
-            editable = true;
-            deletable = true;
-            mine = true;
-        }
-
-        // 비회원 -> 비회원 비밀번호가 확인 된 경우 삭제, 수정 가능
-        // 비회원 비밀번호 인증 여부 세션에 있는 guest_confirmed_게시글번호 true -> 인증
-        HttpSession session = request.getSession();
-        String key = "guest_confirmed_" + boardData.getSeq();
-        Boolean guestConfirmed = (Boolean)session.getAttribute(key);
-        if (_member == null && guestConfirmed != null && guestConfirmed) {
-            editable = true;
-            deletable = true;
-            mine = true;
-        }
-
-        boardData.setEditable(editable);
-        boardData.setDeletable(deletable);
-        boardData.setMine(mine);
-
-        // 수정 버튼 노출 여부
-        // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
-        boolean showEditButton = memberUtil.isAdmin() || mine || _member == null;
-        boolean showDeleteButton = showEditButton;
-
-        boardData.setShowEditButton(showEditButton);
-        boardData.setShowDeleteButton(showDeleteButton);
-
-        /* 수정, 삭제 권한 정보 처리 E */
-    }
 
     /**
      * 게시글 목록 조회
@@ -135,6 +143,7 @@ public class BoardInfoService {
     public ListData<BoardData> getList(BoardDataSearch search) {
           int page =  Math.max(search.getPage(), 1);
           int limit = search.getLimit();
+          int offset = (page - 1) * limit;
 
           String sopt = search.getSort(); // 검색옵션
           String skey = search.getSkey(); // 검색 키워드
@@ -228,21 +237,30 @@ public class BoardInfoService {
         /* 정렬 처리 E */
 
         /* 목록 조회 처리 S */
-        List<BoardData> items = queryFactory
+        List<BoardData> items = jpaQueryFactory
                 .selectFrom(boardData)
                 .leftJoin(boardData.board)
                 .fetchJoin()
                 .leftJoin(boardData.member)
                 .fetchJoin()
                 .where(andBuilder)
-                .orderBy(orderSpecifiers)
+                .orderBy(orderSpecifiers.toArray(OrderSpecifier[]::new))
                 .offset(offset)
                 .limit(limit)
                 .fetch();
 
+        // 추가 정보 처리
+        items.forEach(this::addInfo);
+
         /* 목록 조회 처리 E */
 
-      return null;
+        // 전체 게시글 갯수
+        long total = boardRepository.count(andBuilder);
+
+        // 페이징 처리
+        Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
+
+      return new ListData<>(items, pagination);
     }
 
     /**
