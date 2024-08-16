@@ -1,25 +1,18 @@
 package org.hidog.board.services;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.PathBuilder;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.controllers.BoardDataSearch;
 import org.hidog.board.controllers.RequestBoard;
-import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.entities.QBoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.config.services.ConfigInfoService;
 import org.hidog.global.ListData;
-import org.hidog.global.Pagination;
-import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.modelmapper.ModelMapper;
@@ -127,6 +120,52 @@ public class BoardInfoService {
     }
 
     /**
+     * 게시글 목록 조회
+     *
+     */
+    public ListData<BoardData> getList(BoardDataSearch search) {
+          int page =  Math.max(search.getPage(), 1);
+          int limit = search.getLimit();
+
+          String sopt = search.getSort(); // 검색옵션
+          String skey = search.getSkey(); // 검색 키워드
+
+          String bid = search.getBid();
+          List<String> bids = search.getBids(); // 게시판 여러개 조회
+
+        /* 검색 처리 S*/
+        QBoardData boardData = QBoardData.boardData;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+
+
+        if (bid != null && StringUtils.hasText(bid.trim())) { // 게시판별 조회
+            andBuilder.and(boardData.board.bid.eq(bid.trim()));
+
+        } else if (bid != null && !bids.isEmpty()) { // 게시판 여러개 조회
+            andBuilder.and(boardData.board.bid.in(bids));
+        }
+
+        /**
+         * 조건 검색 처리
+         *
+         * sopt - ALL : 통합검색(제목 + 내용 + 글작성자(작성자, 회원명))
+         *       SUBJECT : 제목검색
+         *       CONTENT : 내용검색
+         *       SUBJECT_CONTENT: 제목 + 내용 검색
+         *       NAME : 이름(작성자, 회원명)
+         */
+        sopt = sopt != null && StringUtils.hasText(sopt.trim()) ? sopt.trim() : "ALL";
+        if (skey != null && StringUtils.hasText(skey.trim())) {
+
+        }
+
+
+        /* 검색 처리 E */
+
+      return null;
+    }
+
+    /**
      * 특정 게시판 목록을 조회
      *
      * @param bid : 게시판 ID
@@ -134,34 +173,8 @@ public class BoardInfoService {
      * @return
      */
     public ListData<BoardData> getList(String bid, BoardDataSearch search) {
-        Board board = StringUtils.hasText(bid) ? configInfoService.get(bid) : new Board();
+        search.setBid(bid);
 
-        PathBuilder<BoardData> pathBuilder = new PathBuilder<>(BoardData.class, "boardData");
-
-        QBoardData boardData = QBoardData.boardData;
-        BooleanBuilder andBuilder = new BooleanBuilder();
-
-        if (StringUtils.hasText(bid)) {
-            andBuilder.and(boardData.board.bid.eq(bid)); // 게시판 ID
-        }
-
-        List<BoardData> items = new JPAQueryFactory(em)
-                .selectFrom(boardData)
-                .leftJoin(boardData.member)
-                .fetchJoin()
-                //.offset(offset)
-                //.limit(limit)
-                .where(andBuilder)
-                .orderBy(
-                        new OrderSpecifier(Order.DESC, pathBuilder.get("notice")),
-                        new OrderSpecifier(Order.DESC, pathBuilder.get("listOrder")),
-                        new OrderSpecifier(Order.ASC, pathBuilder.get("listOrder2")),
-                        new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt"))
-                )
-                .fetch();
-
-
-
-        return new ListData<>(items);
+        return getList(search);
     }
 }

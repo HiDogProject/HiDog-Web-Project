@@ -1,31 +1,24 @@
 package org.hidog.board.controllers;
 
 import lombok.Data;
+import org.hidog.global.CommonSearch;
 
 import java.util.List;
 
 @Data
-public class BoardDataSearch { // 검색을 위한 커맨드 객체
-    private int page = 1;
-    private int limit; // 0 : 설정에 있는 1페이지 게시글 갯수, 1 이상 -> 지정한 갯수
-
+public class BoardDataSearch extends CommonSearch { // 검색을 위한 커맨드 객체
     /**
      * 검색 옵션
+     *  ALL :
+     * SUBJECT : 제목 검색
+     * CONTENT : 내용 검색
+     * subject_content : 제목 + 내용(OR) 검색
+     * NAME : 이름(작성자, 회원명)
      *
-     * SUBJECT : 제목
-     * CONTENT : 내용
-     * subject_content : 제목 + 내용(OR)
-     * poster : 작성자명 + 아이디 + 회원 이름(OR)
-     * ALL :
      */
-    private String sopt; // 검색 옵션
-    private String skey; // 검색 키워드
 
-    private List<String> bid; // 게시판 ID
+    private String bid; // 게시판 ID
+    private List<String> bids; // 게시판 ID 여러개
 
-    private String userId;
-
-    private String category; // 게시판 분류
-
-    private List<Long> seq; // 게시글 번호
+    private String sort; // 정렬 조건
 }
