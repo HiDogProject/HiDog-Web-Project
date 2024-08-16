@@ -16,9 +16,9 @@ import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.entities.QBoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
+import org.hidog.board.exceptions.BoardNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.board.repositories.BoardRepository;
-import org.hidog.config.services.ConfigInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Pagination;
 import org.hidog.global.Utils;
@@ -41,7 +41,6 @@ import java.util.Objects;
 public class BoardInfoService {
     private final EntityManager em;
     private final BoardDataRepository boardDataRepository;
-    private final ConfigInfoService configInfoService;
 
     private final HttpServletRequest request;
 
@@ -57,24 +56,25 @@ public class BoardInfoService {
      *
      */
     public ListData<BoardData> getList(BoardDataSearch search, DeleteStatus status) {
-        // 게시판 설정 조회
-        String bid = search.getBid();
-        List<String> bids = search.getBid(); // 게시판 여러개 조회
-
-        // 게시판 설정 조회
-        Board board = bid != null && StringUtils.hasText(bid.trim()) ? configInfoService.get(bid.trim()) : null;
-
-        int page =  Math.max(search.getPage(), 1);
-        int limit = search.getLimit();
-        int offset = (page - 1) * limit;
-        // 삭제가 되지 않은 게시글 목록이 기본 값
-        status = Objects.requireNonNullElse(status, DeleteStatus.UNDELETED);
-
-        String sopt = search.getSort(); // 검색옵션
-        String skey = search.getSkey(); // 검색 키워드
 
         String bid = search.getBid();
         List<String> bids = search.getBids(); // 게시판 여러개 조회
+
+        // 게시판 설정 조회
+        Board board = bid != null && StringUtils.hasText(bid.trim()) ? configInfoService.get(bid.trim()).orElseThrow(BoardNotFoundException::new) : new Board();
+
+        int page =  Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit > 0 ? limit : board.getRowsPerPage();
+
+        int offset = (page - 1) * limit;
+
+        // 삭제가 되지 않은 게시글 목록이 기본 값
+        status = Objects.requireNonNullElse(status, DeleteStatus.UNDELETED);
+
+        String sopt = search.getSort(); // 검색 옵션
+        String skey = search.getSkey(); // 검색 키워드
+
 
         /* 검색 처리 S*/
         QBoardData boardData = QBoardData.boardData;
@@ -192,13 +192,14 @@ public class BoardInfoService {
         long total = boardRepository.count(andBuilder);
 
         // 페이징 처리
-        int ranges = utils.isMoblie() ? board.getPageCountMobile() : board.getPageCountPc();
+        int ranges = utils.isMobile() ? board.getPageCountMobile() : board.getPageCountPc();
         Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
 
         return new ListData<>(items, pagination);
     }
 
     /**
+     * 게시판 별 목록
      * 특정 게시판 목록을 조회
      *
      * @param bid : 게시판 ID
@@ -211,6 +212,10 @@ public class BoardInfoService {
         return getList(search, status);
     }
 
+    public ListData<BoardData> getList(String bid, BoardDataSearch search) {
+        return getList(bid, search, DeleteStatus.UNDELETED);
+    }
+
     /**
      * 게시글 1개 조회(엔티티)
      *
@@ -219,16 +224,25 @@ public class BoardInfoService {
      */
     public BoardData get(Long seq, DeleteStatus status) {
 
-        BooleanBuilder andbuilder = new BooleanBuilder();
+        BooleanBuilder andBuilder = new BooleanBuilder();
         QBoardData boardData = QBoardData.boardData;
-        andbuilder.and(boardData.seq.eq(seq));
+        andBuilder.and(boardData.seq.eq(seq));
+
+        // 삭제, 미삭제 게시글 조회 처리
+        if (status != DeleteStatus.ALL) {
+            if (status == DeleteStatus.UNDELETED) {
+                andBuilder.and(boardData.deletedAt.isNull()); // 미삭된 게시글
+            } else {
+                andBuilder.and(boardData.deletedAt.isNotNull()); // 삭제된 게시글
+            }
+        }
 
         BoardData item = jpaQueryFactory.selectFrom(boardData)
                 .leftJoin(boardData.board)
                 .fetchJoin()
                 .leftJoin(boardData.member)
                 .fetchJoin()
-                .where(andbuilder)
+                .where(andBuilder)
                 .fetchFirst();
 
         if (item == null) {
@@ -242,7 +256,6 @@ public class BoardInfoService {
     }
 
     public BoardData get(Long seq) {
-
         return get(seq, DeleteStatus.UNDELETED);
     }
 
@@ -252,13 +265,12 @@ public class BoardInfoService {
      * @return
      */
     public RequestBoard getForm(Long seq, DeleteStatus status) {
-        BoardData item = get(seq);
+        BoardData item = get(seq, status);
 
         return getForm(item, status);
     }
 
     public RequestBoard getForm(BoardData item, DeleteStatus status) {
-
         return new ModelMapper().map(item, RequestBoard.class);
     }
 
@@ -322,19 +334,5 @@ public class BoardInfoService {
         item.setShowDeleteButton(showDeleteButton);
 
         /* 수정, 삭제 권한 정보 처리 E */
-    }
-
-
-
-    /**
-     * 특정 게시판 목록을 조회
-     *
-     * @param bid : 게시판 ID
-     * @param search
-     * @return
-     */
-    public ListData<BoardData> getList(String bid, BoardDataSearch search) {
-
-        return getList(bid, search, DeleteStatus.UNDELETED);
     }
 }

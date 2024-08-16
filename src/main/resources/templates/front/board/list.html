@@ -4,17 +4,8 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
 
-    <th:block th:if="${board.skin == null || board.skin == 'default'}">
-        <th:block th:replace="~{front/board/skins/default/list::default}"></th:block>
-    </th:block>
+    <th:block th:if="${board.skin == 'default'}" th:replace="~{front/board/default/_list::list}"></th:block>
 
-    <th:block th:if="${board.skin == 'fleamarket'}">
-        <th:block th:replace="~{front/board/skins/gallery/list::fleamarket}"></th:block>
-    </th:block>
-
-    <th:block th:if="${board.skin == 'walk'}">
-        <th:block th:replace="~{front/board/skins/qna/list::walk}"></th:block>
-    </th:block>
-
+    <th:block th:if="${board.skin == 'gallery'}" th:replace="~{front/board/gallery/_list::list}"></th:block>
 </main>
 </html>
