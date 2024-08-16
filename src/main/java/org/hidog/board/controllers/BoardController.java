@@ -10,6 +10,7 @@ import org.hidog.board.services.BoardDeleteService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
 import org.hidog.board.validators.BoardFormValidator;
+import org.hidog.board.validators.BoardValidator;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
@@ -34,6 +35,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardDeleteService boardDeleteService;
     private final BoardSaveService boardSaveService;
     private final Utils utils;
+    private final BoardValidator boardValidator;
 
     private final MemberUtil memberUtil;
     private final BoardFormValidator boardFormValidator;
@@ -77,7 +79,7 @@ public class BoardController implements ExceptionProcessor {
     public String update(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "update", model);
 
-        RequestBoard form = boardInfoService.getForm(boardData);
+        RequestBoard form = boardInfoService.getForm(boardData); // 쿼리를 2번하지 않고 바로 스기 위해서 seq말고 boardData 사용함
         model.addAttribute("requestBoard", form);
 
 
@@ -92,8 +94,15 @@ public class BoardController implements ExceptionProcessor {
      */
     @PostMapping("/save")
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
+        String mode = form.getMode();
+        mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), form.getMode(), model);
 
+        boardValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+            return utils.tpl("board/" + mode);
+        }
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
@@ -113,6 +122,7 @@ public class BoardController implements ExceptionProcessor {
 
         ListData<BoardData> data = boardInfoService.getList(bid, search);
         model.addAttribute("items", data.getItems());
+        model.addAttribute("pagenation", data.getPagination());
 
         return utils.tpl("board/list");
     }
