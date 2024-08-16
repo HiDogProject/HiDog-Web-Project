@@ -11,6 +11,7 @@ import org.hidog.board.validators.BoardFormValidator;
 import org.hidog.config.services.ConfigInfoService;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
+import org.hidog.global.ListData;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,8 @@ public class BoardController {
     public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(bid, "list", model);
 
-
+        ListData<BoardData> data = boardInfoService.getList(bid, search);
+        model.addAttribute("items", data.getItems());
 
         return utils.tpl("board/list");
     }
@@ -108,7 +110,6 @@ public class BoardController {
         commonProcess(seq, "update", model);
 
         RequestBoard form = boardInfoService.getForm(boardData);
-        System.out.println("form:" + form);
         model.addAttribute("requestBoard", form);
 
 
@@ -198,6 +199,7 @@ public class BoardController {
 
         // 스킨별 css, js 추가
         String skin = board.getSkin();
+        //addCss.add("board/skin_default");
         addCss.add("board/skin_" + skin);
         addScript.add("board/skin_" + skin);
 
@@ -206,7 +208,7 @@ public class BoardController {
 
 
 
-        //String pageTitle = board.getBName(); // 게시판명이 기본 타이틀
+        String pageTitle = board.getBName(); // 게시판명이 기본 타이틀
 
         if (mode.equals("write") || mode.equals("update") || mode.equals("reply")) { // 쓰기 또는 수정
             /*
@@ -233,7 +235,7 @@ public class BoardController {
 
         } else if (mode.equals("view")) {
             // pageTitle - 글 제목 - 게시판 명
-            //pageTitle = String.format("%s | %s", boardData.getSubject(), board.getBName());
+            pageTitle = String.format("%s | %s", boardData.getSubject(), board.getBName());
             addScript.add("board/view");
         }
 
@@ -242,7 +244,7 @@ public class BoardController {
         model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
-        //model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("pageTitle", pageTitle);
     }
 
     /**
