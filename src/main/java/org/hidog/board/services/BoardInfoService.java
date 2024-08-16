@@ -55,10 +55,28 @@ public class BoardInfoService {
     public BoardData get(Long seq) {
         BoardData item = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
 
+        // 추가 데이터 처리
         addInfo(item);
 
         return item;
     }
+
+    /**
+     * BoardData(엔티티) -> RequestBoard(커맨드객체)
+     * 게시글 데이터(BoardData), 게시글 번호(Long)
+     * @return
+     */
+    public RequestBoard getForm(Long seq) {
+        BoardData item = get(seq);
+
+        return getForm(item);
+    }
+
+    public RequestBoard getForm(BoardData item) {
+
+        return new ModelMapper().map(item, RequestBoard.class);
+    }
+
 
     /**
      * 게시글 추가 정보 처리, 추가 데이터 처리
@@ -112,28 +130,6 @@ public class BoardInfoService {
 
         /* 수정, 삭제 권한 정보 처리 E */
     }
-
-    /**
-     * BoardData(엔티티) -> RequestBoard(커맨드객체)
-     * @param data : 게시글 데이터(BoardData), 게시글 번호(Long)
-     * @return
-     */
-    public RequestBoard getForm(Object data) {
-        BoardData boardData = null;
-        if (data instanceof BoardData) {
-            boardData = (BoardData) data;
-        } else {
-            Long seq = (Long) data;
-            boardData = get(seq);
-        }
-
-        RequestBoard form = new ModelMapper().map(boardData, RequestBoard.class);
-        form.setMode("update");
-        form.setBid(boardData.getBoard().getBid());
-
-        return form;
-    }
-
 
 
     /**
