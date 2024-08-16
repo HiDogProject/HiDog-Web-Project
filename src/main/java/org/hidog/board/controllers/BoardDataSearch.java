@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BoardDataSearch {
+public class BoardDataSearch { // 검색을 위한 커맨드 객체
     private int page = 1;
     private int limit; // 0 : 설정에 있는 1페이지 게시글 갯수, 1 이상 -> 지정한 갯수
 
