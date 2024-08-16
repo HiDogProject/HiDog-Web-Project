@@ -1,6 +1,11 @@
 package org.hidog.board.services;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,10 +21,12 @@ import org.hidog.global.ListData;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.web.OffsetScrollPositionHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +40,8 @@ public class BoardInfoService {
     private final HttpServletRequest request;
 
     private final MemberUtil memberUtil;
+    private final JPAQueryFactory jpaQueryFactory;
+    private final OffsetScrollPositionHandlerMethodArgumentResolver offsetResolver;
 
     /**
      * 게시글 1개 조회(엔티티)
@@ -139,9 +148,10 @@ public class BoardInfoService {
 
 
         if (bid != null && StringUtils.hasText(bid.trim())) { // 게시판별 조회
-            andBuilder.and(boardData.board.bid.eq(bid.trim()));
+            bids = List.of(bid);
+        }
 
-        } else if (bid != null && !bids.isEmpty()) { // 게시판 여러개 조회
+        if (bids != null && !bids.isEmpty()){ // 게시판 여러개 조회
             andBuilder.and(boardData.board.bid.in(bids));
         }
 
@@ -156,11 +166,81 @@ public class BoardInfoService {
          */
         sopt = sopt != null && StringUtils.hasText(sopt.trim()) ? sopt.trim() : "ALL";
         if (skey != null && StringUtils.hasText(skey.trim())) {
+            skey = skey.trim();
+            BooleanExpression condition = null;
 
+            BooleanBuilder orBuilder = new BooleanBuilder();
+
+            /* 이름 검색 S */
+            BooleanBuilder nameCondition = new BooleanBuilder();
+            nameCondition.or(boardData.poster.contains(skey));
+            if (boardData.member != null) {
+                nameCondition.or(boardData.member.userName.contains(skey));
+            }
+            /* 이름 검색 E */
+
+            if (sopt.equals("ALL")) { // 통합 검색
+                orBuilder.or(boardData.subject.concat(boardData.content)
+                                .contains(skey))
+                        .or(nameCondition);
+
+
+
+            } else if (sopt.equals("SUBJECT")) { // 제목 검색
+                condition = boardData.subject.contains(skey);
+            } else if (sopt.equals("CONTENT")) { // 내용 검색
+                condition = boardData.content.contains(skey);
+            } else if (sopt.contains("SUBJECT_CONTENT")) { // 제목 + 내용 검색
+                condition = boardData.subject.concat(boardData.content)
+                        .contains(skey);
+            } else if (sopt.equals("NAME")) {
+                andBuilder.and(nameCondition);
+            }
+
+            if (condition != null) andBuilder.and(condition);
+            andBuilder.and(orBuilder);
         }
 
-
         /* 검색 처리 E */
+
+        /* 정렬 처리 S */
+        String sort = search.getSort();
+
+        PathBuilder<BoardData> pathBuilder = new PathBuilder<>(BoardData.class, "boardData");
+        OrderSpecifier orderSpecifier = null;
+        Order order = Order.DESC;
+        if (sort != null && StringUtils.hasText(sort.trim())) {
+            // 정렬항목_방향   예) viewCount_DESC -> 조회수가 많은 순으로 정렬
+            String[] _sort = sort.split("_");
+            if (_sort[1].toUpperCase().equals("ASC")) {
+                order = Order.ASC;
+            }
+
+            orderSpecifier = new OrderSpecifier(order, pathBuilder.get(_sort[0]));
+        }
+
+        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+        orderSpecifiers.add(boardData.notice.desc()); // 공지사항이 가장 먼저 나오기
+        if (orderSpecifier != null) {
+            orderSpecifiers.add(orderSpecifier);
+        }
+        orderSpecifiers.add(boardData.createdAt.desc());
+        /* 정렬 처리 E */
+
+        /* 목록 조회 처리 S */
+        List<BoardData> items = queryFactory
+                .selectFrom(boardData)
+                .leftJoin(boardData.board)
+                .fetchJoin()
+                .leftJoin(boardData.member)
+                .fetchJoin()
+                .where(andBuilder)
+                .orderBy(orderSpecifiers)
+                .offset(offset)
+                .limit(limit)
+                .fetch();
+
+        /* 목록 조회 처리 E */
 
       return null;
     }

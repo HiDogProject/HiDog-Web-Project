@@ -9,11 +9,11 @@ import java.util.List;
 public class BoardDataSearch extends CommonSearch { // 검색을 위한 커맨드 객체
     /**
      * 검색 옵션
-     *  ALL :
-     * SUBJECT : 제목 검색
-     * CONTENT : 내용 검색
-     * subject_content : 제목 + 내용(OR) 검색
-     * NAME : 이름(작성자, 회원명)
+     *  sopt - ALL : 통합검색(제목 + 내용 + 글작성자(작성자, 회원명))
+     *                 SUBJECT : 제목검색
+     *                 CONTENT : 내용검색
+     *                 SUBJECT_CONTENT: 제목 + 내용 검색
+     *                 NAME : 이름(작성자, 회원명)
      *
      */
 
