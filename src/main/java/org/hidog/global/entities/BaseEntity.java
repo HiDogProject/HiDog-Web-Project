@@ -23,6 +23,7 @@ public abstract class BaseEntity implements Serializable {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime modifiedAt;
+
     @Column(insertable = false)
     private LocalDateTime deletedAt;
 }

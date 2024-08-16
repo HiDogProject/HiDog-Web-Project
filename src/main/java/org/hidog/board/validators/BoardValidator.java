@@ -36,6 +36,7 @@ public class BoardValidator implements Validator, PasswordValidator {
                  * 1. 자리수는? 4자리 이상
                  * 2. 숫자 + 알파벳
                  */
+
                 if (guestPw.length() < 4) {
                     errors.rejectValue("guestPw", "Size");
                 }
@@ -49,7 +50,7 @@ public class BoardValidator implements Validator, PasswordValidator {
                  */
                 String mode = form.getMode();
                 mode = StringUtils.hasText(mode) ? mode : "write";
-                if (mode.equals("update") && form.getSeq() == null || form.getSeq() < 1L) {
+                if (mode.equals("update") && (form.getSeq() == null || form.getSeq() < 1L)) {
                     errors.rejectValue("seq", "NotBlank");
                 }
 

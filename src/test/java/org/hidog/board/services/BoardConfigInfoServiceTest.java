@@ -14,7 +14,7 @@ public class BoardConfigInfoServiceTest {
 
     @Test
     void boardConfigTest() {
-        Optional<Board> board = infoService.get("freetalk");
+        Optional<Board> board = infoService.get("소통하개");
         System.out.println(board);
     }
 }
