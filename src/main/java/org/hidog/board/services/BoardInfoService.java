@@ -20,6 +20,7 @@ import org.hidog.board.repositories.BoardRepository;
 import org.hidog.config.services.ConfigInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Pagination;
+import org.hidog.global.constants.DeleteStatus;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.modelmapper.ModelMapper;
@@ -52,7 +53,7 @@ public class BoardInfoService {
      * @param seq : 게시글 번호
      * @return
      */
-    public BoardData get(Long seq) {
+    public BoardData get(Long seq, DeleteStatus status) {
         BoardData item = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
 
         // 추가 데이터 처리
@@ -61,20 +62,33 @@ public class BoardInfoService {
         return item;
     }
 
+    public BoardData get(Long seq) {
+
+        return get(seq, DeleteStatus.UNDELETED);
+    }
+
     /**
      * BoardData(엔티티) -> RequestBoard(커맨드객체)
      * 게시글 데이터(BoardData), 게시글 번호(Long)
      * @return
      */
-    public RequestBoard getForm(Long seq) {
+    public RequestBoard getForm(Long seq, DeleteStatus status) {
         BoardData item = get(seq);
 
-        return getForm(item);
+        return getForm(item, status);
+    }
+
+    public RequestBoard getForm(BoardData item, DeleteStatus status) {
+
+        return new ModelMapper().map(item, RequestBoard.class);
+    }
+
+    public BoardData getForm(Long seq) {
+        return get(seq, DeleteStatus.UNDELETED);
     }
 
     public RequestBoard getForm(BoardData item) {
-
-        return new ModelMapper().map(item, RequestBoard.class);
+        return getForm(item, DeleteStatus.UNDELETED);
     }
 
 
@@ -136,7 +150,7 @@ public class BoardInfoService {
      * 게시글 목록 조회
      *
      */
-    public ListData<BoardData> getList(BoardDataSearch search) {
+    public ListData<BoardData> getList(BoardDataSearch search, DeleteStatus status) {
           int page =  Math.max(search.getPage(), 1);
           int limit = search.getLimit();
           int offset = (page - 1) * limit;
@@ -266,9 +280,21 @@ public class BoardInfoService {
      * @param search
      * @return
      */
-    public ListData<BoardData> getList(String bid, BoardDataSearch search) {
+    public ListData<BoardData> getList(String bid, BoardDataSearch search, DeleteStatus status) {
         search.setBid(bid);
 
-        return getList(search);
+        return getList(search, status);
+    }
+
+    /**
+     * 특정 게시판 목록을 조회
+     *
+     * @param bid : 게시판 ID
+     * @param search
+     * @return
+     */
+    public ListData<BoardData> getList(String bid, BoardDataSearch search) {
+
+        return getList(bid, search, DeleteStatus.UNDELETED);
     }
 }
