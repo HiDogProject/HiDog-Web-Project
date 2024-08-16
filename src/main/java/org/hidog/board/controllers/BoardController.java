@@ -79,7 +79,7 @@ public class BoardController implements ExceptionProcessor {
     public String update(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "update", model);
 
-        RequestBoard form = boardInfoService.getForm(boardData); // 쿼리를 2번하지 않고 바로 스기 위해서 seq말고 boardData 사용함
+        RequestBoard form = boardInfoService.getForm(boardData); // 쿼리를 2번하지 않고 바로 쓰기 위해서 seq말고 boardData 사용함
         model.addAttribute("requestBoard", form);
 
 
@@ -94,9 +94,10 @@ public class BoardController implements ExceptionProcessor {
      */
     @PostMapping("/save")
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
+        String bid = form.getBid();
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
-        commonProcess(form.getBid(), form.getMode(), model);
+        commonProcess(bid, mode, model);
 
         boardValidator.validate(form, errors);
 
@@ -104,10 +105,12 @@ public class BoardController implements ExceptionProcessor {
             return utils.tpl("board/" + mode);
         }
 
+        boardData = boardSaveService.save(form);
+
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
 
-        return utils.redirectUrl(url);
+        return utils.redirectUrl("/board/list/" + bid);
     }
 
     /**
@@ -121,6 +124,7 @@ public class BoardController implements ExceptionProcessor {
         commonProcess(bid, "list", model);
 
         ListData<BoardData> data = boardInfoService.getList(bid, search);
+
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagenation", data.getPagination());
 

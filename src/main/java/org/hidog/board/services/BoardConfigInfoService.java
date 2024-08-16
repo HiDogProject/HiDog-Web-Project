@@ -29,6 +29,7 @@ public class BoardConfigInfoService {
         try {
             String url = utils.adminUrl("/api/board/config/" + bid);
             ResponseEntity<JSONData> response = restTemplate.getForEntity(url, JSONData.class);
+
             if (response.getStatusCode().isSameCodeAs(HttpStatus.OK)) {
                 JSONData jsonData = response.getBody();
                 if (!jsonData.isSuccess()) {
@@ -38,7 +39,6 @@ public class BoardConfigInfoService {
                 Object data = jsonData.getData();
 
                 Board board = om.readValue(om.writeValueAsString(data), Board.class);
-
                 return Optional.ofNullable(board);
             }
         } catch (Exception e) {
