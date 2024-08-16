@@ -21,27 +21,30 @@ public class BoardConfigInfoService {
 
     /**
      * 게시판 설정 조회
+     *
      * @param bid
      * @return
      */
-    public Optional<Board> get(String bid){
+    public Optional<Board> get(String bid) {
         try {
             String url = utils.adminUrl("/api/board/config/" + bid);
-            ResponseEntity<JSONData> response = restTemplate.getForEntity(utils.adminUrl(url), JSONData.class);
-            if(response.getStatusCode().isSameCodeAs(HttpStatus.OK)){
+            ResponseEntity<JSONData> response = restTemplate.getForEntity(url, JSONData.class);
+            if (response.getStatusCode().isSameCodeAs(HttpStatus.OK)) {
                 JSONData jsonData = response.getBody();
-                if(!jsonData.isSuccess()){
+                if (!jsonData.isSuccess()) {
                     return Optional.empty();
                 }
 
                 Object data = jsonData.getData();
+
                 Board board = om.readValue(om.writeValueAsString(data), Board.class);
 
                 return Optional.ofNullable(board);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return Optional.empty(); // 변경
+
+        return Optional.empty();
     }
 }
