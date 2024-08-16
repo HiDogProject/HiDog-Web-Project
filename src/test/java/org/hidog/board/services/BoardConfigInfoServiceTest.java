@@ -9,12 +9,11 @@ import java.util.Optional;
 
 @SpringBootTest
 public class BoardConfigInfoServiceTest {
-
     @Autowired
-    private  BoardConfigInfoService infoService;
+    private BoardConfigInfoService infoService;
 
     @Test
-    public void boardConfigTest(){
+    void boardConfigTest() {
         Optional<Board> board = infoService.get("freetalk");
         System.out.println(board);
     }
