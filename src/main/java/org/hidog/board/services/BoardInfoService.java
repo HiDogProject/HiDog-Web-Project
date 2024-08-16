@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.controllers.BoardDataSearch;
 import org.hidog.board.controllers.RequestBoard;
+import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.entities.QBoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
@@ -20,6 +21,7 @@ import org.hidog.board.repositories.BoardRepository;
 import org.hidog.config.services.ConfigInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Pagination;
+import org.hidog.global.Utils;
 import org.hidog.global.constants.DeleteStatus;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
@@ -31,6 +33,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -46,124 +49,45 @@ public class BoardInfoService {
     private final JPAQueryFactory jpaQueryFactory;
     private final OffsetScrollPositionHandlerMethodArgumentResolver offsetResolver;
     private final BoardRepository boardRepository;
-
-    /**
-     * 게시글 1개 조회(엔티티)
-     *
-     * @param seq : 게시글 번호
-     * @return
-     */
-    public BoardData get(Long seq, DeleteStatus status) {
-        BoardData item = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
-
-        // 추가 데이터 처리
-        addInfo(item);
-
-        return item;
-    }
-
-    public BoardData get(Long seq) {
-
-        return get(seq, DeleteStatus.UNDELETED);
-    }
-
-    /**
-     * BoardData(엔티티) -> RequestBoard(커맨드객체)
-     * 게시글 데이터(BoardData), 게시글 번호(Long)
-     * @return
-     */
-    public RequestBoard getForm(Long seq, DeleteStatus status) {
-        BoardData item = get(seq);
-
-        return getForm(item, status);
-    }
-
-    public RequestBoard getForm(BoardData item, DeleteStatus status) {
-
-        return new ModelMapper().map(item, RequestBoard.class);
-    }
-
-    public BoardData getForm(Long seq) {
-        return get(seq, DeleteStatus.UNDELETED);
-    }
-
-    public RequestBoard getForm(BoardData item) {
-        return getForm(item, DeleteStatus.UNDELETED);
-    }
-
-
-    /**
-     * 게시글 추가 정보 처리, 추가 데이터 처리
-     *          - 업로드한 파일 목록
-     *          에디터 이미지 목록, 첨부 파일 이미지 목록
-     *          - 권한 : 글쓰기, 글수정, 글 삭제, 글 조회 가능 여부
-     *          - 댓글
-     * @param item
-     */
-    public void addInfo(BoardData item) {
-        /* 수정, 삭제 권한 정보 처리 S */
-        boolean editable = false, deletable = false, mine = false;
-        Member _member = item.getMember(); // null - 비회원, X null -> 회원
-
-        // 관리자 -> 삭제, 수정 모두 가능
-        if (memberUtil.isAdmin()) {
-            editable = true;
-            deletable = true;
-        }
-
-        // 회원 -> 직접 작성한 게시글만 삭제, 수정 가능
-        Member member = memberUtil.getMember();
-        if (_member != null && memberUtil.isLogin() && _member.getEmail().equals(member.getEmail())) {
-            editable = true;
-            deletable = true;
-            mine = true;
-        }
-
-        // 비회원 -> 비회원 비밀번호가 확인 된 경우 삭제, 수정 가능
-        // 비회원 비밀번호 인증 여부 세션에 있는 guest_confirmed_게시글번호 true -> 인증
-        HttpSession session = request.getSession();
-        String key = "guest_confirmed_" + item.getSeq();
-        Boolean guestConfirmed = (Boolean)session.getAttribute(key);
-        if (_member == null && guestConfirmed != null && guestConfirmed) {
-            editable = true;
-            deletable = true;
-            mine = true;
-        }
-
-        item.setEditable(editable);
-        item.setDeletable(deletable);
-        item.setMine(mine);
-
-        // 수정 버튼 노출 여부
-        // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
-        boolean showEditButton = memberUtil.isAdmin() || mine || _member == null;
-        boolean showDeleteButton = showEditButton;
-
-        item.setShowEditButton(showEditButton);
-        item.setShowDeleteButton(showDeleteButton);
-
-        /* 수정, 삭제 권한 정보 처리 E */
-    }
-
+    private final BoardConfigInfoService configInfoService;
+    private final Utils utils;
 
     /**
      * 게시글 목록 조회
      *
      */
     public ListData<BoardData> getList(BoardDataSearch search, DeleteStatus status) {
-          int page =  Math.max(search.getPage(), 1);
-          int limit = search.getLimit();
-          int offset = (page - 1) * limit;
+        // 게시판 설정 조회
+        String bid = search.getBid();
+        List<String> bids = search.getBid(); // 게시판 여러개 조회
 
-          String sopt = search.getSort(); // 검색옵션
-          String skey = search.getSkey(); // 검색 키워드
+        // 게시판 설정 조회
+        Board board = bid != null && StringUtils.hasText(bid.trim()) ? configInfoService.get(bid.trim()) : null;
 
-          String bid = search.getBid();
-          List<String> bids = search.getBids(); // 게시판 여러개 조회
+        int page =  Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        int offset = (page - 1) * limit;
+        // 삭제가 되지 않은 게시글 목록이 기본 값
+        status = Objects.requireNonNullElse(status, DeleteStatus.UNDELETED);
+
+        String sopt = search.getSort(); // 검색옵션
+        String skey = search.getSkey(); // 검색 키워드
+
+        String bid = search.getBid();
+        List<String> bids = search.getBids(); // 게시판 여러개 조회
 
         /* 검색 처리 S*/
         QBoardData boardData = QBoardData.boardData;
         BooleanBuilder andBuilder = new BooleanBuilder();
+
+        // 삭제, 미삭제 게시글 조회 처리
+        if (status != DeleteStatus.ALL) {
+            if (status == DeleteStatus.UNDELETED) {
+                andBuilder.and(boardData.deletedAt.isNull()); // 미삭제 게시글
+            } else {
+                andBuilder.and(boardData.deletedAt.isNotNull()); // 삭제된 게시글
+            }
+        }
 
 
         if (bid != null && StringUtils.hasText(bid.trim())) { // 게시판별 조회
@@ -268,9 +192,10 @@ public class BoardInfoService {
         long total = boardRepository.count(andBuilder);
 
         // 페이징 처리
-        Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
+        int ranges = utils.isMoblie() ? board.getPageCountMobile() : board.getPageCountPc();
+        Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
 
-      return new ListData<>(items, pagination);
+        return new ListData<>(items, pagination);
     }
 
     /**
@@ -285,6 +210,121 @@ public class BoardInfoService {
 
         return getList(search, status);
     }
+
+    /**
+     * 게시글 1개 조회(엔티티)
+     *
+     * @param seq : 게시글 번호
+     * @return
+     */
+    public BoardData get(Long seq, DeleteStatus status) {
+
+        BooleanBuilder andbuilder = new BooleanBuilder();
+        QBoardData boardData = QBoardData.boardData;
+        andbuilder.and(boardData.seq.eq(seq));
+
+        BoardData item = jpaQueryFactory.selectFrom(boardData)
+                .leftJoin(boardData.board)
+                .fetchJoin()
+                .leftJoin(boardData.member)
+                .fetchJoin()
+                .where(andbuilder)
+                .fetchFirst();
+
+        if (item == null) {
+            throw new BoardDataNotFoundException();
+        }
+
+        // 추가 데이터 처리
+        addInfo(item);
+
+        return item;
+    }
+
+    public BoardData get(Long seq) {
+
+        return get(seq, DeleteStatus.UNDELETED);
+    }
+
+    /**
+     * BoardData(엔티티) -> RequestBoard(커맨드객체)
+     * 게시글 데이터(BoardData), 게시글 번호(Long)
+     * @return
+     */
+    public RequestBoard getForm(Long seq, DeleteStatus status) {
+        BoardData item = get(seq);
+
+        return getForm(item, status);
+    }
+
+    public RequestBoard getForm(BoardData item, DeleteStatus status) {
+
+        return new ModelMapper().map(item, RequestBoard.class);
+    }
+
+    public BoardData getForm(Long seq) {
+        return get(seq, DeleteStatus.UNDELETED);
+    }
+
+    public RequestBoard getForm(BoardData item) {
+        return getForm(item, DeleteStatus.UNDELETED);
+    }
+
+
+    /**
+     * 게시글 추가 정보 처리, 추가 데이터 처리
+     *          - 업로드한 파일 목록
+     *          에디터 이미지 목록, 첨부 파일 이미지 목록
+     *          - 권한 : 글쓰기, 글수정, 글 삭제, 글 조회 가능 여부
+     *          - 댓글
+     * @param item
+     */
+    public void addInfo(BoardData item) {
+        /* 수정, 삭제 권한 정보 처리 S */
+        boolean editable = false, deletable = false, mine = false;
+        Member _member = item.getMember(); // null - 비회원, X null -> 회원
+
+        // 관리자 -> 삭제, 수정 모두 가능
+        if (memberUtil.isAdmin()) {
+            editable = true;
+            deletable = true;
+        }
+
+        // 회원 -> 직접 작성한 게시글만 삭제, 수정 가능
+        Member member = memberUtil.getMember();
+        if (_member != null && memberUtil.isLogin() && _member.getEmail().equals(member.getEmail())) {
+            editable = true;
+            deletable = true;
+            mine = true;
+        }
+
+        // 비회원 -> 비회원 비밀번호가 확인 된 경우 삭제, 수정 가능
+        // 비회원 비밀번호 인증 여부 세션에 있는 guest_confirmed_게시글번호 true -> 인증
+        HttpSession session = request.getSession();
+        String key = "guest_confirmed_" + item.getSeq();
+        Boolean guestConfirmed = (Boolean)session.getAttribute(key);
+        if (_member == null && guestConfirmed != null && guestConfirmed) {
+            editable = true;
+            deletable = true;
+            mine = true;
+        }
+
+        item.setEditable(editable);
+        item.setDeletable(deletable);
+        item.setMine(mine);
+
+        // 수정 버튼 노출 여부
+        // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
+        boolean showEditButton = memberUtil.isAdmin() || mine || _member == null;
+        boolean showDeleteButton = showEditButton;
+
+        item.setShowEditButton(showEditButton);
+        item.setShowDeleteButton(showDeleteButton);
+
+        /* 수정, 삭제 권한 정보 처리 E */
+    }
+
+
 
     /**
      * 특정 게시판 목록을 조회

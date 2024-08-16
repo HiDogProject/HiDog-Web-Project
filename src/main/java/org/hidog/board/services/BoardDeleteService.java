@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.file.services.FileDeleteService;
+import org.hidog.global.constants.DeleteStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ public class BoardDeleteService {
      */
     @Transactional
     public BoardData completeDelete(Long seq) {
-         BoardData data = boardInfoService.get(seq);
+         BoardData data = boardInfoService.get(seq, DeleteStatus.ALL);
 
          String gid = data.getGid(); // 파일 조회
 
