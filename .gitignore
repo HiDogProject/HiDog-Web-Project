@@ -38,3 +38,5 @@ out/
 
 ### 개발할때 프로필
 application-dev.*
+
+src/main/generated/
