@@ -96,7 +96,7 @@ public class BoardController implements ExceptionProcessor {
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
-        commonProcess(form.getBid(), form.getMode(), model);
+        commonProcess(form.getBid(), mode, model);
 
         boardValidator.validate(form, errors);
 
