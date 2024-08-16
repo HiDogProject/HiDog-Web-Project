@@ -42,6 +42,6 @@ public class BoardConfigInfoService {
         }catch(Exception e){
             e.printStackTrace();
         }
-        return Optional.empty();
+        return Optional.empty(); // 변경
     }
 }
