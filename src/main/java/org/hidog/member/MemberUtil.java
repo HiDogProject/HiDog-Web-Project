@@ -8,6 +8,7 @@ import org.hidog.member.entities.Member;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -44,5 +45,17 @@ public class MemberUtil {
         }
 
         return null;
+    }
+
+    public String getProfileImageUrl() {
+        Member member = getMember();
+        String filename = member.getProfileImageFilename();
+        if (filename == null || filename.isEmpty()) {
+            return "/default-profile-image.png"; // 기본 프로필 이미지 경로
+        }
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/uploads/")
+                .path(filename)
+                .toUriString();
     }
 }

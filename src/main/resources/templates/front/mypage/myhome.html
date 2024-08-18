@@ -13,9 +13,14 @@
             <div class="profile-image">
                 <img id="profileImage" th:src="${profileImage}">
             </div>
-            <a th:href="${@utils.url('/mypage/profile')}">
-                <button type="submit" class="btn" th:text="#{프로필}"></button>
-            </a>
+            <button id="editProfileBtn" class="btn" th:text="#{프로필_수정}"></button>
+        </div>
+        <div id="profilePopup" class="popup">
+            <form id="uploadForm" action="${fileUploadUrl}" method="post" enctype="multipart/form-data">
+                <input type="file" name="profileImage" id="fileInput" accept="image/*">
+                <button type="submit">프로필 이미지 저장하기</button>
+                <button type="button" id="cancelBtn">취소</button>
+            </form>
         </div>
         <div class="buttons">
             <a th:href="${@utils.url('/mypage/info')}">
@@ -32,4 +37,5 @@
             </a>
         </div>
     </main>
+    <script src="/front/js/mypage/myhome.js"></script>
 </html>

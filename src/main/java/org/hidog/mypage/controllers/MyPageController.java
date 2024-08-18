@@ -7,15 +7,16 @@ import org.hidog.member.entities.Member;
 import org.hidog.member.services.MemberService;
 import org.hidog.mypage.services.MyPageService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/mypage")
@@ -40,12 +41,36 @@ public class MyPageController {
      * 6) 게시글 버튼 클릭 시 게시글 페이지 (/mypage/post)로 이동 -> 표 형태로 작성한 글 목록 나옴
      * 7) 판매 내역 & 구매 내역 버튼 클릭 시 판매 내역 & 구매 내역 페이지 (/mypage/sellAndBuy)로 이동 -> 5)와 동일하게 목록화된 페이지 나옴
      */
-    // 마이 페이지 홈
+    // 마이 페이지 홈 + 프로필 수정
     @GetMapping("/myhome")
     public String myHome(Model model) {
         commonProcess("myhome", model);
+        model.addAttribute("profileImage", memberUtil.getProfileImageUrl());
         return utils.tpl("mypage/myhome");
     }
+    /*
+    @PostMapping("/uploadProfileImage") @ResponseBody
+    public Map<String, Object> updateProfileImage(@AuthenticationPrincipal UserDetails userDetails,
+                                                  @RequestParam("profileImage") MultipartFile profileImage) {
+        Map<String, Object> response = new HashMap<>();
+        if (!memberUtil.isLogin()) { // 로그인 상태 확인
+            response.put("success", false);
+            response.put("message", "로그인 필요!");
+            return response;
+        }
+
+        try {
+            Long memberId = memberUtil.getMember().getSeq();
+            myPageService.saveProfileImage(memberId, profileImage);
+            response.put("success", true);
+            response.put("successMessage", "프로필 이미지 수정 성공");
+        } catch (IOException e) {
+            response.put("success", false);
+            response.put("errorMessage", "프로필 이미지 수정 실패");
+        }
+
+        return response;
+    } */
 
     // 마이 페이지 -> 회원 정보 확인 페이지
     @GetMapping("/info")
@@ -95,7 +120,7 @@ public class MyPageController {
     }
 
     // 프로필 페이지
-    @GetMapping("/profile")
+    /*@GetMapping("/profile")
     public String profile(Model model) {
         if (!memberUtil.isLogin()) { // 로그인 상태가 아닌 경우 로그인 페이지로 이동
             return "redirect:" + utils.redirectUrl("member/login");
@@ -130,7 +155,7 @@ public class MyPageController {
         }
 
         return response;
-    }
+    }*/
 
     // 찜 목록 페이지
     @GetMapping("/like")
