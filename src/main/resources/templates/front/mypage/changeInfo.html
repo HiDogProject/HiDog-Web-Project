@@ -2,14 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
     <main layout:fragment="content">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>회원 정보 수정</title>
-            <link th:each="css : ${addCss}" rel="stylesheet" th:href="@{${css}}"/>
-            <script th:each="script : ${addScript}" src="" th:src="@{${script}}"></script>
-        </head>
-        <body>
+
             <div class="container">
                 <h1>회원 정보 수정</h1>
 
@@ -45,6 +38,5 @@
                     </div>
                 </form>
             </div>
-        </body>
     </main>
 </html>
