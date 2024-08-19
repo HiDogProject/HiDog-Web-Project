@@ -2,17 +2,14 @@ package org.hidog.file.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hidog.global.entities.BaseMemberEntity;
 
 import java.util.UUID;
 
 @Data
 @Entity
-@Builder
+@Builder @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileInfo extends BaseMemberEntity {
@@ -37,7 +34,7 @@ public class FileInfo extends BaseMemberEntity {
 
     private boolean done; // 그룹 작업 완료 여부
 
-    @Transient
+    @Column(length = 255) // 적절한 길이 설정
     private String fileUrl; // 파일 접근 URL
 
     @Transient
