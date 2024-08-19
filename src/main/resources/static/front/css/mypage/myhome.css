@@ -82,7 +82,7 @@
     background-color: #c62828;
 }
 
-button[type="submit"] {
+button[type="submit"].pro {
     background-color: #68A5FE; /* #005aff #A6DCFE */
     color: #FFFFFF;
     border: none;
@@ -91,7 +91,7 @@ button[type="submit"] {
     margin-top: 10px;
 }
 
-button[type="submit"]:hover {
+button[type="submit"].pro:hover {
     background-color: #F5D2D2;
 }
 
