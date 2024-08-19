@@ -1,11 +1,10 @@
-/* 기본 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* 프로필 컨테이너 */
+/* 프로필 */
 .profile-container {
     text-align: center;
     margin-top: 20px;
@@ -55,7 +54,6 @@
     position: relative;
 }
 
-/* 닫기 버튼 */
 .close {
     color: #aaa;
     float: right;
@@ -82,6 +80,7 @@
     background-color: #c62828;
 }
 
+/* 페이지 이동 버튼 */
 button[type="submit"].pro {
     background-color: #68A5FE; /* #005aff #A6DCFE */
     color: #FFFFFF;
@@ -95,7 +94,6 @@ button[type="submit"].pro:hover {
     background-color: #F5D2D2;
 }
 
-/* 버튼 스타일 */
 .buttons {
     margin-top: 20px;
     text-align: center;
