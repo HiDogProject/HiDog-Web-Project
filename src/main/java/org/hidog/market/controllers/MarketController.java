@@ -3,6 +3,7 @@ package org.hidog.market.controllers;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.Utils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -25,7 +26,7 @@ public class MarketController {
      * 상품등록 페이지
      */
     @GetMapping("/products/new")
-    public String newProduct(){
+    public String newProduct(@ModelAttribute RequestProduct form, Model model){
         return utils.tpl("market/products/new");
     }
 
