@@ -25,24 +25,24 @@ public class MarketController {
     /**
      * 상품등록 페이지
      */
-    @GetMapping("/products/new")
-    public String newProduct(@ModelAttribute RequestProduct form, Model model){
-        return utils.tpl("market/products/new");
+    @GetMapping("/write/{bid}")
+    public String newProduct(@PathVariable("bid") String bid, @ModelAttribute RequestProduct form, Model model){
+        return utils.tpl("market/product/write");
     }
 
     /**
      * 상품수정 페이지
      */
-    @GetMapping("/products/edit")
+    @GetMapping("/edit")
     public String editProduct(){
-        return utils.tpl("market/products/edit");
+        return utils.tpl("market/product/edit");
     }
 
     /**
      * 상품 저장,수정 처리
      * @return
      */
-    @PostMapping("/products/save")
+    @PostMapping("/save")
     public String saveProduct(){
         return utils.redirectUrl("market/index");
     }
@@ -51,7 +51,7 @@ public class MarketController {
      * 상품 삭제 처리
      * @return
      */
-    @DeleteMapping("/products/delete")
+    @DeleteMapping("/delete")
     public String deleteProduct(){
         return utils.redirectUrl("market/index");
     }
