@@ -34,8 +34,8 @@ public class BoardController implements ExceptionProcessor {
     private final BoardInfoService boardInfoService;
     private final BoardDeleteService boardDeleteService;
     private final BoardSaveService boardSaveService;
-    private final Utils utils;
     private final BoardValidator boardValidator;
+    private final Utils utils;
 
     private final MemberUtil memberUtil;
     private final BoardFormValidator boardFormValidator;
@@ -58,12 +58,10 @@ public class BoardController implements ExceptionProcessor {
                         @ModelAttribute RequestBoard form, Model model) {
         commonProcess(bid, "write", model);
 
-        /*
+        form.setGuest(!memberUtil.isLogin());
         if (memberUtil.isLogin()) {
-            Member member = memberUtil.getMember();
-            form.setPoster(member.getUserName());
+            form.setPoster(memberUtil.getMember().getUserName());
         }
-         */
 
         return utils.tpl("board/write");
     }
@@ -94,10 +92,9 @@ public class BoardController implements ExceptionProcessor {
      */
     @PostMapping("/save")
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
-        String bid = form.getBid();
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
-        commonProcess(bid, mode, model);
+        commonProcess(form.getBid(), form.getMode(), model);
 
         boardValidator.validate(form, errors);
 
@@ -105,12 +102,10 @@ public class BoardController implements ExceptionProcessor {
             return utils.tpl("board/" + mode);
         }
 
-        boardData = boardSaveService.save(form);
-
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
 
-        return utils.redirectUrl("/board/list/" + bid);
+        return "redirect:" + utils.redirectUrl(url);
     }
 
     /**
@@ -124,7 +119,6 @@ public class BoardController implements ExceptionProcessor {
         commonProcess(bid, "list", model);
 
         ListData<BoardData> data = boardInfoService.getList(bid, search);
-
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagenation", data.getPagination());
 

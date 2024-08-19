@@ -53,6 +53,7 @@ const fileManager = {
 
             ajaxLoad('/file/upload', 'POST', formData)
                 .then(res => {
+                    console.log(res);
                     if (!res.success) {
                         alert(res.message);
                         return;
@@ -81,10 +82,9 @@ const fileManager = {
 
         (async () => {
             try {
-                const fileInfo = await ajaxLoad(`/file/delete/${seq}`, 'DELETE');
-
+                const res = await ajaxLoad(`/file/delete/${seq}`, 'DELETE');
                 if (typeof parent.fileDeleteCallback === 'function') {
-                    parent.fileDeleteCallback(fileInfo);
+                    parent.fileDeleteCallback(res.data);
                 }
 
             } catch (err) {

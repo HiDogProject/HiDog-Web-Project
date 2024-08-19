@@ -1,56 +1,90 @@
+window.addEventListener("DOMContentLoaded", function() {
+    (async() => {
+        try {
+            const { editorLoad } = commonLib;
+            const editor = await editorLoad("content");
+            if (editor) window.editor = editor;
+        } catch (err) {}
+    })();
+});
+
+
 /**
  * 파일 업로드 후속 처리
  *
+ * files : 업로드한 파일 목록
  */
-function callbackFileUpload(files) {
-    if (!files || files.length == 0) {
+function fileUploadCallback(files) {
+    if (!files || files.length === 0) {
         return;
     }
 
+    // 에디터에 첨부할 이미지 URL
     const imageUrls = [];
 
-    const editorTpl = document.getElementById("editor_tpl").innerHTML;
-    const attachTpl = document.getElementById("attach_tpl").innerHTML;
+    // 파일 업로드 location 별 파일 목록 템플릿
+    const attachTpl = document.getElementById("attach-file-tpl").innerHTML;
+    const editorTpl = document.getElementById("editor-file-tpl").innerHTML;
 
-    const editorFiles = document.getElementById("editor_files");
-    const attachFiles = document.getElementById("attach_files");
+    const attachTarget = document.getElementById("uploaded-files-attach");
+    const editorTarget = document.getElementById("uploaded-files-editor");
 
     const domParser = new DOMParser();
 
     for (const file of files) {
-        const location = file.location;
+        const { seq, location, fileUrl, fileName } = file;
 
-        let html = location == 'editor' ? editorTpl : attachTpl;
-        const targetEl = location == 'editor' ? editorFiles : attachFiles;
+        const target = location === 'editor' ? editorTarget : attachTarget;
+        let html = location === 'editor' ? editorTpl : attachTpl;
 
-        if (location == 'editor') {
-            imageUrls.push(file.fileUrl);
-        }
-
-        html = html.replace(/\[seq\]/g, file.seq)
-            .replace(/\[fileName\]/g, file.fileName)
-            .replace(/\[imageUrl\]/g, file.fileUrl);
+        html = html.replace(/\[seq\]/g, seq)
+            .replace(/\[fileName\]/g, fileName)
+            .replace(/\[fileUrl\]/g, fileUrl);
 
         const dom = domParser.parseFromString(html, "text/html");
-        const fileBox = dom.querySelector(".file_tpl_box");
+        const el = dom.querySelector(".file-item");
 
-        targetEl.appendChild(fileBox);
+        target.append(el);
 
-        const insertImageEl = fileBox.querySelector(".insert_image");
+        if (location === 'editor') { // 에디터 첨부
+            imageUrls.push(fileUrl);
 
-        if (insertImageEl) insertImageEl.addEventListener("click", () => insertImage(file.fileUrl));
+            const insertEditorEl = el.querySelector(".insert-editor");
+            if (insertEditorEl) {
+                insertEditorEl.addEventListener("click", (e) => insertEditor(e.currentTarget.dataset.url));
+            }
+        }
+
+        // 파일 삭제 이벤트 처리
+        const removeEl = el.querySelector(".remove");
+        removeEl.addEventListener("click", () => {
+            if (confirm('정말 삭제하겠습니까?')) {
+                fileManager.delete(seq);
+            }
+        });
+
     }
 
-    if (imageUrls.length > 0) insertImage(imageUrls);
-
+    // 에디터 본문에 이미지 추가
+    if (imageUrls.length > 0) {
+        insertEditor(imageUrls);
+    }
 }
 
+function insertEditor(source) {
+    editor.execute("insertImage", { source });
+}
+
+
 /**
- * 파일 삭제후 후속 처리
+ * 파일 삭제 후속 처리
  *
  */
-function callbackFileDelete(seq) {
-    const fileBox = document.getElementById(`file_${seq}`);
-    fileBox.parentElement.removeChild(fileBox);
+function fileDeleteCallback(file) {
+    if (!file) return;
 
+    const { seq } = file;
+
+    const el = document.getElementById(`file-${seq}`);
+    el.parentElement.removeChild(el);
 }
