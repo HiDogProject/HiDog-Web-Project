@@ -47,11 +47,11 @@ public class MypageService {
         return fileInfo;
     }
 
-    // 프로필 이미지 업데이트 메서드
+    // 프로필 이미지 업데이트
     public void updateProfileImage(Long memberId, String newImageUrl) {
         FileInfo fileInfo = mypageRepository.findByGid(memberId.toString())
                 .orElseThrow(() -> new RuntimeException("File info not found for member: " + memberId));
-        fileInfo.setFileUrl(newImageUrl); // fileUrl 필드를 업데이트합니다.
+        fileInfo.setFileUrl(newImageUrl); // fileUrl 필드 업데이트
         mypageRepository.save(fileInfo);
     }
 }
