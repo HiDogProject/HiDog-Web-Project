@@ -32,6 +32,8 @@ public class FileController implements RestExceptionProcessor {
     @PostMapping("/upload")
     public ResponseEntity<JSONData> upload(@RequestPart("file") MultipartFile[] files,
                                            @Valid RequestUpload form, Errors errors) {
+        //ResponseEntity: HTTP 응답의 상태 코드, 헤더, 본문을 포함하는 객체입니다.
+        //JSONData: 반환할 JSON 형식의 데이터 구조를 나타내는 클래스입니다. 이 클래스는 서버에서 처리한 결과를 JSON 형식으로 클라이언트에게 응답할 때 사용됩니다.
 
         form.setFiles(files);
 
