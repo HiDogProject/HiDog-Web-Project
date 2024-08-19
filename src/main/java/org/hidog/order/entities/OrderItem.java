@@ -1,10 +1,7 @@
 package org.hidog.order.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hidog.board.entities.BoardData;
 import org.hidog.global.entities.BaseEntity;
 import org.hidog.order.constants.OrderStatus;
@@ -28,6 +25,7 @@ public class OrderItem extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private BoardData boardData;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     private OrderInfo orderInfo;
 
