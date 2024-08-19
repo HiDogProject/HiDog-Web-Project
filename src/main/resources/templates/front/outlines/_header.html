@@ -37,7 +37,7 @@
                         <a th:href="@{/app/member/logout}">
                             <button type="submit" th:text="#{로그아웃}"></button>
                         </a>
-                        <a th:href="${@utils.redirectUrl('/mypage')}">
+                        <a th:href="${@utils.redirectUrl('/mypage/myhome')}">
                             <button type="submit" th:text="#{마이_페이지}"></button>
                         </a>
                         <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin}" target="_blank">
