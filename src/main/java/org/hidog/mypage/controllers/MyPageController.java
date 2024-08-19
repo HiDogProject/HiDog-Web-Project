@@ -1,11 +1,13 @@
 package org.hidog.mypage.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.hidog.file.entities.FileInfo;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.hidog.member.services.MemberService;
-import org.hidog.mypage.services.MyPageService;
+import org.hidog.mypage.services.MypageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,50 +30,78 @@ public class MyPageController {
     private final Utils utils;
     private final MemberUtil memberUtil;
     private final MemberService memberService;
-    private final MyPageService myPageService;
+    private final MypageService mypageService;
 
     @Value("${file.upload.url}")
     private String fileUploadUrl;
 
     /**
      * 1) mypage/myhome 입력 시 마이 페이지 홈으로 이동
-     * 2) 마이 페이지 홈 -> 버튼 O (회원 정보 확인 버튼, 프로필 버튼, 찜 목록 버튼, 게시글 버튼, 판매 내역 & 구매 내역 버튼)
-     * 3) 회원 정보 확인 버튼 클릭 시 회원 정보 페이지 (/mypage/info)로 이동 -> 로그인한 사용자의 정보가 나오고 그 아래에 메인 페이지 버튼 / 회원 정보 수정 버튼
+     * 2) 마이 페이지 홈 -> 버튼 O (프로필 이미지, 회원 정보 확인 버튼, 찜 목록 버튼, 게시글 버튼, 판매 내역 & 구매 내역 버튼)
+     * 3) 원형 프로필 클릭 시 프로필 이미지 수정 팝업 생성 -> 이미지 저장 버튼 클릭 시 수정된 이미지로 변경 및 마이 페이지 홈에 가만히 있음
+     * 4) 회원 정보 확인 버튼 클릭 시 회원 정보 페이지 (/mypage/info)로 이동 -> 로그인한 사용자의 정보가 나오고 그 아래에 메인 페이지 버튼 / 회원 정보 수정 버튼
      * -> 회원 정보 수정 버튼 클릭 시 로그인할 때 사용한 비밀번호로 본인 인증 -> 성공 시 회원 정보 수정 페이지 (/mypage/changInfo)로 이동 | 실패 시 마이 페이지로 이동
-     * 4) 원형 프로필 클릭 시 프로필 이미지 수정 팝업 생성 -> 이미지 저장 버튼 클릭 시 수정된 이미지로 변경 및 마이 페이지 홈에 가만히 있음
      * 5) 찜 목록 버튼 클릭 시 찜 목록 페이지 (/mypage/like)로 이동 -> 사진첩 처럼 이미지 목록으로 찜한 내역 목록화된 페이지 나옴
      * 6) 게시글 버튼 클릭 시 게시글 페이지 (/mypage/post)로 이동 -> 표 형태로 작성한 글 목록 나옴
      * 7) 판매 내역 & 구매 내역 버튼 클릭 시 판매 내역 & 구매 내역 페이지 (/mypage/sellAndBuy)로 이동 -> 5)와 동일하게 목록화된 페이지 나옴
      */
-    // 마이 페이지 홈 + 프로필 수정
+
+    // 마이 페이지 홈 + 프로필 수정 원
     @GetMapping("/myhome")
     public String myHome(Model model) {
         commonProcess("myhome", model);
         model.addAttribute("profileImage", memberUtil.getProfileImageUrl());
         return utils.tpl("mypage/myhome");
     }
-    /*
-    @PostMapping("/uploadProfileImage") @ResponseBody
-    public Map<String, Object> updateProfileImage(@AuthenticationPrincipal UserDetails userDetails,
-                                                  @RequestParam("profileImage") MultipartFile profileImage) {
-        Map<String, Object> response = new HashMap<>();
-        if (!memberUtil.isLogin()) { // 로그인 상태 확인
-            response.put("success", false);
-            response.put("message", "로그인 필요!");
-            return response;
-        }
 
+    // 프로필 수정 팝업 창
+    @PostMapping("/myhome")
+    public String updateProfileImage(@RequestParam("newProfileImage") MultipartFile newProfileImage, HttpServletRequest request) {
         try {
-            Long memberId = memberUtil.getMember().getSeq();
-            myPageService.saveProfileImage(memberId, profileImage);
-            response.put("success", true);
-            response.put("successMessage", "프로필 이미지 수정 성공");
-        } catch (IOException e) {
-            response.put("success", false);
-            response.put("errorMessage", "프로필 이미지 수정 실패");
-        }
+            Long userId = (Long) request.getSession().getAttribute("userId");
 
-        return response;
+            // 파일 업로드 및 FileInfo 반환
+            FileInfo uploadedFile = mypageService.uploadProfileImage(newProfileImage, userId);
+
+            // 새 이미지 URL 생성
+            String newImageUrl = "/files/" + uploadedFile.getSeq() + uploadedFile.getExtension();
+
+            // 프로필 이미지 URL 업데이트
+            mypageService.updateProfileImage(userId, newImageUrl);
+
+            // 새 프로필 이미지 URL 저장
+            request.getSession().setAttribute("profileImage", newImageUrl);
+
+            return "redirect:" + utils.redirectUrl("mypage/myhome");
+
+        } catch (IOException e) {
+            request.getSession().setAttribute("error", "이미지 변경 중에 오류가 발생했습니다.");
+            return "redirect:" + utils.redirectUrl("mypage/myhome");
+        } catch (Exception e) {
+            request.getSession().setAttribute("error", e.getMessage());
+            return "redirect:" + utils.redirectUrl("mypage/myhome");
+        }
+    }
+
+/*    @PostMapping("/myhome")
+    public String updateProfileImage(@RequestParam("newProfileImage") MultipartFile newProfileImage, HttpServletRequest request) {
+        try { // 프로필 이미지 저장
+
+            String newImageUrl = memberUtil.saveProfileImage(newProfileImage); // 이미지 저장 후 URL 반환
+
+            Long userId = (Long) request.getSession().getAttribute("userId");
+            memberUtil.updateProfileImageUrl(userId, newImageUrl); // 사용자 프로필 URL 업데이트
+
+            request.getSession().setAttribute("profileImage", newImageUrl); // 이미지 URL 추가
+
+            return "redirect:" + utils.redirectUrl("mypage/myhome");
+        } catch (IOException e) {
+            request.getSession().setAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
+            return "redirect:" + utils.redirectUrl("mypage/myhome");
+        } catch (Exception e) {
+            request.getSession().setAttribute("error", e.getMessage());
+            return "redirect:" + utils.redirectUrl("mypage/myhome");
+        }
     } */
 
     // 마이 페이지 -> 회원 정보 확인 페이지
@@ -90,7 +122,7 @@ public class MyPageController {
     @GetMapping("/changeInfo")
     public String changeInfoPage(Model model) {
         if (!memberUtil.isLogin()) {
-            return "redirect:" + utils.redirectUrl("mypage/myhome"); // 로그인하지 않은 경우 마이 페이지로 이동
+            return "redirect:" + utils.redirectUrl("mypage/myhome"); // 미로그인인 경우 마이 페이지로 이동
         }
 
         Member member = memberUtil.getMember();
@@ -102,60 +134,32 @@ public class MyPageController {
 
     // 회원 정보 수정 페이지
     @PostMapping("/changeInfo")
-    public String changeInfo(@RequestParam String userName, @RequestParam String password, @RequestParam String address, Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 회원 정보 수정할 수 있도록
+    public String changeInfo(@RequestParam String userName, @RequestParam String password, @RequestParam String address, Model model) {
         if (!memberUtil.isLogin()) {
             return "redirect:" + utils.redirectUrl("mypage/myhome");
         }
 
         Member member = memberUtil.getMember();
+        if (member == null) {
+            model.addAttribute("errorMessage", "로그인 정보가 유효하지 않습니다.");
+            return utils.tpl("mypage/changeInfo");
+        }
+
         member.setUserName(userName);
         member.setPassword(password);
         member.setAddress(address);
 
-        memberService.updateMember(member); // 회원 정보 수정 서비스 호출
+        try {
+            memberService.updateMember(member);
+            model.addAttribute("successMessage", "회원 정보가 수정되었습니다.");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "회원 정보 수정 중에 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
 
-        model.addAttribute("successMessage", "회원 정보가 수정되었습니다.");
         commonProcess("changeInfo", model);
         return utils.tpl("mypage/changeInfo");
     }
-
-    // 프로필 페이지
-    /*@GetMapping("/profile")
-    public String profile(Model model) {
-        if (!memberUtil.isLogin()) { // 로그인 상태가 아닌 경우 로그인 페이지로 이동
-            return "redirect:" + utils.redirectUrl("member/login");
-        }
-
-        Member member = memberUtil.getMember();
-        model.addAttribute("member", member);
-        model.addAttribute("fileUploadUrl", fileUploadUrl);
-        commonProcess("profile", model);
-        return utils.tpl("mypage/profile");
-    }
-
-    // 프로필 이미지 클릭 -> 수정
-    @PostMapping("/profile") @ResponseBody
-    public Map<String, Object> updateProfileImage(@AuthenticationPrincipal UserDetails userDetails,
-                                                  @RequestParam("profileImage") MultipartFile profileImage) {
-        Map<String, Object> response = new HashMap<>();
-        if (!memberUtil.isLogin()) { // 로그인 상태가 아닌 경우 메세지 나옴
-            response.put("success", false);
-            response.put("message", "로그인 필요!");
-            return response;
-        }
-
-        try {
-            Long memberId = memberUtil.getMember().getSeq();
-            myPageService.saveProfileImage(memberId, profileImage);
-            response.put("success", true);
-            response.put("successMessage", "프로필 이미지 수정 성공");
-        } catch (IOException e) {
-            response.put("success", false);
-            response.put("errorMessage", "프로필 이미지 수정 실패");
-        }
-
-        return response;
-    }*/
 
     // 찜 목록 페이지
     @GetMapping("/like")
@@ -164,7 +168,7 @@ public class MyPageController {
         return utils.tpl("mypage/like");
     }
 
-    // 게시글 페이지
+    // 내가 쓴 게시글 페이지
     @GetMapping("/post")
     public String post(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인이 쓴 게시글 확인할 수 있도록
         commonProcess("post", model);
