@@ -83,27 +83,6 @@ public class MyPageController {
         }
     }
 
-/*    @PostMapping("/myhome")
-    public String updateProfileImage(@RequestParam("newProfileImage") MultipartFile newProfileImage, HttpServletRequest request) {
-        try { // 프로필 이미지 저장
-
-            String newImageUrl = memberUtil.saveProfileImage(newProfileImage); // 이미지 저장 후 URL 반환
-
-            Long userId = (Long) request.getSession().getAttribute("userId");
-            memberUtil.updateProfileImageUrl(userId, newImageUrl); // 사용자 프로필 URL 업데이트
-
-            request.getSession().setAttribute("profileImage", newImageUrl); // 이미지 URL 추가
-
-            return "redirect:" + utils.redirectUrl("mypage/myhome");
-        } catch (IOException e) {
-            request.getSession().setAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
-            return "redirect:" + utils.redirectUrl("mypage/myhome");
-        } catch (Exception e) {
-            request.getSession().setAttribute("error", e.getMessage());
-            return "redirect:" + utils.redirectUrl("mypage/myhome");
-        }
-    } */
-
     // 마이 페이지 -> 회원 정보 확인 페이지
     @GetMapping("/info")
     public String memberInfo(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 회원 정보 확인할 수 있도록
