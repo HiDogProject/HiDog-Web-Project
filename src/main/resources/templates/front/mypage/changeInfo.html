@@ -21,22 +21,22 @@
                 <!-- 회원 정보 수정 폼 -->
                 <form th:action="@{/mypage/changeInfo}" method="post" class="info-form">
                     <div class="form-group">
-                        <label for="userName">닉네임 : </label>
+                        <label for="userName">닉네임</label>
                         <input type="text" id="userName" name="userName" th:value="${member.userName}" required/>
                     </div>
 
                     <div class="form-group">
-                        <label for="password">비밀번호 : </label>
+                        <label for="password">비밀번호</label>
                         <input type="password" id="password" name="password" th:value="${member.password}" required/>
                     </div>
 
                     <div class="form-group">
-                        <label for="address">주소 : </label>
+                        <label for="address">주소</label>
                         <input type="text" id="address" name="address" th:value="${member.address}" required/>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">이메일 : </label>
+                        <label for="email">이메일</label>
                         <input type="email" id="email" name="email" th:value="${member.email}" readonly/> <!-- 수정 X -->
                     </div>
 
