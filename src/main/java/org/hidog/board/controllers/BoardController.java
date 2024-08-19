@@ -34,8 +34,8 @@ public class BoardController implements ExceptionProcessor {
     private final BoardInfoService boardInfoService;
     private final BoardDeleteService boardDeleteService;
     private final BoardSaveService boardSaveService;
-    private final Utils utils;
     private final BoardValidator boardValidator;
+    private final Utils utils;
 
     private final MemberUtil memberUtil;
     private final BoardFormValidator boardFormValidator;
@@ -58,12 +58,10 @@ public class BoardController implements ExceptionProcessor {
                         @ModelAttribute RequestBoard form, Model model) {
         commonProcess(bid, "write", model);
 
-        /*
+        form.setGuest(!memberUtil.isLogin());
         if (memberUtil.isLogin()) {
-            Member member = memberUtil.getMember();
-            form.setPoster(member.getUserName());
+            form.setPoster(memberUtil.getMember().getUserName());
         }
-         */
 
         return utils.tpl("board/write");
     }
@@ -107,7 +105,7 @@ public class BoardController implements ExceptionProcessor {
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
 
-        return utils.redirectUrl(url);
+        return "redirect:" + utils.redirectUrl(url);
     }
 
     /**
