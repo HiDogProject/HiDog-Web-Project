@@ -1,21 +1,20 @@
 package org.hidog.member;
 
 import lombok.RequiredArgsConstructor;
+import org.hidog.file.entities.FileInfo;
 import org.hidog.member.constants.Authority;
 import org.hidog.member.entities.Authorities;
 import org.hidog.member.entities.Member;
 import org.hidog.member.repositories.MemberRepository;
+import org.hidog.mypage.services.MypageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -23,6 +22,7 @@ public class MemberUtil {
    //  private final HttpSession session;
    //  private final MemberInfoService infoService;
     private final MemberRepository memberRepository;
+    private final MypageService myPageService;
     @Value("${file.upload.url}")
     private String fileUploadUrl;
 
@@ -57,36 +57,36 @@ public class MemberUtil {
 
     // 프로필 이미지 저장
     public String saveProfileImage(MultipartFile image) throws IOException {
-        String originalFilename = image.getOriginalFilename();
-        if (originalFilename == null) {
-            throw new IOException("파일 이름이 null입니다.");
+        if (image.isEmpty()) {
+            throw new IOException("파일이 비어 있습니다.");
         }
 
-        String fileExtension = getFileExtension(originalFilename);
-        String fileName = UUID.randomUUID().toString() + "." + fileExtension;
-
-        File targetFile = new File(Paths.get(fileUploadUrl, fileName).toString());
-        image.transferTo(targetFile);
-
-        return "/images/" + fileName;
-    }
-
-    // 파일 확장자 추출
-    private String getFileExtension(String filename) {
-        int dotIndex = filename.lastIndexOf('.');
-        if (dotIndex == -1 || dotIndex == filename.length() - 1) {
-            return "";
+        Member member = getMember();
+        if (member == null) {
+            throw new IOException("회원 정보를 찾을 수 없습니다.");
         }
-        return filename.substring(dotIndex + 1);
+
+        // 파일 정보 저장 및 파일 시스템에 저장
+        FileInfo fileInfo = myPageService.uploadProfileImage(image, member.getSeq());
+
+        // 파일 정보로부터 URL 생성
+        return "/files/" + fileInfo.getSeq() + fileInfo.getExtension();
     }
 
     // 데이터베이스에 프로필 이미지 URL 업데이트
-    public void updateProfileImageUrl(Long memberId, String newImageUrl) {
-        memberRepository.updateProfileImageUrl(memberId, newImageUrl);
+    public void updateProfileImage(Long memberId, String newImageUrl) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        member.setProfileImage(newImageUrl);
+        memberRepository.save(member);
     }
 
     // 현재 프로필 이미지 URL 가져옴
     public String getProfileImageUrl() {
+        Member member = getMember();
+        if (member != null) {
+            // 실제 데이터베이스에서 프로필 이미지 URL을 가져오는 로직 추가
+            return member.getProfileImage();
+        }
         return "/images/default-profile.png";
     }
 }
