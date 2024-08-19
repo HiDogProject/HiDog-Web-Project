@@ -34,7 +34,7 @@ h1 {
 }
 
 #postTable thead {
-    background-color: #96AED0;
+    background-color: #72A2F1;
 }
 
 #postTable th, #postTable td {
@@ -55,4 +55,8 @@ h1 {
 
 #postTable td a:hover {
     text-decoration: underline;
+}
+
+th {
+    color: white;
 }
