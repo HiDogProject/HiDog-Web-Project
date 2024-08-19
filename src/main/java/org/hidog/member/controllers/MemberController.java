@@ -82,6 +82,9 @@ public class MemberController implements ExceptionProcessor {
             //비번이 만료인 경우 비번 재설정 페이지 이동
             if (code.equals("CredentialsExpired.Login")) {
                 return "redirect:" + utils.redirectUrl("/member/password/reset");
+
+
+
             }
         }
 
@@ -91,12 +94,13 @@ public class MemberController implements ExceptionProcessor {
 
 
 
-    /**
-     * 회원 관련 컨트롤러 공통 처리
-     *
-     * @param mode
-     * @param model
-     */
+
+        /**
+         * 회원 관련 컨트롤러 공통 처리
+         *
+         * @param mode
+         * @param model
+         */
     private void commonProcess(String mode, Model model) {
         mode = Objects.requireNonNullElse(mode, "join");
 
