@@ -52,9 +52,9 @@
     <!--    <dl th:if="${board != null && board.useUploadFile != null && board.useUploadFile}">-->
     <dt th:text="#{파일첨부}"></dt>
     <dd>
-        <button type="button" class="fileUploads" data-location="attach" th:text="#{파일선택}"></button>
+        <button type="button" class="fileUploads" th:text="#{파일선택}" th:data-gid="*{gid}"></button>
         <div class="fileUploads" id="attach_files">
-            <th:block th:if="*{attachFiles != null && !attachFiles.isEmpty()}" th:each="item : *{attachFiles}">
+            <th:block th:if="*{attachFiles != null && !attachFiles.isEmpty()}" th:each="item : *{attachFiles}" th:data-gid="*{gid}">
                 <th:block th:replace="~{common/_attach_file::item}"></th:block>
             </th:block>
         </div>
