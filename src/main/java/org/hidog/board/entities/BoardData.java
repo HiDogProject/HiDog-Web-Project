@@ -118,8 +118,8 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
     @Transient
     private List<FileInfo> editorFiles; // 에디터 첨부 파일
 
-    //@Transient
-    //private List<FileInfo> attachFiles; // 첨부 파일
+    @Transient
+    private List<FileInfo> attachFiles; // 첨부 파일
 
     @Transient
     private boolean editable; // 수정 가능 여부
