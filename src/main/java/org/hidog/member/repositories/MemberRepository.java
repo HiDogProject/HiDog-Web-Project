@@ -4,6 +4,8 @@ import org.hidog.member.entities.Member;
 import org.hidog.member.entities.QMember;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import java.util.Optional;
@@ -21,4 +23,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
     }
     
     boolean existsByUserName(String userName);
+
+    @Modifying @Query("UPDATE Member m SET m.profileImageFilename = :newImageUrl WHERE m.seq = :memberId")
+    void updateProfileImageUrl(Long memberId, String newImageUrl);
 }
