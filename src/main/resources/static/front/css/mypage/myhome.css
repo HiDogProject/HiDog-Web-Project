@@ -17,6 +17,7 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
+    border: 2px solid #cccccc;
     overflow: hidden;
     cursor: pointer;
 }
@@ -82,8 +83,8 @@
 }
 
 button[type="submit"] {
-    background-color: #68A5FE; // #005aff #A6DCFE
-    color: white;
+    background-color: #68A5FE; /* #005aff #A6DCFE */
+    color: #FFFFFF;
     border: none;
     padding: 10px;
     cursor: pointer;
@@ -101,7 +102,7 @@ button[type="submit"]:hover {
 }
 
 .buttons .btn {
-    background-color: #72A2F1; // #89DEF6 #A0CEF0 #91B4F7 #A6DCFE
+    background-color: #72A2F1; /* #89DEF6 #A0CEF0 #91B4F7 #A6DCFE */
     color: white;
     border: none;
     padding: 10px 20px;
