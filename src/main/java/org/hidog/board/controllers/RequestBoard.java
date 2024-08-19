@@ -21,6 +21,9 @@ public class RequestBoard {
 
     @NotBlank
     private String poster; // 게시글 작성자
+
+    private boolean guest; // 비회원
+
     private String guestPw; // 비회원 비밀번호(수정, 삭제 시 필요) // 미로그인 상태일때는 필수, 로그인 상태일때는 필요x(선별적인 필수)
 
     private boolean notice; // 공지사항 여부 // true이면 공지사항이 먼저 나오게 할거임(관리자가 아닐때는 true이면 안됨)(= 선별적인 필수)
