@@ -11,13 +11,15 @@ const commonLib = {
 
         const csrfToken = document.querySelector("meta[name='csrf_token']")?.content?.trim();
         const csrfHeader = document.querySelector("meta[name='csrf_header']")?.content?.trim();
-
+        console.log("url1", url);
         if (!/^http[s]?/i.test(url)) {
             let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
             rootUrl = rootUrl === '/' ? '' : rootUrl;
 
-            url = location.protocol + "//" + location.host + rootUrl + url;
+            url = /^http[s]?/i.test(rootUrl) ? rootUrl + url : location.protocol + "//" + location.host + rootUrl + url;
+            console.log(/^http[s]?/i.test(rootUrl), rootUrl, "url2", url);
         }
+
         method = method.toUpperCase();
         if (method === 'GET') {
             data = null;
