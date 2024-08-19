@@ -79,7 +79,7 @@ public class BoardController implements ExceptionProcessor {
     public String update(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "update", model);
 
-        RequestBoard form = boardInfoService.getForm(boardData); // 쿼리를 2번하지 않고 바로 스기 위해서 seq말고 boardData 사용함
+        RequestBoard form = boardInfoService.getForm(boardData); // 쿼리를 2번하지 않고 바로 쓰기 위해서 seq말고 boardData 사용함
         model.addAttribute("requestBoard", form);
 
 
@@ -96,7 +96,7 @@ public class BoardController implements ExceptionProcessor {
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
-        commonProcess(form.getBid(), mode, model);
+        commonProcess(form.getBid(), form.getMode(), model);
 
         boardValidator.validate(form, errors);
 

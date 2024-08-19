@@ -20,9 +20,11 @@ public abstract class BaseEntity implements Serializable {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime modifiedAt;
+
     @Column(insertable = false)
     private LocalDateTime deletedAt;
 }
