@@ -7,12 +7,18 @@
     </div>
 </script>
 
-<script type="text/html" id="attach_tpl" th:fragment="attach_tpl">
-    <span class="file_tpl_box" id="file_[seq]">
-        <a th:href="@{/file/download/[seq]}">[fileName]</a>
-        <a th:href="@{/file/delete/[seq]}" onclick="return confirm('정말 삭제하시겠습니까?');" class="remove" target="ifrmProcess">
-            <i class="xi-close"></i>
-        </a>
-    </span>
+<script th:fragment="attach" type="text/html" id="attach-file-tpl">
+    <div class="file-item" id="file-[seq]">
+        <a th:href="${@utils.redirectUrl('/file/download/[seq]')}">[fileName]</a>
+        <i class="xi-close remove" data-seq="[seq]"></i>
+    </div>
+</script>
+
+<script th:fragment="editor" type="text/html" id="editor-file-tpl">
+    <div class="file-item" id="file-[seq]">
+        <a th:href="${@utils.redirectUrl('/file/download/[seq]')}">[fileName]</a>
+        <i class="xi-file-upload insert-editor" data-url="[fileUrl]"></i>
+        <i class="xi-close remove" data-seq="[seq]"></i>
+    </div>
 </script>
 </html>
