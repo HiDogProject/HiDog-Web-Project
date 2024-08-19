@@ -40,7 +40,8 @@ h1 {
 }
 
 .wishlist-table th {
-    background-color: #96AED0;
+    background-color: #72A2F1;
+    color: white;
     font-weight: bold;
     text-align: center;
 }
