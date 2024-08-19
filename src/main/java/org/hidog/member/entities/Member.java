@@ -34,5 +34,5 @@ public class Member extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;
 
-    private String profileImageFilename;
+    private String profileImage;
 }
