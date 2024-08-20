@@ -6,7 +6,6 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import org.hidog.board.entities.QBoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
 import org.hidog.board.exceptions.BoardNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
-import org.hidog.board.repositories.BoardRepository;
 import org.hidog.global.ListData;
 import org.hidog.global.Pagination;
 import org.hidog.global.Utils;
@@ -28,7 +26,6 @@ import org.hidog.member.entities.Member;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
-import org.springframework.data.web.OffsetScrollPositionHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -41,18 +38,13 @@ import java.util.Objects;
 @Transactional
 @RequiredArgsConstructor
 public class BoardInfoService {
-    private final EntityManager em;
-    private final BoardDataRepository boardDataRepository;
 
-    private final HttpServletRequest request;
-
-    private final MemberUtil memberUtil;
     private final JPAQueryFactory jpaQueryFactory;
-    private final OffsetScrollPositionHandlerMethodArgumentResolver offsetResolver;
-    private final BoardRepository boardRepository;
+    private final BoardDataRepository boardDataRepository;
     private final BoardConfigInfoService configInfoService;
+    private final HttpServletRequest request;
+    private final MemberUtil memberUtil;
     private final Utils utils;
-    private final ModelMapper modelMapper;
 
     /**
      * 게시글 목록 조회
@@ -192,7 +184,7 @@ public class BoardInfoService {
         /* 목록 조회 처리 E */
 
         // 전체 게시글 갯수
-        long total = boardRepository.count(andBuilder);
+        long total = boardDataRepository.count(andBuilder);
 
         // 페이징 처리
         int ranges = utils.isMobile() ? board.getPageCountMobile() : board.getPageCountPc();
