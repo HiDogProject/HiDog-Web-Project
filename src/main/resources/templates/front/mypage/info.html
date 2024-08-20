@@ -1,15 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{front/layouts/main}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
     <main layout:fragment="content">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>회원 정보</title>
-            <link th:each="css : ${addCss}" rel="stylesheet" th:href="@{${css}}"/>
-            <script th:each="script : ${addScript}" src="" th:src="@{${script}}"></script>
-        </head>
-        <body>
+        <form name="frmInfo" method="post" th:action="@{/mypage/info}" autocomplete="off">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
             <div class="container">
                 <h1 th:text="#{회원_정보}"></h1>
 
@@ -37,10 +30,11 @@
                         <p>주소</p><span th:text="${member.address}"></span>
                     </div>
                 </div>
+
                 <div class="button-container">
                     <a th:href="${@utils.url('/mypage/changeInfo')}" class="button">회원 정보 수정하기</a>
                 </div>
             </div>
-        </body>
+        </form>
     </main>
 </html>
