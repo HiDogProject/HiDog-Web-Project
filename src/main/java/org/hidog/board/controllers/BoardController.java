@@ -11,7 +11,6 @@ import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
 import org.hidog.board.validators.BoardFormValidator;
 import org.hidog.board.validators.BoardValidator;
-import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
@@ -39,7 +38,6 @@ public class BoardController implements ExceptionProcessor {
 
     private final MemberUtil memberUtil;
     private final BoardFormValidator boardFormValidator;
-    private final FileInfoService fileInfoService;
 
 
     private Board board; // 게시판 설정
@@ -55,7 +53,7 @@ public class BoardController implements ExceptionProcessor {
      */
     @GetMapping("/write/{bid}")
     public String write(@PathVariable("bid") String bid,
-                        @ModelAttribute RequestBoard form, @ModelAttribute RequestProduct form2, Model model) {
+                        @ModelAttribute RequestBoard form, Model model) {
         commonProcess(bid, "write", model);
 
         form.setGuest(!memberUtil.isLogin());

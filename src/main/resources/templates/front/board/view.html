@@ -4,17 +4,21 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
 
-    <th:block th:if="${board.skin == 'default'}" th:replace="~{front/board/walking/_view::view}"></th:block>
+    <th:block th:if="${board.skin == 'default'}" th:replace="~{front/board/default/_view::view}"></th:block>
 
     <th:block th:if="${board.skin == 'walking'}" th:replace="~{front/board/walking/_view::view}"></th:block>
+
+    <th:block th:if="${board.skin == 'market'}" th:replace="~{front/board/market/_view::view}"></th:block>
 
 
     <th:block th:if="${board.useComment}" th:replace="~{front/board/_comment::comment}"></th:block>
 
     <th:block th:if="${board.showListBelowView}">
-        <th:block th:if="${board.skin == 'default'}" th:replace="~{front/board/walking/_list_items::items}"></th:block>
+        <th:block th:if="${board.skin == 'default'}" th:replace="~{front/board/default/_list_items::items}"></th:block>
 
         <th:block th:if="${board.skin == 'walking'}" th:replace="~{front/board/walking/_list_items::items}"></th:block>
+
+        <th:block th:if="${board.skin == 'market'}" th:replace="~{front/board/market/_list_items::items}"></th:block>
     </th:block>
 </main>
 </html>

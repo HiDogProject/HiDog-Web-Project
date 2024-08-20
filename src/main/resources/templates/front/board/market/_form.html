@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="form" th:object="${requestProduct}">
+<th:block th:fragment="form" th:object="${requestBoard}">
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <input type="hidden" name="gid" th:field="*{gid}">
     <input type="hidden" name="gid" th:field="*{poster}">
