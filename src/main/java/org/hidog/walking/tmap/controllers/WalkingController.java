@@ -1,4 +1,4 @@
-package org.hidog.walk.tmap.controllers;
+package org.hidog.walking.tmap.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.Utils;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/walk")
+@RequestMapping("/walking")
 @RequiredArgsConstructor
-public class WalkController {
+public class WalkingController {
 
     private final ApiConfigService apiConfigService;
     private final Utils utils;
@@ -28,8 +28,8 @@ public class WalkController {
     public String tmapTest(Model model) {
         model.addAttribute("addCommonCss", List.of("map"));
         model.addAttribute("addCommonScript", List.of("map"));
-        model.addAttribute("addScript", List.of("walk/map"));
+        model.addAttribute("addScript", List.of("walking/map"));
 
-        return utils.tpl("walk/map");
+        return utils.tpl("walking/map");
     }
 }
