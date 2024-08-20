@@ -61,7 +61,7 @@ public class Board extends BaseMemberEntity {
     private boolean showListBelowView; // 글 보기 하단 게시글 목록 노출 여부
 
     @Column(length=10, nullable = false)
-    private String skin = "default"; // 스킨
+    private String skin; // 스킨
 
     @Lob
     private String category; // 게시판 분류
