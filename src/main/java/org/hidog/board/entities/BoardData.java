@@ -12,6 +12,7 @@ import org.hidog.member.entities.Member;
 
 import java.util.List;
 
+
 @Data
 @Builder
 @Entity

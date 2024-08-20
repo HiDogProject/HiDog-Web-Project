@@ -12,12 +12,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Component("utils")
 @RequiredArgsConstructor
@@ -120,6 +118,33 @@ public class Utils { // 빈의 이름 - utils
 
         return messages.isEmpty() ? code : messages.get(0);
     }
+
+    /**
+     * 알파벳, 숫자, 특수문자 조합 랜덤 문자열 생성
+     *
+     * @return
+     */
+    public String randomChars() {
+        return randomChars(8);
+    }
+
+    public String randomChars(int length) {
+        // 알파벳 생성
+        Stream<String> alphas = IntStream.concat(IntStream.rangeClosed((int)'a', (int)'z'), IntStream.rangeClosed((int)'A', (int)'Z')).mapToObj(s -> String.valueOf((char)s));
+
+        // 숫자 생성
+        Stream<String> nums = IntStream.range(0, 10).mapToObj(String::valueOf);
+
+        // 특수문자 생성
+        Stream<String> specials = Stream.of("~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "-", "=", "[", "{", "}", "]", ";", ":");
+
+        List<String> chars = Stream.concat(Stream.concat(alphas, nums), specials).collect(Collectors.toCollection(ArrayList::new));
+        Collections.shuffle(chars);
+
+        return chars.stream().limit(length).collect(Collectors.joining());
+    }
+
+
 
     /**
      * 접속 장비가 모바일인지 체크
