@@ -12,7 +12,6 @@
                     <th:block th:text="*{poster}"></th:block>
                     <th:block th:if="*{member != null}" th:text="*{'(' + member.email + ')'}"></th:block>
                 </span>
-
                 <span>
                     <th:block th:text="#{조회수}"></th:block> :
                     <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
