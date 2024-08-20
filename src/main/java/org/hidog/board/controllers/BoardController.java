@@ -14,6 +14,7 @@ import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
+import org.hidog.global.services.ApiConfigService;
 import org.hidog.member.MemberUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardSaveService boardSaveService;
     private final BoardValidator boardValidator;
     private final Utils utils;
+    private final ApiConfigService apiConfigService;
 
     private final MemberUtil memberUtil;
     private final FileInfoService fileInfoService;
@@ -43,6 +45,12 @@ public class BoardController implements ExceptionProcessor {
 
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
+
+    // 티맵 api 키 조회
+    @ModelAttribute("tmapJavascriptKey")
+    public String tmapJavascriptKey() {
+        return apiConfigService.get("tmapJavascriptKey");
+    }
 
 
     /**
@@ -61,6 +69,8 @@ public class BoardController implements ExceptionProcessor {
         if (memberUtil.isLogin()) {
             form.setPoster(memberUtil.getMember().getUserName());
         }
+
+
 
         return utils.tpl("board/write");
     }
@@ -202,6 +212,11 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
+        }
+
+        if (skin.equals("walking")) {
+            addScript.add("walking/map");
+            addCommonScript.add("map");
         }
 
         // 게시글 제목으로 title을 표시 하는 경우
