@@ -92,7 +92,7 @@ function fileDeleteCallback(file) {
 function mapDrawingCallback(locations) {
     console.log(locations);
     const json = JSON.stringify(locations);
-    frmSave.text1.value = json;
+    frmSave.longText1.value = json;
 
 }
 

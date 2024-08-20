@@ -141,7 +141,9 @@ const tmapLib = {
             const locations = [];
             const {departure, arrival, via} = tmapLib;
             locations.push({lat: departure.lat(), lng: departure.lng()});
-
+            via.forEach(point => {
+                locations.push({lat: point.lat(), lng: point.lng()});
+            });
             if (typeof mapDrawingCallback === 'function') {
                 mapDrawingCallback(locations);
             }
