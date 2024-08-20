@@ -5,6 +5,7 @@
     <input type="hidden" name="gid" th:field="*{gid}">
     <input type="hidden" name="gid" th:field="*{poster}">
 
+    <h1 th:text="#{상품등록}"></h1>
 
     <dl>
         <dt th:text="#{제목}"></dt>
@@ -14,6 +15,14 @@
         </dd>
     </dl>
 
+    <h2 th:text="#{상품정보}"></h2>
+    <dl>
+        <dt th:text="#{상품명}"></dt>
+        <dd>
+            <input type="text" name="text1" th:field="*{text1}">
+            <div class="error" th:each="err : ${#fields.errors('text1')}" th:text="${err}"></div>
+        </dd>
+    </dl>
     <dl>
         <dt th:text="#{설명}"></dt>
         <dd>
@@ -21,28 +30,20 @@
             <div class="error" th:each="err : ${#fields.errors('content')}" th:text="${err}"></div>
         </dd>
     </dl>
-
+    <h3 th:text="#{가격}"></h3>
     <dl>
         <dt th:text="#{가격}"></dt>
         <dd>
-            <textarea name="content" th:field="*{num1}" id="num1"></textarea>
+            <input type="number" name="num1" th:field="*{num1}">
             <div class="error" th:each="err : ${#fields.errors('num1')}" th:text="${err}"></div>
         </dd>
     </dl>
-
+    <h3 th:text="#{수량}"></h3>
     <dl>
         <dt th:text="#{수량}"></dt>
         <dd>
-            <textarea name="content" th:field="*{num2}" id="num2"></textarea>
+            <input type="number" name="num2" th:field="*{num2}">
             <div class="error" th:each="err : ${#fields.errors('num2')}" th:text="${err}"></div>
-        </dd>
-    </dl>
-
-    <dl>
-        <dt th:text="#{수량}"></dt>
-        <dd>
-            <textarea name="content" th:field="*{text1}" id="text1"></textarea>
-            <div class="error" th:each="err : ${#fields.errors('text1')}" th:text="${err}"></div>
         </dd>
     </dl>
 
