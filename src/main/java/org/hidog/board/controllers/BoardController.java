@@ -71,10 +71,7 @@ public class BoardController implements ExceptionProcessor {
             form.setPoster(memberUtil.getMember().getUserName());
         }
 
-            model.addAttribute("addCommonCss", List.of("map"));
-            model.addAttribute("addCommonScript", List.of("map"));
-            model.addAttribute("addScript", List.of("walking/map"));
-            model.addAttribute("addScript", List.of("board/walking/form"));
+
 
         return utils.tpl("board/write");
     }
@@ -104,7 +101,7 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @PostMapping("/save")
-    public String save(@RequestBody @Valid RequestBoard form, Errors errors, Model model) {
+    public String save(@Valid RequestBoard form, Errors errors, Model model) {
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
@@ -216,6 +213,11 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
+        }
+
+        if (skin.equals("walking")) {
+            addScript.add("walking/map");
+            addCommonScript.add("map");
         }
 
         // 게시글 제목으로 title을 표시 하는 경우

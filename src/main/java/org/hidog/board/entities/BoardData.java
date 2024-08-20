@@ -93,7 +93,7 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
     // -> 추가필드를 활용하자
     // num1 = 상품번호로 활용
 
-    @Column(length=100, name = "locations")
+    @Column(length=100)
     private String text1; // 추가 필드1 : 한줄 텍스트
 
     @Column(length=100)

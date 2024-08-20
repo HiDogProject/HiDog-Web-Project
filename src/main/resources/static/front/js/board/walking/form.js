@@ -95,6 +95,7 @@ function mapDrawingCallback(locations) {
     frmSave.text1.value = json;
 
 }
+
 /*
 
 // 제출 버튼 ajaxLoad 처리
