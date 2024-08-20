@@ -94,13 +94,16 @@ public class BoardController implements ExceptionProcessor {
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
-        commonProcess(form.getBid(), form.getMode(), model);
+        commonProcess(form.getBid(), mode, model);
 
         boardValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return utils.tpl("board/" + mode);
         }
+
+        // 게시글 저장 처리
+        BoardData boardData = boardSaveService.save(form);
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
@@ -120,7 +123,7 @@ public class BoardController implements ExceptionProcessor {
 
         ListData<BoardData> data = boardInfoService.getList(bid, search);
         model.addAttribute("items", data.getItems());
-        model.addAttribute("pagenation", data.getPagination());
+        model.addAttribute("pagination", data.getPagination());
 
         return utils.tpl("board/list");
     }
