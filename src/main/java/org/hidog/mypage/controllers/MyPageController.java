@@ -72,7 +72,7 @@ public class MyPageController {
             handleException(request, e.getMessage());
         }
         return "redirect:" + utils.redirectUrl("mypage/myhome");
-    }
+    } /* 문제 : 선택한 이미지가 원 안에 저장이 안 됨 ㅠㅠ */
 
     // 마이 페이지 -> 회원 정보 확인 페이지
     @GetMapping("/info")
@@ -113,28 +113,28 @@ public class MyPageController {
 
         commonProcess("changeInfo", model);
         return utils.tpl("mypage/changeInfo");
-    }
+    } /* 회원 정보 수정 버튼 클릭 시 '무결성 제약 조건에 위배' 에러 발생 */
 
     // 찜 목록 페이지
     @GetMapping("/like")
     public String like(Model model) {
         commonProcess("like", model);
         return utils.tpl("mypage/like");
-    }
+    } /* 게시글 찜하기 기능 미완성 */
 
     // 내가 쓴 게시글 페이지
     @GetMapping("/post")
     public String post(Model model) {
         commonProcess("post", model);
         return utils.tpl("mypage/post");
-    }
+    } /* 8/21 화 해볼 예정 */
 
     // 판매 내역 & 구매 내역 페이지
     @GetMapping("/sellAndBuy")
     public String sellAndBuy(Model model) {
         commonProcess("sellAndBuy", model);
         return utils.tpl("mypage/sellAndBuy");
-    }
+    } /* 거래 기능 미완성 */
 
     /**
      * 마이 페이지 공통
