@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
+import org.hidog.member.services.FindPwService;
 import org.hidog.member.services.MemberSaveService;
 import org.hidog.member.services.MemberService;
 import org.hidog.member.validators.JoinValidator;
@@ -33,6 +34,7 @@ public class MemberController implements ExceptionProcessor {
     private final MemberSaveService memberSaveService;
     private final MemberService memberService;
     private final Utils utils;
+    private final FindPwService findPwService;
 
 
 
@@ -85,12 +87,57 @@ public class MemberController implements ExceptionProcessor {
                 return "redirect:" + utils.redirectUrl("/member/password/reset");
 
 
-
             }
         }
 
+
         return utils.tpl("member/login");
 
+    }
+    /**
+     * 비밀번호 찾기 양식
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/find_pw")
+    public String findPw(@ModelAttribute RequestFindPw form, Model model) {
+        commonProcess("find_pw", model);
+
+        return utils.tpl("member/find_pw");
+    }
+
+    /**
+     * 비밀번호 찾기 처리
+     *
+     * @param model
+     * @return
+     */
+    @PostMapping("/find_pw")
+    public String findPwPs(@Valid RequestFindPw form, Errors errors, Model model) {
+        commonProcess("find_pw", model);
+
+        findPwService.process(form, errors); // 비밀번호 찾기 처리
+
+        if (errors.hasErrors()) {
+            return utils.tpl("member/find_pw");
+        }
+
+        // 비밀번호 찾기에 이상 없다면 완료 페이지로 이동
+        return "redirect:/member/find_pw_done";
+    }
+
+    /**
+     * 비밀번호 찾기 완료 페이지
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/find_pw_done")
+    public String findPwDone(Model model) {
+        commonProcess("find_pw", model);
+
+        return utils.tpl("member/find_pw_done");
     }
 
 
@@ -103,6 +150,8 @@ public class MemberController implements ExceptionProcessor {
          * @param mode
          * @param model
          */
+
+
     private void commonProcess(String mode, Model model) {
         mode = Objects.requireNonNullElse(mode, "join");
 
@@ -121,10 +170,15 @@ public class MemberController implements ExceptionProcessor {
 
         } else if (mode.equals("login")) {
             addCss.add("member/login");
+
+        }else if (mode.equals("find_pw")) { // 비밀번호 찾기
+
         }
 
         model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
     }
+
+
 }
