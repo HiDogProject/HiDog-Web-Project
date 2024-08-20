@@ -19,6 +19,11 @@
     border: 2px solid #cccccc;
     overflow: hidden;
     cursor: pointer;
+    background-color: #f5f5f5;
+}
+
+.profile-image:hover {
+    background-color: #68A5FE;
 }
 
 .profile-image img {
@@ -35,7 +40,7 @@
 .popup {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
@@ -46,18 +51,20 @@
 
 .popup-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 10% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    border: 1px solid #ddd;
+    width: 90%;
     max-width: 500px;
     position: relative;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .close {
-    color: #aaa;
+    color: #333;
     float: right;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
 }
 
@@ -67,17 +74,26 @@
     cursor: pointer;
 }
 
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
 #cancelBtn {
     background-color: #f44336;
     color: white;
     border: none;
-    padding: 10px;
-    margin-top: 10px;
+    padding: 10px 20px;
     cursor: pointer;
+    border-radius: 5px;
+    flex: 1;
+    margin: 5px 0 5px 10px;
 }
 
 #cancelBtn:hover {
-    background-color: #c62828;
+    background-color: #8ED399;
 }
 
 /* 페이지 이동 버튼 */
@@ -85,9 +101,11 @@ button[type="submit"].pro {
     background-color: #68A5FE; /* #005aff #A6DCFE */
     color: #FFFFFF;
     border: none;
-    padding: 10px;
+    padding: 10px 20px;
     cursor: pointer;
-    margin-top: 10px;
+    border-radius: 5px;
+    flex: 1;
+    margin: 10px 0 10px 0;
 }
 
 button[type="submit"].pro:hover {
@@ -107,7 +125,6 @@ button[type="submit"].pro:hover {
     font-size: 1em;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
     text-decoration: none;
     display: inline-block;
     margin: 0 10px;
