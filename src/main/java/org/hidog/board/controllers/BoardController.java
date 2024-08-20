@@ -74,7 +74,7 @@ public class BoardController implements ExceptionProcessor {
             model.addAttribute("addCommonCss", List.of("map"));
             model.addAttribute("addCommonScript", List.of("map"));
             model.addAttribute("addScript", List.of("walking/map"));
-
+            model.addAttribute("addScript", List.of("board/walking/form"));
 
         return utils.tpl("board/write");
     }

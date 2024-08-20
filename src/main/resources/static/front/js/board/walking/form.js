@@ -89,13 +89,18 @@ function fileDeleteCallback(file) {
     el.parentElement.removeChild(el);
 }
 
+function mapDrawingCallback(locations) {
+    console.log(locations);
+    const json = JSON.stringify(locations);
+    frmSave.text1.value = json;
+
+}
+/*
+
+// 제출 버튼 ajaxLoad 처리
 const submitEl = document.getElementById("submitBtn");
 submitEl.addEventListener("click", () => {
-
-// DB 저장 경로 생성
-        const locations = [];
-        const {departure, arrival, via} = tmapLib;
-        locations.push({lat: departure.lat(), lng: departure.lng()});
+      // DB 저장 경로 생성
 
         via.forEach(point => this.push({lng: point.lng(), lat: point.lat()}), locations);
 
@@ -103,5 +108,6 @@ submitEl.addEventListener("click", () => {
 
         const {ajaxLoad} = commonLib;
 
-        ajaxLoad("board/save", "POST", {locations}, {contentType: "application/json"})
+       // ajaxLoad("board/save", "POST", {locations}, {contentType: "application/json"})
     });
+*/

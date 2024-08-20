@@ -12,6 +12,7 @@ window.addEventListener("DOMContentLoaded", function() {
    completeEl.addEventListener("click", () => {
       if (tmapLib.resultDrawArr.length == 0) {
          tmapLib.route(tmapLib.mapId)
+
       } else {
          console.log(tmapLib.resultDrawArr)
          return;

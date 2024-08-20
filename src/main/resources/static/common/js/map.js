@@ -137,6 +137,15 @@ const tmapLib = {
             }
 
             this.drawLine(drawInfoArr);
+
+            const locations = [];
+            const {departure, arrival, via} = tmapLib;
+            locations.push({lat: departure.lat(), lng: departure.lng()});
+
+            if (typeof mapDrawingCallback === 'function') {
+                mapDrawingCallback(locations);
+            }
+
         }
         catch (err) {
             console.log()

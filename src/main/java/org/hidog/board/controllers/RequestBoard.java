@@ -1,6 +1,5 @@
 package org.hidog.board.controllers;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hidog.file.entities.FileInfo;
@@ -43,7 +42,6 @@ public class RequestBoard {
     private Long num3;
 
     // 추가필드 - 한줄 텍스트
-    @Column(name = "locations")
     private String text1;
     private String text2;
     private String text3;
