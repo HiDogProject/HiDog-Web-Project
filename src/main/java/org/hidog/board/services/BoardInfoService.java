@@ -25,7 +25,9 @@ import org.hidog.global.Utils;
 import org.hidog.global.constants.DeleteStatus;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.data.web.OffsetScrollPositionHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -273,9 +275,9 @@ public class BoardInfoService {
 
     public RequestBoard getForm(BoardData item, DeleteStatus status) {
         // ModelMapper 인스턴스 생성
-
+        ModelMapper modelMapper = new ModelMapper();
         // 사용자 정의 Converter 추가
-        /*
+
         modelMapper.addConverter(new Converter<String, Boolean>() {
             @Override
             public Boolean convert(MappingContext<String, Boolean> context) {
@@ -293,7 +295,7 @@ public class BoardInfoService {
                     mapper.map(BoardData::isNotice, RequestBoard::setNotice); // 명시적 매핑
                     // 필요한 다른 필드도 추가로 매핑 설정 가능
                   });
-        */
+
         // 매핑 실행
         RequestBoard form = modelMapper.map(item, RequestBoard.class);
 
