@@ -1,4 +1,4 @@
-package org.hidog.walking.tmap.controllers;
+package org.hidog.walking.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.Utils;

@@ -93,7 +93,6 @@ function mapDrawingCallback(locations) {
     console.log(locations);
     const json = JSON.stringify(locations);
     frmSave.longText1.value = json;
-
 }
 
 /*
