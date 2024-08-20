@@ -5,6 +5,6 @@
 <main layout:fragment="content">
     <h1 th:text="#{비밀번호_찾기}"></h1>
     <div th:text="#{비밀번호를_가입하신_이메일로_전송하였습니다.}"></div>
-    <a th:href="${@utils.redirectUrl('/member/find_pw_done')}" th:text="#{로그인}"></a>
+    <a th:href="@{/app/member/login}" th:text="#{로그인}"></a>
 </main>
 </html>
