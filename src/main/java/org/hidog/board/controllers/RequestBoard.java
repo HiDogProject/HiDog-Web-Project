@@ -38,14 +38,14 @@ public class RequestBoard {
 
     // 추가필드 - 정수
     @NotNull
-    private Long num1 = 0L;
+    private Long num1 = 0L; //가격
     @NotNull
-    private Long num2 = 0L;
+    private Long num2 = 0L; //수량
     private Long num3;
 
     // 추가필드 - 한줄 텍스트
     @NotNull
-    private String text1 = "default";
+    private String text1 = "default"; //상품명
     private String text2;
     private String text3;
 
