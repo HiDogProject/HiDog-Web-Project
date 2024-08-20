@@ -33,11 +33,11 @@
     <div th:if="*{!editorView}" class="content" th:utext="*{@utils.nl2br(content)}"></div>
 
         <div class="board_btns">
-            <a th:href="${@utils.url('/board/write/' + board.bid)}" th:text="#{글쓰기}" class="btn"></a>
+            <a th:href="*{@utils.redirectUrl('/board/write/' + board.bid)}" th:text="#{글쓰기}" class="btn"></a>
 
-            <a th:if="*{showEditButton}" th:href="${@utils.url('/board/update/' + seq)}" th:text="#{글수정}" class="btn"></a>
+            <a th:if="*{showEditButton}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}" th:text="#{글수정}" class="btn"></a>
 
-            <a th:if="*{showDeleteButton}" th:href="${@utils.url('/board/delete/' + seq)}" th:text="#{글삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
+            <a th:if="*{showDeleteButton}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}" th:text="#{글삭제}" class="btn" onclick="return confirm('정말 삭제하겠습니까?');"></a>
         </div>
 </th:block>
 </html>
