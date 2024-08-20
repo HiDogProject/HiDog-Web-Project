@@ -277,8 +277,8 @@ public class BoardInfoService {
         return form;
     }
 
-    public BoardData getForm(Long seq) {
-        return get(seq, DeleteStatus.UNDELETED);
+    public RequestBoard getForm(Long seq) {
+        return getForm(seq, DeleteStatus.UNDELETED);
     }
 
     public RequestBoard getForm(BoardData item) {
