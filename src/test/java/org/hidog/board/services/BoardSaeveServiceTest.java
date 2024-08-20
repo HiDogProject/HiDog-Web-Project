@@ -8,10 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class BoardSaeveServiceTest {
 
     @Autowired
@@ -25,7 +24,7 @@ public class BoardSaeveServiceTest {
     @BeforeEach
     void init() { // 게시판 1개 생성 // 게시판이 있어야 게시글 작성, 저장 가능
         board = new Board();
-        board.setBid("freetalk");
+        board.setBid("1");
         board.setBName("자유게시판");
         /*
         board = Board.builder()
@@ -53,6 +52,9 @@ public class BoardSaeveServiceTest {
         form.setSubject("제목");
         form.setContent("내용");
         form.setGuestPw("123ab");
+        form.setNum1(25000L);
+        form.setNum2(2L);
+        form.setText1("맥프로16");
 
         BoardData data = boardSaveService.save(form);
         System.out.println(data);

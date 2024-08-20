@@ -51,7 +51,7 @@ public class Board extends BaseMemberEntity {
 
     private boolean useEditor; // 에디터 사용 여부
 
-    private boolean useUploadImage; // 이미지 첨부 사용 여부
+    private boolean useUploadImage; // 이미지 첨부 사용 여부 // 이미지업로드는 useEditor가 있어야만 사용가능한 설정
 
     private boolean useUploadFile; // 파일 첨부 사용 여부
 

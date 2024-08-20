@@ -1,9 +1,9 @@
 const commonLib = {
     /**
-    * ajax 요청 공통 기능
-    *
-    * @param responseType : 응답 데이터 타입(text - text로, 그외는 json)
-    */
+     * ajax 요청 공통 기능
+     *
+     * @param responseType : 응답 데이터 타입(text - text로, 그외는 json)
+     */
     ajaxLoad(url, method = "GET", data, headers, responseType) {
         if (!url) {
             return;
@@ -16,7 +16,9 @@ const commonLib = {
             let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
             rootUrl = rootUrl === '/' ? '' : rootUrl;
 
-            url = location.protocol + "//" + location.host + rootUrl + url;
+             url = /^http[s]?/i.test(rootUrl) ? rootUrl + url : location.protocol + "//" + location.host + rootUrl + url;
+
+            // url = location.protocol + "//" + location.host + rootUrl + url;
         }
 
         method = method.toUpperCase();
@@ -46,5 +48,14 @@ const commonLib = {
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         });
+    },
+    /**
+     * 에디터 로드
+     *
+     */
+    editorLoad(id) {
+        if(!ClassicEditor || !id?.trim()) return;
+
+        return ClassicEditor.create(document.getElementById(id.trim()), {});
     }
 };
