@@ -9,7 +9,6 @@ import org.hidog.board.services.BoardConfigInfoService;
 import org.hidog.board.services.BoardDeleteService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
-import org.hidog.board.validators.BoardFormValidator;
 import org.hidog.board.validators.BoardValidator;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
@@ -38,7 +37,6 @@ public class BoardController implements ExceptionProcessor {
     private final Utils utils;
 
     private final MemberUtil memberUtil;
-    private final BoardFormValidator boardFormValidator;
     private final FileInfoService fileInfoService;
 
 
