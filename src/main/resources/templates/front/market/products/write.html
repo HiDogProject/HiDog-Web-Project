@@ -3,10 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-        <form name="frmSave" method="POST" th:action="${@utils.redirectUrl('/product/save')}" autocomplete="off" th:object="${requestProduct}">
-                <input type="hidden" name="mode" value="new">
-                <input type="hidden" name="bid" th:field="*{bid}">
-
+        <form name="frmSave" method="POST" th:action="${@utils.redirectUrl('/market/save')}" autocomplete="off" th:object="${requestProduct}">
+                <input type="hidden" name="mode" value="write">
+                <input type="hidden" name="bid" th:value="${board.bid}">
                 <th:block th:replace="~{front/market/products/_form::form}"></th:block>
 
                 <div class="button-group">

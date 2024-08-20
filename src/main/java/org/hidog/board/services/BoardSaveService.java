@@ -44,10 +44,9 @@ public class BoardSaveService {
         }
          */
 
-        Long seq = form.getSeq();
         String gid = form.getGid();
         BoardData data = null;
-
+        Long seq = form.getSeq();
         if (seq != null && mode.equals("update")) { // 글 수정
             data = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new); // 게시글 조회
         } else { // 글 작성
@@ -94,7 +93,6 @@ public class BoardSaveService {
         if (memberUtil.isAdmin()) {
             data.setNotice(form.isNotice());
         }
-
         /* 글 작성, 글 수정 공통 E */
 
 
