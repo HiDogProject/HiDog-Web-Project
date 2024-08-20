@@ -15,20 +15,20 @@
                 <h2>판매 내역</h2>
                 <table>
                     <thead>
-                    <tr>
-                        <th>아이디</th>
-                        <th>상품명</th>
-                        <th>가격</th>
-                        <th>판매 날짜</th>
-                    </tr>
+                        <tr>
+                            <th>아이디</th>
+                            <th>상품명</th>
+                            <th>가격</th>
+                            <th>판매 날짜</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="record : ${sellRecords}">
-                        <td th:text="${record.id}"></td>
-                        <td th:text="${record.itemName}"></td>
-                        <td th:text="${record.price}"></td>
-                        <td th:text="${record.date}"></td>
-                    </tr>
+                        <tr th:each="record : ${sellRecords}">
+                            <td th:text="${record.id}"></td>
+                            <td th:text="${record.itemName}"></td>
+                            <td th:text="${record.price}"></td>
+                            <td th:text="${record.date}"></td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -36,27 +36,22 @@
                 <h2>구매 내역</h2>
                 <table>
                     <thead>
-                    <tr>
-                        <th>아이디</th>
-                        <th>상품명</th>
-                        <th>가격</th>
-                        <th>구매 날짜</th>
-                    </tr>
+                        <tr>
+                            <th>아이디</th>
+                            <th>상품명</th>
+                            <th>가격</th>
+                            <th>구매 날짜</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="record : ${buyRecords}">
-                        <td th:text="${record.id}"></td>
-                        <td th:text="${record.itemName}"></td>
-                        <td th:text="${record.price}"></td>
-                        <td th:text="${record.date}"></td>
-                    </tr>
+                        <tr th:each="record : ${buyRecords}">
+                            <td th:text="${record.id}"></td>
+                            <td th:text="${record.itemName}"></td>
+                            <td th:text="${record.price}"></td>
+                            <td th:text="${record.date}"></td>
+                        </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="button-container">
-                <a th:href="@{/mypage/myhome}">
-                    <button type="button" class="btn" th:text="#{마이_페이지}">마이 페이지</button>
-                </a>
             </div>
         </body>
     </main>
