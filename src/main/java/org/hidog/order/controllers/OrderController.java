@@ -7,6 +7,7 @@ import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.order.entities.OrderInfo;
 import org.hidog.order.services.OrderPayService;
 import org.hidog.order.services.OrderSaveService;
+import org.hidog.payment.constants.PayMethod;
 import org.hidog.payment.services.PaymentConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/order")
 @RequiredArgsConstructor
@@ -24,6 +27,11 @@ public class OrderController implements ExceptionProcessor {
     private final Utils utils;
     private final OrderSaveService saveService;
     private final OrderPayService payService;
+
+    @ModelAttribute("payMethods")
+    public List<String[]> payMethods(){
+        return PayMethod.getList();
+    }
 
     @GetMapping //주문서양식
     public String index(@ModelAttribute RequestOrder form){

@@ -14,6 +14,7 @@ import org.hidog.payment.constants.PayMethod;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class OrderSaveService {
     public OrderInfo save(RequestOrder form){
         //게시글 조회
         BoardData boardData = boardInfoService.get(form.getBSeq());
-        long orderNo = System.currentTimeMillis();
+        long orderNo = form.getOrderNo() < 1L ? System.currentTimeMillis() : form.getOrderNo();
         Long num1 = boardData.getNum1();
         Long num2 = boardData.getNum2();
 
@@ -42,6 +43,12 @@ public class OrderSaveService {
         orderInfo.setOrderNo(orderNo);
         orderInfo.setMember(memberUtil.getMember());
         orderInfo.setStatus(OrderStatus.START);
+
+        String orderMobile = form.getOrderMobile();
+        if(StringUtils.hasText(orderMobile)){
+            orderMobile = orderMobile.replaceAll("\\D","");
+            orderInfo.setOrderMobile(orderMobile);
+        }
 
         infoRepository.saveAndFlush(orderInfo);
         /* 주문서 정보 저장 E*/
