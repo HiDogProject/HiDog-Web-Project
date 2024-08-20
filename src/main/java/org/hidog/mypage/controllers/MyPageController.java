@@ -1,7 +1,9 @@
 package org.hidog.mypage.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
@@ -11,10 +13,8 @@ import org.hidog.mypage.services.MypageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Controller
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class MyPageController {
     private String fileUploadUrl;
 
     /**
-     * 1) mypage/myhome 입력 시 마이 페이지 홈으로 이동
+     * 1) 주소 창에 mypage/myhome 입력 시 마이 페이지 홈으로 이동
      * 2) 마이 페이지 홈 -> 버튼 O (프로필 이미지, 회원 정보 확인 버튼, 찜 목록 버튼, 게시글 버튼, 판매 내역 & 구매 내역 버튼)
      * 3) 원형 프로필 클릭 시 프로필 이미지 수정 팝업 생성 -> 이미지 저장 버튼 클릭 시 수정된 이미지로 변경 및 마이 페이지 홈에 가만히 있음
      * 4) 회원 정보 확인 버튼 클릭 시 회원 정보 페이지 (/mypage/info)로 이동 -> 로그인한 사용자의 정보가 나오고 그 아래에 메인 페이지 버튼 / 회원 정보 수정 버튼
@@ -59,50 +60,31 @@ public class MyPageController {
     public String updateProfileImage(@RequestParam("newProfileImage") MultipartFile newProfileImage, HttpServletRequest request) {
         try {
             Long userId = (Long) request.getSession().getAttribute("userId");
-
-            // 파일 업로드 및 FileInfo 반환
-            FileInfo uploadedFile = mypageService.uploadProfileImage(newProfileImage, userId);
-
-            // 새 이미지 URL 생성
-            String newImageUrl = "/files/" + uploadedFile.getSeq() + uploadedFile.getExtension();
-
-            // 프로필 이미지 URL 업데이트
-            mypageService.updateProfileImage(userId, newImageUrl);
-
-            // 새 프로필 이미지 URL 저장
-            request.getSession().setAttribute("profileImage", newImageUrl);
+            FileInfo uploadedFile = mypageService.uploadProfileImage(newProfileImage, userId); // 파일 업로드 및 FileInfo 반환
+            String newImageUrl = "/files/" + uploadedFile.getSeq() + uploadedFile.getExtension(); // 새 이미지 URL 생성
+            mypageService.updateProfileImage(userId, newImageUrl); // 프로필 이미지 URL 업데이트
+            request.getSession().setAttribute("profileImage", newImageUrl); // 새 프로필 이미지 URL 저장
 
             return "redirect:" + utils.redirectUrl("mypage/myhome");
-
         } catch (IOException e) {
-            request.getSession().setAttribute("error", "이미지 변경 중에 오류가 발생했습니다.");
-            return "redirect:" + utils.redirectUrl("mypage/myhome");
+            handleException(request, "이미지 변경 중에 오류가 발생했습니다.");
         } catch (Exception e) {
-            request.getSession().setAttribute("error", e.getMessage());
-            return "redirect:" + utils.redirectUrl("mypage/myhome");
+            handleException(request, e.getMessage());
         }
+        return "redirect:" + utils.redirectUrl("mypage/myhome");
     }
 
     // 마이 페이지 -> 회원 정보 확인 페이지
     @GetMapping("/info")
-    public String memberInfo(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 회원 정보 확인할 수 있도록
+    public String memberInfo(Model model) {
         commonProcess("info", model);
-
-        if (memberUtil.isLogin()) { // 로그인한 경우 : 사용자 -> 회원 정보 확인 가능
-            model.addAttribute("member", memberUtil.getMember());
-        } else { // 로그인 하지 않은 경우
-            model.addAttribute("errorMessage", "로그인 후 이용할 수 있습니다!");
-        }
-
+        model.addAttribute("member", memberUtil.getMember());
         return utils.tpl("mypage/info");
     }
 
     // 회원 정보 확인 페이지 -> 회원 정보 수정 페이지 이동
     @GetMapping("/changeInfo")
     public String changeInfoPage(Model model) {
-        if (!memberUtil.isLogin()) {
-            return "redirect:" + utils.redirectUrl("mypage/myhome"); // 미로그인인 경우 마이 페이지로 이동
-        }
 
         Member member = memberUtil.getMember();
         model.addAttribute("member", member);
@@ -113,26 +95,19 @@ public class MyPageController {
 
     // 회원 정보 수정 페이지
     @PostMapping("/changeInfo")
-    public String changeInfo(@RequestParam String userName, @RequestParam String password, @RequestParam String address, Model model) {
-        if (!memberUtil.isLogin()) {
-            return "redirect:" + utils.redirectUrl("mypage/myhome");
-        }
+    public String changeInfo(@Valid @ModelAttribute Member member, Errors errors, Model model) {
 
-        Member member = memberUtil.getMember();
-        if (member == null) {
-            model.addAttribute("errorMessage", "로그인 정보가 유효하지 않습니다.");
+        if (errors.hasErrors()) {
+            model.addAttribute("errorMessage", "정보 수정 중 오류가 발생했습니다.");
+            commonProcess("changeInfo", model);
             return utils.tpl("mypage/changeInfo");
         }
-
-        member.setUserName(userName);
-        member.setPassword(password);
-        member.setAddress(address);
 
         try {
             memberService.updateMember(member);
             model.addAttribute("successMessage", "회원 정보가 수정되었습니다.");
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "회원 정보 수정 중에 오류가 발생했습니다.");
+            model.addAttribute("errorMessage", "회원 정보 수정 중 오류가 발생했습니다.");
             e.printStackTrace();
         }
 
@@ -142,100 +117,24 @@ public class MyPageController {
 
     // 찜 목록 페이지
     @GetMapping("/like")
-    public String like(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인이 찜한 목록 확인할 수 있도록
+    public String like(Model model) {
         commonProcess("like", model);
         return utils.tpl("mypage/like");
     }
 
     // 내가 쓴 게시글 페이지
     @GetMapping("/post")
-    public String post(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인이 쓴 게시글 확인할 수 있도록
+    public String post(Model model) {
         commonProcess("post", model);
         return utils.tpl("mypage/post");
     }
 
     // 판매 내역 & 구매 내역 페이지
     @GetMapping("/sellAndBuy")
-    public String sellAndBuy(Model model) { // CommonControllerAdvice 의 isLogin -> 로그인한 경우 본인의 판매 & 구매 내역 확인할 수 있도록
+    public String sellAndBuy(Model model) {
         commonProcess("sellAndBuy", model);
         return utils.tpl("mypage/sellAndBuy");
     }
-
-/*  // 마이 페이지 -> 찜한 목록 보기 버튼 클릭 시 찜 목록 페이지로 이동
-    @GetMapping("/like")
-    public String viewLike(Model model, @RequestParam(value = "productId", required = false) Long productId) {
-        Long userId = getCurrentUserId();
-
-        // 삭제 버튼 클릭 시 찜 목록 삭제
-        if (productId != null) {
-            wishListService.removeProductFrimWishList(userId, productId);
-        }
-
-        // 찜 목록 불러옴
-        List<WishList> wishlist = wishListService.getWishListForUser(userId);
-        model.addAttribute("wishlist", wishlist);
-
-        return utils.tpl("mypage/like");
-    }
-
-    // 현재 사용자 ID 가져옴
-    private Long getCurrentUserId() {
-        return 1L;
-    }
-
-    // 마이 페이지 -> 작성한 글 목록 보기 버튼 클릭 시 글 목록 페이지 이동
-    @GetMapping("/post")
-    public String viewMyPost(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername();
-
-            // 사용자 이름 -> 사용자 ID 조회
-            Long userId = findUserIdByUsername(username);
-
-            // 사용자 ID로 게시글 조회
-            List<Post> posts = postService.getPostsByUserId(userId);
-
-            model.addAttribute("posts", posts);
-            return utils.tpl("mypage/post");
-        }
-
-        // 인증된 사용자가 없으면 로그인 페이지로 이동
-        return utils.tpl("mypage/post"); // return "redirect:/login"; <- 로그인 완성되면 이거로 바꾸기!!
-    }
-
-    private Long findUserIdByUsername(String username) {
-        return 1L;
-    }
-
-    // 마이 페이지 -> 판매 & 구매 내역 버튼 클릭 시 판매 & 구매 내역 페이지로 이동
-    /*@GetMapping("/sellAndBuy")
-    public String viewSellAndBuy(Model model) {
-        commonProcess("sellAndBuy", model);
-        return utils.tpl("mypage/sellAndBuy");
-    } */
-
-/*    @GetMapping("/sellAndBuy")
-    public String viewSellAndBuy(Model model, HttpSession session) {
-        // 이메일을 세션에서 가져오기
-        String email = (String) session.getAttribute("userEmail");
-
-        // 이메일로 사용자 정보 조회
-        Member member = memberRepository.findByEmail(email)
-                .orElse(null); // 로그인하지 않은 사용자는 null 반환
-
-        // 로그인하지 않은 경우에도 빈 리스트를 반환합니다.
-        List<SellRecord> sellRecords = (member != null) ? sellRecordRepository.findByMember(member) : List.of();
-        List<BuyRecord> buyRecords = (member != null) ? buyRecordRepository.findByMember(member) : List.of();
-
-        // 조회된 데이터 모델에 추가
-        model.addAttribute("sellRecords", sellRecords);
-        model.addAttribute("buyRecords", buyRecords);
-
-        return utils.tpl("mypage/sellAndBuy");
-    } */
 
     /**
      * 마이 페이지 공통
@@ -251,9 +150,6 @@ public class MyPageController {
 
         addCss.add("mypage/style"); // 마이 페이지 공통
         switch (mode) {
-            case "myhome": // 마이 페이지 홈
-                addCss.add("mypage/myhome");
-                break;
             case "info": // 회원 정보 확인 페이지
                 addCss.add("mypage/info");
                 break;
@@ -261,21 +157,17 @@ public class MyPageController {
                 addCss.add("mypage/changeInfo");
                 addScript.add("mypage/changeInfo");
                 break;
-            case "profile": // 프로필 페이지
-                addCss.add("mypage/profile");
-                addScript.add("mypage/profile");
-                break;
             case "like": // 찜 목록 페이지
                 addCss.add("mypage/like");
                 break;
-            case "post": // 글 목록 페이지
+            case "post": // 게시글 목록 페이지
                 addCss.add("mypage/post");
                 break;
-            case "sellAndBuy": // 판매 & 구매 내역 페이지
+            case "sellAndBuy": // 판매 & 구매 내역 목록 페이지
                 addCss.add("mypage/sellAndBuy");
                 break;
             default:
-                addCss.add("mypage/myhome");
+                addCss.add("mypage/myhome"); // 마이 페이지 홈
                 break;
         }
 
@@ -283,5 +175,11 @@ public class MyPageController {
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
         model.addAttribute("pageName", mode);
+    }
+
+    private String handleException(HttpServletRequest request, String message) {
+        request.getSession().setAttribute("error", message);
+        log.error(message);
+        return "redirect:" + utils.redirectUrl("mypage/myhome");
     }
 }
