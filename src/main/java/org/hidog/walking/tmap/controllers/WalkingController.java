@@ -30,6 +30,7 @@ public class WalkingController {
         model.addAttribute("addCommonScript", List.of("map"));
         model.addAttribute("addScript", List.of("walking/map"));
 
+
         return utils.tpl("walking/map");
     }
 }

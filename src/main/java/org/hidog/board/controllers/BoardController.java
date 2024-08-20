@@ -15,6 +15,7 @@ import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
+import org.hidog.global.services.ApiConfigService;
 import org.hidog.member.MemberUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardSaveService boardSaveService;
     private final BoardValidator boardValidator;
     private final Utils utils;
+    private final ApiConfigService apiConfigService;
 
     private final MemberUtil memberUtil;
     private final BoardFormValidator boardFormValidator;
@@ -44,6 +46,12 @@ public class BoardController implements ExceptionProcessor {
 
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
+
+    // 티맵 api 키 조회
+    @ModelAttribute("tmapJavascriptKey")
+    public String tmapJavascriptKey() {
+        return apiConfigService.get("tmapJavascriptKey");
+    }
 
 
     /**
@@ -62,6 +70,11 @@ public class BoardController implements ExceptionProcessor {
         if (memberUtil.isLogin()) {
             form.setPoster(memberUtil.getMember().getUserName());
         }
+
+            model.addAttribute("addCommonCss", List.of("map"));
+            model.addAttribute("addCommonScript", List.of("map"));
+            model.addAttribute("addScript", List.of("walking/map"));
+
 
         return utils.tpl("board/write");
     }
@@ -91,7 +104,7 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @PostMapping("/save")
-    public String save(@Valid RequestBoard form, Errors errors, Model model) {
+    public String save(@RequestBody @Valid RequestBoard form, Errors errors, Model model) {
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);

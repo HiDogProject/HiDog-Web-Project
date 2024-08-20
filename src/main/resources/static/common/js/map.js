@@ -137,9 +137,9 @@ const tmapLib = {
             }
 
             this.drawLine(drawInfoArr);
-
-
-        } catch (err) {
+        }
+        catch (err) {
+            console.log()
         }
     },
 
