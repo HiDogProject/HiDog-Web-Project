@@ -23,6 +23,6 @@ public class BoardSearchController implements ExceptionProcessor {
 
     @ModelAttribute("addCss")
     public String[] AddCss() {
-        return new String[]{"/board/search/add.css"};
+        return new String[]{"/board/search/add.cs"};
     }
 }
