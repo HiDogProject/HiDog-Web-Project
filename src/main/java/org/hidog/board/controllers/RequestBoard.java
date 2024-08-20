@@ -1,6 +1,7 @@
 package org.hidog.board.controllers;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.UUID;
@@ -36,12 +37,15 @@ public class RequestBoard {
     //private Long parentSeq; // 부모 게시글 번호 - 답글
 
     // 추가필드 - 정수
-    private Long num1;
-    private Long num2;
+    @NotNull
+    private Long num1 = 0L;
+    @NotNull
+    private Long num2 = 0L;
     private Long num3;
 
     // 추가필드 - 한줄 텍스트
-    private String text1;
+    @NotNull
+    private String text1 = "default";
     private String text2;
     private String text3;
 
