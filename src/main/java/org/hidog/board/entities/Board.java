@@ -45,6 +45,9 @@ public class Board extends BaseMemberEntity {
 
     private int pageCountMobile = 5; // Mobile 페이지 구간 갯수
 
+    //private boolean notice;
+    //private boolean guest;
+
     private boolean useReply; // 답글 사용 여부
 
     private boolean useComment; // 댓글 사용 여부

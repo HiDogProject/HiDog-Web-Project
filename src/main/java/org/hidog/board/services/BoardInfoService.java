@@ -25,7 +25,9 @@ import org.hidog.global.Utils;
 import org.hidog.global.constants.DeleteStatus;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.data.web.OffsetScrollPositionHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +52,7 @@ public class BoardInfoService {
     private final BoardRepository boardRepository;
     private final BoardConfigInfoService configInfoService;
     private final Utils utils;
+    private final ModelMapper modelMapper;
 
     /**
      * 게시글 목록 조회
@@ -271,14 +274,39 @@ public class BoardInfoService {
     }
 
     public RequestBoard getForm(BoardData item, DeleteStatus status) {
-        RequestBoard form = new ModelMapper().map(item, RequestBoard.class);
+        // ModelMapper 인스턴스 생성
+        ModelMapper modelMapper = new ModelMapper();
+        // 사용자 정의 Converter 추가
+
+        modelMapper.addConverter(new Converter<String, Boolean>() {
+            @Override
+            public Boolean convert(MappingContext<String, Boolean> context) {
+                String source = context.getSource();
+                if (source == null) {
+                    return false; // null이면 false로 변환
+                }
+                return Boolean.parseBoolean(source); // "true" -> true, 그 외는 false
+            }
+        });
+
+        // 명시적 매핑 설정 (선택 사항: 특정 필드를 직접 매핑)
+        modelMapper.typeMap(BoardData.class, RequestBoard.class)
+                .addMappings(mapper -> {
+                    mapper.map(BoardData::isNotice, RequestBoard::setNotice); // 명시적 매핑
+                    // 필요한 다른 필드도 추가로 매핑 설정 가능
+                  });
+
+        // 매핑 실행
+        RequestBoard form = modelMapper.map(item, RequestBoard.class);
+
+        // Guest 여부 설정
         form.setGuest(item.getMember() == null);
 
         return form;
     }
 
-    public BoardData getForm(Long seq) {
-        return get(seq, DeleteStatus.UNDELETED);
+    public RequestBoard getForm(Long seq) {
+        return getForm(seq, DeleteStatus.UNDELETED);
     }
 
     public RequestBoard getForm(BoardData item) {
