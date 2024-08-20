@@ -1,6 +1,7 @@
 package org.hidog.market.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.hidog.board.controllers.RequestProduct;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.exceptions.BoardNotFoundException;

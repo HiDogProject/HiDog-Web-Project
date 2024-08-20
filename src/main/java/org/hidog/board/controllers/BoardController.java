@@ -55,7 +55,7 @@ public class BoardController implements ExceptionProcessor {
      */
     @GetMapping("/write/{bid}")
     public String write(@PathVariable("bid") String bid,
-                        @ModelAttribute RequestBoard form, Model model) {
+                        @ModelAttribute RequestBoard form, @ModelAttribute RequestProduct form2, Model model) {
         commonProcess(bid, "write", model);
 
         form.setGuest(!memberUtil.isLogin());

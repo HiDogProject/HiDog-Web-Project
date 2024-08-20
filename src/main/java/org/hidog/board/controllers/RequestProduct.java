@@ -1,4 +1,4 @@
-package org.hidog.market.controllers;
+package org.hidog.board.controllers;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
