@@ -1,12 +1,14 @@
-main {
-    margin-top: 15px;
-}
-
-body {
-    font-family: Arial, sans-serif;
+/* 기본 */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
+}
+
+main {
+    margin-top: 15px;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
 }
 
 .container {
@@ -24,6 +26,7 @@ h1 {
     text-align: center;
     margin: 20px 0;
     font-size: 2em;
+    color: #333;
 }
 
 .info-box {
@@ -32,30 +35,32 @@ h1 {
     border-radius: 8px;
     background-color: #f9f9f9;
     max-width: 800px;
-    margin: 10px auto;
+    margin: 10px;
 }
 
 .info-row {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
     position: relative;
 }
 
 .info-row p {
-    width: 100px;
+    width: 120px;
     font-weight: bold;
     margin: 0;
     color: #333;
-    padding-right: 30px;
+    padding-right: 15px;
     padding-left: 5px;
+    text-align: center;
 }
 
 .info-row span {
     flex: 1;
     color: #555;
+    text-align: center;
 }
 
 .vertical-line {
@@ -84,9 +89,9 @@ h1 {
     font-size: 1em;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
     text-decoration: none;
     display: inline-block;
+    text-align: center;
     margin: 0 10px;
 }
 
