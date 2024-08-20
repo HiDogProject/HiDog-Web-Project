@@ -46,17 +46,5 @@
             <div class="error" th:each="err : ${#fields.errors('num2')}" th:text="${err}"></div>
         </dd>
     </dl>
-
-
-    <dl th:if="${board.useUploadFile}">
-        <dt th:text="#{파일_첨부}"></dt>
-        <dd>
-            <button type="button" class="fileUploads" th:data-gid="*{gid}"
-                    data-location="attach" th:text="#{파일_선택}"></button>
-            <div class="uploaded-files" id="uploaded-files-attach"></div>
-        </dd>
-    </dl>
-
-    <script th:replace="~{common/_file_tpl::editor}"></script>
 </th:block>
 </html>
