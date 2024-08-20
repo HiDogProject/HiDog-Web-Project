@@ -1,16 +1,14 @@
-/* 전체 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 main {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    padding: 20px;
-}
-
-/* 기본 */
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
+    padding: 10px 0 15px 0;
+    margin-top: 10px;
 }
 
 /* 제목 */
@@ -18,19 +16,17 @@ h1 {
     text-align: center;
     font-size: 2em;
     color: #333;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 0 0 10px 0;
 }
 
 /* 게시글 목록 */
 #postTable {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     border-collapse: collapse;
     background-color: #f4f4f4;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #postTable thead {
@@ -45,7 +41,18 @@ h1 {
 }
 
 #postTable th {
+    color: white;
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: center;
     font-weight: bold;
+}
+
+#postTable td {
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
 }
 
 #postTable td a {
@@ -55,8 +62,4 @@ h1 {
 
 #postTable td a:hover {
     text-decoration: underline;
-}
-
-th {
-    color: white;
 }
