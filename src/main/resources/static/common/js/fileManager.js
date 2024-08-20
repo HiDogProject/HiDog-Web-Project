@@ -53,7 +53,6 @@ const fileManager = {
 
             ajaxLoad('/file/upload', 'POST', formData)
                 .then(res => {
-                    console.log(res);
                     if (!res.success) {
                         alert(res.message);
                         return;
