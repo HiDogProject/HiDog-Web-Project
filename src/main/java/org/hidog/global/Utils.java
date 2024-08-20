@@ -155,4 +155,18 @@ public class Utils { // 빈의 이름 - utils
 
         return prefix + path;
     }
+
+    /**
+     * \n 또는 \r\n -> <br>
+     * @param str
+     * @return
+     */
+    public String nl2br(String str) {
+        str = Objects.requireNonNullElse(str, "");
+
+        str = str.replaceAll("\\n", "<br>")
+                .replaceAll("\\r", "");
+
+        return str;
+    }
 }
