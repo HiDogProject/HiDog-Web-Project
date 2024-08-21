@@ -143,9 +143,9 @@ public class BoardController implements ExceptionProcessor {
 
         return "redirect:" + utils.redirectUrl(url);
     }
-
+    
     /**
-     * 게시판 목록
+     * 게시글 목록
      * @param bid : 게시판 아이디
      * @param model
      * @return
