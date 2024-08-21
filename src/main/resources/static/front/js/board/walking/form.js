@@ -89,6 +89,50 @@ function fileDeleteCallback(file) {
     el.parentElement.removeChild(el);
 }
 
+
+/**
+ * 맵 실행 및 버튼 기능 추가
+ */
+window.addEventListener("DOMContentLoaded", function() {
+    tmapLib.load("mapId");
+
+    // 버튼 이벤트 리스너
+    const startEl = document.getElementById("start");
+    startEl.addEventListener("click", () => tmapLib.currentAction = 'start');
+
+    const viasEl = document.getElementById("vias");
+    viasEl.addEventListener("click", () => tmapLib.currentAction = 'via');
+
+    const completeEl = document.getElementById("complete");
+    completeEl.addEventListener("click", () => {
+        if (tmapLib.resultDrawArr.length == 0) {
+            tmapLib.route(tmapLib.mapId)
+
+        } else {
+            console.log(tmapLib.resultDrawArr)
+            return;
+        }
+        viasEl.style.display = 'none';
+        startEl.style.display = 'none';
+    });
+
+
+    const resetEl = document.getElementById("reset");
+    resetEl.addEventListener("click", function() {
+        if (confirm("정말 다시 선택 하시겠습니까??")) {
+            viasEl.style.display = '';
+            startEl.style.display = '';
+            tmapLib.reset();
+        }
+    });
+
+});
+
+/**
+ * form 으로 json 데이터 전송
+ * @param departurePoints   : 시작 마커 좌표
+ * @param viaPoints   : 경유 마커 좌표
+ */
 function mapDrawingCallback(departurePoints, viaPoints) {
     const json = JSON.stringify(departurePoints);
     const json2 = JSON.stringify(viaPoints);
@@ -96,6 +140,10 @@ function mapDrawingCallback(departurePoints, viaPoints) {
     frmSave.longText1.value = json;
     frmSave.longText2.value = json2;
 }
+
+
+
+
 
 // function loadMapCallback(data) {
 //     let locations= frmSave.longText1.value;

@@ -215,7 +215,6 @@ public class BoardController implements ExceptionProcessor {
         }
 
         if (skin.equals("walking")) {
-            addScript.add("walking/map");
             addCommonScript.add("map");
         }
 

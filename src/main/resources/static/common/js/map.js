@@ -10,29 +10,6 @@ const tmapLib = {
     height: '400px',
     zoom: 17,
     currentAction: null, // start, end, via
-    init() {
-        const startMarkerElement = document.querySelector('[data-startMarker]');
-        const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
-        const startMarkerArray = JSON.parse(startMarkerData);
-        console.log(startMarkerArray);
-        for (let i = 0; i < startMarkerArray.length; i += 2) {
-            const lat = startMarkerArray[i];
-            const lng = startMarkerArray[i + 1];
-
-            console.log(lat, lng)
-            // 마커 옵션 설정
-            const opt = {
-                position: new Tmapv2.LatLng(lat, lng),
-                map: this.map,
-                icon: 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg',
-                iconSize: new Tmapv2.Size(50, 50)
-            };
-
-            // 마커 생성
-            const startMarker = new Tmapv2.Marker(opt);
-            this.markers.push(startMarker);
-        }
-    },
     load(mapId, width, height, zoom) {
         this.width = width ?? '80%';
         this.height = height ?? '600px';
@@ -52,7 +29,6 @@ const tmapLib = {
                 zoomControl: true,
                 scrollwheel: true
             });
-            this.init()
 
             // 지도 클릭 이벤트
             this.map.addListener('click', (e) => {
