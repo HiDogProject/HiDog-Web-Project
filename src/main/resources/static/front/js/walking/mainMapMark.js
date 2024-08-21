@@ -14,12 +14,11 @@ const mainMapLib = {
         const startMarkerElement = document.querySelector('[data-startMarker]');
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
         const startMarkerArray = JSON.parse(startMarkerData);
-        console.log(startMarkerArray);
+
         for (let i = 0; i < startMarkerArray.length; i += 2) {
             const lat = startMarkerArray[i];
             const lng = startMarkerArray[i + 1];
 
-            console.log(lat, lng)
             // 마커 옵션 설정
             const opt = {
                 position: new Tmapv2.LatLng(lat, lng),
@@ -31,6 +30,28 @@ const mainMapLib = {
             // 마커 생성
             const startMarker = new Tmapv2.Marker(opt);
             this.markers.push(startMarker);
+
+            let clickable = true;
+
+            startMarker.addListener('click', () => {
+                if (clickable) {
+                    // 다른 마커 숨기기
+                    this.markers.forEach(marker => {
+                        if (marker !== startMarker) {
+                            marker.setVisible(false);
+                        }
+                    });
+                    clickable = false;
+                    console.log("클릭")
+                } else {
+                    // 모든 마커 보이기
+                    this.markers.forEach(marker => {
+                        marker.setVisible(true);
+                    });
+                    clickable = true;
+                    console.log("재클릭")
+                }
+            });
         }
     },
     load(mapId, width, height, zoom) {
@@ -55,6 +76,9 @@ const mainMapLib = {
             this.init()
 
         })
-    }
+
+
+    },
+
 
 }
