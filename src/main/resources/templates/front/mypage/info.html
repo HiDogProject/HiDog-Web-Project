@@ -1,15 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{front/layouts/main}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
     <main layout:fragment="content">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>회원 정보</title>
-            <link th:each="css : ${addCss}" rel="stylesheet" th:href="@{${css}}"/>
-            <script th:each="script : ${addScript}" src="" th:src="@{${script}}"></script>
-        </head>
-        <body>
+        <form name="frmInfo" method="post" th:action="@{/mypage/info}" autocomplete="off">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
             <div class="container">
                 <h1 th:text="#{회원_정보}"></h1>
 
@@ -22,24 +15,26 @@
                 <!-- 로그인한 경우 -->
                 <div th:if="${member}" class="info-box">
                     <div class="info-row">
-                        <p>닉네임 : <span th:text="${member.userName}"></span></p>
+                        <p>닉네임</p><span th:text="${member.userName}"></span>
+                        <div class="vertical-line"></div>
                     </div>
                     <div class="info-row">
-                        <p>이메일 : <span th:text="${member.email}"></span></p>
+                        <p>이메일</p><span th:text="${member.email}"></span>
+                        <div class="vertical-line"></div>
                     </div>
                     <div class="info-row">
-                        <p>비밀번호 : <span th:text="${member.password}"></span></p>
+                        <p>비밀번호</p><span th:text="${member.password}"></span>
+                        <div class="vertical-line"></div>
                     </div>
                     <div class="info-row">
-                        <p>주소 : <span th:text="${member.address}"></span></p>
-                    </div>
-
-                    <div class="button-container">
-                        <a th:href="${@utils.url('/mypage/myhome')}" class="button">마이 페이지</a>
-                        <a th:href="${@utils.url('/mypage/changeInfo')}" class="button">회원 정보 수정하기</a>
+                        <p>주소</p><span th:text="${member.address}"></span>
                     </div>
                 </div>
+
+                <div class="button-container">
+                    <a th:href="${@utils.url('/mypage/changeInfo')}" class="button">회원 정보 수정하기</a>
+                </div>
             </div>
-        </body>
+        </form>
     </main>
 </html>
