@@ -182,16 +182,14 @@ public class Utils { // 빈의 이름 - utils
     }
 
     /**
-     * \n 또는 \r\n -> <br>
-     * @param str
+     * 줄개행 문자(\n 또는 \r\n) -> <br>
+     * @param data
      * @return
      */
-    public String nl2br(String str) {
-        str = Objects.requireNonNullElse(str, "");
+    public String nl2br(String data) {
+        data = data.replace("\n", "<br>")
+                .replace("\r", ""); // 윈도우
 
-        str = str.replaceAll("\\n", "<br>")
-                .replaceAll("\\r", "");
-
-        return str;
+        return data;
     }
 }
