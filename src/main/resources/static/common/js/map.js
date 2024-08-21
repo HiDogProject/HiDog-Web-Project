@@ -1,6 +1,7 @@
 const tmapLib = {
     departure: null, // 출발지 LatLng 객체
     arrival: null, // 도착지 LatLng 객체
+    departureList: [], // DB 출발지 배열
     via: [], // 경유지 LatLng 객체 배열
     markers: [], // 마커
     resultDrawArr: [],
@@ -9,13 +10,13 @@ const tmapLib = {
     height: '400px',
     zoom: 17,
     currentAction: null, // start, end, via
-
-    // 지도 로딩 및 초기화
     load(mapId, width, height, zoom) {
         this.width = width ?? '80%';
         this.height = height ?? '600px';
         this.zoom = zoom || 17;
 
+
+        // tmapLib.init();
         navigator.geolocation.getCurrentPosition((pos) => {
             const { latitude, longitude } = pos.coords;
 
@@ -39,6 +40,7 @@ const tmapLib = {
                         return;
                     }
                     this.departure = e.latLng;
+                    console.log(e.latLng);
                     this.arrival =e.latLng;
                     opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg'
                     opt.iconSize = new Tmapv2.Size(50, 50);
@@ -138,14 +140,16 @@ const tmapLib = {
 
             this.drawLine(drawInfoArr);
 
-            const locations = [];
+            const departurePoints = [];
+            const viaPoints = [];
+
             const {departure, arrival, via} = tmapLib;
-            locations.push({lat: departure.lat(), lng: departure.lng()});
+            departurePoints.push({lat: departure.lat(), lng: departure.lng()});
             via.forEach(point => {
-                locations.push({lat: point.lat(), lng: point.lng()});
+                viaPoints.push({lat: point.lat(), lng: point.lng()});
             });
             if (typeof mapDrawingCallback === 'function') {
-                mapDrawingCallback(locations);
+                mapDrawingCallback(departurePoints, viaPoints);
             }
 
         }
