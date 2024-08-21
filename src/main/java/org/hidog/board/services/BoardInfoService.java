@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.controllers.BoardDataSearch;
 import org.hidog.board.controllers.RequestBoard;
@@ -17,12 +16,13 @@ import org.hidog.board.entities.QBoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
 import org.hidog.board.exceptions.BoardNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
+import org.hidog.file.entities.FileInfo;
+import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Pagination;
 import org.hidog.global.Utils;
 import org.hidog.global.constants.DeleteStatus;
 import org.hidog.member.MemberUtil;
-import org.hidog.member.entities.Member;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +44,7 @@ public class BoardInfoService {
     private final MemberUtil memberUtil;
     private final Utils utils;
     private final ModelMapper modelMapper;
+    private final FileInfoService fileInfoService;
 
     /**
      * 게시글 목록 조회
@@ -282,53 +283,20 @@ public class BoardInfoService {
     /**
      * 게시글 추가 정보 처리, 추가 데이터 처리
      *          - 업로드한 파일 목록
-     *          에디터 이미지 목록, 첨부 파일 이미지 목록
+     *              에디터 이미지 목록, 첨부 파일 이미지 목록
      *          - 권한 : 글쓰기, 글수정, 글 삭제, 글 조회 가능 여부
      *          - 댓글
      * @param item
      */
     public void addInfo(BoardData item) {
-        /* 수정, 삭제 권한 정보 처리 S */
-        boolean editable = false, deletable = false, mine = false;
-        Member _member = item.getMember(); // null - 비회원, X null -> 회원
 
-        // 관리자 -> 삭제, 수정 모두 가능
-        if (memberUtil.isAdmin()) {
-            editable = true;
-            deletable = true;
-        }
+        /* 업로드한 파일 목록 S */
+       String gid = item.getGid();
+       List<FileInfo> editorImages = fileInfoService.getList(gid, "editor");
+       List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
 
-        // 회원 -> 직접 작성한 게시글만 삭제, 수정 가능
-        Member member = memberUtil.getMember();
-        if (_member != null && memberUtil.isLogin() && _member.getEmail().equals(member.getEmail())) {
-            editable = true;
-            deletable = true;
-            mine = true;
-        }
-
-        // 비회원 -> 비회원 비밀번호가 확인 된 경우 삭제, 수정 가능
-        // 비회원 비밀번호 인증 여부 세션에 있는 guest_confirmed_게시글번호 true -> 인증
-        HttpSession session = request.getSession();
-        String key = "guest_confirmed_" + item.getSeq();
-        Boolean guestConfirmed = (Boolean)session.getAttribute(key);
-        if (_member == null && guestConfirmed != null && guestConfirmed) {
-            editable = true;
-            deletable = true;
-            mine = true;
-        }
-
-        item.setEditable(editable);
-        item.setDeletable(deletable);
-        item.setMine(mine);
-
-        // 수정 버튼 노출 여부
-        // 관리자 - 노출, 회원 게시글 - 직접 작성한 게시글, 비회원
-        boolean showEditButton = memberUtil.isAdmin() || mine || _member == null;
-        boolean showDeleteButton = showEditButton;
-
-        item.setShowEditButton(showEditButton);
-        item.setShowDeleteButton(showDeleteButton);
-
-        /* 수정, 삭제 권한 정보 처리 E */
+       item.setEditorImages(editorImages);
+       item.setAttachFiles(attachFiles);
+       /* 업로드한 파일 목록 E */
     }
 }
