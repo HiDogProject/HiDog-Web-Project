@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hidog.board.entities.BoardData;
+import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
@@ -32,6 +34,7 @@ public class MyPageController {
     private final MemberUtil memberUtil;
     private final MemberService memberService;
     private final MypageService mypageService;
+    private final BoardDataRepository boardDataRepository;
 
     @Value("${file.upload.url}")
     private String fileUploadUrl;
@@ -49,9 +52,13 @@ public class MyPageController {
 
     // 마이 페이지 홈 + 프로필 수정 원
     @GetMapping("/myhome")
-    public String myHome(Model model) {
+    public String myHome(Model model, HttpServletRequest request) {
         commonProcess("myhome", model);
-        model.addAttribute("profileImage", memberUtil.getProfileImageUrl());
+        String profileImageUrl = (String) request.getSession().getAttribute("profileImage");
+        if (profileImageUrl == null) {
+            profileImageUrl = memberUtil.getProfileImageUrl();
+        }
+        model.addAttribute("profileImage", profileImageUrl);
         return utils.tpl("mypage/myhome");
     }
 
@@ -126,8 +133,15 @@ public class MyPageController {
     @GetMapping("/post")
     public String post(Model model) {
         commonProcess("post", model);
+
+        String userId = memberUtil.getMember().getUserName();
+
+        // 사용자 작성 게시글 목록 조회
+        List<BoardData> boardDataList = boardDataRepository.findByPoster(userId);
+
+        model.addAttribute("posts", boardDataList);
         return utils.tpl("mypage/post");
-    } /* 8/21 화 해볼 예정 */
+    }
 
     // 판매 내역 & 구매 내역 페이지
     @GetMapping("/sellAndBuy")

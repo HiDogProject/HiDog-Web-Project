@@ -18,9 +18,9 @@
                     <tbody>
                         <tr th:each="post, iterStat : ${posts}">
                             <td th:text="${iterStat.index + 1}">번호</td>
-                            <td th:text="${post.userId}">작성자</td>
-                            <td th:text="${post.title}">제목</td>
-                            <td th:text="${post.content}">내용</td>
+                            <td th:text="${post.poster}">작성자</td>
+                            <td><a th:href="@{/board/view/{seq}(seq=${post.seq})}" th:text="${post.subject}">제목</a></td>
+                            <td th:text="${#strings.abbreviate(post.content, 50)}">내용</td>
                             <td th:text="${#dates.format(post.createdDate, 'yyyy-MM-dd HH:mm')}">작성 일자</td>
                         </tr>
                     </tbody>
