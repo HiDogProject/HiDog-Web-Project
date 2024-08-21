@@ -31,8 +31,8 @@ public class WalkingController {
         List<Double> startMarker = mainMapMarkerService.startMarkerLocation();
         model.addAttribute("startMarker", startMarker);
         model.addAttribute("addCommonCss", List.of("map"));
-        model.addAttribute("addCommonScript", List.of("map"));
-        model.addAttribute("addScript", List.of("walking/map"));
+//        model.addAttribute("addCommonScript", List.of("map"));
+        model.addAttribute("addScript", List.of("mainMap/mainMap"));
 
 
         return utils.tpl("walking/map");

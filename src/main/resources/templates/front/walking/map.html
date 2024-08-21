@@ -5,9 +5,7 @@
 
 <main layout:fragment="content">
     <div id="mapId"></div>
-    <p>Start X: <span th:data-startX="*{startX}"></span></p>
-    <p>Start Y: <span th:data-startX="*{startY}"></span></p>
-    <p>Pass List: <span th:data-passList="*{passList}"></span></p>
+    <div th:data-startMarker="*{startMarker}"></div>
     <aside>
         <input type="text" th:placeholder="#{검색어를_입력하세요.}">
         <button type="submit" th:text="#{검색하기}"></button>

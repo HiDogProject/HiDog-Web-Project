@@ -1,6 +1,7 @@
 const tmapLib = {
     departure: null, // 출발지 LatLng 객체
     arrival: null, // 도착지 LatLng 객체
+    departureList: [], // DB 출발지 배열
     via: [], // 경유지 LatLng 객체 배열
     markers: [], // 마커
     resultDrawArr: [],
@@ -9,16 +10,34 @@ const tmapLib = {
     height: '400px',
     zoom: 17,
     currentAction: null, // start, end, via
-    // init() {
-    //     if (typeof loadMapCallback === 'function') {
-    //         loadMapCallback(this);
-    //     }
-    // },
-    // 지도 로딩 및 초기화
+    init() {
+        const startMarkerElement = document.querySelector('[data-startMarker]');
+        const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
+        const startMarkerArray = JSON.parse(startMarkerData);
+        console.log(startMarkerArray);
+        for (let i = 0; i < startMarkerArray.length; i += 2) {
+            const lat = startMarkerArray[i];
+            const lng = startMarkerArray[i + 1];
+
+            console.log(lat, lng)
+            // 마커 옵션 설정
+            const opt = {
+                position: new Tmapv2.LatLng(lat, lng),
+                map: this.map,
+                icon: 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg',
+                iconSize: new Tmapv2.Size(50, 50)
+            };
+
+            // 마커 생성
+            const startMarker = new Tmapv2.Marker(opt);
+            this.markers.push(startMarker);
+        }
+    },
     load(mapId, width, height, zoom) {
         this.width = width ?? '80%';
         this.height = height ?? '600px';
         this.zoom = zoom || 17;
+
 
         // tmapLib.init();
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -33,6 +52,7 @@ const tmapLib = {
                 zoomControl: true,
                 scrollwheel: true
             });
+            this.init()
 
             // 지도 클릭 이벤트
             this.map.addListener('click', (e) => {
@@ -44,6 +64,7 @@ const tmapLib = {
                         return;
                     }
                     this.departure = e.latLng;
+                    console.log(e.latLng);
                     this.arrival =e.latLng;
                     opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg'
                     opt.iconSize = new Tmapv2.Size(50, 50);
