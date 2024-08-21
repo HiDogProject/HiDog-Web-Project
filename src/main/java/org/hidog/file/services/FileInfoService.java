@@ -8,6 +8,7 @@ import org.hidog.file.entities.FileInfo;
 import org.hidog.file.entities.QFileInfo;
 import org.hidog.file.exceptions.FileNotFoundException;
 import org.hidog.file.repositories.FileInfoRepository;
+import org.hidog.global.Utils;
 import org.hidog.global.configs.FileProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.domain.Sort;
@@ -27,6 +28,7 @@ public class FileInfoService {
     private final FileInfoRepository infoRepository;
     private final FileProperties properties;
     private final HttpServletRequest request;
+    private final Utils utils;
 
     /**
      * 파일 1개 조회
@@ -102,7 +104,11 @@ public class FileInfoService {
 
     // 브라우저 접근 주소
     public String getFileUrl(FileInfo item) {
-        return request.getContextPath() + properties.getUrl() + getFolder(item.getSeq()) + "/" + getFileName(item);
+        //return request.getContextPath() + properties.getUrl() + getFolder(item.getSeq()) + "/" + getFileName(item);
+
+        String url =  properties.getUrl() + getFolder(item.getSeq()) + "/" + getFileName(item);
+
+        return utils.url(url);
     }
 
     // 서버 업로드 경로

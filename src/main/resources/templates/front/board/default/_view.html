@@ -32,6 +32,13 @@
     <div th:if="*{editorView}" class="content" th:utext="*{content}"></div>
     <div th:if="*{!editorView}" class="content" th:utext="*{@utils.nl2br(content)}"></div>
 
+    <ul th:if="*{attachFiles != null && !attachFiles.isEmpty()}" class="downloads">
+        <li th:each="file : *{attachFiles}" th:object="${file}">
+            <i class="xi-download"></i>
+            <a th:href="${@utils.redirectUrl('/file/download/' + file.seq)}" th:text="*{fileName}"></a>
+        </li>
+    </ul>
+
         <div class="board_btns">
             <a th:href="*{@utils.redirectUrl('/board/write/' + board.bid)}" th:text="#{글쓰기}" class="btn"></a>
 
