@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
-    <!-- board_list와 items를 감싸는 링크를 추가합니다 -->
     <div class="board_list layout_width">
         <ul class="items">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"

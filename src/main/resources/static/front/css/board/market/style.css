@@ -72,3 +72,87 @@
 .view_count, .post_date {
     display: block;
 }
+
+
+/*                                                           */
+
+.view-content {
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    font-family: Arial, sans-serif;
+}
+
+.product_info1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.product_info1 .subject {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.product_info1 .price {
+    font-size: 22px;
+    color: #FF4500; /* Orange color for the price */
+}
+
+.post_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.post_info .view_count {
+    margin-right: 15px;
+}
+
+.links {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.links a {
+    text-decoration: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: #FF4500; /* Orange button color */
+    color: #fff;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.links a:hover {
+    background-color: #d03820; /* Darker orange on hover */
+}
+
+.product_info2 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.poster_info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #666;
+}
+
+.poster_info .left {
+    display: flex;
+    align-items: center;
+}
+
+.poster_info .left th:block:first-child {
+    margin-right: 5px;
+}
