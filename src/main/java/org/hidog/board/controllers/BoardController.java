@@ -1,5 +1,6 @@
 package org.hidog.board.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
@@ -10,6 +11,8 @@ import org.hidog.board.services.BoardDeleteService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
 import org.hidog.board.validators.BoardValidator;
+import org.hidog.file.constants.FileStatus;
+import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
@@ -21,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@SessionAttributes({"boardData"}) // 수정이후에는 세션 비우기?
 public class BoardController implements ExceptionProcessor {
 
     private final BoardConfigInfoService configInfoService;
@@ -100,19 +105,38 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @PostMapping("/save")
-    public String save(@Valid RequestBoard form, Errors errors, Model model) {
+    public String save(@Valid RequestBoard form, Errors errors, Model model, SessionStatus status, HttpSession session) {
         String mode = form.getMode();
         mode = mode != null && StringUtils.hasText(mode.trim()) ? mode.trim() : "write";
         commonProcess(form.getBid(), mode, model);
 
+        boolean isGuest = (mode.equals("write") && !memberUtil.isLogin());
+        if(mode.equals("update")) {
+            BoardData data = (BoardData)model.getAttribute("boardData");
+            isGuest = data.getMember() == null;
+        }
+
+
+        form.setGuest(isGuest);
+
         boardValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
+            // 업로드 된 파일 목록 - location : editor, attach
+            String gid = form.getGid();
+            List<FileInfo> editorImages = fileInfoService.getList(gid, "editor", FileStatus.ALL);
+            List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach", FileStatus.ALL);
+            form.setEditorImages(editorImages);
+            form.setAttachFiles(attachFiles);
+
             return utils.tpl("board/" + mode);
         }
 
         // 게시글 저장 처리
         BoardData boardData = boardSaveService.save(form);
+
+        status.setComplete();
+        session.removeAttribute("boardData");
 
         // 목록 또는 상세 보기 이동
         String url = board.getLocationAfterWriting().equals("list") ? "/board/list/" + board.getBid() : "/board/view/" + boardData.getSeq();
@@ -121,7 +145,7 @@ public class BoardController implements ExceptionProcessor {
     }
 
     /**
-     * 게시판 목록
+     * 게시글 목록
      * @param bid : 게시판 아이디
      * @param model
      * @return
@@ -131,6 +155,7 @@ public class BoardController implements ExceptionProcessor {
         commonProcess(bid, "list", model);
 
         ListData<BoardData> data = boardInfoService.getList(bid, search);
+
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
 
@@ -148,7 +173,7 @@ public class BoardController implements ExceptionProcessor {
     public String view(@PathVariable("seq") Long seq, Model model) {
         commonProcess(seq, "view", model);
 
-        boardInfoService.get(seq);
+        //boardInfoService.get(seq);
 
         return utils.tpl("board/view");
     }
