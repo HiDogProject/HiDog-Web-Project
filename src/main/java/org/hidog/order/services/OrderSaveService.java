@@ -51,6 +51,7 @@ public class OrderSaveService {
         }
 
         infoRepository.saveAndFlush(orderInfo);
+
         /* 주문서 정보 저장 E*/
 
         /* 주문 상품 정보 저장 S */
@@ -63,6 +64,10 @@ public class OrderSaveService {
                 .build();
 
         itemRepository.saveAndFlush(orderItem);
+
+
+        orderInfo.setOrderItem(orderItem); //추가추가
+        infoRepository.saveAndFlush(orderInfo);
         /* 주문 상품 정보 저장 E */
 
         return orderInfo;

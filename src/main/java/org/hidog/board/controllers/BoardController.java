@@ -1,5 +1,6 @@
 package org.hidog.board.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.global.services.ApiConfigService;
 import org.hidog.member.MemberUtil;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -169,10 +171,12 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model) {
+    public String view(@PathVariable("seq") Long seq, Model model, HttpSession session) {
         commonProcess(seq, "view", model);
+        orderProcess(seq, session);
 
         //boardInfoService.get(seq);
+
 
         return utils.tpl("board/view");
     }
@@ -273,5 +277,11 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("boardData", boardData);
 
         commonProcess(boardData.getBoard().getBid(), mode, model);
+    }
+
+    protected void orderProcess(Long seq, HttpSession session) {
+        if(board.getSkin().equals("market")){
+            session.setAttribute("boardData", boardData);
+        }
     }
 }

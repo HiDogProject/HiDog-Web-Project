@@ -3,6 +3,28 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
+    <div class="view-content" th:object="${boardData}">
+        <div class="product_info1">
+            <span class="subject">
+                <th:block th:text="*{subject}"></th:block>
+            </span>
+            <span class="price">
+                <th:block th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></th:block>
+                <th:block th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></th:block>
+            </span>
+        </div>
+        <div class="poster_info">
+            <div class="left">
+                <th:block th:text="#{판매자}"></th:block>:
+                <th:block th:text="*{poster}"></th:block>
+                <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
+            </div>
+        </div >
+    </div>  <!--// view-content -->
+
+
+
+
     <h1 th:text="#{주문서_작성}"></h1>
     <form name="frmSave" method="POST" th:action="${@utils.redirectUrl('/order')}" autocomplete="off" th:object="${requestOrder}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>

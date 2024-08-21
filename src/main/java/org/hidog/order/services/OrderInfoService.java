@@ -15,6 +15,7 @@ public class OrderInfoService {
 
     public OrderInfo get(Long orderNo){
         OrderInfo orderInfo = orderInfoRepository.findById(orderNo).orElseThrow(OrderNotFoundException::new);
+        System.out.println(orderInfo + "orderInfo !!!!!!");
         addInfo(orderInfo);
         return orderInfo;
     }
