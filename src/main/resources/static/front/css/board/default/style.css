@@ -17,76 +17,129 @@ dd { flex-grow: 1; }
 gpt
  */
 
-/* 전체적인 스타일 설정 */
+/* 전체 레이아웃 및 기본 설정 */
 body {
-    font-family: 'Noto Sans KR', sans-serif; /* 한글 폰트를 사용할 경우 */
-    margin: 20px;
-    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
     color: #333;
 }
 
-/* 제목 영역 스타일 */
-.subject {
-    font-weight: bold;
-    font-size: 25px;
-    color: #222;
-}
-
-/* 게시글 정보 섹션 스타일 */
-.post_info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    padding: 10px 15px;
+/* 게시판 리스트 레이아웃 */
+.board_list {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 왼쪽 정보 섹션 스타일 */
-.post_info .left span {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
+.flex {
+    display: flex;
 }
 
-/* 오른쪽 정보 섹션 스타일 */
-.post_info .right span {
-    display: block;
-    text-align: right;
-    font-size: 14px;
-    margin-bottom: 5px;
+.sb {
+    justify-content: space-between;
 }
 
-/* 버튼 영역 스타일 */
-.board_btns {
-    margin-top: 20px;
-    text-align: right;
+.aic {
+    align-items: center;
 }
 
-.board_btns .btn {
-    display: inline-block;
-    padding: 8px 15px;
-    margin-left: 10px;
-    font-size: 14px;
+/* 글쓰기 버튼 스타일 */
+.write_btn {
+    padding: 10px 20px;
+    background-color: #68A5FE;
     color: #fff;
-    background-color: #007bff;
     border: none;
-    border-radius: 4px;
-    text-decoration: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
-.board_btns .btn:hover {
-    background-color: #0056b3;
+.write_btn:hover {
+    background-color: #68A5FE;
 }
 
-/* 삭제 버튼 경고 스타일 */
-.board_btns .btn[onclick] {
-    background-color: #dc3545;
+/* 게시글 리스트 스타일 */
+.items {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
 }
 
-.board_btns .btn[onclick]:hover {
-    background-color: #c82333;
+.item {
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+/* 공지사항 스타일 */
+.notice {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* 제목 스타일 */
+.subject {
+    font-size: 18px;
+    color: #68A5FE;
+    text-decoration: none;
+}
+
+.subject:hover {
+    text-decoration: underline;
+}
+
+/* 게시글 정보 스타일 */
+.post_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* 작성자 정보 스타일 */
+.poster {
+    font-weight: bold;
+}
+
+.poster span {
+    font-weight: normal;
+    color: #888;
+}
+
+/* 조회수 스타일 */
+.view_count {
+    margin-left: 20px;
+}
+
+.view_count::before {
+    content: "|";
+    margin-right: 10px;
+    color: #ddd;
+}
+
+/* 게시 날짜 스타일 */
+.post_date {
+    color: #999;
+}
+
+/* 조회된 게시글이 없을 때 */
+.no_data {
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+    padding: 20px 0;
 }
