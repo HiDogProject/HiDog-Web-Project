@@ -58,7 +58,7 @@ public class BoardInfoService {
         // 게시판 설정 조회
         Board board = bid != null && StringUtils.hasText(bid.trim()) ? configInfoService.get(bid.trim()).orElseThrow(BoardNotFoundException::new) : new Board();
 
-        int page =  Math.max(search.getPage(), 1);
+        int page =  Math.max(search.getPage(), 1); // search.getPage(), 1 을 비교해서 더 큰값을 반환
         int limit = search.getLimit();
         limit = limit > 0 ? limit : board.getRowsPerPage();
 
