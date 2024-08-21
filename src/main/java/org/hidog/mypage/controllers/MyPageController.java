@@ -170,26 +170,34 @@ public class MyPageController {
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
+        String pageTitle = ""; // 기본 페이지 제목 설정
+
         addCss.add("mypage/style"); // 마이 페이지 공통
         switch (mode) {
             case "info": // 회원 정보 확인 페이지
                 addCss.add("mypage/info");
+                pageTitle = "회원 정보 확인";
                 break;
             case "changeInfo": // 회원 정보 수정 페이지
                 addCss.add("mypage/changeInfo");
                 addScript.add("mypage/changeInfo");
+                pageTitle = "회원 정보 수정";
                 break;
             case "like": // 찜 목록 페이지
                 addCss.add("mypage/like");
+                pageTitle = "찜 목록";
                 break;
             case "post": // 게시글 목록 페이지
                 addCss.add("mypage/post");
+                pageTitle = "내 게시글";
                 break;
             case "sellAndBuy": // 판매 & 구매 내역 목록 페이지
                 addCss.add("mypage/sellAndBuy");
+                pageTitle = "판매 및 구매 내역";
                 break;
             default:
                 addCss.add("mypage/myhome"); // 마이 페이지 홈
+                pageTitle = "마이 페이지 홈";
                 break;
         }
 
@@ -197,6 +205,7 @@ public class MyPageController {
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
         model.addAttribute("pageName", mode);
+        model.addAttribute("pageTitle", pageTitle); // 페이지 제목 추가
     }
 
     private String handleException(HttpServletRequest request, String message) {
