@@ -16,7 +16,7 @@ h1 {
     text-align: center;
     font-size: 2em;
     color: #333;
-    margin: 0 0 20px 0;
+    margin: 0 0 10px 0;
 }
 
 /* 게시글 목록 */
@@ -46,7 +46,6 @@ h1 {
     border: 1px solid #ddd;
     text-align: center;
     font-weight: bold;
-    text-transform: uppercase;
 }
 
 #postTable td {
@@ -54,7 +53,6 @@ h1 {
     border: 1px solid #ddd;
     text-align: center;
     vertical-align: middle;
-    background-color: #f9f9f9;
 }
 
 #postTable td a {
@@ -64,45 +62,4 @@ h1 {
 
 #postTable td a:hover {
     text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-    #postTable {
-        width: 100%;
-    }
-
-    #postTable th, #postTable td {
-        display: block;
-        text-align: left;
-    }
-
-    #postTable thead {
-        display: none;
-    }
-
-    #postTable tr {
-        border-bottom: 1px solid #ddd;
-        margin-bottom: 10px;
-        display: block;
-        padding: 10px;
-        background-color: #fff;
-    }
-
-    #postTable td {
-        display: block;
-        text-align: right;
-        position: relative;
-        padding-left: 50%;
-    }
-
-    #postTable td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 0;
-        width: 50%;
-        padding-left: 10px;
-        font-weight: bold;
-        white-space: nowrap;
-        background-color: #f9f9f9;
-    }
 }

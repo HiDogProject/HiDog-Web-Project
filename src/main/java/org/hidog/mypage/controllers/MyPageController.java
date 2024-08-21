@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hidog.board.entities.BoardData;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.global.Utils;
@@ -127,28 +126,22 @@ public class MyPageController {
     public String like(Model model) {
         commonProcess("like", model);
         return utils.tpl("mypage/like");
-    } /* 게시글 찜하기 기능 미완성 */
+    } /* 게시글 찜하기 기능 금요일 완성 예정 */
 
     // 내가 쓴 게시글 페이지
     @GetMapping("/post")
     public String post(Model model) {
         commonProcess("post", model);
-
-        String userId = memberUtil.getMember().getUserName();
-
-        // 사용자 작성 게시글 목록 조회
-        List<BoardData> boardDataList = boardDataRepository.findByPoster(userId);
-
-        model.addAttribute("posts", boardDataList);
         return utils.tpl("mypage/post");
     }
+
 
     // 판매 내역 & 구매 내역 페이지
     @GetMapping("/sellAndBuy")
     public String sellAndBuy(Model model) {
         commonProcess("sellAndBuy", model);
         return utils.tpl("mypage/sellAndBuy");
-    } /* 거래 기능 미완성 */
+    } /* 결제 기능 미완성 */
 
     /**
      * 마이 페이지 공통
