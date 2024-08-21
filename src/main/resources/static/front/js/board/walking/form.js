@@ -89,11 +89,25 @@ function fileDeleteCallback(file) {
     el.parentElement.removeChild(el);
 }
 
-function mapDrawingCallback(locations) {
-    console.log(locations);
-    const json = JSON.stringify(locations);
+function mapDrawingCallback(departurePoints, viaPoints) {
+    const json = JSON.stringify(departurePoints);
+    const json2 = JSON.stringify(viaPoints);
+
     frmSave.longText1.value = json;
+    frmSave.longText2.value = json2;
 }
+
+// function loadMapCallback(data) {
+//     let locations= frmSave.longText1.value;
+//     if (!locations?.trim()) return;
+//
+//     locations = JSON.parse(locations);
+//     const start = locations.pop();
+//     data.arrival = data.departure = new Tmapv2.LatLng(start.lat, start.lng);
+//     data.via = locations.map(({lat, lng}) => new Tmapv2.LatLng(lat, lng));
+//
+//     data.route();
+// }
 
 /*
 

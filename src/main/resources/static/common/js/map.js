@@ -9,13 +9,18 @@ const tmapLib = {
     height: '400px',
     zoom: 17,
     currentAction: null, // start, end, via
-
+    // init() {
+    //     if (typeof loadMapCallback === 'function') {
+    //         loadMapCallback(this);
+    //     }
+    // },
     // 지도 로딩 및 초기화
     load(mapId, width, height, zoom) {
         this.width = width ?? '80%';
         this.height = height ?? '600px';
         this.zoom = zoom || 17;
 
+        // tmapLib.init();
         navigator.geolocation.getCurrentPosition((pos) => {
             const { latitude, longitude } = pos.coords;
 
@@ -138,14 +143,16 @@ const tmapLib = {
 
             this.drawLine(drawInfoArr);
 
-            const locations = [];
+            const departurePoints = [];
+            const viaPoints = [];
+
             const {departure, arrival, via} = tmapLib;
-            locations.push({lat: departure.lat(), lng: departure.lng()});
+            departurePoints.push({lat: departure.lat(), lng: departure.lng()});
             via.forEach(point => {
-                locations.push({lat: point.lat(), lng: point.lng()});
+                viaPoints.push({lat: point.lat(), lng: point.lng()});
             });
             if (typeof mapDrawingCallback === 'function') {
-                mapDrawingCallback(locations);
+                mapDrawingCallback(departurePoints, viaPoints);
             }
 
         }
