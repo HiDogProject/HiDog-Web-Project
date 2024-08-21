@@ -4,6 +4,8 @@
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <input type="hidden" name="gid" th:field="*{gid}">
     <input type="hidden" name="longText1" th:field="*{longText1}">
+    <input type="hidden" name="longText2" th:field="*{longText2}">
+
 
     <div th:replace="~{front/board/walking/_common::category}"></div>
 
