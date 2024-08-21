@@ -3,7 +3,9 @@ package org.hidog.board.controllers;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hidog.file.entities.FileInfo;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -54,6 +56,6 @@ public class RequestBoard {
     private String longText2;
     private String longText3;
 
-    //private List<FileInfo> editorFiles; // 에디터 파일 목록
-    //private List<FileInfo> attachFiles; // 첨부 파일 목록
+    private List<FileInfo> editorImages; // 에디터 이미지 목록
+    private List<FileInfo> attachFiles; // 첨부 파일 목록
 }

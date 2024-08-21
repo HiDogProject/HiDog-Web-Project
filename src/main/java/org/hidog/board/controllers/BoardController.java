@@ -10,6 +10,8 @@ import org.hidog.board.services.BoardDeleteService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.board.services.BoardSaveService;
 import org.hidog.board.validators.BoardValidator;
+import org.hidog.file.constants.FileStatus;
+import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
@@ -108,6 +110,13 @@ public class BoardController implements ExceptionProcessor {
         boardValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
+            // 업로드 된 파일 목록 - location : editor, attach
+            String gid = form.getGid();
+            List<FileInfo> editorImages = fileInfoService.getList(gid, "editor", FileStatus.ALL);
+            List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach", FileStatus.ALL);
+            form.setEditorImages(editorImages);
+            form.setAttachFiles(attachFiles);
+
             return utils.tpl("board/" + mode);
         }
 
