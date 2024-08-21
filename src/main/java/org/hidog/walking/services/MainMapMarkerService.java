@@ -19,7 +19,7 @@ public class MainMapMarkerService {
     private final BoardDataRepository dataRepository;
     private final ObjectMapper objectMapper;
 
-    public List<Double> startMarkerLocation() {
+    public List<Double> startMarkerLocation(int num) {
         List<Double> result = new ArrayList<>();
         List<BoardData> boardDataList = dataRepository.findAll();
 
@@ -28,7 +28,7 @@ public class MainMapMarkerService {
             try {
                 List<Map<String, Double>> locations = objectMapper.readValue(jsonData, new TypeReference<List<Map<String, Double>>>(){});
                 if (!locations.isEmpty()) {
-                    Map<String, Double> firstLocation = locations.get(0);
+                    Map<String, Double> firstLocation = locations.get(num);
                     Double lat = firstLocation.get("lat");
                     Double lng = firstLocation.get("lng");
                     result.add(lat);

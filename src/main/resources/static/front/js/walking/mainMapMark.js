@@ -15,6 +15,10 @@ const mainMapLib = {
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
         const startMarkerArray = JSON.parse(startMarkerData);
 
+        // const viaMarkerElement = document.querySelector('[data-viaMarker]');
+        // const viaMarkerData = startMarkerElement.getAttribute('data-viaMarker');
+        // const viaMarkerArray = JSON.parse(viaMarkerData);
+
         for (let i = 0; i < startMarkerArray.length; i += 2) {
             const lat = startMarkerArray[i];
             const lng = startMarkerArray[i + 1];
@@ -53,6 +57,22 @@ const mainMapLib = {
                 }
             });
         }
+
+        // for (let i = 0; i < viaMarkerArray.length; i += 2) {
+        //     const lat = viaMarkerArray[i];
+        //     const lng = viaMarkerArray[i + 1];
+        //
+        //     const opt = {
+        //         position: new Tmapv2.LatLng(lat, lng),
+        //         map: this.map,
+        //         icon: 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f6a9.svg',  // 경유지 마커 아이콘
+        //         iconSize: new Tmapv2.Size(50, 50)
+        //     };
+        //
+        //     const viaMarker = new Tmapv2.Marker(opt);
+        //     this.markers.push(viaMarker);
+        //     this.via.push(new Tmapv2.LatLng(lat, lng));  // 경유지 좌표 저장
+        // }
     },
     load(mapId, width, height, zoom) {
         this.width = width ?? '80%';
