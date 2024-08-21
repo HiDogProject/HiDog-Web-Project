@@ -1,7 +1,10 @@
 package org.hidog.payment.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
+import org.hidog.order.entities.OrderInfo;
+import org.hidog.order.services.OrderPayService;
 import org.hidog.payment.services.PaymentProcessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +18,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PaymentController implements ExceptionProcessor {
 
     private final PaymentProcessService processService;
+    private final OrderPayService orderPayService;
+    private final Utils utils;
 
     @ResponseBody
     @PostMapping("/process")
-    public void process(PayAuthResult result) {
+    public String process(PayAuthResult result) {
 
-        processService.process(result);
+        PayConfirmResult confirmResult = processService.process(result);
+        if(confirmResult == null){ //결제실패시에는 주문 실패 페이지로 이동
+            return "redirect:" + utils.redirectUrl("/order/fail");
+        }
 
+        OrderInfo orderInfo = orderPayService.update(confirmResult);
+
+        //주문 성공시에는 주문 상세 페이지로 이동.
+        return "redirect:" + utils.redirectUrl("/order/detail/" + orderInfo.getOrderNo());
     }
 
     @RequestMapping("/close")

@@ -1,6 +1,5 @@
 package org.hidog.board.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +10,7 @@ import org.hidog.global.entities.BaseEntity;
 import org.hidog.member.entities.Member;
 
 import java.util.List;
+
 
 @Data
 @Builder
@@ -113,33 +113,21 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
     @Lob
     private String longText3; // 추가 필드3 : 여러줄 텍스트
 
-    // ex) QnA
+    @Transient
+    private List<FileInfo> editorImages; // 에디터 첨부 이미지 파일 목록
 
     @Transient
-    private List<FileInfo> editorFiles; // 에디터 첨부 파일
-
-    //@Transient
-    //private List<FileInfo> attachFiles; // 첨부 파일
+    private List<FileInfo> attachFiles; // 첨부 파일 목록
 
     @Transient
-    private boolean editable; // 수정 가능 여부
+    private boolean editable; // 수정, 삭제 가능 여부
 
     @Transient
-    private boolean deletable; // 삭제 가능 여부
+    private boolean commentable; // 댓글 수정, 삭제 가능 여부
 
     @Transient
-    private boolean commentable; // 댓글 작성 가능 여부
+    private boolean viewable; // 상세쪽 조회 가능 여부
 
     @Transient
-    private boolean mine; // 게시글 소유자
-
-    @Transient
-    private boolean showEditButton; // 수정 버튼 노출 여부
-
-    @Transient
-    private boolean showDeleteButton; // 삭제 버튼 노출 여부
-
-    @Transient
-    @JsonIgnore
-    private List<CommentData> comments; // 댓글 목록
+    private boolean listable; // 목록쪽 조회 가능 여부
 }

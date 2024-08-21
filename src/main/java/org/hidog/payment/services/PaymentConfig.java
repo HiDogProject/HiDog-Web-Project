@@ -15,4 +15,11 @@ public class PaymentConfig {
     private String signature; // oid, price, timestamp
     private String verification; // oid, price, timestamp, signKey 를 가지고 만드는 해시코드
     private String mKey; // mid, signKey 를 가지고 만드는 해시코드
+
+    private Long oid;
+    private int price;
+    private String goodname;
+    private String buyername;
+    private String buyertel;
+    private String buyeremail;
 }

@@ -1,5 +1,6 @@
 package org.hidog.board.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(indexes = @Index(name="idx_board_basic", columnList = "listOrder DESC, createdAt DESC"))
 public class Board extends BaseMemberEntity {
     @Id
@@ -43,13 +45,16 @@ public class Board extends BaseMemberEntity {
 
     private int pageCountMobile = 5; // Mobile 페이지 구간 갯수
 
+    //private boolean notice;
+    //private boolean guest;
+
     private boolean useReply; // 답글 사용 여부
 
     private boolean useComment; // 댓글 사용 여부
 
     private boolean useEditor; // 에디터 사용 여부
 
-    private boolean useUploadImage; // 이미지 첨부 사용 여부
+    private boolean useUploadImage; // 이미지 첨부 사용 여부 // 이미지업로드는 useEditor가 있어야만 사용가능한 설정
 
     private boolean useUploadFile; // 파일 첨부 사용 여부
 

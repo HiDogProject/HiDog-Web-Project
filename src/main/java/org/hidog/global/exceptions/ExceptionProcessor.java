@@ -52,6 +52,7 @@ public interface ExceptionProcessor {
 
         if (StringUtils.hasText(qs)) url += "?" + qs;
 
+        e.printStackTrace();
 
         mv.addObject("message", e.getMessage());
         mv.addObject("status", status.value());
@@ -60,6 +61,7 @@ public interface ExceptionProcessor {
         mv.setStatus(status);
         mv.setViewName(tpl);
 
+        e.printStackTrace();
 
         return mv;
     }

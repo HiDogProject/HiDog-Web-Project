@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class MainController {
+
     private final PaymentConfigService configService;
 
-    @GetMapping
+    @GetMapping("/checkout")
     public String index(Model model) {
 
         long oid = 100000L;
@@ -27,6 +28,14 @@ public class MainController {
         model.addAttribute("config", config);
         model.addAttribute("oid", oid);
         model.addAttribute("price", price);
+
+        return "front/main/index";
+    }
+
+
+
+    @GetMapping
+    public String index() {
 
         return "front/main/index";
     }

@@ -26,7 +26,7 @@ public class BoardValidator implements Validator, PasswordValidator {
 
 
         // 비회원 비밀번호 유효성 검사(비로그인 일 시 게시글 수정, 삭제할 때 비밀번호 확인하기, 로그인 시에는 비밀번호 확인x)
-        if (!memberUtil.isLogin()) {
+        if (form.isGuest()) {
             String guestPw = form.getGuestPw();
             if(!StringUtils.hasText(guestPw)) {
                 errors.rejectValue("guestPw", "NotBlank");
@@ -36,6 +36,7 @@ public class BoardValidator implements Validator, PasswordValidator {
                  * 1. 자리수는? 4자리 이상
                  * 2. 숫자 + 알파벳
                  */
+
                 if (guestPw.length() < 4) {
                     errors.rejectValue("guestPw", "Size");
                 }
@@ -49,7 +50,7 @@ public class BoardValidator implements Validator, PasswordValidator {
                  */
                 String mode = form.getMode();
                 mode = StringUtils.hasText(mode) ? mode : "write";
-                if (mode.equals("update") && form.getSeq() == null || form.getSeq() < 1L) {
+                if (mode.equals("update") && (form.getSeq() == null || form.getSeq() < 1L)) {
                     errors.rejectValue("seq", "NotBlank");
                 }
 
