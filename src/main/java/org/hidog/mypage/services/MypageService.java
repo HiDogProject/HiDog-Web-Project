@@ -1,7 +1,9 @@
 package org.hidog.mypage.services;
 
 import lombok.RequiredArgsConstructor;
+import org.hidog.board.entities.BoardData;
 import org.hidog.file.entities.FileInfo;
+import org.hidog.mypage.repositories.MyPostRepository;
 import org.hidog.mypage.repositories.MypageRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,12 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class MypageService {
 
     private final MypageRepository mypageRepository;
+    private final MyPostRepository myPostRepository;
 
     @Value("${file.upload.path}")
     private String uploadPath;
@@ -53,5 +57,10 @@ public class MypageService {
                 .orElseThrow(() -> new RuntimeException("File info not found for member: " + memberId));
         fileInfo.setFileUrl(newImageUrl); // fileUrl 필드 업데이트
         mypageRepository.save(fileInfo);
+    }
+
+    // 로그인 사용자 게시글 목록
+    public List<BoardData> getPostsByUserName(String userName) {
+        return myPostRepository.findByMemberUserName(userName);
     }
 }
