@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hidog.board.repositories.BoardDataRepository;
+import org.hidog.board.entities.BoardData;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -33,7 +35,6 @@ public class MyPageController {
     private final MemberUtil memberUtil;
     private final MemberService memberService;
     private final MypageService mypageService;
-    private final BoardDataRepository boardDataRepository;
 
     @Value("${file.upload.url}")
     private String fileUploadUrl;
@@ -132,9 +133,23 @@ public class MyPageController {
     @GetMapping("/post")
     public String post(Model model) {
         commonProcess("post", model);
+
+        Member member = memberUtil.getMember();
+        String userName = member.getUserName(); // 로그인한 사용자
+
+        List<BoardData> posts = mypageService.getPostsByUserName(userName); // 사용자로 게시글 조회
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"); // 날짜 포매터 정의
+
+        List<BoardData> postWithFormattedDate = posts.stream().map(post -> {
+            post.setFormattedCreatedAt(post.getCreatedAt().format(formatter));
+            return post;
+        }).collect(Collectors.toList()); // 날짜 -> 문자열 변환
+
+        model.addAttribute("posts", posts); // 모델에 게시글 목록 추가
+
         return utils.tpl("mypage/post");
     }
-
 
     // 판매 내역 & 구매 내역 페이지
     @GetMapping("/sellAndBuy")
