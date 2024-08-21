@@ -7,17 +7,17 @@
 
                 <table class="wishlist-table">
                     <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>상품명</th>
-                        <th>가격</th>
-                    </tr>
+                        <tr>
+                            <th>No.</th>
+                            <th>상품명</th>
+                            <th>가격</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="item, itemNo : ${wishlist}">
-                        <td th:text="${itemNo.index + 1}"></td>
-                        <td th:text="${item.productName}"></td>
-                    </tr>
+                        <tr th:each="item, itemNo : ${wishlist}">
+                            <td th:text="${itemNo.index + 1}"></td>
+                            <td th:text="${item.productName}"></td>
+                        </tr>
                     </tbody>
                 </table>
         </form>
