@@ -9,12 +9,15 @@
     <button type="button" id="start">출발점</button>
     <button type="button" id="vias">경유</button>
     <button type="button" id="complete">완료</button>
+    <p>Start X: <span th:data-startX="*{startX}"></span></p>
+    <p>Start Y: <span th:data-startX="*{startY}"></span></p>
+    <p>Pass List: <span th:data-passList="*{passList}"></span></p>
     <aside>
         <input type="text" th:placeholder="#{검색어를_입력하세요.}">
         <button type="submit" th:text="#{검색하기}"></button>
         <ul>
-            <li>sadsa</li>
-            <li>sdad</li>
+            <li>글1</li>
+            <li>글2</li>
         </ul>
     </aside>
 </main>

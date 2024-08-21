@@ -18,11 +18,10 @@
 
             <li th:unless="${items == null || items.isEmpty()}"
                 th:each="item : ${items}" th:object="${item}" class="item">
-                <a th:href="${@utils.redirectUrl('board/view' + boardData.seq)}" class="subject" th:classappend="*{depth > 0 ? 'depth_' + depth : ''}">
+                <a th:href="*{@utils.redirectUrl('/board/view/' + seq )}" class="subject">
                     <span class="notice" th:if="*{notice}">
                         [<th:block th:text="#{공지}"></th:block>]
                     </span>
-                    <span class='category' th:if="*{category}" th:text="*{'[' + category + ']'}"></span>
                     <th:block th:text="*{subject}"></th:block>
                 </a>
 
