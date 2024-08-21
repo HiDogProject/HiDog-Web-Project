@@ -155,6 +155,7 @@ public class BoardController implements ExceptionProcessor {
         commonProcess(bid, "list", model);
 
         ListData<BoardData> data = boardInfoService.getList(bid, search);
+
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
 
