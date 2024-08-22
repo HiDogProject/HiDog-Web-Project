@@ -130,4 +130,7 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
 
     @Transient
     private boolean listable; // 목록쪽 조회 가능 여부
+
+    @Transient
+    private String formattedCreatedAt; // 게시글 조회용 날짜
 }
