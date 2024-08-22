@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Builder @Getter @Setter
+@Builder
 @NoArgsConstructor @AllArgsConstructor
 public class Member extends BaseEntity implements Serializable {
     @Id @GeneratedValue
