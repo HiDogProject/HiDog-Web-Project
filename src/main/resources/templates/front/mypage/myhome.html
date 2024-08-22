@@ -2,20 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
     <main layout:fragment="content">
         <h1 th:text="#{마이_페이지}"></h1>
-            <!-- 프로필 -->
-            <div class="profile-container">
-                <div class="profile-image" id="profileImageContainer" onclick="openProfilePopup()">
-                    <img id="profileImage" th:src="${profileImage}">
-                </div>
-            </div>
-
-            <div id="profilePopup" class="popup">
-                <div class="popup-content">
-                    <span class="close" onclick="closeProfilePopup()">&times;</span>
-                    <h2>프로필 이미지 수정</h2>
-                </div>
-            </div>
-
             <!-- 페이지 버튼 -->
             <div class="buttons">
                 <a th:href="${@utils.redirectUrl('/mypage/info')}">
