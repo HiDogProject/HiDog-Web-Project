@@ -7,6 +7,7 @@ import org.hidog.board.entities.BoardData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.order.entities.OrderInfo;
+import org.hidog.order.services.OrderInfoService;
 import org.hidog.order.services.OrderPayService;
 import org.hidog.order.services.OrderSaveService;
 import org.hidog.payment.constants.PayMethod;
@@ -24,6 +25,7 @@ import java.util.List;
 public class OrderController implements ExceptionProcessor {
 
     private final Utils utils;
+    private final OrderInfoService infoService;
     private final OrderSaveService saveService;
     private final OrderPayService payService;
 
@@ -35,6 +37,8 @@ public class OrderController implements ExceptionProcessor {
     @GetMapping //주문서양식
     public String index(@ModelAttribute RequestOrder form, HttpSession session, Model model){
         BoardData boardData = (BoardData) session.getAttribute("boardData");
+        model.addAttribute("addCss", "order/style");
+        model.addAttribute("addScript", "order/joinAddress");
 
 
         if (boardData != null) {
@@ -63,8 +67,8 @@ public class OrderController implements ExceptionProcessor {
 
     @GetMapping("/detail/{orderNo}")
     public String orderDetail(@PathVariable("orderNo") Long orderNo, Model model){
-
-
+        OrderInfo orderInfo = infoService.get(orderNo, "detail");
+        model.addAttribute("orderInfo", orderInfo);
         return utils.tpl("order/detail");
     }
 }

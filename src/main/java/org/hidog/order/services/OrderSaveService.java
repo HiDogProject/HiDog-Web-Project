@@ -30,8 +30,8 @@ public class OrderSaveService {
         //게시글 조회
         BoardData boardData = boardInfoService.get(form.getBSeq());
         long orderNo = form.getOrderNo() < 1L ? System.currentTimeMillis() : form.getOrderNo();
-        Long num1 = boardData.getNum1();
-        Long num2 = boardData.getNum2();
+        Long num1 = boardData.getNum1(); //가격
+        Long num2 = boardData.getNum2(); //수량
 
         int price = num1 == null ? 0 : num1.intValue();
         int qty = num2 == null && num2 > 1L ? 1: num2.intValue();
@@ -51,6 +51,7 @@ public class OrderSaveService {
         }
 
         infoRepository.saveAndFlush(orderInfo);
+
 
         /* 주문서 정보 저장 E*/
 
