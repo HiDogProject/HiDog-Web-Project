@@ -1,51 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{front/layouts/main}">
-<main layout:fragment="content">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>회원 정보 수정</title>
-        <link th:each="css : ${addCss}" rel="stylesheet" th:href="@{${css}}"/>
-        <script th:each="script : ${addScript}" src="" th:src="@{${script}}"></script>
-    </head>
-    <body>
-    <div class="container">
-        <h1>회원 정보 수정</h1>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
+    <main layout:fragment="content">
+        <h1 th:text="#{회원_정보_수정하기}"></h1>
+        <form name="frmChangeInfo" method="post" th:action="@{/mypage/changeInfo}" autocomplete="off" th:object="${member}">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
 
-        <!-- 성공 메시지 -->
-        <div th:if="${successMessage}">
-            <p th:text="${successMessage}" class="success-message"></p>
-        </div>
-
-        <!-- 회원 정보 수정 폼 -->
-        <form th:action="@{/mypage/changeInfo}" method="post" class="info-form">
-            <div class="form-group">
-                <label for="userName">닉네임 : </label>
-                <input type="text" id="userName" name="userName" th:value="${member.userName}" required/>
+            <!-- 성공 또는 실패 메세지 -->
+            <div class="message-container">
+                <div th:if="${successMessage != null}" class="success-message" th:text="${successMessage}"></div>
+                <div th:if="${errorMessage != null}" class="error-message" th:text="${errorMessage}"></div>
             </div>
 
-            <div class="form-group">
-                <label for="password">비밀번호 : </label>
-                <input type="password" id="password" name="password" th:value="${member.password}" required/>
-            </div>
+            <!-- 회원 정보 수정 -->
+            <form th:action="@{/mypage/changeInfo}" method="post" class="info-form">
 
-            <div class="form-group">
-                <label for="address">주소 : </label>
-                <input type="text" id="address" name="address" th:value="${member.address}" required/>
-            </div>
+                <dl>
+                    <dt th:text="#{닉네임}">닉네임</dt>
+                    <dd>
+                        <input type="text" name="userName" th:field="*{userName}" placeholder="닉네임" required>
+                        <div class="error" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
+                    </dd>
+                </dl>
 
-            <div class="form-group">
-                <label for="email">이메일 : </label>
-                <input type="email" id="email" name="email" th:value="${member.email}" readonly/>
-            </div>
+                <dl>
+                    <dt th:text="#{비밀번호}">비밀번호</dt>
+                    <dd>
+                        <input type="password" name="password" th:field="*{password}" placeholder="새 비밀번호" required>
+                        <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+                    </dd>
+                </dl>
 
-            <div class="button-container">
-                <button type="submit" class="button">정보 수정</button>
-                <a th:href="${@utils.url('/mypage/myhome')}" class="button">마이 페이지</a>
-            </div>
+                <dl>
+                    <dt th:text="#{주소}">주소</dt>
+                    <dd>
+                        <input type="text" name="address" th:field="*{address}" placeholder="주소" required>
+                        <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
+                    </dd>
+                </dl>
+
+                <dl>
+                    <dt th:text="#{이메일}">이메일</dt>
+                    <dd>
+                        <input type="email" name="email" th:field="*{email}" placeholder="이메일" readonly>
+                        <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+                    </dd>
+                </dl>
+
+                <div class="button-container">
+                    <button type="submit" class="button">정보 수정</button>
+                </div>
+            </form>
         </form>
-    </div>
-    </body>
-</main>
+    </main>
 </html>

@@ -6,6 +6,7 @@
 <head>
     <title>회원 가입</title>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="${@utils.url('/front/css/member/join')}">
     <th:block layout:fragment="addCommonJs">
         <th:block th:with="skipCommonJs=true"></th:block>
     </th:block>
@@ -26,11 +27,13 @@
                 <div>
                     <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
                     <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드_전송}"></button>
+                    <br>
                 </div>
                 <div class="auth_box">
                     <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
                         <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
                         <span id="auth_count">03:00</span>
+                        <br>
                         <button type="button" id="email_confirm" th:text="#{확인}" disabled></button>
                         <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
                     </th:block>

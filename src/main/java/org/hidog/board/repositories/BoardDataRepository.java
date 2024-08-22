@@ -8,3 +8,4 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 public interface BoardDataRepository extends JpaRepository<BoardData, Long>, QuerydslPredicateExecutor<BoardData> {
     BoardData findByLongText1(String longText1);
 }
+

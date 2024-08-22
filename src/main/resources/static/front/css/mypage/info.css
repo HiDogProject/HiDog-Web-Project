@@ -1,8 +1,14 @@
-body {
-    font-family: Arial, sans-serif;
+/* 기본 */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
+}
+
+main {
+    margin-top: 15px;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
 }
 
 .container {
@@ -20,28 +26,52 @@ h1 {
     text-align: center;
     margin: 20px 0;
     font-size: 2em;
+    color: #333;
 }
 
 .info-box {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    max-width: 800px;
+    margin: 10px;
 }
 
 .info-row {
-    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
+    position: relative;
 }
 
 .info-row p {
+    width: 120px;
+    font-weight: bold;
     margin: 0;
-    font-size: 1em;
+    color: #333;
+    padding-right: 15px;
+    padding-left: 5px;
+    text-align: center;
 }
 
 .info-row span {
-    color: #333;
+    flex: 1;
+    color: #555;
+    text-align: center;
+}
+
+.vertical-line {
+    width: 1px;
+    height: 100%;
+    background-color: #ddd;
+    margin: 0 15px;
+}
+
+.info-row.no-border {
+    border-bottom: none;
 }
 
 .button-container {
@@ -52,19 +82,19 @@ h1 {
 
 /* 버튼 */
 .button {
-    background-color: #96AED0;
+    background-color: #68A5FE;
     color: white;
     border: none;
     padding: 10px 20px;
     font-size: 1em;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
     text-decoration: none;
     display: inline-block;
+    text-align: center;
     margin: 0 10px;
 }
 
 .button:hover {
-    background-color: #D79FC7;
+    background-color: #F5D2D2;
 }
