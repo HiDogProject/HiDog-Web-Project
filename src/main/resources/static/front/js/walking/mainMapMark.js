@@ -14,10 +14,11 @@ const mainMapLib = {
         const startMarkerElement = document.querySelector('[data-startMarker]');
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
         const startMarkerArray = JSON.parse(startMarkerData);
+        console.log(startMarkerArray)
 
         for (let i = 0; i < startMarkerArray.length; i += 2) {
-            const lat = parseFloat(startMarkerArray[i]).toFixed(12); // 소수점 이하 12자리로 제한
-            const lng = parseFloat(startMarkerArray[i + 1]).toFixed(12); // 소수점 이하 12자리로 제한
+            const lat = parseFloat(startMarkerArray[i]).toFixed(12);
+            const lng = parseFloat(startMarkerArray[i + 1]).toFixed(12);
 
             // 마커 옵션 설정
             const opt = {
@@ -48,8 +49,8 @@ const mainMapLib = {
                     console.log("클릭");
 
                     const position = startMarker.getPosition(); // 마커의 좌표를 가져옴
-                    const latFixed = parseFloat(position.lat()).toFixed(12); // 소수점 이하 12자리로 제한
-                    const lngFixed = parseFloat(position.lng()).toFixed(12); // 소수점 이하 12자리로 제한
+                    const latFixed = parseFloat(position.lat()).toFixed(12);
+                    const lngFixed = parseFloat(position.lng()).toFixed(12);
                     clickDeparturePoint.push({ "lat": latFixed, "lng": lngFixed });
 
 
@@ -58,12 +59,37 @@ const mainMapLib = {
                     })
                         .then(response => {
                             console.log('Server Response:', response);
+                                callback(response);
                         })
                         .catch(error => {
                             console.error('Error:', error);
                         });
 
                     clickDeparturePoint = [];
+
+                    function callback(response) {
+                        const viaPoints = response;
+                        mainMapLib.via = viaPoints;
+                        for (let i = 0; i < mainMapLib.via.length; i += 2) {
+                            const lat = parseFloat(mainMapLib.via[i]).toFixed(12);
+                            const lng = parseFloat(mainMapLib.via[i + 1]).toFixed(12);
+
+                            // 마커 옵션 설정
+                            const opt = {
+                                position: new Tmapv2.LatLng(lat, lng),
+                                map: mainMapLib.map,
+                                icon: 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f6a9.svg',
+                                iconSize: new Tmapv2.Size(50, 50)
+                            }
+                        };
+
+                        // 마커 생성
+                        const viaMarker = new Tmapv2.Marker(opt);
+                        mainMapLib.markers.push(viaMarker);
+                        mainMapLib.route();
+                        console.log(mainMapLib.markers);
+                        mainMapLib.via = []
+                    }
 
 
                 } else {
@@ -100,5 +126,111 @@ const mainMapLib = {
             }
 
         })
+    }
+    ,
+    // 경로 그리기
+    async route() {
+        const appKey = document.querySelector("meta[name='tmap_apikey']")?.content;
+
+        if (!this.departure || !this.arrival || !appKey) {
+            return;
+        }
+        const { ajaxLoad } = commonLib;
+
+        // 경유지 좌표를 passList 형식으로 변환
+        const passList = this.via.map(point => `${point.lng().toFixed(12)},${point.lat().toFixed(12)}`).join('_');
+
+        console.log("passList:", passList)
+
+        const data = {
+            startX: this.departure.lng().toFixed(12),
+            startY: this.departure.lat().toFixed(12),
+            endX: this.arrival.lng().toFixed(12),
+            endY: this.arrival.lat().toFixed(12),
+            passList: passList,
+            reqCoordType: 'WGS84GEO',
+            resCoordType: 'EPSG3857',
+            startName: '출발지',
+            endName: '도착지',
+        };
+
+        const headers = { appKey };
+        const url = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result";
+
+        try {
+            const response = await ajaxLoad(url, 'POST', data, headers, "JSON");
+            const resultData = response.features;
+            const drawInfoArr = [];
+            for (let i in resultData) {
+                const geometry = resultData[i].geometry;
+                const properties = resultData[i].properties;
+                let polyline_;
+
+                if (geometry.type === "LineString") { // 경로 선 표기
+                    for (let j in geometry.coordinates) {
+                        const latLng = new Tmapv2.Point(
+                            geometry.coordinates[j][0],
+                            geometry.coordinates[j][1]
+                        );
+
+                        const convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latLng);
+                        const convertChange = new Tmapv2.LatLng(
+                            convertPoint._lat.toFixed(12),
+                            convertPoint._lng.toFixed(12)
+                        );
+                        drawInfoArr.push(convertChange);
+                    }
+                }
+            }
+
+            this.drawLine(drawInfoArr);
+
+            const departurePoints = [];
+            const viaPoints = [];
+
+            const {departure, arrival, via} = mainMapLib;
+            departurePoints.push({lat: departure.lat().toFixed(12), lng: departure.lng().toFixed(12)});
+            via.forEach(point => {
+                viaPoints.push({lat: point.lat().toFixed(12), lng: point.lng().toFixed(12)});
+            });
+            if (typeof mapDrawingCallback === 'function') {
+                mapDrawingCallback(departurePoints, viaPoints);
+            }
+
+        }
+        catch (err) {
+            console.log()
+        }
+    },
+
+    // 경로 선 그리기
+    drawLine(arrPoint) {
+        const polyline_ = new Tmapv2.Polyline({
+            path: arrPoint,
+            strokeColor: '#ff0090', // 경로 선 색상
+            strokeWeight: 6, // 두께
+            map: this.map
+        });
+        this.resultDrawArr.push(polyline_);
+    },
+
+    // 경로 숨기기
+    hideRoute() {
+        this.resultDrawArr.forEach(d => d.setMap(null));
+    },
+
+    // 경로 표시 하기
+    showRoute() {
+        this.resultDrawArr.forEach(d => d.setMap(this.map));
+    },
+
+    // 초기화
+    reset() {
+        this.departure = this.arrival = null;
+        this.via = []; // 경유점 초기화
+        this.markers.forEach(m => m.setMap(null));
+        this.resultDrawArr.forEach(d => d.setMap(null));
+        this.markers = [];
+        this.resultDrawArr = [];
     }
 }

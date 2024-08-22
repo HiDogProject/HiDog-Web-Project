@@ -95,10 +95,10 @@ const tmapLib = {
         console.log("passList:", passList)
 
         const data = {
-            startX: this.departure.lng().toFixed(12), // 소수점 이하 12자리로 제한
-            startY: this.departure.lat().toFixed(12), // 소수점 이하 12자리로 제한
-            endX: this.arrival.lng().toFixed(12), // 소수점 이하 12자리로 제한
-            endY: this.arrival.lat().toFixed(12), // 소수점 이하 12자리로 제한
+            startX: this.departure.lng().toFixed(12),
+            startY: this.departure.lat().toFixed(12),
+            endX: this.arrival.lng().toFixed(12),
+            endY: this.arrival.lat().toFixed(12),
             passList: passList,
             reqCoordType: 'WGS84GEO',
             resCoordType: 'EPSG3857',
@@ -127,8 +127,8 @@ const tmapLib = {
 
                         const convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latLng);
                         const convertChange = new Tmapv2.LatLng(
-                            convertPoint._lat.toFixed(12), // 소수점 이하 12자리로 제한
-                            convertPoint._lng.toFixed(12)  // 소수점 이하 12자리로 제한
+                            convertPoint._lat.toFixed(12),
+                            convertPoint._lng.toFixed(12)
                         );
                         drawInfoArr.push(convertChange);
                     }

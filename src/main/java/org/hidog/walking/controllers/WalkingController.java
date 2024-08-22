@@ -46,16 +46,15 @@ public class WalkingController {
         return utils.tpl("walking/map");
     }
 
+    @ResponseBody
     @PostMapping("/map")
-    public String postMainMap(@RequestBody Map<String, List<Map<String, String>>> data, Model model) throws JsonProcessingException {
+    public String postMainMap(@RequestBody Map<String, List<Map<String, String>>> data) throws JsonProcessingException {
         // Ajax로 선택한 마커 "clickDeparturePoint" 데이터 받아옴
-
         List<Map<String, String>> clickDeparturePoint = data.get("clickDeparturePoint");
 
         String viaPoints = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);
-        model.addAttribute("viaPoints", viaPoints);
         System.out.println("viapoints:" + viaPoints);
-
-        return utils.tpl("walking/map");
+        return viaPoints;
+        //return utils.tpl("walking/map");
     }
 }
