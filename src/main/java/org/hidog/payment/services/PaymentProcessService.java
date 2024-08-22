@@ -96,8 +96,7 @@ public class PaymentProcessService {
                 if (!resultMap.get("resultCode").equals("0000")) {
                     return null;
                 }
-
-                PayMethod payMethod = PayMethod.valueOf(resultMap.get("payMethod"));
+                PayMethod payMethod = PayMethod.valueOf(resultMap.get("payMethod").toUpperCase()); //대문자로 변경
 
                 String payLog = resultMap.entrySet()
                         .stream()
@@ -107,7 +106,7 @@ public class PaymentProcessService {
                         .orderNo(Long.valueOf(resultMap.get("MOID")))
                         .tid("tid")
                         .payMethod(payMethod)
-                        .bankAccount(resultMap.get("vactBankName")) // 가상계좌은행
+                        .bankName(resultMap.get("vactBankName")) // 가상계좌은행
                         .bankAccount(resultMap.get("VACT_Num")) // 가상계좌번호
                         .payLog(payLog)
                         .build();
