@@ -11,6 +11,12 @@
             <li><a th:href="${@utils.redirectUrl('/board/list/1')}" th:text="#{글목록}"></a></li>
         </ul>
     </div>
+    <th:block th:each="boardList : ${boardList}"  class="boardList">
+        <li th:text="${boardList}"></li>
+        <li>
+            <a th:href="${@utils.redirectUrl('/board/list/' + boardList)}"></a>
+        </li>
+    </th:block>
     <p>
     1
     1

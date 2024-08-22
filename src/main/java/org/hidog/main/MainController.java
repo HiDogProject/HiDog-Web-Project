@@ -1,7 +1,8 @@
 package org.hidog.main;
 
 import lombok.RequiredArgsConstructor;
-import org.hidog.board.services.BoardInfoService;
+import org.hidog.board.entities.Board;
+import org.hidog.board.services.BoardConfigInfoService;
 import org.hidog.payment.services.PaymentConfig;
 import org.hidog.payment.services.PaymentConfigService;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -18,7 +20,7 @@ public class MainController {
 
     private final PaymentConfigService configService;
 
-    private final BoardInfoService boardInfoService;
+    private final BoardConfigInfoService configInfoService;
 
     @GetMapping("/checkout")
     public String index(Model model) {
@@ -40,8 +42,10 @@ public class MainController {
 
 
     @GetMapping("/main/index2")
-    public String index2(Model model) {
-        //boardInfoService.getBoardList(search);
+    public String boardList(Model model) {
+
+        Optional<Board> boardList = configInfoService.getBoardList();
+        model.addAttribute("boardList", boardList);
 
         model.addAttribute("addCss", List.of("main/style"));
         model.addAttribute("addScript", List.of( "main/dropdown"));
