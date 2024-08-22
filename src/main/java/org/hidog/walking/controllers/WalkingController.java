@@ -46,11 +46,12 @@ public class WalkingController {
     }
 
     @PostMapping("/map")
-    public String postMainMap(@RequestBody Map<String, List<Map<String, Double>>> data) {
+    public String postMainMap(@RequestBody Map<String, List<Map<String, Double>>> data, Model model) {
         // Ajax로 선택한 마커 "clickDeparturePoint" 데이터 받아옴
         List<Map<String, Double>> clickDeparturePoint = data.get("clickDeparturePoint");
 
-        System.out.println(clickDeparturePoint.toString());
+        String viaPoints = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);
+        model.addAttribute("viaPoints", viaPoints);
 
         return utils.tpl("walking/map");
     }

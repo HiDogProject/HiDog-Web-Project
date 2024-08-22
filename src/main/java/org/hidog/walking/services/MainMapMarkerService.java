@@ -2,10 +2,8 @@ package org.hidog.walking.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.BoardData;
-import org.hidog.board.entities.QBoardData;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.springframework.stereotype.Service;
 
@@ -44,11 +42,18 @@ public class MainMapMarkerService {
         return result;
     }
 
-    public List<Double> viaMarkerLocation(List<Map<String, Double>> point) {
-        List<Double> result = new ArrayList<>();
-        QBoardData boardData = QBoardData.boardData;
-        BooleanBuilder andBuilder = new BooleanBuilder();
-//        andBuilder.and(boardData.longText1())
-        return null;
+    public String viaMarkerLocation(List<Map<String, Double>> point) {
+
+        String pointString = point.toString();
+        String modifiedString = pointString.replace("=", ":");
+        modifiedString = modifiedString
+                .replace("lat", "\"lat\"")
+                .replace("lng", "\"lng\"")
+                .replace(" ", "");;
+        System.out.println(modifiedString);
+        BoardData boardData = dataRepository.findByLongText1(modifiedString);
+        String viaPoints = boardData.getLongText2();
+
+        return viaPoints;
     }
 }

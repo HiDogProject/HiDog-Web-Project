@@ -15,9 +15,7 @@ const mainMapLib = {
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
         const startMarkerArray = JSON.parse(startMarkerData);
 
-        // const viaMarkerElement = document.querySelector('[data-viaMarker]');
-        // const viaMarkerData = startMarkerElement.getAttribute('data-viaMarker');
-        // const viaMarkerArray = JSON.parse(viaMarkerData);
+
 
         for (let i = 0; i < startMarkerArray.length; i += 2) {
             const lat = startMarkerArray[i];
@@ -68,6 +66,12 @@ const mainMapLib = {
                         .catch(error => {
                             console.error('Error:', error);
                         });
+                    const viaMarkerElement = document.querySelector('[data-viaPoints]');
+                    const viaMarkerData = startMarkerElement.getAttribute('data-viaPoints');
+                    const viaMarkerArray = JSON.parse(viaMarkerData);
+
+                    console.log(viaMarkerArray)
+
                     clickDeparturePoint = [];
 
                 } else {
