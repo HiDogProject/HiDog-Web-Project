@@ -4,6 +4,7 @@ const mainMapLib = {
     departureList: [], // DB 출발지 배열
     via: [], // 경유지 LatLng 객체 배열
     markers: [], // 마커
+    viaMarkers: [], // 경유 마커
     resultDrawArr: [],
     map: null, // 지도 객체
     width: '100%',
@@ -14,7 +15,6 @@ const mainMapLib = {
         const startMarkerElement = document.querySelector('[data-startMarker]');
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
         const startMarkerArray = JSON.parse(startMarkerData);
-        console.log(startMarkerArray)
 
         for (let i = 0; i < startMarkerArray.length; i += 2) {
             const lat = parseFloat(startMarkerArray[i]).toFixed(12);
@@ -31,7 +31,7 @@ const mainMapLib = {
             // 마커 생성
             const startMarker = new Tmapv2.Marker(opt);
             this.markers.push(startMarker);
-
+            this.departure = this.arrival = opt.position
             let clickable = true;
 
             let clickDeparturePoint = [];
@@ -53,6 +53,7 @@ const mainMapLib = {
                     const lngFixed = parseFloat(position.lng()).toFixed(12);
                     clickDeparturePoint.push({ "lat": latFixed, "lng": lngFixed });
 
+                    this.departure =
 
                     commonLib.ajaxLoad('walking/map', 'POST', {clickDeparturePoint}, {
                         "Content-Type": "application/json"
@@ -70,9 +71,9 @@ const mainMapLib = {
                     function callback(response) {
                         const viaPoints = response;
                         mainMapLib.via = viaPoints;
-                        for (let i = 0; i < mainMapLib.via.length; i += 2) {
-                            const lat = parseFloat(mainMapLib.via[i]).toFixed(12);
-                            const lng = parseFloat(mainMapLib.via[i + 1]).toFixed(12);
+                        response.forEach(point => {
+                            const lat = parseFloat(point.lat);
+                            const lng = parseFloat(point.lng);
 
                             // 마커 옵션 설정
                             const opt = {
@@ -80,23 +81,27 @@ const mainMapLib = {
                                 map: mainMapLib.map,
                                 icon: 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f6a9.svg',
                                 iconSize: new Tmapv2.Size(50, 50)
-                            }
-                        };
+                            };
 
-                        // 마커 생성
-                        const viaMarker = new Tmapv2.Marker(opt);
-                        mainMapLib.markers.push(viaMarker);
+                            const viaMarker = new Tmapv2.Marker(opt);
+
+                            mainMapLib.viaMarkers.push(viaMarker);
+                        });
+
+                        console.log("asdsad", mainMapLib.via)
                         mainMapLib.route();
-                        console.log(mainMapLib.markers);
-                        mainMapLib.via = []
                     }
-
-
                 } else {
                     // 모든 마커 보이기
                     this.markers.forEach(marker => {
                         marker.setVisible(true);
                     });
+
+                    mainMapLib.viaMarkers.forEach(marker => {
+                        marker.setMap(null);
+                    });
+                    mainMapLib.viaMarkers = [];
+
                     clickable = true;
                     console.log("재클릭");
                 }
@@ -135,18 +140,22 @@ const mainMapLib = {
         if (!this.departure || !this.arrival || !appKey) {
             return;
         }
+
         const { ajaxLoad } = commonLib;
 
+        console.log(this.via)
         // 경유지 좌표를 passList 형식으로 변환
-        const passList = this.via.map(point => `${point.lng().toFixed(12)},${point.lat().toFixed(12)}`).join('_');
+        // 경유지 좌표를 passList 형식으로 변환
+        const passList = this.via.map(point => `${point.lng},${point.lat}`).join('_');
+
 
         console.log("passList:", passList)
 
         const data = {
-            startX: this.departure.lng().toFixed(12),
-            startY: this.departure.lat().toFixed(12),
-            endX: this.arrival.lng().toFixed(12),
-            endY: this.arrival.lat().toFixed(12),
+            startX: this.departure.lng(),
+            startY: this.departure.lat(),
+            endX: this.arrival.lng(),
+            endY: this.arrival.lat(),
             passList: passList,
             reqCoordType: 'WGS84GEO',
             resCoordType: 'EPSG3857',
