@@ -21,7 +21,6 @@ public class PaymentController implements ExceptionProcessor {
     private final OrderPayService orderPayService;
     private final Utils utils;
 
-    @ResponseBody
     @PostMapping("/process")
     public String process(PayAuthResult result) {
 

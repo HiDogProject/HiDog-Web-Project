@@ -25,4 +25,8 @@ public class OrderInfoService {
         int totalPayPrice = orderItem.getPrice() * orderItem.getQty();
         orderInfo.setTotalPayPrice(totalPayPrice);
     }
+
+    public OrderInfo get(Long orderNo, String mode){
+        return orderInfoRepository.findById(orderNo).orElseThrow(OrderNotFoundException::new);
+    }
 }
