@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Builder @Getter @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileInfo extends BaseMemberEntity {
@@ -34,7 +34,7 @@ public class FileInfo extends BaseMemberEntity {
 
     private boolean done; // 그룹 작업 완료 여부
 
-    @Column(length = 255) // 적절한 길이 설정
+    @Transient
     private String fileUrl; // 파일 접근 URL
 
     @Transient
