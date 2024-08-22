@@ -1,5 +1,6 @@
 package org.hidog.walking.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.Utils;
 import org.hidog.global.services.ApiConfigService;
@@ -46,12 +47,14 @@ public class WalkingController {
     }
 
     @PostMapping("/map")
-    public String postMainMap(@RequestBody Map<String, List<Map<String, Double>>> data, Model model) {
+    public String postMainMap(@RequestBody Map<String, List<Map<String, String>>> data, Model model) throws JsonProcessingException {
         // Ajax로 선택한 마커 "clickDeparturePoint" 데이터 받아옴
-        List<Map<String, Double>> clickDeparturePoint = data.get("clickDeparturePoint");
+
+        List<Map<String, String>> clickDeparturePoint = data.get("clickDeparturePoint");
 
         String viaPoints = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);
         model.addAttribute("viaPoints", viaPoints);
+        System.out.println("viapoints:" + viaPoints);
 
         return utils.tpl("walking/map");
     }

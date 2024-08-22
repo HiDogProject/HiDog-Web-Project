@@ -15,13 +15,9 @@ const mainMapLib = {
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
         const startMarkerArray = JSON.parse(startMarkerData);
 
-
-
         for (let i = 0; i < startMarkerArray.length; i += 2) {
-            const lat = startMarkerArray[i];
-            const lng = startMarkerArray[i + 1];
-
-
+            const lat = parseFloat(startMarkerArray[i]).toFixed(12); // 소수점 이하 12자리로 제한
+            const lng = parseFloat(startMarkerArray[i + 1]).toFixed(12); // 소수점 이하 12자리로 제한
 
             // 마커 옵션 설정
             const opt = {
@@ -42,20 +38,20 @@ const mainMapLib = {
             startMarker.addListener('click', () => {
                 if (clickable) {
                     // 다른 마커 숨기기
-                    console.log(startMarker.lat);
                     this.markers.forEach(marker => {
                         if (marker !== startMarker) {
                             marker.setVisible(false);
                         }
-
                     });
 
                     clickable = false;
-                    console.log("클릭")
+                    console.log("클릭");
 
                     const position = startMarker.getPosition(); // 마커의 좌표를 가져옴
-                    clickDeparturePoint.push({ "lat": position.lat(), "lng": position.lng() });
-                    console.log(clickDeparturePoint);
+                    const latFixed = parseFloat(position.lat()).toFixed(12); // 소수점 이하 12자리로 제한
+                    const lngFixed = parseFloat(position.lng()).toFixed(12); // 소수점 이하 12자리로 제한
+                    clickDeparturePoint.push({ "lat": latFixed, "lng": lngFixed });
+
 
                     commonLib.ajaxLoad('walking/map', 'POST', {clickDeparturePoint}, {
                         "Content-Type": "application/json"
@@ -66,13 +62,9 @@ const mainMapLib = {
                         .catch(error => {
                             console.error('Error:', error);
                         });
-                    const viaMarkerElement = document.querySelector('[data-viaPoints]');
-                    const viaMarkerData = startMarkerElement.getAttribute('data-viaPoints');
-                    const viaMarkerArray = JSON.parse(viaMarkerData);
-
-                    console.log(viaMarkerArray)
 
                     clickDeparturePoint = [];
+
 
                 } else {
                     // 모든 마커 보이기
@@ -80,7 +72,7 @@ const mainMapLib = {
                         marker.setVisible(true);
                     });
                     clickable = true;
-                    console.log("재클릭")
+                    console.log("재클릭");
                 }
             });
         }
@@ -89,7 +81,6 @@ const mainMapLib = {
         this.width = width ?? '80%';
         this.height = height ?? '600px';
         this.zoom = zoom || 17;
-
 
         navigator.geolocation.getCurrentPosition((pos) => {
             const {latitude, longitude} = pos.coords;
@@ -109,9 +100,5 @@ const mainMapLib = {
             }
 
         })
-
-
-    },
-
-
+    }
 }
