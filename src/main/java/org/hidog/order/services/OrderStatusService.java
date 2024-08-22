@@ -19,8 +19,8 @@ public class OrderStatusService {
     public void change(Long orderNo, OrderStatus status, Map<String, String> extra) {
         OrderInfo orderInfo = infoService.get(orderNo);
         orderInfo.setStatus(status);
-        orderInfo.setDeliveryCompany(extra.get("deliveryCompnay"));
-        orderInfo.setDeliveryInvoice(extra.get("deliveryInvoice"));
+        //orderInfo.setDeliveryCompany(extra.get("deliveryCompany")); //추후 반영
+        //orderInfo.setDeliveryInvoice(extra.get("deliveryInvoice")); //추후 반영
 
         infoRepository.saveAndFlush(orderInfo);
 

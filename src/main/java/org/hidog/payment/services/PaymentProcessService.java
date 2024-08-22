@@ -96,8 +96,7 @@ public class PaymentProcessService {
                 if (!resultMap.get("resultCode").equals("0000")) {
                     return null;
                 }
-
-                PayMethod payMethod = PayMethod.valueOf(resultMap.get("payMethod"));
+                PayMethod payMethod = PayMethod.valueOf(resultMap.get("payMethod").toUpperCase()); //대문자로 변경
 
                 String payLog = resultMap.entrySet()
                         .stream()
