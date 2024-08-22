@@ -90,15 +90,15 @@ const tmapLib = {
         const { ajaxLoad } = commonLib;
 
         // 경유지 좌표를 passList 형식으로 변환
-        const passList = this.via.map(point => `${point.lng().toFixed(12)},${point.lat().toFixed(12)}`).join('_');
+        const passList = this.via.map(point => `${point.lng()},${point.lat()}`).join('_');
 
         console.log("passList:", passList)
 
         const data = {
-            startX: this.departure.lng().toFixed(12),
-            startY: this.departure.lat().toFixed(12),
-            endX: this.arrival.lng().toFixed(12),
-            endY: this.arrival.lat().toFixed(12),
+            startX: this.departure.lng(),
+            startY: this.departure.lat(),
+            endX: this.arrival.lng(),
+            endY: this.arrival.lat(),
             passList: passList,
             reqCoordType: 'WGS84GEO',
             resCoordType: 'EPSG3857',

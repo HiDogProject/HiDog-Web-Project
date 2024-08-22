@@ -31,7 +31,6 @@ const mainMapLib = {
             // 마커 생성
             const startMarker = new Tmapv2.Marker(opt);
             this.markers.push(startMarker);
-            this.departure = this.arrival = opt.position
             let clickable = true;
 
             let clickDeparturePoint = [];
@@ -44,7 +43,7 @@ const mainMapLib = {
                             marker.setVisible(false);
                         }
                     });
-
+                    this.showRoute();
                     clickable = false;
                     console.log("클릭");
 
@@ -53,7 +52,8 @@ const mainMapLib = {
                     const lngFixed = parseFloat(position.lng()).toFixed(12);
                     clickDeparturePoint.push({ "lat": latFixed, "lng": lngFixed });
 
-                    this.departure =
+                    // 출발점을 클릭한 마커 좌표로 고정함.
+                    this.departure = this.arrival = position;
 
                     commonLib.ajaxLoad('walking/map', 'POST', {clickDeparturePoint}, {
                         "Content-Type": "application/json"
@@ -88,7 +88,6 @@ const mainMapLib = {
                             mainMapLib.viaMarkers.push(viaMarker);
                         });
 
-                        console.log("asdsad", mainMapLib.via)
                         mainMapLib.route();
                     }
                 } else {
@@ -101,9 +100,10 @@ const mainMapLib = {
                         marker.setMap(null);
                     });
                     mainMapLib.viaMarkers = [];
-
+                    this.hideRoute();
                     clickable = true;
                     console.log("재클릭");
+                    this.resultDrawArr = [];
                 }
             });
         }
@@ -112,6 +112,8 @@ const mainMapLib = {
         this.width = width ?? '80%';
         this.height = height ?? '600px';
         this.zoom = zoom || 17;
+
+
 
         navigator.geolocation.getCurrentPosition((pos) => {
             const {latitude, longitude} = pos.coords;
@@ -149,7 +151,9 @@ const mainMapLib = {
         const passList = this.via.map(point => `${point.lng},${point.lat}`).join('_');
 
 
+
         console.log("passList:", passList)
+
 
         const data = {
             startX: this.departure.lng(),
@@ -163,6 +167,7 @@ const mainMapLib = {
             endName: '도착지',
         };
 
+        console.log(data.startX);
         const headers = { appKey };
         const url = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result";
 
