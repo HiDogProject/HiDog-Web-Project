@@ -12,7 +12,7 @@
         </ul>
     </div>
     <th:block th:each="boardList : ${boardList}"  class="boardList">
-        <li th: th:text="${boardList}"></li>
+        <li th:text="${boardList}"></li>
         <li>
             <a th:href="${@utils.redirectUrl('/board/list/' + boardList)}"></a>
         </li>
