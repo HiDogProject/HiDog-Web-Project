@@ -145,7 +145,7 @@ public class BoardController implements ExceptionProcessor {
     }
 
     /**
-     * 게시판 목록
+     * 게시글 목록
      * @param bid : 게시판 아이디
      * @param model
      * @return
@@ -240,7 +240,6 @@ public class BoardController implements ExceptionProcessor {
         }
 
         if (skin.equals("walking")) {
-            addScript.add("walking/map");
             addCommonScript.add("map");
         }
 

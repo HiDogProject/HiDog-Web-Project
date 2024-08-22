@@ -46,6 +46,7 @@ public class BoardInfoService {
     private final ModelMapper modelMapper;
     private final FileInfoService fileInfoService;
 
+
     /**
      * 게시글 목록 조회
      *
@@ -195,7 +196,7 @@ public class BoardInfoService {
 
     /**
      * 게시판 별 목록
-     * 특정 게시판 목록을 조회
+     * 특정 게시판의 게시글목록을 조회
      *
      * @param bid : 게시판 ID
      * @param search
