@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
+
   <main layout:fragment="content">
     <h1 th:text="#{비밀번호_찾기}"></h1>
-
     <form name="frmFindPw" method="post" th:action="@{/app/member/find_pw}" autocomplete="off" th:object="${requestFindPw}">
         <dl>
             <dt th:text="#{이메일}"></dt>
@@ -24,4 +24,5 @@
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     </form>
 </main>
+
 </html>
