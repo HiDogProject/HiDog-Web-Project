@@ -6,12 +6,11 @@ import org.hidog.global.services.ApiConfigService;
 import org.hidog.walking.services.MainMapMarkerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/walking")
@@ -42,6 +41,16 @@ public class WalkingController {
         model.addAttribute("startMarker", startMarker);
 //        model.addAttribute("viaMarker", viaMarker);
         model.addAttribute("addCommonCss", List.of("map"));
+
+        return utils.tpl("walking/map");
+    }
+
+    @PostMapping("/map")
+    public String postMainMap(@RequestBody Map<String, List<Map<String, Double>>> data) {
+        // Ajax로 선택한 마커 "clickDeparturePoint" 데이터 받아옴
+        List<Map<String, Double>> clickDeparturePoint = data.get("clickDeparturePoint");
+
+        System.out.println(clickDeparturePoint.toString());
 
         return utils.tpl("walking/map");
     }

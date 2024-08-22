@@ -15,8 +15,6 @@ const tmapLib = {
         this.height = height ?? '600px';
         this.zoom = zoom || 17;
 
-
-        // tmapLib.init();
         navigator.geolocation.getCurrentPosition((pos) => {
             const { latitude, longitude } = pos.coords;
 

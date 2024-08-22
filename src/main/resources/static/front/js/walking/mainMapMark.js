@@ -23,6 +23,8 @@ const mainMapLib = {
             const lat = startMarkerArray[i];
             const lng = startMarkerArray[i + 1];
 
+
+
             // 마커 옵션 설정
             const opt = {
                 position: new Tmapv2.LatLng(lat, lng),
@@ -37,16 +39,37 @@ const mainMapLib = {
 
             let clickable = true;
 
+            let clickDeparturePoint = [];
+
             startMarker.addListener('click', () => {
                 if (clickable) {
                     // 다른 마커 숨기기
+                    console.log(startMarker.lat);
                     this.markers.forEach(marker => {
                         if (marker !== startMarker) {
                             marker.setVisible(false);
                         }
+
                     });
+
                     clickable = false;
                     console.log("클릭")
+
+                    const position = startMarker.getPosition(); // 마커의 좌표를 가져옴
+                    clickDeparturePoint.push({ "lat": position.lat(), "lng": position.lng() });
+                    console.log(clickDeparturePoint);
+
+                    commonLib.ajaxLoad('walking/map', 'POST', {clickDeparturePoint}, {
+                        "Content-Type": "application/json"
+                    })
+                        .then(response => {
+                            console.log('Server Response:', response);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    clickDeparturePoint = [];
+
                 } else {
                     // 모든 마커 보이기
                     this.markers.forEach(marker => {
@@ -64,7 +87,6 @@ const mainMapLib = {
         this.zoom = zoom || 17;
 
 
-        // tmapLib.init();
         navigator.geolocation.getCurrentPosition((pos) => {
             const {latitude, longitude} = pos.coords;
 
@@ -77,7 +99,10 @@ const mainMapLib = {
                 zoomControl: true,
                 scrollwheel: true
             });
-            this.init()
+
+            if (typeof this.init === 'function') {
+                this.init();
+            }
 
         })
 
