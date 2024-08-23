@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class RequestProfile {
 
+    private String email;
+
     @NotBlank @Size(min = 2, max = 10)
     private String userName;
 
