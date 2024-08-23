@@ -11,6 +11,9 @@ const mainMapLib = {
     height: '600px',
     zoom: 17,
     currentAction: null, // start, end, via
+    subject: null,
+    poster: null,
+    content: null,
     init() {
         const startMarkerElement = document.querySelector('[data-startMarker]');
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
@@ -55,48 +58,6 @@ const mainMapLib = {
                     // 출발점을 클릭한 마커 좌표로 고정함.
                     this.departure = this.arrival = position;
 
-                    let content = "<div style='position: static; display: flex; flex-direction: column; align-items: center; font-size: 14px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left: 500px; width: 200px; background: #E0F7FA;' >" +
-                        "<div class='img-box' style='position: relative; width: 70%; height: 50px; margin-top: 10px; border-radius: 10px; background: #B2EBF2 url(https://github.com/user-attachments/assets/992cd994-72b8-4320-aed6-6dbd2b86557d) no-repeat center;'>" +
-                        "</div>" +
-                        "<div class='info-box' style='padding: 10px; width: 100%; color: #006064; text-align: center;'>" +
-                        "<p style='margin-bottom: 7px; overflow: hidden; margin-top: -10px;'>" + <!-- 제목 위로 이동 -->
-                        "<span class='tit' style='font-size: 16px; font-weight: bold; display: block;'>게시글 제목</span>" + <!-- display: block으로 변경 -->
-                        "<a href='/' target='_blank' class='link' style='color: #0288D1; font-size: 13px;'></a>" +
-                        "</p>" +
-                        "<ul class='ul-info' style='list-style: none; padding: 0;'>" + <!-- 중앙 정렬을 위한 리스트 스타일 제거 -->
-                        "<li class='li-addr' style='margin-bottom: 5px; color: #004D40;'>" + <!-- padding 제거 -->
-                        "<p class='new-addr' style='text-align: center;'>글 내용 간단</p>" + <!-- 중앙 정렬 -->
-                        "<p class='old-addr' style='color: #00796B; text-align: center;'>작성자 : 김 짱 현</p>" + <!-- 중앙 정렬 -->
-                        "</li>" +
-                        "<li class='li-tell' style='color: #004D40;'>" +
-                        "</li>" +
-                        "</ul>" +
-                        "<ul class='btn-group' style='display: table; width: 100%; border-radius: 3px; height: 40px; border: 1px solid #B2EBF2; margin-top: 10px; text-align: center; background: #B2DFDB;'>" +
-                        "<li style='display: table-cell; vertical-align: middle; width: 50%; height: 100%; border-right: 1px solid #B2EBF2;'>" +
-                        "<a href='#' title='게시글 가기' style='color: #006064;'><img src='https://github.com/user-attachments/assets/ee5cbff7-8855-4950-8153-9acae4582203' style='vertical-align: middle; margin-right: 5px;'></a>" +
-                        "</li>" +
-                        "<li style='display: table-cell; vertical-align: middle; width: 50%; height: 100%;'>" +
-                        "<a href='#' title='채팅하기' style='color: #006064;'><img src='https://github.com/user-attachments/assets/f00b91e9-0c10-4ef7-acc9-05d81eb687d0' style='vertical-align: middle; margin-right: 5px;'></a>" +
-                        "</li>" +
-                        "</ul>" +
-                        "</div>" +
-                        "<a href='javascript:void(0)' onclick='onClose()' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>" +
-                        "</div>";
-
-
-
-
-
-
-
-                    //Popup 객체 생성.
-                    infoWindow = new Tmapv2.InfoWindow({
-                        position: new Tmapv2.LatLng(latFixed, lngFixed), //Popup 이 표출될 맵 좌표
-                        content: content, //Popup 표시될 text
-                        type: 2, //Popup의 type 설정.
-                        map: this.map //Popup이 표시될 맵 객체
-                    });
-                    console.log(infoWindow)
 
                     commonLib.ajaxLoad('walking/map', 'POST', {clickDeparturePoint}, {
                         "Content-Type": "application/json"
@@ -109,12 +70,51 @@ const mainMapLib = {
                             console.error('Error:', error);
                         });
 
+                    let content = `
+                    <div style='position: static; display: flex; flex-direction: column; align-items: center; font-size: 14px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left: 500px; width: 200px; background: #E0F7FA;'>
+                        <div class='img-box' style='position: relative; width: 70%; height: 50px; margin-top: 10px; border-radius: 10px; background: #B2EBF2 url(https://github.com/user-attachments/assets/992cd994-72b8-4320-aed6-6dbd2b86557d) no-repeat center;'></div>
+                        <div class='info-box' style='padding: 10px; width: 100%; color: #006064; text-align: center;'>
+                            <p style='margin-bottom: 7px; overflow: hidden; margin-top: -10px;'>
+                                <span class='tit' style='font-size: 16px; font-weight: bold; display: block;'>${mainMapLib.subject || '기본 제목'}</span>
+                                <a href='/' target='_blank' class='link' style='color: #0288D1; font-size: 13px;'></a>
+                            </p>
+                            <ul class='ul-info' style='list-style: none; padding: 0;'>
+                                <li class='li-addr' style='margin-bottom: 5px; color: #004D40;'>
+                                    <p class='new-addr' style='text-align: center;'>${mainMapLib.content || '기본 내용'}</p>
+                                    <p class='old-addr' style='color: #00796B; text-align: center;'>${mainMapLib.poster || '글쓴이'}</p>
+                                </li>
+                                <li class='li-tell' style='color: #004D40;'></li>
+                            </ul>
+                            <ul class='btn-group' style='display: table; width: 100%; border-radius: 3px; height: 40px; border: 1px solid #B2EBF2; margin-top: 10px; text-align: center; background: #B2DFDB;'>
+                                <li style='display: table-cell; vertical-align: middle; width: 50%; height: 100%; border-right: 1px solid #B2EBF2;'>
+                                    <a href='#' title='게시글 가기' style='color: #006064;'><img src='https://github.com/user-attachments/assets/ee5cbff7-8855-4950-8153-9acae4582203' style='vertical-align: middle; margin-right: 5px;'></a>
+                                </li>
+                                <li style='display: table-cell; vertical-align: middle; width: 50%; height: 100%;'>
+                                    <a href='#' title='채팅하기' style='color: #006064;'><img src='https://github.com/user-attachments/assets/f00b91e9-0c10-4ef7-acc9-05d81eb687d0' style='vertical-align: middle; margin-right: 5px;'></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <a href='javascript:void(0)' onclick='onClose()' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>
+                    </div>`;
+
+                    //Popup 객체 생성.
+                    infoWindow = new Tmapv2.InfoWindow({
+                        position: new Tmapv2.LatLng(latFixed, lngFixed), //Popup 이 표출될 맵 좌표
+                        content: content, //Popup 표시될 text
+                        type: 2, //Popup의 type 설정.
+                        map: this.map //Popup이 표시될 맵 객체
+                    });
                     clickDeparturePoint = [];
 
                     function callback(response) {
-                        const viaPoints = response;
+                        mainMapLib.subject = response.subject;
+                        mainMapLib.poster = response.poster;
+                        mainMapLib.content = response.content;
+
+                        const viaPoints = JSON.parse(response.viaPoints);
+                        console.log("aa", viaPoints)
                         mainMapLib.via = viaPoints;
-                        response.forEach(point => {
+                        viaPoints.forEach(point => {
                             const lat = point.lat;
                             const lng = point.lng;
 
@@ -134,9 +134,6 @@ const mainMapLib = {
                         mainMapLib.route();
 
 
-
-
-                        console.log(infoWindow);
                     }
                 } else {
                     // 모든 마커 보이기
