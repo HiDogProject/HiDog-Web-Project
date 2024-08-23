@@ -20,4 +20,6 @@ public class RequestProfile {
     private String address;
 
     private String detailAddress;
+
+    private String zipcode;
 }
