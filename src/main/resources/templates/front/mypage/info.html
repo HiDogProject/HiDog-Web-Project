@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
-<head>
-    <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/info.css}">
-    <title th:text="#{회원_정보}">회원 정보</title>
-</head>
-<main layout:fragment="content">
-    <h1 th:text="#{회원_정보}">회원 정보</h1>
-    <form th:action="@{/mypage/info}" th:object="${requestProfile}" method="post">
-        <div class="form-group">
-            <label for="email" th:text="#{이메일}">이메일</label>
-            <input type="text" id="email" name="email" th:value="*{email}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="userName" th:text="#{닉네임}">닉네임</label>
-            <input type="text" id="userName" name="userName" th:value="*{userName}" required>
-        </div>
-        <div class="form-group">
-            <label for="address" th:text="#{주소}">주소</label>
-            <input type="text" id="address" name="address" th:value="*{address}" required>
-        </div>
-        <div class="form-group">
-            <label for="detailAddress" th:text="#{상세_주소}">상세 주소</label>
-            <input type="text" id="detailAddress" name="detailAddress" th:value="*{detailAddress}">
-        </div>
-        <div class="form-group">
-            <label for="password" th:text="#{비밀번호}">비밀번호</label>
-            <input type="password" id="password" name="password">
-            <small th:text="#{비밀번호_변경_안_할_경우_비워_두세요}">비밀번호 변경 안 할 경우 비워 두세요</small>
-        </div>
-        <button type="submit" class="btn" th:text="#{저장}">저장</button>
-    </form>
-</main>
+
+    <head>
+        <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/info.css}">
+        <title th:text="#{회원_정보}">회원 정보</title>
+    </head>
+
+    <main layout:fragment="content">
+
+        <h1 th:text="#{회원_정보}">회원 정보</h1>
+
+        <form th:action="@{/mypage/info}" th:object="${requestProfile}" method="post">
+
+            <div class="form-group">
+                <label for="email" th:text="#{이메일}"></label>
+                <input type="text" id="email" name="email" th:value="*{email}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="userName" th:text="#{닉네임}"></label>
+                <input type="text" id="userName" name="userName" th:value="*{userName}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address" th:text="#{주소}"></label>
+                <input type="text" id="address" name="address" th:value="*{address}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="detailAddress" th:text="#{상세_주소}"></label>
+                <input type="text" id="detailAddress" name="detailAddress" th:value="*{detailAddress}">
+            </div>
+
+            <div class="form-group-password">
+
+                <div class="password-wrapper">
+                    <label for="password" th:text="#{비밀번호}"></label>
+                    <input type="password" id="password" name="password" placeholder=" 비밀번호를 입력하지 않을 경우 원래 비밀번호가 유지됩니다.">
+                </div>
+
+                <small th:text="#{비밀번호를_변경하지_않을_경우_비워_두세요.}"></small>
+            </div>
+
+            <div class="form-group-btn">
+                <button type="submit" class="btn" th:text="#{변경_사항_저장}"></button>
+            </div>
+        </form>
+    </main>
 </html>
