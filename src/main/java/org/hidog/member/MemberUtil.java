@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.hidog.member.constants.Authority;
 import org.hidog.member.entities.Authorities;
 import org.hidog.member.entities.Member;
+import org.hidog.member.repositories.MemberRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.List;
 public class MemberUtil {
    //  private final HttpSession session;
    //  private final MemberInfoService infoService;
+    private final MemberRepository repository;
 
     public boolean isLogin() {
         return getMember() != null;
@@ -33,6 +35,7 @@ public class MemberUtil {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        Member member = null;
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
             /*
@@ -40,9 +43,15 @@ public class MemberUtil {
                 memberInfo = (MemberInfo)infoService.loadUserByUsername(memberInfo.getEmail());
             }
             */
-            return memberInfo.getMember();
+
+            member = memberInfo.getMember();
+            if (member==null) {
+                member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
+                memberInfo.setMember(member);
+
+            }
         }
 
-        return null;
+        return member;
     }
 }
