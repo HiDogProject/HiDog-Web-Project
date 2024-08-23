@@ -24,6 +24,9 @@ public class RequestJoin implements Serializable {
     private String userName;
 
     @NotBlank
+    private Long zipcode;
+
+    @NotBlank
     private String address;
 
     private String detailAddress;
