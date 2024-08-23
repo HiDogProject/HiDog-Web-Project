@@ -6,10 +6,7 @@ import org.hidog.wishlist.constants.WishType;
 import org.hidog.wishlist.servies.WishListService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController // ajax를 위한 레스트 컨트롤러 구성
 @RequestMapping("/wish")
@@ -30,5 +27,19 @@ public class WishListController implements RestExceptionProcessor {
         wishListService.add(seq, WishType.valueOf(type));
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    /**
+     * wishlist에 제거
+     *
+     * @param type
+     * @param seq
+     * @return
+     */
+    @DeleteMapping("/{type}/{seq}")
+    public ResponseEntity<Void> remove(@PathVariable("type") String type, @PathVariable("seq") Long seq) {
+        wishListService.remove(seq, WishType.valueOf(type));
+
+        return ResponseEntity.ok().build(); // get, delete만 응답 바디 없음 // post, put, patch 는 응답바디 있음
     }
 }
