@@ -1,3 +1,5 @@
 window.addEventListener("DOMContentLoaded", function() {
-    mainMapLib.load("mapId");
+    if (typeof mainMapLib.load === 'function') {
+        mainMapLib.load("mapId");
+    }
 })
