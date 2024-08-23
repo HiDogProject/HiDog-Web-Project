@@ -15,14 +15,14 @@
 <body>
 <main layout:fragment="content">
 
-    <h1>회원 가입</h1>
+    <h1 th:text="#{회원가입}"></h1>
     <form name="frmRegist" method="post" th:action="${@utils.redirectUrl('/member/join')}" autocomplete="off" th:object="${requestJoin}">
         <!-- 글로벌 오류 메시지 -->
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
         <!-- 이메일 입력 필드 -->
         <dl>
-            <dt>이메일</dt>
+            <dt th:text="#{이메일}"></dt>
             <dd>
                 <div>
                     <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
@@ -48,7 +48,7 @@
 
         <!-- 비밀번호 입력 필드 -->
         <dl>
-            <dt>비밀번호</dt>
+            <dt th:text="#{비밀번호}"></dt>
             <dd>
                 <input type="password" id="password" name="password" th:field="*{password}" />
                 <div class="error" th:if="${#fields.hasErrors('password')}" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
@@ -57,7 +57,7 @@
 
         <!-- 비밀번호 확인 입력 필드 -->
         <dl>
-            <dt>비밀번호 확인</dt>
+            <dt th:text="#{비밀번호_확인}"></dt>
             <dd>
                 <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" />
                 <div class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
@@ -66,17 +66,17 @@
 
         <!-- 닉네임 입력 필드 -->
         <dl>
-            <dt>닉네임</dt>
+            <dt th:text="#{닉네임}"></dt>
             <dd>
                 <input type="text" id="userName" name="userName" th:field="*{userName}" />
-                <button type="button" id="checkUserName">중복 확인</button>
+                <button type="button" id="checkUserName" th:text="#{중복_확인}"></button>
                 <div id="userNameError" class="error"></div>
             </dd>
         </dl>
 
         <!-- 주소 입력 필드 -->
         <dl>
-            <dt>주소</dt>
+            <dt th:text="#{주소}"</dt>
             <dd>
                 <input type="text" id="user_postcode" name="zipcode" placeholder="우편번호" readonly>
                 <input type="button" onclick="user_execDaumPostcode()" value="우편번호 찾기"><br>
@@ -97,8 +97,8 @@
 
         <!-- 버튼 -->
         <div class="buttons">
-            <button type="reset">다시 입력</button>
-            <button type="submit">가입하기</button>
+            <button type="reset" th:text="#{다시_입력}"></button>
+            <button type="submit" th:text="#{가입하기}"></button>
         </div>
     </form>
 </main>
