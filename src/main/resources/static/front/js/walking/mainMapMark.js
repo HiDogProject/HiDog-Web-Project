@@ -5,7 +5,7 @@ const mainMapLib = {
     via: [], // 경유지 LatLng 객체 배열
     markers: [], // 마커
     viaMarkers: [], // 경유 마커
-    resultDrawArr: [],
+    resultDrawArr: [],  // 경로
     map: null, // 지도 객체
     width: '100%',
     height: '400px',
@@ -72,8 +72,8 @@ const mainMapLib = {
                         const viaPoints = response;
                         mainMapLib.via = viaPoints;
                         response.forEach(point => {
-                            const lat = parseFloat(point.lat);
-                            const lng = parseFloat(point.lng);
+                            const lat = point.lat;
+                            const lng = point.lng;
 
                             // 마커 옵션 설정
                             const opt = {
@@ -198,19 +198,6 @@ const mainMapLib = {
             }
 
             this.drawLine(drawInfoArr);
-
-            const departurePoints = [];
-            const viaPoints = [];
-
-            const {departure, arrival, via} = mainMapLib;
-            departurePoints.push({lat: departure.lat().toFixed(12), lng: departure.lng().toFixed(12)});
-            via.forEach(point => {
-                viaPoints.push({lat: point.lat().toFixed(12), lng: point.lng().toFixed(12)});
-            });
-            if (typeof mapDrawingCallback === 'function') {
-                mapDrawingCallback(departurePoints, viaPoints);
-            }
-
         }
         catch (err) {
             console.log()
@@ -236,15 +223,5 @@ const mainMapLib = {
     // 경로 표시 하기
     showRoute() {
         this.resultDrawArr.forEach(d => d.setMap(this.map));
-    },
-
-    // 초기화
-    reset() {
-        this.departure = this.arrival = null;
-        this.via = []; // 경유점 초기화
-        this.markers.forEach(m => m.setMap(null));
-        this.resultDrawArr.forEach(d => d.setMap(null));
-        this.markers = [];
-        this.resultDrawArr = [];
     }
 }
