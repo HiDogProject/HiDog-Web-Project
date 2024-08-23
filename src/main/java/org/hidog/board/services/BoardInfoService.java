@@ -319,6 +319,8 @@ public class BoardInfoService {
                 .orderBy(boardData.createdAt.desc())
                 .fetch();
 
+        items.forEach(this::addInfo);
+
         long total = boardDataRepository.count(andBuilder);
 
         int ranges = utils.isMobile() ? 5 : 10;

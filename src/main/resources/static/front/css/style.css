@@ -43,5 +43,5 @@ img { border: 0; }
 }
 
 .wishlist-toggle.on {
-    color: blue;
+    color: red;
 }

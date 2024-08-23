@@ -2,8 +2,11 @@ package org.hidog.board.validators;
 
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.controllers.RequestBoard;
+import org.hidog.board.entities.BoardData;
+import org.hidog.board.services.BoardInfoService;
 import org.hidog.global.validators.PasswordValidator;
 import org.hidog.member.MemberUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -14,6 +17,8 @@ import org.springframework.validation.Validator;
 public class BoardValidator implements Validator, PasswordValidator {
 
     private final MemberUtil memberUtil;
+    private final BoardInfoService boardInfoService;
+    private final PasswordEncoder encoder;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -21,7 +26,7 @@ public class BoardValidator implements Validator, PasswordValidator {
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
+    public void validate(Object target, Errors errors) { // Object target : 커맨드 객체
         RequestBoard form = (RequestBoard) target;
 
 
@@ -52,6 +57,18 @@ public class BoardValidator implements Validator, PasswordValidator {
                 mode = StringUtils.hasText(mode) ? mode : "write";
                 if (mode.equals("update") && (form.getSeq() == null || form.getSeq() < 1L)) {
                     errors.rejectValue("seq", "NotBlank");
+                }
+
+                /**
+                 * 비회원 게시글 수정 시 비밀번호 일치여부 체크
+                 * 게시글 수정 시 커맨드객체의 guestPw = 엔티티의 guestPw 일치여부 체크
+                 */
+                if(mode.equals("update")) {
+                    Long seq = form.getSeq();
+                    BoardData data = boardInfoService.get(seq); // 게시글 1개 조회
+                    if (!encoder.matches(guestPw, data.getGuestPw())) {
+                        errors.rejectValue("guestPw", "password");
+                    }
                 }
 
                 /**

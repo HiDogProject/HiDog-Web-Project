@@ -38,7 +38,7 @@ public class ProfileUpdateValidator implements Validator, PasswordValidator{
                 errors.rejectValue("password", "Size");
             }
 
-            if (!alphaCheck(password, false) || !numberCheck(password) || !specialCharsCheck(password)) {
+            if (!alphaCheck(password, true) || !numberCheck(password) || !specialCharsCheck(password)) {
                 errors.rejectValue("password", "Complexity");
             }
         }

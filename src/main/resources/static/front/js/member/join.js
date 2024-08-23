@@ -1,85 +1,3 @@
-var joinLib = joinLib || {};
-
-/**
-* ajax 처리
-*
-* @param method : 요청 메서드 - GET, POST, PUT ...
-* @param url : 요청 URL
-* @param responseType : json - 응답 결과를 json 변환, 아닌 경우는 문자열로 반환
-*/
-joinLib.ajaxLoad = function(method, url, params, responseType) {
-    method = !method || !method.trim()? "GET" : method.toUpperCase();
-    const token = document.querySelector("meta[name='csrf_token']").content;
-    const header = document.querySelector("meta[name='csrf_header']").content;
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        xhr.setRequestHeader(header, token);
-
-        xhr.send(params);
-        responseType = responseType?responseType.toLowerCase():undefined;
-        if (responseType == 'json') {
-            xhr.responseType=responseType;
-        }
-
-        xhr.onreadystatechange = function() {
-            if (xhr.status == 200 && xhr.readyState == XMLHttpRequest.DONE) {
-                const resultData = responseType == 'json' ? xhr.response : xhr.responseText;
-
-                resolve(resultData);
-            }
-        };
-
-        xhr.onabort = function(err) {
-            reject(err);
-        };
-
-        xhr.onerror = function(err) {
-            reject(err);
-        };
-
-        xhr.ontimeout = function(err) {
-            reject(err);
-        };
-    });
-};
-
-/**
-* 이메일 인증 메일 보내기
-*
-* @param email : 인증할 이메일
-*/
-joinLib.sendEmailVerify = function(email) {
-    const { ajaxLoad } = joinLib;
-
-    const url = `/app/email/verify?email=${email}`;
-
-    ajaxLoad("GET", url, null, "json")
-        .then(data => {
-            if (typeof callbackEmailVerify == 'function') { // 이메일 승인 코드 메일 전송 완료 후 처리 콜백
-                callbackEmailVerify(data);
-            }
-        })
-        .catch(err => console.error(err));
-};
-
-/**
-* 인증 메일 코드 검증 처리
-*
-*/
-joinLib.sendEmailVerifyCheck = function(authNum) {
-    const { ajaxLoad } = joinLib;
-    const url = `/app/email/auth_check?authNum=${authNum}`;
-
-    ajaxLoad("GET", url, null, "json")
-        .then(data => {
-            if (typeof callbackEmailVerifyCheck == 'function') { // 인증 메일 코드 검증 요청 완료 후 처리 콜백
-                callbackEmailVerifyCheck(data);
-            }
-        })
-        .catch(err => console.error(err));
-};
-
 window.addEventListener("DOMContentLoaded", function() {
     /* 인증 코드 전송 S */
     const emailVerifyEl = document.getElementById("email_verify"); // 인증코드 전송
@@ -88,7 +6,7 @@ window.addEventListener("DOMContentLoaded", function() {
     const authNumEl = document.getElementById("auth_num"); // 인증코드
     if (emailVerifyEl) {
         emailVerifyEl.addEventListener("click", function() {
-            const { ajaxLoad, sendEmailVerify } = joinLib;
+            const { ajaxLoad, sendEmailVerify } = commonLib;
             const email = frmRegist.email.value.trim();
             if (!email) {
                 alert('이메일을 입력하세요.');
@@ -97,14 +15,15 @@ window.addEventListener("DOMContentLoaded", function() {
             }
 
             /* 이메일 확인 전 이미 가입된 이메일인지 여부 체크 S */
-            ajaxLoad("GET", `/app/email/join/email_dup_check?email=${email}`, null, "json")
+            ajaxLoad(`email/email_dup_check?email=${email}`, "GET", null, null, "json")
                 .then(data => {
                     if (data.success) { // 중복이메일인 경우
                         alert("이미 가입된 이메일입니다.");
                         frmRegist.email.focus();
                     } else { // 중복이메일이 아닌 경우
                         sendEmailVerify(email); // 이메일 인증 코드 전송
-                        this.disabled = frmRegist.email.readonly = true;
+                        this.disabled = true;
+                        frmRegist.email.setAttribute("readonly", true);
 
                          /* 인증코드 재전송 처리 S */
                          if (emailReVerifyEl) {
@@ -126,7 +45,7 @@ window.addEventListener("DOMContentLoaded", function() {
                                 }
 
                                 // 인증코드 확인 요청
-                                const { sendEmailVerifyCheck } = joinLib;
+                                const { sendEmailVerifyCheck } = commonLib;
                                 sendEmailVerifyCheck(authNum);
                             });
                           }
@@ -182,7 +101,7 @@ function callbackEmailVerifyCheck(data) {
         emailVerifyEl.parentElement.removeChild(emailVerifyEl);
 
         // 3. 이메일 입력 항목 readonly 속성으로 변경
-        frmRegist.email.readonly = true;
+        frmRegist.email.setAttribute("readonly", true);
 
         // 4. 인증 성공시 인증코드 입력 영역 제거, 5. 인증 코드 입력 영역에 "확인된 이메일 입니다."라고 출력 처리
         const authBoxEl = document.querySelector(".auth_box");
@@ -221,8 +140,9 @@ const authCount = {
                 const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
                 const emailVerifyEl = document.getElementById("email_verify"); // 인증코드 전송
                 emailConfirmEl.disabled = emailReVerifyEl.disabled = true;
-                emailVerifyEl.disabled = frmRegist.email.readonly = false;
-                return;
+                 emailVerifyEl.disabled = false;
+                                frmRegist.email.removeAttribute("readonly");
+                                return;
             }
 
             const min = Math.floor(authCount.count / 60);
@@ -242,7 +162,8 @@ const authCount = {
         const emailConfirmEl = document.getElementById("email_confirm"); // 확인 버튼
         const emailReVerifyEl = document.getElementById("email_re_verify"); // 재전송 버튼
         emailConfirmEl.disabled = emailReVerifyEl.disabled = false;
-        emailVerifyEl.disabled = frmRegist.email.readonly = true;
+                emailVerifyEl.disabled = true;
+                frmRegist.email.setAttribute("readonly", true);
 
         this.count = 60 * 3;
         if (this.intervalId) clearInterval(this.intervalId);
