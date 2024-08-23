@@ -44,6 +44,21 @@ h1 {
     box-sizing: border-box;
 }
 
+/* form-group input */
+.form-group input {
+    width: calc(100% - 160px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+/* 입력 칸 테두리 색상 변경 */
+.form-group:focus-within input {
+    border-color: #9dc5f6;
+}
+
 /* 이메일 : 변경 불가 설정 */
 #email {
     background-color: #f9f9f9;
@@ -51,7 +66,7 @@ h1 {
     cursor: not-allowed;
 }
 
-/* 비밀번호*/
+/* 비밀번호 */
 .form-group-password {
     margin-bottom: 15px;
     width: 100%;
@@ -79,6 +94,11 @@ h1 {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+}
+
+/* 입력 칸 테두리 색상 변경 */
+.form-group-password:focus-within input {
+    border-color: #9dc5f6;
 }
 
 /* 비밀번호 미입력 문구 */
