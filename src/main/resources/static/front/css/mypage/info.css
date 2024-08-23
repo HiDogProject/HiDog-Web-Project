@@ -1,100 +1,110 @@
-/* 기본 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-main {
-    margin-top: 15px;
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-}
-
-.container {
-    max-width: 800px;
+/* form */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
+    background-color: #fff;
 }
 
 /* 제목 */
 h1 {
     text-align: center;
-    margin: 20px 0;
-    font-size: 2em;
+    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: bold;
     color: #333;
 }
 
-.info-box {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    max-width: 800px;
-    margin: 10px;
-}
-
-.info-row {
+/* form-group */
+.form-group {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
 }
 
-.info-row p {
-    width: 120px;
+/* form-group label */
+.form-group label {
+    display: inline-block;
+    width: 80px;
     font-weight: bold;
-    margin: 0;
     color: #333;
-    padding-right: 15px;
-    padding-left: 5px;
-    text-align: center;
+    margin-right: 10px;
 }
 
-.info-row span {
-    flex: 1;
-    color: #555;
-    text-align: center;
+.form-group input[type="text"], .form-group input[type="password"] {
+    width: calc(100% - 160px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.vertical-line {
-    width: 1px;
-    height: 100%;
-    background-color: #ddd;
-    margin: 0 15px;
+/* 이메일 : 변경 불가 설정 */
+#email {
+    background-color: #f9f9f9;
+    color: #666;
+    cursor: not-allowed;
 }
 
-.info-row.no-border {
-    border-bottom: none;
+/* 비밀번호*/
+.form-group-password {
+    margin-bottom: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.button-container {
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.form-group-password label {
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+}
+
+.form-group-password input {
+    width: calc(100% - 160px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* 비밀번호 미입력 문구 */
+.form-group-password small {
+    color: #666;
+    margin: 5px 0 20px 0;
+    padding-left: 90px;
+}
+
+/* 변경 저장 버튼 */
+.form-group-btn {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    width: 100%;
 }
 
-/* 버튼 */
-.button {
-    background-color: #68A5FE;
-    color: white;
-    border: none;
+.btn {
     padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
+    font-size: 15px;
+    color: #fff;
+    background-color: #9dc5f6;
+    border: none;
     border-radius: 5px;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-    margin: 0 10px;
+    cursor: pointer;
 }
 
-.button:hover {
+.btn:hover {
     background-color: #F5D2D2;
 }
