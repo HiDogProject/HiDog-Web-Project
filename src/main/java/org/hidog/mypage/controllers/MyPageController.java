@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MyPageController implements ExceptionProcessor {
 
     private final ProfileUpdateValidator profileUpdateValidator;
-    private final MemberSaveService saveService;
+    private final MemberSaveService memberSaveService;
     private final Utils utils;
 
     // 마이 페이지 홈
@@ -45,7 +45,7 @@ public class MyPageController implements ExceptionProcessor {
             return utils.tpl("mypage/info");
         }
 
-        saveService.save(form);
+        memberSaveService.save(form);
 
         return "redirect:" + utils.redirectUrl("mypage/myhome");
     }
