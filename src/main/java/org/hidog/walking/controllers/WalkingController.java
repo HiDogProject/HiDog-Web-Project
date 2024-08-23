@@ -30,17 +30,19 @@ public class WalkingController {
     @GetMapping("/map")
     public String getMainMap(Model model) {
         List<String> addScript = new ArrayList<>();
+        List<String> addCommonScript = new ArrayList<>();
 
         List<Double> startMarker = mainMapMarkerService.startMarkerLocation(); // 출발 좌표
-//        List<Double> viaMarker = mainMapMarkerService.startMarkerLocation(1); // 경유 좌표
 
 
         addScript.add("walking/mainMapMark");
         addScript.add("walking/mainMap");
 
+        addCommonScript.add("map");
+
+        model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
         model.addAttribute("startMarker", startMarker);
-//        model.addAttribute("viaMarker", viaMarker);
         model.addAttribute("addCommonCss", List.of("map"));
 
         return utils.tpl("walking/map");
@@ -55,6 +57,5 @@ public class WalkingController {
         String viaPoints = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);
         System.out.println("viapoints:" + viaPoints);
         return viaPoints;
-        //return utils.tpl("walking/map");
     }
 }
