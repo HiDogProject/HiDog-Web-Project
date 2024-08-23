@@ -13,8 +13,6 @@ public interface PasswordValidator {
         return password.matches(".*[a-z]+.*") && password.matches(".*[A-Z]+.*");
     }
 
-    ;
-
     /**
      * 숫자 복잡성 체크
      *
