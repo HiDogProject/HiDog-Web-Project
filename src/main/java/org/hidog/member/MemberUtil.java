@@ -36,6 +36,7 @@ public class MemberUtil {
         Member member = null;
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
+            member = memberInfo.getMember();
             if(member == null){
                 member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
                 memberInfo.setMember(member);
