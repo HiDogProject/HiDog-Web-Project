@@ -18,7 +18,12 @@ public class WishListService {
      * @param type
      */
     public void add(Long seq, WishList type) {
+        if (memberUtil.isLogin()) { // 이거말고 스프링시큐리티의 프리오더라이즈도 있다고 하심
+            return;
+        }
 
+        WishList wishList = WishList.builder()
+                .build();
     }
 
     /**
