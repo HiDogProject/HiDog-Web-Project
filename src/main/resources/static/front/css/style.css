@@ -36,3 +36,12 @@ img { border: 0; }
     line-height: 20px;
 }
 /* 파일 공통 E */
+
+/* 찜하기 */
+.wishlist-toggle {
+    cursor: pointer;
+}
+
+.wishlist-toggle.on {
+    color: blue;
+}

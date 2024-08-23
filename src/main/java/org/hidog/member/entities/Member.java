@@ -34,7 +34,7 @@ public class Member extends BaseEntity implements Serializable {
     private String detailAddress;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Authorities> authorities;
 
     private String profileImage;
