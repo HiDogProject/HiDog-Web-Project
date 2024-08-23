@@ -165,7 +165,6 @@ public class MemberController implements ExceptionProcessor {
             addCss.add("member/join");
             addScript.add("member/join");
             addScript.add("member/joinAddress");
-            addScript.add("member/form");
             addScript.add("member/joinNickName");
 
         } else if (mode.equals("login")) {

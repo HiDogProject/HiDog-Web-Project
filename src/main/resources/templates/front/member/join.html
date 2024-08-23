@@ -7,9 +7,7 @@
     <title>회원 가입</title>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" type="text/css" th:href="${@utils.url('/front/css/member/join')}">
-    <th:block layout:fragment="addCommonJs">
-        <th:block th:with="skipCommonJs=true"></th:block>
-    </th:block>
+    <th:block layout:fragment="addCommonJs"></th:block>
 </head>
 
 <body>
@@ -76,7 +74,7 @@
 
         <!-- 주소 입력 필드 -->
         <dl>
-            <dt th:text="#{주소}"</dt>
+            <dt th:text="#{주소}"></dt>
             <dd>
                 <input type="text" id="user_postcode" name="zipcode" placeholder="우편번호" readonly>
                 <input type="button" onclick="user_execDaumPostcode()" value="우편번호 찾기"><br>
