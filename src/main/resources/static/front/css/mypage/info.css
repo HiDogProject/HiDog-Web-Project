@@ -1,100 +1,75 @@
-/* 기본 */
-* {
+/* info.css */
+
+/* 기본 스타일 설정 */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    background-color: #f4f4f4;
 }
 
-main {
-    margin-top: 15px;
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-/* 제목 */
 h1 {
     text-align: center;
-    margin: 20px 0;
-    font-size: 2em;
-    color: #333;
-}
-
-.info-box {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    max-width: 800px;
-    margin: 10px;
-}
-
-.info-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-    position: relative;
-}
-
-.info-row p {
-    width: 120px;
-    font-weight: bold;
-    margin: 0;
-    color: #333;
-    padding-right: 15px;
-    padding-left: 5px;
-    text-align: center;
-}
-
-.info-row span {
-    flex: 1;
-    color: #555;
-    text-align: center;
-}
-
-.vertical-line {
-    width: 1px;
-    height: 100%;
-    background-color: #ddd;
-    margin: 0 15px;
-}
-
-.info-row.no-border {
-    border-bottom: none;
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
     margin-top: 20px;
+    color: #333;
 }
 
-/* 버튼 */
-.button {
-    background-color: #68A5FE;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    border-radius: 5px;
-    text-decoration: none;
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box; /* 패딩과 테두리가 전체 폭에 포함되도록 설정 */
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 14px;
+}
+
+.btn {
     display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
     text-align: center;
-    margin: 0 10px;
+    text-decoration: none; /* 버튼의 텍스트 장식 제거 */
+    transition: background-color 0.3s ease; /* 배경색 변경 시 애니메이션 효과 */
 }
 
-.button:hover {
-    background-color: #F5D2D2;
+.btn:hover {
+    background-color: #0056b3;
+}
+
+input[readonly] {
+    background-color: #f5f5f5;
+    cursor: not-allowed; /* 읽기 전용 필드에 대해 클릭 불가 스타일 */
 }
