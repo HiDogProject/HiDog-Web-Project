@@ -44,6 +44,6 @@ public class RequestOrder {
     private String payMethod = PayMethod.CARD.name(); //결제수단
 
     @AssertTrue
-    private String agree; //약관동의
+    private boolean agree; //약관동의
 
 }

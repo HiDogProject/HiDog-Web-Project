@@ -1,6 +1,5 @@
 package org.hidog.member;
 
-
 import lombok.RequiredArgsConstructor;
 import org.hidog.member.constants.Authority;
 import org.hidog.member.entities.Authorities;
@@ -15,8 +14,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class MemberUtil {
-   //  private final HttpSession session;
-   //  private final MemberInfoService infoService;
+
     private final MemberRepository repository;
 
     public boolean isLogin() {
@@ -38,17 +36,10 @@ public class MemberUtil {
         Member member = null;
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
-            /*
-            if (session.getAttribute("userInfoChanged") != null) { // 회원 정보를 변경한 경우
-                memberInfo = (MemberInfo)infoService.loadUserByUsername(memberInfo.getEmail());
-            }
-            */
-
             member = memberInfo.getMember();
-            if (member==null) {
+            if(member == null){
                 member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
                 memberInfo.setMember(member);
-
             }
         }
 

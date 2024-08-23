@@ -1,5 +1,6 @@
 package org.hidog.walking.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +41,16 @@ public class MainMapMarkerService {
         }
         System.out.println(result);
         return result;
+    }
+
+    public String viaMarkerLocation(List<Map<String, String>> point) throws JsonProcessingException {
+
+
+        String jsonString = objectMapper.writeValueAsString(point);
+
+        BoardData boardData = dataRepository.findByLongText1(jsonString);
+        String viaPoints = boardData.getLongText2();
+
+        return viaPoints;
     }
 }

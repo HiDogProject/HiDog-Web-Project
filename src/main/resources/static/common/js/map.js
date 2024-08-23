@@ -15,8 +15,6 @@ const tmapLib = {
         this.height = height ?? '600px';
         this.zoom = zoom || 17;
 
-
-        // tmapLib.init();
         navigator.geolocation.getCurrentPosition((pos) => {
             const { latitude, longitude } = pos.coords;
 
@@ -41,7 +39,7 @@ const tmapLib = {
                     }
                     this.departure = e.latLng;
                     console.log(e.latLng);
-                    this.arrival =e.latLng;
+                    this.arrival = e.latLng;
                     opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg'
                     opt.iconSize = new Tmapv2.Size(50, 50);
                     const startMarker = new Tmapv2.Marker(opt);
@@ -54,24 +52,24 @@ const tmapLib = {
                     // 마커 클릭 시 경로 숨기기
                     startMarker.addListener('click', () => {
                         if (clickable) {
-                        this.hideRoute();
-                        clickable = false;
-                        console.log("숨김")
-                    } else {
-                        this.showRoute();
-                        clickable = true;
-                        console.log("노출")
+                            this.hideRoute();
+                            clickable = false;
+                            console.log("숨김")
+                        } else {
+                            this.showRoute();
+                            clickable = true;
+                            console.log("노출")
                         }
                     });
 
-                }  else if (this.currentAction === 'via') { // 경유지 추가
+                } else if (this.currentAction === 'via') { // 경유지 추가
                     if (this.via.length > 4) {
                         alert("경유지는 최대 5개까지 선택할 수 있습니다.");
                         return;
                     }
                     this.via.push(e.latLng);
                     opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f6a9.svg'
-                    opt.iconSize = new Tmapv2.Size(50,50);
+                    opt.iconSize = new Tmapv2.Size(50, 50);
                     const marker = new Tmapv2.Marker(opt);
                     this.markers.push(marker);
                     this.currentAction = null;
@@ -93,7 +91,6 @@ const tmapLib = {
 
         // 경유지 좌표를 passList 형식으로 변환
         const passList = this.via.map(point => `${point.lng()},${point.lat()}`).join('_');
-
 
         console.log("passList:", passList)
 
@@ -130,8 +127,8 @@ const tmapLib = {
 
                         const convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latLng);
                         const convertChange = new Tmapv2.LatLng(
-                            convertPoint._lat,
-                            convertPoint._lng
+                            convertPoint._lat.toFixed(12),
+                            convertPoint._lng.toFixed(12)
                         );
                         drawInfoArr.push(convertChange);
                     }
@@ -144,9 +141,9 @@ const tmapLib = {
             const viaPoints = [];
 
             const {departure, arrival, via} = tmapLib;
-            departurePoints.push({lat: departure.lat(), lng: departure.lng()});
+            departurePoints.push({lat: departure.lat().toFixed(12), lng: departure.lng().toFixed(12)});
             via.forEach(point => {
-                viaPoints.push({lat: point.lat(), lng: point.lng()});
+                viaPoints.push({lat: point.lat().toFixed(12), lng: point.lng().toFixed(12)});
             });
             if (typeof mapDrawingCallback === 'function') {
                 mapDrawingCallback(departurePoints, viaPoints);
