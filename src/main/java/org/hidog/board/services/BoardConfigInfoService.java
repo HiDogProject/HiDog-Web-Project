@@ -1,5 +1,6 @@
 package org.hidog.board.services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,29 +58,29 @@ public class BoardConfigInfoService {
      *
      * @return
      */
-    public Optional<Board> getBoardList() {
+    public List<String[]> getBoardList() {
         try {
             String url = utils.adminUrl("/api/board");
             ResponseEntity<JSONData> response = restTemplate.getForEntity(url, JSONData.class);
-
+            System.out.println(response);
             if (response.getStatusCode().isSameCodeAs(HttpStatus.OK)) {
                 JSONData jsonData = response.getBody();
                 if (!jsonData.isSuccess()) {
 
-                    return Optional.empty();
+                    return null;
                 }
 
                 Object data = jsonData.getData();
 
-                Board board = om.readValue(om.writeValueAsString(data), Board.class);
+                List<String[]> board = om.readValue(om.writeValueAsString(data), new TypeReference<>() {});
 
-
-                return Optional.ofNullable(board);
+                board.forEach(d -> System.out.println(Arrays.toString(d)));
+                return board;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return Optional.empty();
+        return null;
     }
 }

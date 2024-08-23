@@ -18,12 +18,16 @@ import org.hidog.board.exceptions.BoardNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
+import org.hidog.global.CommonSearch;
 import org.hidog.global.ListData;
 import org.hidog.global.Pagination;
 import org.hidog.global.Utils;
 import org.hidog.global.constants.DeleteStatus;
 import org.hidog.member.MemberUtil;
+import org.hidog.wishlist.constants.WishType;
+import org.hidog.wishlist.servies.WishListService;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -45,6 +49,8 @@ public class BoardInfoService {
     private final Utils utils;
     private final ModelMapper modelMapper;
     private final FileInfoService fileInfoService;
+    private final SecurityAutoConfiguration securityAutoConfiguration;
+    private final WishListService wishListService;
 
 
     /**
@@ -278,6 +284,47 @@ public class BoardInfoService {
 
     public RequestBoard getForm(Long seq) {
         return getForm(seq, DeleteStatus.UNDELETED);
+    }
+
+    /**
+     *  내가 찜한 게시글 목록 조회
+     *
+     * @param search
+     * @return
+     */
+    public ListData<BoardData> getWishList(CommonSearch search) {
+
+        // CommonSearch : 페이징
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = limit * (page - 1); // jpa쿼리 팩토리 사용 위해 작성한 코드
+
+
+        List<Long> seqs = wishListService.getList(WishType.BOARD);
+        if(seqs == null || seqs.isEmpty()) {
+            return new ListData<>();
+        }
+
+        QBoardData boardData = QBoardData.boardData;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(boardData.seq.in(seqs)); // 검색조건 추가
+
+        List<BoardData> items = jpaQueryFactory.selectFrom(boardData)
+                .where(andBuilder)
+                .leftJoin(boardData.board)
+                .fetchJoin()
+                .offset(offset)
+                .limit(limit)
+                .orderBy(boardData.createdAt.desc())
+                .fetch();
+
+        long total = boardDataRepository.count(andBuilder);
+
+        int ranges = utils.isMobile() ? 5 : 10;
+        Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
+
+        return new ListData<>(items, pagination);
     }
 
 
