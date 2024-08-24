@@ -9,9 +9,15 @@
 <div th:fragment="category" class="category-tab">
         <span th:if="${board.categories != null && !board.categories.isEmpty()}"
               th:each="cat, status : ${board.categories}">
-            <input type="radio" name="category" th:value="${cat}"  th:id="${'category-' + status.index}">
-            th:
+            <input type="radio" name="category" th:value="${cat}"  th:id="${'category-' + status.index}" th:checked="${(requestBoard != null && requestBoard.category == cat) || (param.category == cat)}">
             <label th:for="${'category-' + status.index}" th:text="${cat}"></label>
         </span>
 </div>
+
+<nav th:fragment="categorylink" class="category-links" th:if="${board.categories != null && !board.categories.empty}">
+    <a th:href="${@utils.redirectUrl('/board/list/' + board.bid)}" th:text="#{전체}" class="link" th:classappend="${param.category == null || param.category == ''} ? 'on'"></a>
+    <a th:each="category : ${board.categories}" th:text="${category}"
+       th:href="${@utils.redirectUrl('/board/list/' + board.bid + '?category=' + category)} ? 'on'"
+       class="link" th:classappend="${#string.equals(category, param.category)}"></a>
+</nav>
 </html>

@@ -21,7 +21,7 @@
                   th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
         </div>
         <div class="links">
-            <a th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" th:text="#{찜}"></a>
+            <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">찜</span>
             <a th:href="*{@utils.redirectUrl('/order')}" th:text="#{구매}"></a>
         </div>
         <div class="product_info2">
@@ -36,6 +36,16 @@
                 <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
             </div>
         </div >
+
+
+        <div class="links">
+            <a th:if="*{showEdit}" th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" th:text="#{글쓰기}" class="btn"></a>
+            <a th:if="*{showEdit}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}" th:text="#{글수정}" class="btn"></a>
+            <a th:if="*{showDelete}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}" th:text="#{글삭제}" onclick="return confirm('정말 삭제하겠습니까?');" class="btn"></a>
+            <a th:if="*{showList}" th:href="${@utils.redirectUrl('/board/list/' + board.bid)}" th:text="#{글목록}" class="btn"></a>
+        </div>
+
+
     </div>  <!--// view-content -->
 
 </th:block>

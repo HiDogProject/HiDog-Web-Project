@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class BoardViewId {
-    private Long seq;
-    private int uid;
+    private Long seq; //게시글번호
+    private Integer uid;
 }
