@@ -45,9 +45,13 @@ public class BoardController implements ExceptionProcessor {
     private final FileInfoService fileInfoService;
 
 
-
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
+
+    @ModelAttribute("mainClass")
+    public String mainClass(){
+        return "board-main layout-width";
+    }
 
     // 티맵 api 키 조회
     @ModelAttribute("tmapJavascriptKey")
@@ -200,7 +204,7 @@ public class BoardController implements ExceptionProcessor {
 
         boardDeleteService.delete(seq);
 
-        return utils.redirectUrl("/board/list/" + board.getBid());
+        return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
 
 
