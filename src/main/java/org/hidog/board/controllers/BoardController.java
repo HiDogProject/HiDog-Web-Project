@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.exceptions.BoardNotFoundException;
-import org.hidog.board.services.BoardConfigInfoService;
-import org.hidog.board.services.BoardDeleteService;
-import org.hidog.board.services.BoardInfoService;
-import org.hidog.board.services.BoardSaveService;
+import org.hidog.board.services.*;
 import org.hidog.board.validators.BoardValidator;
 import org.hidog.file.constants.FileStatus;
 import org.hidog.file.entities.FileInfo;
@@ -42,6 +39,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardValidator boardValidator;
     private final Utils utils;
     private final ApiConfigService apiConfigService;
+    private final BoardViewCountService viewCountService;
 
     private final MemberUtil memberUtil;
     private final FileInfoService fileInfoService;
@@ -178,6 +176,8 @@ public class BoardController implements ExceptionProcessor {
             model.addAttribute("items", data.getItems());
             model.addAttribute("pagination", data.getPagination());
         }
+
+        viewCountService.update(seq); //조회수 증가
 
         orderProcess(seq, session);
 
