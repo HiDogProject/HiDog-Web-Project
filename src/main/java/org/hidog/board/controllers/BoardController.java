@@ -40,7 +40,7 @@ public class BoardController implements ExceptionProcessor {
     private final Utils utils;
     private final ApiConfigService apiConfigService;
     private final BoardViewCountService viewCountService;
-
+    private final BoardAuthService authService;
     private final MemberUtil memberUtil;
     private final FileInfoService fileInfoService;
 
@@ -270,6 +270,11 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("board", board); // 게시판 설정
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
+
+        //권한 체크
+        authService.check(mode, board.getBid());
+        authService.setBoard(board);
+        authService.setBoardData(boardData);
     }
 
     /**
@@ -286,6 +291,11 @@ public class BoardController implements ExceptionProcessor {
     protected void commonProcess(Long seq, String mode, Model model) {
         // 게시글 조회(엔티티)
         boardData = boardInfoService.get(seq);
+
+        //권한체크
+        authService.check(mode, seq);
+        authService.setBoardData(boardData);
+        authService.setBoard(boardData.getBoard());
 
         model.addAttribute("boardData", boardData);
 

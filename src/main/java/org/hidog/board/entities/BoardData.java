@@ -126,13 +126,13 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
     private boolean commentable; // 댓글 작성 가능 여부
 
     @Transient
-    private boolean showEditButton; //글쓰기, 수정 버튼 노출 여부
+    private boolean showEdit; //글쓰기, 수정 버튼 노출 여부
 
     @Transient
-    private boolean showDeleteButton; //글 삭제 버튼 노출 여부
+    private boolean showDelete; //글 삭제 버튼 노출 여부
 
     @Transient
-    private boolean showListButton; //글 목록 버튼 노출 여부
+    private boolean showList; //글 목록 버튼 노출 여부
 
 
     @Transient
