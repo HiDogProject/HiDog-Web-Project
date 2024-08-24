@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BoardViewCountService {
 
-    private BoardViewRepository viewRepository;
-    private BoardDataRepository dataRepository;
-    private Utils utils;
-    private MemberUtil memberUtil;
+    private final BoardViewRepository viewRepository;
+    private final BoardDataRepository dataRepository;
+    private final Utils utils;
+    private final MemberUtil memberUtil;
 
     public void update(Long seq){
         BoardData data = dataRepository.findById(seq).orElse(null);
