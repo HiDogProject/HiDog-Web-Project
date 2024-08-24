@@ -1,11 +1,13 @@
 package org.hidog.board.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.exceptions.BoardNotFoundException;
+import org.hidog.board.exceptions.GuestPasswordCheckException;
 import org.hidog.board.services.*;
 import org.hidog.board.validators.BoardValidator;
 import org.hidog.file.constants.FileStatus;
@@ -14,6 +16,7 @@ import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
+import org.hidog.global.exceptions.UnAuthorizedException;
 import org.hidog.global.services.ApiConfigService;
 import org.hidog.member.MemberUtil;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -273,8 +277,6 @@ public class BoardController implements ExceptionProcessor {
 
         //권한 체크
         authService.check(mode, board.getBid());
-        authService.setBoard(board);
-        authService.setBoardData(boardData);
     }
 
     /**
@@ -288,18 +290,38 @@ public class BoardController implements ExceptionProcessor {
      * @param mode
      * @param model
      */
-    protected void commonProcess(Long seq, String mode, Model model) {
-        // 게시글 조회(엔티티)
+    private void commonProcess(Long seq, String mode, Model model) {
+
         boardData = boardInfoService.get(seq);
 
-        //권한체크
-        authService.check(mode, seq);
-        authService.setBoardData(boardData);
-        authService.setBoard(boardData.getBoard());
+        authService.check(mode, seq); // 권한 체크
 
         model.addAttribute("boardData", boardData);
 
         commonProcess(boardData.getBoard().getBid(), mode, model);
+    }
+
+    @Override
+    public ModelAndView errorHandler(Exception e, HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        if (e instanceof UnAuthorizedException unAuthorizedException) {
+            String message = unAuthorizedException.getMessage();
+            message = unAuthorizedException.isErrorCode() ? utils.getMessage(message) : message;
+            String script = String.format("alert('%s');history.back();", message);
+
+            mv.setStatus(unAuthorizedException.getStatus());
+            mv.setViewName("common/_execute_script");
+            mv.addObject("script", script);
+
+            return mv;
+        } else if ( e instanceof GuestPasswordCheckException passwordCheckException) {
+
+            mv.setStatus(passwordCheckException.getStatus());
+            mv.setViewName(utils.tpl("board/password"));
+            return mv;
+        }
+
+        return ExceptionProcessor.super.errorHandler(e, request);
     }
 
     protected void orderProcess(Long seq, HttpSession session) {
