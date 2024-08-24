@@ -297,11 +297,11 @@ public class BoardController implements ExceptionProcessor {
 
         boardData = boardInfoService.get(seq);
 
-        authService.check(mode, seq); // 권한 체크
-
         model.addAttribute("boardData", boardData);
-
+        model.addAttribute("board", boardData.getBoard());
         commonProcess(boardData.getBoard().getBid(), mode, model);
+
+        authService.check(mode, seq); // 권한 체크
     }
 
     @Override
@@ -323,7 +323,7 @@ public class BoardController implements ExceptionProcessor {
             mv.setViewName(utils.tpl("board/password"));
             return mv;
         }
-
+        e.printStackTrace();
         return ExceptionProcessor.super.errorHandler(e, request);
     }
 
