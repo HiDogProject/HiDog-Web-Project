@@ -46,7 +46,7 @@ public class OrderInfo extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String zoneCode; //우편변호
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 60)
     private String address; //배송지 주소
 
     private String addressSub; //나머지 배송지 주소
@@ -83,10 +83,9 @@ public class OrderInfo extends BaseEntity {
     @Column(length = 40)
     private String refundAcctName; //환불 계좌 예금주명
 
-
-
-
     @Transient
     private int totalPayPrice; //총결제금액
+
+    private Long timestamp;
 
 }

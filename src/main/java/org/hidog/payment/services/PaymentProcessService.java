@@ -47,7 +47,8 @@ public class PaymentProcessService {
         PaymentConfig config = configService.get();
         String signKey = config.getSignKey();
 
-        long timestamp = new Date().getTime();
+        Long timestamp = new Date().getTime();
+
 
         // 인증 실패, 승인 실패시 이동할 주소
         String orderNumber = result.getOrderNumber();
@@ -109,6 +110,7 @@ public class PaymentProcessService {
                         .bankName(resultMap.get("vactBankName")) // 가상계좌은행
                         .bankAccount(resultMap.get("VACT_Num")) // 가상계좌번호
                         .payLog(payLog)
+                        .timestamp(timestamp)
                         .build();
 
             } catch (JsonProcessingException e) {

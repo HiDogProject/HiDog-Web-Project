@@ -38,6 +38,7 @@ public class OrderController implements ExceptionProcessor {
     @ModelAttribute("bankCodes")
     public List<String[]> bankCodes(){ return BankCode.getList(); }
 
+
     @GetMapping //주문서양식
     public String index(@ModelAttribute RequestOrder form, HttpSession session, Model model){
         BoardData boardData = (BoardData) session.getAttribute("boardData");

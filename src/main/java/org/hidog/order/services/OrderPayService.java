@@ -48,6 +48,7 @@ public class OrderPayService {
         orderInfo.setPayTid(result.getTid());
         orderInfo.setPayBankName(result.getBankName());
         orderInfo.setPayBankAccount(result.getBankAccount());
+        orderInfo.setTimestamp(result.getTimestamp());
         orderInfoRepository.saveAndFlush(orderInfo);
 
         // 주문 상태 변경
