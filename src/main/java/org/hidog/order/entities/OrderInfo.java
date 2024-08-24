@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hidog.global.entities.BaseEntity;
 import org.hidog.member.entities.Member;
 import org.hidog.order.constants.OrderStatus;
+import org.hidog.payment.constants.BankCode;
 import org.hidog.payment.constants.PayMethod;
 
 @Data
@@ -71,6 +72,15 @@ public class OrderInfo extends BaseEntity {
     private String payBankName; //가상 계좌 은행
     @Column(length = 40)
     private String payBankAccount; //가상 계좌
+
+    @Column(length = 40)
+    @Enumerated(EnumType.STRING)
+    private BankCode refundBankCode; //환불 계좌 은행
+    @Column(length = 40)
+    private String refundAcctNum; //환불 계좌 번호
+    @Column(length = 40)
+    private String refundAcctName; //환불 계좌 예금주명
+
 
 
 

@@ -110,7 +110,7 @@
             <dt th:text="#{결제방법}"></dt>
             <dd>
                 <span th:each="pay : ${payMethods}">
-                    <input type="radio" name="payMethod" th:value="${pay[0]}" th:id="${'payMethod-' + pay[0]}" th:field="*{payMethod}">
+                    <input type="radio" name="payMethod" th:value="${pay[0]}" th:id="${'payMethod-' + pay[0]}" th:field="*{payMethod}" onclick="toggleInput()">
                     <label th:for="${'payMethod-' + pay[0]}" th:text="${pay[1]}"></label>
                 </span>
             </dd>
@@ -130,6 +130,18 @@
     <th:block th:if="${config != null}">
         <th:block th:replace="~{front/order/_payment::payform}"></th:block>
     </th:block>
+    <script>
+        function toggleInput() {
+            var selectedValue = document.querySelector('input[name="payMethod"]:checked').value;
+            var additionalInput = document.getElementById('additionalInput');
+            if (selectedValue === 'VBANK') {
+                additionalInput.style.display = 'block';
+            } else {
+                additionalInput.style.display = 'none';
+            }
+        }
+    </script>
 </main>
+
 
 </html>
