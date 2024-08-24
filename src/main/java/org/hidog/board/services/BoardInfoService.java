@@ -364,37 +364,39 @@ public class BoardInfoService {
        item.setAttachFiles(attachFiles);
        /* 업로드한 파일 목록 E */
 
-        /* 게시글 권한 정보 처리 S*/
-        boolean editable = false, viewable = false, listable = false, commentable = false, mine=false;
-        if(memberUtil.isAdmin()){
+        /* 게시글 권한 정보 처리 S */
+        boolean editable = false, commentable = false, mine = false;
+
+        // 관리자는 모든 권한 가능
+        if (memberUtil.isAdmin()) {
             editable = commentable = true;
         }
 
-        //회원 - 직접 작성한 게시글인 경우만 수정, 삭제
-        Member boardMember = item.getMember(); //게시글을 작성한 회원
-        Member loogedMember = item.getMember(); //로그인한 회원
-        if(boardMember != null && memberUtil.isLogin() && boardMember.getEmail().equals(loogedMember.getEmail())) {
-            editable = true; //수정, 삭제 가능
-            mine = true; //게시글 소유자
+        // 회원 - 직접 작성한 게시글인 경우만 수정,삭제(editable)
+        Member boardMember = item.getMember(); // 게시글을 작성한 회원
+        Member loggedMember = item.getMember(); // 로그인한 회원
+        if (boardMember != null && memberUtil.isLogin() && boardMember.getEmail().equals(loggedMember.getEmail())) {
+            editable = true; // 수정, 삭제 가능
+            mine = true; // 게시글 소유자
         }
 
-        //비회원 - 비회원 비밀번호를 검증한 경우 - 게시글 소유자, 수정, 삭제 가능
-        //비회원이 비밀번호를 검증한 경우 세션 키 : confirmed_board_data_게시글번호, 값true
+        // 비회원 - 비회원 비밀번호를 검증한 경우 - 게시글 소유자, 수정, 삭제 가능
+        // 비회원이 비밀번호를 검증한 경우 세션 키 : confirmed_board_data_게시글번호, 값 true
         HttpSession session = request.getSession();
-        Boolean guestConfirmed = (Boolean)session.getAttribute("confirm_board_data)" + item.getSeq());
-        if(boardMember == null) {
+        Boolean guestConfirmed = (Boolean)session.getAttribute("confirm_board_data_" + item.getSeq());
+        if (boardMember == null && guestConfirmed != null && guestConfirmed) { // 비회원 비밀번호가 인증된 경우
             editable = true;
             mine = true;
         }
 
-        //댓글 작성 가능 여부 - 전체 : 모두 가능(비회원 + 회원 + 관리자), 회원 + 관리자, 관리자
+        // 댓글 작성 가능 여부 - 전체 : 모두 가능(비회원 + 회원 + 관리자), 회원 + 관리자 , 관리자
         Board board = item.getBoard();
         Authority authority = board.getCommentAccessType();
-        if(authority == Authority.ALL || memberUtil.isAdmin()){
+        if (authority == Authority.ALL || memberUtil.isAdmin()) {
             commentable = true;
         }
 
-        if(authority == Authority.ALL && memberUtil.isLogin()){
+        if (authority == Authority.USER && memberUtil.isLogin()) {
             commentable = true;
         }
 
@@ -402,31 +404,31 @@ public class BoardInfoService {
         item.setCommentable(commentable);
         item.setMine(mine);
 
-        //게시글 버튼 노출 권한 처리 S
+        /* 게시글 권한 정보 처리 E */
+
+        // 게시글 버튼 노출 권한 처리 S
         boolean showEditButton = false, showListButton = false, showDeleteButton = false;
 
-        Authority editAuthority = board.getCommentAccessType(); //글작성 수정권한
-        Authority listAuthority = board.getListAccessType(); //글목록 보기 권한
+        Authority editAuthority = board.getWriteAccessType(); // 글작성, 수정 권한
+        Authority listAuthority = board.getListAccessType(); // 글목록 보기 권한
 
-        if(editAuthority == Authority.ALL || boardMember == null ||
-                (editAuthority == Authority.USER && memberUtil.isLogin())){ //수정 삭제 권한이 ALL인 경우 비회원인 경우 수정, 삭제 버튼 클릭시 비회원 검증 하므로 노출
+
+        if (editAuthority == Authority.ALL || boardMember == null ||
+                (editAuthority == Authority.USER && memberUtil.isLogin())) { // 수정 삭제 권한이 ALL인 경우, 비회원인 경우, 회원만 가능한 경우 + 로그인한 경우 수정, 삭제 버튼 클릭시 비회원 검증 하므로 노출
             showEditButton = showDeleteButton = true;
         }
 
-        if(listAuthority == Authority.ALL || listAuthority == Authority.USER && memberUtil.isLogin()){
+        if (listAuthority == Authority.ALL || (listAuthority == Authority.USER && memberUtil.isLogin())) {
             showListButton = true;
         }
 
-        if(memberUtil.isAdmin()){ //관리자는 모든 권한 가능
+        if (memberUtil.isAdmin()) { // 관리자는 모든 권한 가능
             showEditButton = showDeleteButton = showListButton = true;
         }
 
         item.setShowEditButton(showEditButton);
+        item.setShowDeleteButton(showDeleteButton);
         item.setShowListButton(showListButton);
-        item.setShowListButton(showListButton);
-        //게시글 버튼 노출 권한 처리 E
-
-
-        /* 게시글 권한 정보 처리 E*/
+        // 게시글 버튼 노출 권한 처리 E
     }
 }
