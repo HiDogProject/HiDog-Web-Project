@@ -16,7 +16,7 @@ const commonLib = {
             let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
             rootUrl = rootUrl === '/' ? '' : rootUrl;
 
-             url = /^http[s]?/i.test(rootUrl) ? rootUrl + url : location.protocol + "//" + location.host + rootUrl + url;
+            url = rootUrl.includes("http") ? rootUrl + url.replace("/", "") : location.protocol + "//" + location.host + url;
 
             // url = location.protocol + "//" + location.host + rootUrl + url;
         }

@@ -42,7 +42,6 @@ public class MemberUtil {
                 memberInfo.setMember(member);
             }
         }
-
         return member;
     }
 }

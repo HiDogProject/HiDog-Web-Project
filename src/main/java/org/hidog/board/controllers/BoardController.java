@@ -170,8 +170,15 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model, HttpSession session) {
+    public String view(@PathVariable("seq") Long seq, Model model, @ModelAttribute BoardDataSearch search, HttpSession session) {
         commonProcess(seq, "view", model);
+
+        if(board.isShowListBelowView()){
+            ListData<BoardData> data = boardInfoService.getList(board.getBid(), search);
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
+        }
+
         orderProcess(seq, session);
 
         //boardInfoService.get(seq);
@@ -258,6 +265,7 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("addScript", addScript);
         model.addAttribute("board", board); // 게시판 설정
         model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("mode", mode);
     }
 
     /**

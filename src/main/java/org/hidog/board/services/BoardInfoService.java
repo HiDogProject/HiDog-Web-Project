@@ -77,6 +77,9 @@ public class BoardInfoService {
         String sopt = search.getSort(); // 검색 옵션
         String skey = search.getSkey(); // 검색 키워드
 
+        List<String> categories = search.getCategory();
+        Boolean notice = search.getNotice();
+
 
         /* 검색 처리 S*/
         QBoardData boardData = QBoardData.boardData;
@@ -100,6 +103,16 @@ public class BoardInfoService {
             andBuilder.and(boardData.board.bid.in(bids));
         }
 
+
+        //분류 검색 처리
+        if(categories != null && !categories.isEmpty()){
+            andBuilder.and(boardData.category.in(categories));
+        }
+
+        //공지글 검색
+        if(notice != null){
+            andBuilder.and(boardData.notice.eq(notice));
+        }
         /**
          * 조건 검색 처리
          *
