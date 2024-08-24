@@ -10,6 +10,7 @@ import org.hidog.order.entities.OrderInfo;
 import org.hidog.order.services.OrderInfoService;
 import org.hidog.order.services.OrderPayService;
 import org.hidog.order.services.OrderSaveService;
+import org.hidog.payment.constants.BankCode;
 import org.hidog.payment.constants.PayMethod;
 import org.hidog.payment.services.PaymentConfig;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,9 @@ public class OrderController implements ExceptionProcessor {
     public List<String[]> payMethods(){
         return PayMethod.getList();
     }
+
+    @ModelAttribute("bankCodes")
+    public List<String[]> bankCodes(){ return BankCode.getList(); }
 
     @GetMapping //주문서양식
     public String index(@ModelAttribute RequestOrder form, HttpSession session, Model model){

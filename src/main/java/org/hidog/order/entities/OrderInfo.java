@@ -73,11 +73,13 @@ public class OrderInfo extends BaseEntity {
     @Column(length = 40)
     private String payBankAccount; //가상 계좌
 
-    @Column(length = 40)
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private BankCode refundBankCode; //환불 계좌 은행
-    @Column(length = 40)
+
+    @Column(length = 60)
     private String refundAcctNum; //환불 계좌 번호
+
     @Column(length = 40)
     private String refundAcctName; //환불 계좌 예금주명
 
