@@ -65,12 +65,10 @@ const mainMapLib = {
                         .then(response => {
                             console.log('Server Response:', response);
                                 callback(response);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
 
-                    let content = `
+
+                                // info 창 구현
+                            let content = `
                     <div style='position: static; display: flex; flex-direction: column; align-items: center; font-size: 14px; box-shadow: 5px 5px 5px #00000040; border-radius: 10px; top: 410px; left: 500px; width: 200px; background: #E0F7FA;'>
                         <div class='img-box' style='position: relative; width: 70%; height: 50px; margin-top: 10px; border-radius: 10px; background: #B2EBF2 url(https://github.com/user-attachments/assets/992cd994-72b8-4320-aed6-6dbd2b86557d) no-repeat center;'></div>
                         <div class='info-box' style='padding: 10px; width: 100%; color: #006064; text-align: center;'>
@@ -94,16 +92,23 @@ const mainMapLib = {
                                 </li>
                             </ul>
                         </div>
-                        <a href='javascript:void(0)' onclick='onClose()' class='btn-close' style='position: absolute; top: 10px; right: 10px; display: block; width: 15px; height: 15px; background: url(resources/images/sample/btn-close-w.svg) no-repeat center;'></a>
                     </div>`;
 
-                    //Popup 객체 생성.
-                    infoWindow = new Tmapv2.InfoWindow({
-                        position: new Tmapv2.LatLng(latFixed, lngFixed), //Popup 이 표출될 맵 좌표
-                        content: content, //Popup 표시될 text
-                        type: 2, //Popup의 type 설정.
-                        map: this.map //Popup이 표시될 맵 객체
-                    });
+                            //Popup 객체 생성.
+                            infoWindow = new Tmapv2.InfoWindow({
+                                position: new Tmapv2.LatLng(latFixed, lngFixed), //Popup 이 표출될 맵 좌표
+                                content: content, //Popup 표시될 text
+                                type: 2, //Popup의 type 설정.
+                                map: this.map //Popup이 표시될 맵 객체
+                            });
+
+
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+
                     clickDeparturePoint = [];
 
                     function callback(response) {
@@ -144,11 +149,16 @@ const mainMapLib = {
                         marker.setMap(null);
                     });
                     mainMapLib.viaMarkers = [];
+
                     this.hideRoute();
                     clickable = true;
                     console.log("재클릭");
                     this.resultDrawArr = [];
+
                     infoWindow.setVisible(false);
+                    mainMapLib.subject = null;
+                    mainMapLib.content = null;
+                    mainMapLib.poster = null;
                 }
             });
         }
