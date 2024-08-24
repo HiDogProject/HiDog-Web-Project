@@ -21,7 +21,7 @@
                   th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
         </div>
         <div class="links">
-            <a th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" th:text="#{찜}"></a>
+            <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">찜</span>
             <a th:href="*{@utils.redirectUrl('/order')}" th:text="#{구매}"></a>
         </div>
         <div class="product_info2">
