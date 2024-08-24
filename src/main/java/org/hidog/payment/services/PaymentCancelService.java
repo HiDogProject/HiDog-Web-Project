@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 public class PaymentCancelService {
 
     private final OrderInfoService orderInfoService;
+    private final PayLogUpdateService payLogUpdateService;
     private final PaymentConfigService paymentConfigService;
     private final RestTemplate restTemplate;
     private final ObjectMapper om;
@@ -47,7 +48,6 @@ public class PaymentCancelService {
         String tid = orderInfo.getPayTid();
         String authUrl = "https://iniapi.inicis.com/api/v1/refund";
 
-        System.out.println(config);
 
         String iniApiKey = config.getIniApiKey();
         String iniApiIv = config.getIniApiIv();
@@ -58,7 +58,6 @@ public class PaymentCancelService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String formattedDate = dateTime.format(formatter);
 
-        System.out.println("Formatted Date: " + formattedDate);
 
         String ip =" 127.0.0.1";
 
@@ -70,7 +69,6 @@ public class PaymentCancelService {
             e.printStackTrace();
         }
 
-        System.out.println(orderInfo + "!!!!!!");
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("type", "Refund");
@@ -81,6 +79,7 @@ public class PaymentCancelService {
         params.add("tid", tid);
         params.add("msg", message);
         params.add("hashData",hashData);
+        System.out.println("params : " + params + "!!!!");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -88,18 +87,19 @@ public class PaymentCancelService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(URI.create(authUrl), request, String.class);
-        System.out.println(response + "!!!!!!");
+        System.out.println("response : " + response + "!!!!!!");
 
         if (response.getStatusCode().is2xxSuccessful()) {
             try {
                 Map<String, String> resultMap = om.readValue(response.getBody(), new TypeReference<>() {});
                 if (!resultMap.get("resultCode").equals("00")) {
                 }
-                String newPayLog = resultMap.entrySet()
+                String payLog = resultMap.entrySet()
                         .stream()
                         .map(entry -> String.format("%s : %s", entry.getKey(), entry.getValue())).collect(Collectors.joining("\n"));
-                String currentPayLog = orderInfo.getPayLog();
-                orderInfo.setPayLog(currentPayLog + "\n" + newPayLog);
+
+
+                payLogUpdateService.update(orderNo, payLog);
 
             }catch (JsonProcessingException e) {
                 throw new RuntimeException(e);

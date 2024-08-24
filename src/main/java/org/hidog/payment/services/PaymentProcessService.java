@@ -105,7 +105,7 @@ public class PaymentProcessService {
 
                 return PayConfirmResult.builder()
                         .orderNo(Long.valueOf(resultMap.get("MOID")))
-                        .tid("tid")
+                        .tid(resultMap.get("tid"))
                         .payMethod(payMethod)
                         .bankName(resultMap.get("vactBankName")) // 가상계좌은행
                         .bankAccount(resultMap.get("VACT_Num")) // 가상계좌번호
