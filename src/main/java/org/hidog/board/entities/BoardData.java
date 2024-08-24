@@ -1,5 +1,6 @@
 package org.hidog.board.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor @AllArgsConstructor
 @Table(indexes = {
         @Index(name="idx_boardData_basic", columnList = "notice DESC, listOrder DESC, listOrder2 ASC, createdAt DESC")

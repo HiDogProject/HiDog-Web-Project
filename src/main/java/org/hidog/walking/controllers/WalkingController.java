@@ -50,12 +50,13 @@ public class WalkingController {
 
     @ResponseBody
     @PostMapping("/map")
-    public String postMainMap(@RequestBody Map<String, List<Map<String, String>>> data) throws JsonProcessingException {
+    public Map<String, Object> postMainMap(@RequestBody Map<String, List<Map<String, String>>> data) throws JsonProcessingException {
         // Ajax로 선택한 마커 "clickDeparturePoint" 데이터 받아옴
         List<Map<String, String>> clickDeparturePoint = data.get("clickDeparturePoint");
 
-        String viaPoints = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);
-        System.out.println("viapoints:" + viaPoints);
-        return viaPoints;
+        Map<String, Object>  boardData = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);
+//        System.out.println("viapoints:" + viaPoints);
+
+        return boardData;
     }
 }
