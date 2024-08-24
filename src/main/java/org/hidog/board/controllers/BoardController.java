@@ -33,7 +33,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
-@SessionAttributes({"boardData"}) // 수정이후에는 세션 비우기?
+@SessionAttributes({"boardData","board"}) // 수정이후에는 세션 비우기?
 public class BoardController implements ExceptionProcessor {
 
     private final BoardConfigInfoService configInfoService;
@@ -276,7 +276,10 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("mode", mode);
 
         //권한 체크
-        authService.check(mode, board.getBid());
+
+        if(List.of("write","list").contains(mode)) {
+            authService.check(mode, board.getBid());
+        }
     }
 
     /**
