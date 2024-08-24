@@ -1,6 +1,5 @@
 package org.hidog.board.services;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hidog.board.entities.Board;
@@ -81,12 +80,8 @@ public class BoardAuthService {
      * @param mode - write, list
      */
     public void check(String mode, String bid){
-        if(board == null && StringUtils.hasText(bid)){
+        if (board == null && StringUtils.hasText(bid)) {
             board = configInfoService.get(bid).orElseThrow(BoardNotFoundException::new);
-            HttpSession session = request.getSession();
-            if(!boardData.isEditable()){
-                memberUtil.isLogin()
-            }
         }
         check(mode, 0L);
     }

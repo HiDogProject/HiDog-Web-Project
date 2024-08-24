@@ -3,7 +3,6 @@ package org.hidog.board.services;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.entities.BoardView;
-import org.hidog.board.entities.BoardViewId;
 import org.hidog.board.entities.QBoardView;
 import org.hidog.board.repositories.BoardDataRepository;
 import org.hidog.board.repositories.BoardViewRepository;
