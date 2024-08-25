@@ -5,8 +5,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.SHA512;
+import org.hidog.order.constants.OrderStatus;
 import org.hidog.order.entities.OrderInfo;
 import org.hidog.order.services.OrderInfoService;
+import org.hidog.order.services.OrderStatusService;
 import org.hidog.payment.constants.PayMethod;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +35,7 @@ public class PaymentCancelService {
     private final OrderInfoService orderInfoService;
     private final PayLogUpdateService payLogUpdateService;
     private final PaymentConfigService paymentConfigService;
+    private final OrderStatusService orderStatusService;
     private final RestTemplate restTemplate;
     private final ObjectMapper om;
 
@@ -79,7 +82,6 @@ public class PaymentCancelService {
         params.add("tid", tid);
         params.add("msg", message);
         params.add("hashData",hashData);
-        System.out.println("params : " + params + "!!!!");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -87,7 +89,6 @@ public class PaymentCancelService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(URI.create(authUrl), request, String.class);
-        System.out.println("response : " + response + "!!!!!!");
 
         if (response.getStatusCode().is2xxSuccessful()) {
             try {
@@ -100,6 +101,7 @@ public class PaymentCancelService {
 
 
                 payLogUpdateService.update(orderNo, payLog);
+                orderStatusService.change(orderNo,OrderStatus.CANCEL);
 
             }catch (JsonProcessingException e) {
                 throw new RuntimeException(e);

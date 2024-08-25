@@ -54,6 +54,7 @@ public class PaymentProcessService {
         String orderNumber = result.getOrderNumber();
         String redirectUrl = utils.redirectUrl("/order/order_fail?orderNo=" + orderNumber);
 
+
         if (!result.getResultCode().equals("0000")) { // 인증 실패시
 
             // 결제 승인 취초
@@ -96,6 +97,9 @@ public class PaymentProcessService {
                 Map<String, String> resultMap = om.readValue(response.getBody(), new TypeReference<>() {});
                 if (!resultMap.get("resultCode").equals("0000")) {
                     return null;
+                }
+                if(resultMap.get("payMethod").equals("VCard")){ //신용카드 ISP결제시 VCard로 나옴
+                    resultMap.put("payMethod", "Card");
                 }
                 PayMethod payMethod = PayMethod.valueOf(resultMap.get("payMethod").toUpperCase()); //대문자로 변경
 
