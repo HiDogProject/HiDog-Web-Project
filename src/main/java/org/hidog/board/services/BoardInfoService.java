@@ -108,7 +108,7 @@ public class BoardInfoService {
 
 
         //분류 검색 처리
-        if(categories != null && !categories.isEmpty()){
+        if (categories != null && !categories.isEmpty()){
             andBuilder.and(boardData.category.in(categories));
         }
 
@@ -116,6 +116,7 @@ public class BoardInfoService {
         if(notice != null){
             andBuilder.and(boardData.notice.eq(notice));
         }
+
         /**
          * 조건 검색 처리
          *

@@ -14,5 +14,5 @@ public class BoardView {
 
     @Id
     @Column(name="_uid")
-    private Integer uid; //비회원 - guestUid(), 회원 - 회원번호
+    private Integer uid; // 비회원 - guestUid(), 회원 - 회원번호
 }

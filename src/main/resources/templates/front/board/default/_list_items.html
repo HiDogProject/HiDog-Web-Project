@@ -3,6 +3,7 @@
 <th:block th:fragment="items">
 
     <div th:replace="~{common/_search_top}"></div>
+    <nav th:replace="~{front/board/default/_common::categorylink}"></nav>
 
     <div class="board_list layout_width">
         <div class="flex sb aic" th:if="${mode == null || mode != 'search'}">
@@ -21,6 +22,7 @@
                     <span class="notice" th:if="*{notice}">
                         [<th:block th:text="#{공지}"></th:block>]
                     </span>
+                    <span class="category" th:if="*{category != null && category != ''}" th:text="*{'[' + category +']'}" ></span>
                     <th:block th:text="*{subject}"></th:block>
                 </a>
 
@@ -28,7 +30,7 @@
                     <span class="poster">
                         <th:block th:text="*{poster}"></th:block>
                         <th:block th:if="*{member != null}"
-                                  th:text="*{'(' + member.userName + ')'}"></th:block>
+                                  th:text="*{'(' + member.email + ')'}"></th:block>
                     </span>
                     <span class="view_count">
                         조회수 :
@@ -43,6 +45,6 @@
         </ul>
     </div>
     <!--// board_list -->
-    <th:block th:replace="~{common/_pagination}"></th:block>
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </th:block>
 </html>
