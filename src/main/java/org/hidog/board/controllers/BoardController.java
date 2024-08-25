@@ -258,6 +258,8 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
+        } else if (mode.equals("view")) { // 게시글 보기의 경우
+            addScript.add("board/" + skin + "/view");
         }
 
         if (skin.equals("walking")) {
