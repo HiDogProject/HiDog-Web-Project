@@ -15,7 +15,7 @@
                 <dt th:text="#{프로필}"></dt>
 
                 <dd>
-                    <button type="button" class="fileUploads" th:data-gid="${loggedMember.email}" data-image-only="true" data-single="true" th:text="#{이미지_선택}"></button>
+                    <div class="fileUploads profile-image" th:data-gid="${loggedMember.email}"></div>
                 </dd>
             </dl>
 
