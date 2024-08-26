@@ -65,7 +65,7 @@ public class MyPageController implements ExceptionProcessor {
 
         memberSaveService.save(form);
 
-        return "redirect:" + utils.redirectUrl("/mypage/myhome");
+        return "redirect:" + utils.redirectUrl("/mypage");
     }
 
 //    @PostMapping("/post")
@@ -97,6 +97,7 @@ public class MyPageController implements ExceptionProcessor {
         } else if (mode.equals("info")) {
             addCommonScript.add("fileManager");
             addScript.add("mypage/info");
+            addCss.add("mypage/info");
             pageTitle = "회원 정보 수정";
         } else if (mode.equals("post")) {
             addCss.add("mypage/post");
