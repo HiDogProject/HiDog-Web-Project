@@ -23,7 +23,7 @@ public class MainMapMarkerService {
 
     public List<Double> startMarkerLocation() {
         List<Double> result = new ArrayList<>();
-        List<BoardData> boardDataList = dataRepository.findAll();
+        List<BoardData> boardDataList = dataRepository.findByLongText1IsNotNull();
 
         for (BoardData boardData : boardDataList) {
             String jsonData = boardData.getLongText1();
