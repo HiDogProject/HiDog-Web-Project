@@ -2,7 +2,6 @@ package org.hidog.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hidog.board.services.BoardInfoService;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.member.MemberUtil;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/mypage")
@@ -28,12 +26,11 @@ public class MyPageController implements ExceptionProcessor {
 
     private final ProfileUpdateValidator profileUpdateValidator;
     private final MemberSaveService memberSaveService;
-    private final BoardInfoService boardInfoService;
     private final Utils utils;
     private final MemberUtil memberUtil;
 
     // 마이 페이지 홈
-    @GetMapping("/myhome")
+    @GetMapping
     public String myHome() {
 
         return utils.tpl("mypage/myhome");
@@ -86,8 +83,6 @@ public class MyPageController implements ExceptionProcessor {
 //    }
 
     private void commonProcess(String mode, Model model) {
-
-        mode = Objects.requireNonNullElse(mode, "myhome");
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
