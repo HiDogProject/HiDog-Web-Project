@@ -60,6 +60,7 @@ public class SecurityConfig {
             authorizeRequests.requestMatchers("/mypage/**", "/order").authenticated()//회원 전용
                     .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                     .anyRequest().permitAll();
+
         });
         http.exceptionHandling(c -> {
             c.authenticationEntryPoint(new MemberAuthenticationEntryPoint())//예외
