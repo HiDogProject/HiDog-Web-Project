@@ -37,9 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Transactional
@@ -442,5 +440,18 @@ public class BoardInfoService {
         // 게시글 버튼 노출 권한 처리 E
 
 
+    }
+
+    public Map<String, Object> getMarkerPoint(Long seq) {
+        Optional<BoardData> boardData = boardDataRepository.findById(seq);
+        String departurePoint = boardData.get().getLongText1();
+        String viaPoints = boardData.get().getLongText2();
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("departurePoint", departurePoint);
+        data.put("viaPoints", viaPoints);
+
+        return data;
     }
 }
