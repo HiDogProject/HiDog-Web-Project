@@ -1,5 +1,7 @@
 package org.hidog.board.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -177,7 +180,7 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session) throws JsonProcessingException {
         commonProcess(seq, "view", model);
 
         if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
@@ -192,6 +195,17 @@ public class BoardController implements ExceptionProcessor {
 
         //boardInfoService.get(seq);
 
+        String skin = board.getSkin(); // 스킨
+
+        if (skin.equals("walking")) {
+            Map<String, Object> markerPoint = boardInfoService.getMarkerPoint(seq);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonString = objectMapper.writeValueAsString(markerPoint);
+            System.out.println("markerPoint:" + jsonString);
+
+            model.addAttribute("markerPoint", jsonString);
+        }
 
         return utils.tpl("board/view");
     }
@@ -264,6 +278,7 @@ public class BoardController implements ExceptionProcessor {
 
         if (skin.equals("walking")) {
             addCommonScript.add("map");
+            addScript.add("board/walking/view");
         }
 
         // 게시글 제목으로 title을 표시 하는 경우

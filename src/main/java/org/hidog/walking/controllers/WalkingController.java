@@ -34,6 +34,7 @@ public class WalkingController {
 
         List<Double> startMarker = mainMapMarkerService.startMarkerLocation(); // 출발 좌표
 
+        model.addAttribute("startMarker", startMarker);
 
         addScript.add("walking/mainMapMark");
         addScript.add("walking/mainMap");
@@ -42,7 +43,6 @@ public class WalkingController {
 
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
-        model.addAttribute("startMarker", startMarker);
         model.addAttribute("addCommonCss", List.of("map"));
         model.addAttribute("addCss", List.of("walking/style"));
 
