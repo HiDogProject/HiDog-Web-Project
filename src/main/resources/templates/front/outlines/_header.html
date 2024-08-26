@@ -3,32 +3,34 @@
 
     <header th:fragment="common">
 
-        <h1>상단 영역</h1>
+        <h1 class="hn">Hi Dog</h1>
 
         <nav>
-            <ul class="menu-bar">
-                <li th:block th:if="${isLogin == null || !isLogin}"
-                    <a th:href="${@utils.redirectUrl('/member/login')}">
-                        <button type="submit" th:text="#{로그인}"></button>
+            <ul class="menus">
+
+                <li th:block class="iL" th:if="${isLogin == null || !isLogin}">
+
+                    <a class="hba" th:href="${@utils.redirectUrl('/member/login')}">
+                        <button type="submit" class="hb" th:text="#{로그인}"></button>
                     </a>
 
-                    <a th:href="${@utils.redirectUrl('/member/join')}">
-                        <button type="submit" th:text="#{회원가입}"></button>
+                    <a class="hba" th:href="${@utils.redirectUrl('/member/join')}">
+                        <button type="submit" class="hb" th:text="#{회원가입}"></button>
                     </a>
                 </li>
 
-                <li th:block th:if="${isLogin != null && isLogin}">
+                <li th:block class="iL" th:if="${isLogin != null && isLogin}">
 
-                    <a th:href="${@utils.redirectUrl('/member/logout')}">
-                        <button type="submit" th:text="#{로그아웃}"></button>
+                    <a class="hba" th:href="${@utils.redirectUrl('/member/logout')}">
+                        <button type="submit" class="hb" th:text="#{로그아웃}"></button>
                     </a>
 
-                    <a th:href="${@utils.redirectUrl('/mypage')}">
-                        <button type="submit" th:text="#{마이_페이지}"></button>
+                    <a class="hba" th:href="${@utils.redirectUrl('/mypage')}">
+                        <button type="submit" class="hb" th:text="#{마이_페이지}"></button>
                     </a>
 
-                    <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="${@utils.redirectUrl('/admin')}" target="_blank">
-                        <button type="submit" th:text="#{관리자_페이지}"></button>
+                    <a class="hba" sec:authorize="hasAnyAuthority('ADMIN')" th:href="${@utils.redirectUrl('/admin')}" target="_blank">
+                        <button type="submit" class="hb" th:text="#{관리자_페이지}"></button>
                     </a>
                 </li>
             </ul>
