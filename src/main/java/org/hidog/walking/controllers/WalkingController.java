@@ -34,6 +34,7 @@ public class WalkingController {
 
         List<Double> startMarker = mainMapMarkerService.startMarkerLocation(); // 출발 좌표
 
+        model.addAttribute("startMarker", startMarker);
 
         addScript.add("walking/mainMapMark");
         addScript.add("walking/mainMap");
@@ -42,7 +43,6 @@ public class WalkingController {
 
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
-        model.addAttribute("startMarker", startMarker);
         model.addAttribute("addCommonCss", List.of("map"));
         model.addAttribute("addCss", List.of("walking/style"));
 
@@ -53,7 +53,6 @@ public class WalkingController {
     @PostMapping("/map")
     public Map<String, Object> postMainMap(@RequestBody Map<String, List<Map<String, String>>> data) throws JsonProcessingException {
         // Ajax로 선택한 마커 "clickDeparturePoint" 데이터 받아옴
-        System.out.println("컨트롤러 유입");
         List<Map<String, String>> clickDeparturePoint = data.get("clickDeparturePoint");
 
         Map<String, Object>  boardData = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);

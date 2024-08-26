@@ -29,7 +29,9 @@
         <th:block th:replace="~{front/board/walking/_view::view}"></th:block>
         <th:block th:if="${board.skin == 'walking'}">
             <th:block th:replace="~{front/board/walking/_list_items::items}"></th:block>
+        <div th:data-markerPoint="*{markerPoint}"></div>
         </th:block>
+
     </th:block>
 
     <!-- Market Skin -->
