@@ -177,7 +177,7 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(seq, "view", model);
 
         if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
@@ -186,11 +186,16 @@ public class BoardController implements ExceptionProcessor {
             model.addAttribute("pagination", data.getPagination());
         }
 
+        // 댓글 커맨드 객체 처리 S
+        RequestComment requestComment = new RequestComment();
+        if (memberUtil.isLogin()) {
+            requestComment.setCommenter(memberUtil.getMember().getUserName());
+        }
+
+        model.addAttribute("requestComment", requestComment);
+        // 댓글 커맨드 객체 처리 E
+
         viewCountService.update(seq); // 조회수 증가
-
-        orderProcess(seq, session);
-
-        //boardInfoService.get(seq);
 
 
         return utils.tpl("board/view");
@@ -212,6 +217,23 @@ public class BoardController implements ExceptionProcessor {
         return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
 
+    /**
+     * 비회원 비밀번호 검증
+     *
+     * @param password
+     * @param model
+     * @return
+     */
+    @PostMapping("/password")
+    public String confirmGuestPassword(@RequestParam("password") String password, Model model) {
+
+        authService.validate(password, boardData);
+
+        String script = "parent.location.reload();";
+        model.addAttribute("script", script);
+
+        return "common/_execute_script";
+    }
 
     /**
      * 게시판 설정이 필요한 공통 처리(모든 처리)
@@ -308,6 +330,7 @@ public class BoardController implements ExceptionProcessor {
     }
 
     @Override
+    @ExceptionHandler(Exception.class)
     public ModelAndView errorHandler(Exception e, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         if (e instanceof UnAuthorizedException unAuthorizedException) {
@@ -321,8 +344,9 @@ public class BoardController implements ExceptionProcessor {
 
             return mv;
         } else if ( e instanceof GuestPasswordCheckException passwordCheckException) {
-
             mv.setStatus(passwordCheckException.getStatus());
+            mv.addObject("board", board);
+            mv.addObject("boardData", boardData);
             mv.setViewName(utils.tpl("board/password"));
             return mv;
         }

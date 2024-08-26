@@ -25,7 +25,7 @@
                     </a>
                 </li>
 
-                <li th:block th:if="${!isLogin}">
+                <li th:block th:if="${isLogin == null || !isLogin}">
                     <a th:href="${@utils.redirectUrl('/member/login')}">
                         <button type="submit" th:text="#{로그인}"></button>
                     </a>
@@ -35,7 +35,7 @@
                     </a>
                 </li>
 
-                <li th:block th:if="${isLogin}">
+                <li th:block th:if="${isLogin != null && isLogin}">
 
                     <a th:href="${@utils.redirectUrl('/member/logout')}">
                         <button type="submit" th:text="#{로그아웃}"></button>
