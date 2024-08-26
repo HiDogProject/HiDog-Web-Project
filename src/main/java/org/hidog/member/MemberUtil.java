@@ -43,6 +43,8 @@ public class MemberUtil {
                 member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
 
                 memberInfo.setMember(member);
+
+                infoService.addInfo(member);
             }
         }
         return member;
