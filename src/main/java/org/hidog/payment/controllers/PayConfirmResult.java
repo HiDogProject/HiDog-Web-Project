@@ -15,5 +15,6 @@ public class PayConfirmResult {
     private String bankName; //가상계좌 입금은행
     private String bankAccount; //가상계좌번호
     private String cancelUrl; //취소 URL
+    private Long timestamp;
 
 }

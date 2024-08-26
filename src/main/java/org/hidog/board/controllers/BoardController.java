@@ -1,15 +1,14 @@
 package org.hidog.board.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.exceptions.BoardNotFoundException;
-import org.hidog.board.services.BoardConfigInfoService;
-import org.hidog.board.services.BoardDeleteService;
-import org.hidog.board.services.BoardInfoService;
-import org.hidog.board.services.BoardSaveService;
+import org.hidog.board.exceptions.GuestPasswordCheckException;
+import org.hidog.board.services.*;
 import org.hidog.board.validators.BoardValidator;
 import org.hidog.file.constants.FileStatus;
 import org.hidog.file.entities.FileInfo;
@@ -17,6 +16,7 @@ import org.hidog.file.services.FileInfoService;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
+import org.hidog.global.exceptions.UnAuthorizedException;
 import org.hidog.global.services.ApiConfigService;
 import org.hidog.member.MemberUtil;
 import org.springframework.stereotype.Controller;
@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
-@SessionAttributes({"boardData"}) // 수정이후에는 세션 비우기?
+@SessionAttributes({"boardData","board"}) // 수정이후에는 세션 비우기?
 public class BoardController implements ExceptionProcessor {
 
     private final BoardConfigInfoService configInfoService;
@@ -42,14 +43,19 @@ public class BoardController implements ExceptionProcessor {
     private final BoardValidator boardValidator;
     private final Utils utils;
     private final ApiConfigService apiConfigService;
-
+    private final BoardViewCountService viewCountService;
+    private final BoardAuthService authService;
     private final MemberUtil memberUtil;
     private final FileInfoService fileInfoService;
 
 
-
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
+
+    @ModelAttribute("mainClass")
+    public String mainClass(){
+        return "board-main layout-width";
+    }
 
     // 티맵 api 키 조회
     @ModelAttribute("tmapJavascriptKey")
@@ -146,6 +152,7 @@ public class BoardController implements ExceptionProcessor {
 
     /**
      * 게시글 목록
+     *
      * @param bid : 게시판 아이디
      * @param model
      * @return
@@ -170,8 +177,17 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model, HttpSession session) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session) {
         commonProcess(seq, "view", model);
+
+        if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
+            ListData<BoardData> data = boardInfoService.getList(board.getBid(), search);
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
+        }
+
+        viewCountService.update(seq); // 조회수 증가
+
         orderProcess(seq, session);
 
         //boardInfoService.get(seq);
@@ -193,7 +209,7 @@ public class BoardController implements ExceptionProcessor {
 
         boardDeleteService.delete(seq);
 
-        return utils.redirectUrl("/board/list/" + board.getBid());
+        return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
 
 
@@ -242,6 +258,8 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
+        } else if (mode.equals("view")) { // 게시글 보기의 경우
+            addScript.add("board/" + skin + "/view");
         }
 
         if (skin.equals("walking")) {
@@ -258,6 +276,13 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("addScript", addScript);
         model.addAttribute("board", board); // 게시판 설정
         model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("mode", mode);
+
+        //권한 체크
+
+        if(List.of("write","list").contains(mode)) {
+            authService.check(mode, board.getBid());
+        }
     }
 
     /**
@@ -271,13 +296,38 @@ public class BoardController implements ExceptionProcessor {
      * @param mode
      * @param model
      */
-    protected void commonProcess(Long seq, String mode, Model model) {
-        // 게시글 조회(엔티티)
+    private void commonProcess(Long seq, String mode, Model model) {
+
         boardData = boardInfoService.get(seq);
 
         model.addAttribute("boardData", boardData);
-
+        model.addAttribute("board", boardData.getBoard());
         commonProcess(boardData.getBoard().getBid(), mode, model);
+
+        authService.check(mode, seq); // 권한 체크
+    }
+
+    @Override
+    public ModelAndView errorHandler(Exception e, HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        if (e instanceof UnAuthorizedException unAuthorizedException) {
+            String message = unAuthorizedException.getMessage();
+            message = unAuthorizedException.isErrorCode() ? utils.getMessage(message) : message;
+            String script = String.format("alert('%s');history.back();", message);
+
+            mv.setStatus(unAuthorizedException.getStatus());
+            mv.setViewName("common/_execute_script");
+            mv.addObject("script", script);
+
+            return mv;
+        } else if ( e instanceof GuestPasswordCheckException passwordCheckException) {
+
+            mv.setStatus(passwordCheckException.getStatus());
+            mv.setViewName(utils.tpl("board/password"));
+            return mv;
+        }
+        e.printStackTrace();
+        return ExceptionProcessor.super.errorHandler(e, request);
     }
 
     protected void orderProcess(Long seq, HttpSession session) {

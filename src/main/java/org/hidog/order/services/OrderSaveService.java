@@ -37,12 +37,15 @@ public class OrderSaveService {
         int qty = num2 == null && num2 > 1L ? 1: num2.intValue();
         String itemName = boardData.getText1();
 
+
+
         /* 주문서 정보 저장 S*/
         OrderInfo orderInfo = new ModelMapper().map(form, OrderInfo.class);
         orderInfo.setPayMethod(PayMethod.valueOf(form.getPayMethod()));
         orderInfo.setOrderNo(orderNo);
         orderInfo.setMember(memberUtil.getMember());
         orderInfo.setStatus(OrderStatus.START);
+
 
         String orderMobile = form.getOrderMobile();
         if(StringUtils.hasText(orderMobile)){

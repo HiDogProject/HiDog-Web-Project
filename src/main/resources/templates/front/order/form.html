@@ -115,6 +115,30 @@
                 </span>
             </dd>
         </dl>
+        <h3 th:text="#{환불_계좌}"></h3>
+        <dl>
+            <dt th:text="#{예금주}"></dt>
+            <dd>
+                <input type="text" name="refundAcctName" th:field="*{refundAcctName}">
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{입금_은행}"></dt>
+            <dd>
+                <select th:field="*{refundBankCode}">
+                    <option th:each="refund : ${bankCodes}"
+                            th:value="${refund[1]}"
+                            th:text="${refund[2]}">
+                    </option>
+                </select>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{계좌_번호}"></dt>
+            <dd>
+                <input type="number" name="refundAcctNum" th:field="*{refundAcctNum}">
+            </dd>
+        </dl>
         <h3 th:text="#{주문_약관}"></h3>
         <div>
             약관...
@@ -131,5 +155,6 @@
         <th:block th:replace="~{front/order/_payment::payform}"></th:block>
     </th:block>
 </main>
+
 
 </html>

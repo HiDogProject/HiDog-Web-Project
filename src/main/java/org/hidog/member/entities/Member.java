@@ -2,6 +2,7 @@ package org.hidog.member.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hidog.file.entities.FileInfo;
 import org.hidog.global.entities.BaseEntity;
 
 import java.io.Serializable;
@@ -37,5 +38,9 @@ public class Member extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Authorities> authorities;
 
-    private String profileImage;
+    @Transient
+    private FileInfo profileImage;
+
+    @Column(length=45, nullable = false)
+    private String gid;
 }

@@ -46,14 +46,5 @@
             <div class="error" th:each="err : ${#fields.errors('num2')}" th:text="${err}"></div>
         </dd>
     </dl>
-    <div class="image-upload-container">
-        <div class="image-upload-placeholder">
-            <span>
-                <i class="xi-camera-o xi-4x insert-editor" data-url="[fileUrl]"></i>
-            </span>
-            <input type="file" accept="image/*" id="image-upload-input" multiple style="display:none;" />
-        </div>
-    </div>
-    <div id="image-preview-container"></div>
 </th:block>
 </html>
