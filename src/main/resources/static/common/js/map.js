@@ -15,12 +15,12 @@ const tmapLib = {
         this.height = height ?? '600px';
         this.zoom = zoom || 17;
 
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const { latitude, longitude } = pos.coords;
+        // navigator.geolocation.getCurrentPosition((pos) => {
+        //     const { latitude, longitude } = pos.coords;
 
             // 현재 위치 기반으로 지도 띄우기
             this.map = new Tmapv2.Map(mapId, {
-                center: new Tmapv2.LatLng(latitude, longitude),
+                center: new Tmapv2.LatLng(37.55643383051803, 126.94502484798474),
                 width: this.width,
                 height: this.height,
                 zoom: this.zoom,
@@ -77,7 +77,7 @@ const tmapLib = {
                     this.currentAction = 'via'
                 }
             });
-        });
+        // });
     },
 
     // 경로 그리기
