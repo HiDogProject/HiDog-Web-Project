@@ -62,8 +62,8 @@ const viewMapLib = {
         this.height = height ?? '800px';
         this.zoom = zoom || 17;
 
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const { latitude, longitude } = pos.coords;
+        // navigator.geolocation.getCurrentPosition((pos) => {
+        //     const { latitude, longitude } = pos.coords;
 
             this.map = new Tmapv2.Map(mapId, {
                 center: this.departure,
@@ -77,7 +77,7 @@ const viewMapLib = {
             if (typeof this.init === 'function') {
                 this.init();
             }
-        });
+        // });
     },
 
     async route() {
