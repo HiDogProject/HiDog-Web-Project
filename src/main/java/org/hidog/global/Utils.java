@@ -194,7 +194,7 @@ public class Utils { // 빈의 이름 - utils
     }
 
     /**
-     * 비회원을 구분하는 Unique Id
+     * 비회원을 구분하는 Unique Id - 조회수
      * IP + User-Agent
      * @return
      */

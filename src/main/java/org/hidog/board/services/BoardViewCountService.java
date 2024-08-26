@@ -30,7 +30,7 @@ public class BoardViewCountService {
         BoardView boardView = new BoardView(seq, uid);
         viewRepository.saveAndFlush(boardView);
 
-        //전체 조회수
+        // 전체 조회수
         QBoardView bv = QBoardView.boardView;
         long total = viewRepository.count(bv.seq.eq(seq));
 

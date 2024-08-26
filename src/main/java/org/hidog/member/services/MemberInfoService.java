@@ -1,6 +1,8 @@
 package org.hidog.member.services;
 
 import lombok.RequiredArgsConstructor;
+import org.hidog.file.entities.FileInfo;
+import org.hidog.file.services.FileInfoService;
 import org.hidog.member.MemberInfo;
 import org.hidog.member.constants.Authority;
 import org.hidog.member.entities.Authorities;
@@ -19,6 +21,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MemberInfoService implements UserDetailsService {
     private final MemberRepository memberRepository;
+    private final FileInfoService fileInfoService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -39,6 +42,19 @@ public class MemberInfoService implements UserDetailsService {
                 .authorities(authorities)
                 .member(member)
                 .build();
+    }
+
+    /**
+     * 회원 추가 데이터 처리
+     *
+     * @param member
+     */
+    public void addMemberInfo(Member member) {
+        String gid = member.getGid();
+        List<FileInfo> items = fileInfoService.getList(gid);
+        if (items != null && !items.isEmpty()) {
+            member.setProfileImage(items.get(0));
+        }
     }
 
 }

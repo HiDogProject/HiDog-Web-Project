@@ -152,6 +152,7 @@ public class BoardController implements ExceptionProcessor {
 
     /**
      * 게시글 목록
+     *
      * @param bid : 게시판 아이디
      * @param model
      * @return
@@ -176,16 +177,16 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model, @ModelAttribute BoardDataSearch search, HttpSession session) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session) {
         commonProcess(seq, "view", model);
 
-        if(board.isShowListBelowView()){
+        if (board.isShowListBelowView()) { // 게시글 하단에 목록 보여주기
             ListData<BoardData> data = boardInfoService.getList(board.getBid(), search);
             model.addAttribute("items", data.getItems());
             model.addAttribute("pagination", data.getPagination());
         }
 
-        viewCountService.update(seq); //조회수 증가
+        viewCountService.update(seq); // 조회수 증가
 
         orderProcess(seq, session);
 
@@ -257,6 +258,8 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
+        } else if (mode.equals("view")) { // 게시글 보기의 경우
+            addScript.add("board/" + skin + "/view");
         }
 
         if (skin.equals("walking")) {
