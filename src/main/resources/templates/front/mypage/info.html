@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/mypage}">
 
-    <section layout:fragment="content">
+    <main layout:fragment="content">
 
         <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/info.css}">
 
@@ -76,5 +76,5 @@
                 <button type="submit" class="btn" th:text="#{변경_사항_저장}"></button>
             </div>
         </form>
-    </section>
+    </main>
 </html>
