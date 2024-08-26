@@ -5,7 +5,7 @@
 
         <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/info.css}">
 
-        <h1 th:text="#{회원_정보}">회원 정보</h1>
+        <h1 th:text="${pageTitle}"></h1>
 
         <form name="frmSave" method="POST" th:action="${@utils.redirectUrl('/mypage/info')}" autocomplete="off" th:object="${requestProfile}">
 

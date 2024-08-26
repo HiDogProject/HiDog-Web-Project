@@ -41,11 +41,12 @@ public class MainMapMarkerService {
                 e.printStackTrace();
             }
         }
-        System.out.println(result);
         return result;
     }
 
     public Map<String, Object> viaMarkerLocation(List<Map<String, String>> point) throws JsonProcessingException {
+        System.out.println("유입");
+
         String jsonString = objectMapper.writeValueAsString(point);
 
         BoardData boardData = dataRepository.findByLongText1(jsonString);
@@ -53,12 +54,14 @@ public class MainMapMarkerService {
         String poster = boardData.getPoster();
         String subject = boardData.getSubject();
         String content = boardData.getContent();
+        String seq = String.valueOf(boardData.getSeq());
 
         Map<String, Object> data = new HashMap<>();
         data.put("viaPoints", viaPoints);
         data.put("poster", poster);
         data.put("subject", subject);
         data.put("content", content);
+        data.put("seq", seq);
 
         return data;
     }

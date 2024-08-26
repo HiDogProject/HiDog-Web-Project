@@ -4,19 +4,34 @@
       layout:decorate="~{front/layouts/main}">
 
 <main layout:fragment="content">
-    <div id="mapId"></div>
-    <div th:data-startMarker="*{startMarker}"></div>
-    <div id="infoBox">
-        <div id="infoContent">
-            <div class="img-box"></div>
-            <div class="info-box">
-                <p class="info-title" th:text="${subject}">기본 제목</p>
-                <p class="info-content" th:text="${content}">기본 내용</p>
-                <p class="info-poster" th:text="${poster}">글쓴이</p>
+    <div class="container">
+        <div id="mapId" class="map"></div>
+        <div th:data-startMarker="*{startMarker}"></div>
+        <div id="infoBox" class="info-box">
+            <div id="infoContent" class="info-box-content">
+                <div class="img-box"></div>
+                <p class="info-title" id="infoTitle" th:text="${subject != null ? subject : '게시글 제목'}">
+                    게시글 제목
+                </p>
+                <p class="info-content" id="infoContent" th:text="${content != null ? content : '게시글 내용'}">
+                    게시글 내용
+                </p>
+                <p class="info-poster" id="infoPoster" th:text="${poster != null ? poster : '글쓴이'}">
+                    글쓴이
+                </p>
+                <ul class="btn-group">
+                    <li>
+                        <a href="#" title="게시글 가기">
+                            <img src="https://github.com/user-attachments/assets/ee5cbff7-8855-4950-8153-9acae4582203" alt="게시글 가기">
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </main>
 
-
 </html>
+
+
+<!--http://localhost:3000/app/board/view/3002-->
