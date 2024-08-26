@@ -31,8 +31,9 @@ public class MyPageController implements ExceptionProcessor {
 
     // 마이 페이지 홈
     @GetMapping
-    public String myHome() {
+    public String myHome(Model model) {
 
+        commonProcess("", model); // 페이지 제목 설정을 위해 호출
         return utils.tpl("mypage/myhome");
     }
 
@@ -90,13 +91,22 @@ public class MyPageController implements ExceptionProcessor {
 
         String pageTitle = ""; // 기본 페이지 제목
 
-        if (mode.equals("info")) {
+        if (mode.equals("")) {
+            addCss.add("mypage/myhome");
+            pageTitle = "마이 페이지";
+        } else if (mode.equals("info")) {
             addCommonScript.add("fileManager");
             addScript.add("mypage/info");
             pageTitle = "회원 정보 수정";
         } else if (mode.equals("post")) {
             addCss.add("mypage/post");
             pageTitle = "내 게시글";
+        } else if (model.equals("like")) {
+            addCss.add("mypage/like");
+            pageTitle = "찜 목록";
+        } else if (model.equals("sellAndBuy")) {
+            addCss.add("mypage/sellAndBuy");
+            pageTitle = "상점";
         }
 
         model.addAttribute("addCommonScript", addCommonScript);
