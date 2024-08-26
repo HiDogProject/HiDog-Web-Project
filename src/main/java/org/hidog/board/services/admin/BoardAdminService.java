@@ -16,30 +16,30 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BoardAdminService {
-
     private final BoardDataRepository dataRepository;
-    private final ModelMapper modelMapper;
     private final PasswordEncoder encoder;
+    private final ModelMapper modelMapper;
 
-    public List<BoardData> update(String mode, List<BoardData> items){
-        if(items == null){
+    public List<BoardData> update(String mode, List<BoardData> items) {
+
+        if (items == null || items.isEmpty()) {
             String modeStr = mode.equals("delete") ? "삭제" : "수정";
             throw new BadRequestException(String.format("%s할 게시글을 선택하세요.", modeStr));
         }
 
         List<BoardData> updateItems = new ArrayList<>();
-        for(BoardData item : items){
+        for (BoardData item : items) {
             BoardData original = dataRepository.findById(item.getSeq()).orElse(null);
-            if(original == null) continue;
+            if (original == null) continue;
 
-            if(mode.equals("delete")){//삭제
+            if (mode.equals("delete")) { // 삭제
                 dataRepository.delete(original);
-            }else{//수정
-                original.setPoster(item.getPoster()); // 작성자
-                original.setSubject(item.getSubject()); // 게시글 제목
-                original.setContent(item.getContent()); // 게시글 내용
-                original.setCategory(item.getCategory()); // 게시판 분류
-                original.setEditorView(item.getBoard().isUseEditor()); // 에디터 사용유무
+            } else { // 수정
+                original.setPoster(item.getPoster());
+                original.setSubject(item.getSubject());
+                original.setContent(item.getContent());
+                original.setCategory(item.getCategory());
+                original.setEditorView(item.getBoard().isUseEditor());
 
                 original.setNum1(item.getNum1());
                 original.setNum2(item.getNum2());
@@ -53,34 +53,36 @@ public class BoardAdminService {
                 original.setLongText2(item.getLongText2());
                 original.setLongText3(item.getLongText3());
 
-                // 비회원 비밀번호 처리(해시화)
+                // 비회원 비밀번호 처리
                 String guestPw = item.getGuestPw();
                 if (StringUtils.hasText(guestPw)) {
                     original.setGuestPw(encoder.encode(guestPw));
                 }
+
                 original.setNotice(item.isNotice());
                 updateItems.add(original);
             }
         }
-        if(mode.equals("delete")){
+
+        if (mode.equals("delete")) {
             dataRepository.flush();
+
             return items;
-        }else{
+        } else { // 수정
             dataRepository.saveAllAndFlush(updateItems);
             return updateItems;
         }
     }
 
-    public BoardData update(String mode, BoardData item){
+    public BoardData update(String mode, BoardData item) {
         List<BoardData> items = update(mode, List.of(item));
 
         return items.get(0);
     }
 
-    public BoardData update(String mode, RequestBoard form){
+    public BoardData update(String mode, RequestBoard form) {
         BoardData data = modelMapper.map(form, BoardData.class);
-        return update(mode,data);
 
+        return update(mode, data);
     }
-
 }
