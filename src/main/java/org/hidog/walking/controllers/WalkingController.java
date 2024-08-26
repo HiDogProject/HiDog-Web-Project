@@ -44,6 +44,7 @@ public class WalkingController {
         model.addAttribute("addScript", addScript);
         model.addAttribute("startMarker", startMarker);
         model.addAttribute("addCommonCss", List.of("map"));
+        model.addAttribute("addCss", List.of("walking/style"));
 
         return utils.tpl("walking/map");
     }
@@ -56,7 +57,6 @@ public class WalkingController {
         List<Map<String, String>> clickDeparturePoint = data.get("clickDeparturePoint");
 
         Map<String, Object>  boardData = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);
-        System.out.println("boardData:" + boardData);
 
         return boardData;
     }

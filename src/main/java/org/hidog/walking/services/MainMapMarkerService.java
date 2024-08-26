@@ -54,14 +54,15 @@ public class MainMapMarkerService {
         String poster = boardData.getPoster();
         String subject = boardData.getSubject();
         String content = boardData.getContent();
+        String seq = String.valueOf(boardData.getSeq());
 
         Map<String, Object> data = new HashMap<>();
         data.put("viaPoints", viaPoints);
         data.put("poster", poster);
         data.put("subject", subject);
         data.put("content", content);
+        data.put("seq", seq);
 
-        System.out.println("abc" + data);
         return data;
     }
 }

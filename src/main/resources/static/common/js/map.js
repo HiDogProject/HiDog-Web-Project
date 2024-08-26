@@ -40,7 +40,7 @@ const tmapLib = {
                     this.departure = e.latLng;
                     console.log(e.latLng);
                     this.arrival = e.latLng;
-                    opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg'
+                    opt.icon = 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9'
                     opt.iconSize = new Tmapv2.Size(50, 50);
                     const startMarker = new Tmapv2.Marker(opt);
                     this.markers.push(startMarker);
@@ -68,8 +68,8 @@ const tmapLib = {
                         return;
                     }
                     this.via.push(e.latLng);
-                    opt.icon = 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f6a9.svg'
-                    opt.iconSize = new Tmapv2.Size(50, 50);
+                    opt.icon = 'https://github.com/user-attachments/assets/62de235a-400d-4f78-b865-e4ab7d061828'
+                    opt.iconSize = new Tmapv2.Size(35, 35);
                     const marker = new Tmapv2.Marker(opt);
                     this.markers.push(marker);
                     this.currentAction = null;

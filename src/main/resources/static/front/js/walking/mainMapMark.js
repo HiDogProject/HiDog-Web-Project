@@ -11,10 +11,10 @@ const mainMapLib = {
     height: '600px',
     zoom: 17,
     currentAction: null,
-    subject: null,
-    poster: null,
-    content: null,
-
+    subject: "게시글 제목",
+    poster: "작성자",
+    content: "게시글 내용",
+    seq: null,
     init() {
         const startMarkerElement = document.querySelector('[data-startMarker]');
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
@@ -27,7 +27,7 @@ const mainMapLib = {
             const opt = {
                 position: new Tmapv2.LatLng(lat, lng),
                 map: this.map,
-                icon: 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f415.svg',
+                icon: 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9',
                 iconSize: new Tmapv2.Size(50, 50)
             };
 
@@ -82,8 +82,9 @@ const mainMapLib = {
                     this.subject = null;
                     this.content = null;
                     this.poster = null;
+                    this.seq = null;
 
-                    this.updateInfoBox(this.subject, this.content, this.poster);
+                    this.updateInfoBox(this.subject, this.content, this.poster, this.seq);
                 }
             });
         }
@@ -171,8 +172,8 @@ const mainMapLib = {
     drawLine(arrPoint) {
         const polyline_ = new Tmapv2.Polyline({
             path: arrPoint,
-            strokeColor: '#ff0090',
-            strokeWeight: 6,
+            strokeColor: 'rgba(178,102,53,0.22)',
+            strokeWeight: 4.5,
             map: this.map
         });
         this.resultDrawArr.push(polyline_);
@@ -190,6 +191,7 @@ const mainMapLib = {
         this.subject = response.subject;
         this.poster = response.poster;
         this.content = response.content;
+        this.seq = response.seq;
 
         const viaPoints = JSON.parse(response.viaPoints);
         console.log("viaPoints", viaPoints);
@@ -201,8 +203,8 @@ const mainMapLib = {
             const opt = {
                 position: new Tmapv2.LatLng(lat, lng),
                 map: this.map,
-                icon: 'https://notion-emojis.s3-us-west-2.amazonaws.com/prod/svg-twitter/1f6a9.svg',
-                iconSize: new Tmapv2.Size(50, 50)
+                icon: 'https://github.com/user-attachments/assets/62de235a-400d-4f78-b865-e4ab7d061828',
+                iconSize: new Tmapv2.Size(35, 35)
             };
 
             const viaMarker = new Tmapv2.Marker(opt);
@@ -212,16 +214,23 @@ const mainMapLib = {
         this.route();
 
         // 인포박스 업데이트
-        this.updateInfoBox(this.subject, this.content, this.poster);
+        this.updateInfoBox(this.subject, this.content, this.poster, this.seq);
     },
 
-    updateInfoBox(subject, content, poster) {
+    updateInfoBox(subject, content, poster, seq) {
         const infoBox = document.getElementById('infoBox');
+        if (infoBox) {
             const titleEl = infoBox.querySelector('.info-title');
             const contentEl = infoBox.querySelector('.info-content');
             const posterEl = infoBox.querySelector('.info-poster');
-            if (titleEl) titleEl.textContent = subject || null;
-            if (contentEl) contentEl.textContent = content || null;
-            if (posterEl) posterEl.textContent = poster || null;
+            const seqEl = infoBox.querySelector('.info-seq');
+
+            if (titleEl) titleEl.innerHTML = subject || "제목";
+            if (contentEl) contentEl.innerHTML = content || "게시글 내용";
+            if (posterEl) posterEl.innerHTML = poster || "작성자";
+            if (seqEl) seqEl.innerHTML = seq || "";
+        }
     }
+
+
 };
