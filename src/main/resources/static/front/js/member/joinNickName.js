@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        fetch(`/app/member/join/check-username?userName=${encodeURIComponent(userName)}`)
+        fetch(`/member/join/check-username?userName=${encodeURIComponent(userName)}`)
             .then(response => response.json()) // JSON 응답 처리
             .then(isTaken => {
                 if (isTaken) {
