@@ -85,10 +85,10 @@
 
         <!-- 약관 동의 체크박스 -->
         <div class="terms">
-            <div class="tit">회원가입 약관</div>
+            <div class="tit" th:text="#{회원가입_약관}"></div>
             <div class="terms-contents">약관 내용 뭐하지</div>
             <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}" />
-            <label for="agree">약관 동의</label>
+            <label for="agree" th:text="#{약관_동의}"></label>
             <div class="error" th:if="${#fields.hasErrors('agree')}" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
         </div>
 

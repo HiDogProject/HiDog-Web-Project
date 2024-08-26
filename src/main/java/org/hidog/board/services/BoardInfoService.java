@@ -14,10 +14,12 @@ import org.hidog.board.controllers.BoardDataSearch;
 import org.hidog.board.controllers.RequestBoard;
 import org.hidog.board.entities.Board;
 import org.hidog.board.entities.BoardData;
+import org.hidog.board.entities.CommentData;
 import org.hidog.board.entities.QBoardData;
 import org.hidog.board.exceptions.BoardDataNotFoundException;
 import org.hidog.board.exceptions.BoardNotFoundException;
 import org.hidog.board.repositories.BoardDataRepository;
+import org.hidog.board.services.comment.CommentInfoService;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.FileInfoService;
 import org.hidog.global.CommonSearch;
@@ -52,6 +54,7 @@ public class BoardInfoService {
     private final FileInfoService fileInfoService;
     private final WishListService wishListService;
     private final BoardControllerAdvice board;
+    private final CommentInfoService commentInfoService;
 
 
     /**
@@ -269,6 +272,10 @@ public class BoardInfoService {
         // 추가 데이터 처리
         addInfo(item);
 
+        // 댓글 목록
+        List<CommentData> comments = commentInfoService.getList(seq);
+        item.setComments(comments);
+
         return item;
     }
 
@@ -279,6 +286,7 @@ public class BoardInfoService {
     /**
      * BoardData(엔티티) -> RequestBoard(커맨드객체)
      * 게시글 데이터(BoardData), 게시글 번호(Long)
+     *
      * @return
      */
     public RequestBoard getForm(Long seq, DeleteStatus status) {
