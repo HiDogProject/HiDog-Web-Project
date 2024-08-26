@@ -1,5 +1,6 @@
 package org.hidog.board.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -142,4 +143,8 @@ public class BoardData extends BaseEntity { // extends BaseEntity : 날짜와 �
 
     @Transient
     private String formattedCreatedAt; // 게시글 조회용 날짜
+
+    @Transient
+    @JsonIgnore
+    private List<CommentData> comments; // 댓글 목록
 }

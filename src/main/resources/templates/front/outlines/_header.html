@@ -1,31 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
     <header th:fragment="common">
 
         <h1>상단 영역</h1>
 
         <nav>
             <ul class="menu-bar">
-                <li>
-                    <a th:href="${@utils.redirectUrl('/')}">
-                        <button type="submit" th:text="#{메인화면}"></button>
-                    </a>
-                </li>
-
-                <li>
-                    <a th:href="${@utils.redirectUrl('/walking/map')}">
-                        <button type="submit" th:text="#{맵}"></button>
-                    </a>
-                </li>
-
-                <li>
-                    <a th:href="${@utils.redirectUrl('/board/list' + bid)}">
-                        <button type="submit" th:text="#{게시판}"></button>
-                    </a>
-                </li>
-
-                <li th:block th:if="${!isLogin}">
+                <li th:block th:if="${isLogin == null || !isLogin}"
                     <a th:href="${@utils.redirectUrl('/member/login')}">
                         <button type="submit" th:text="#{로그인}"></button>
                     </a>
@@ -35,13 +17,13 @@
                     </a>
                 </li>
 
-                <li th:block th:if="${isLogin}">
+                <li th:block th:if="${isLogin != null && isLogin}">
 
                     <a th:href="${@utils.redirectUrl('/member/logout')}">
                         <button type="submit" th:text="#{로그아웃}"></button>
                     </a>
 
-                    <a th:href="${@utils.redirectUrl('/mypage/myhome')}">
+                    <a th:href="${@utils.redirectUrl('/mypage')}">
                         <button type="submit" th:text="#{마이_페이지}"></button>
                     </a>
 

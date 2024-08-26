@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
     <main layout:fragment="content">
-        <h1 th:text="#{판매_내역_구매_내역_보기}">판매 내역 및 구매 내역</h1>
+        <h1 th:text="${pageTitle}"></h1>
         <form name="frmSellAndBuy" method="post" th:action="@{/mypage/sellAndBuy}" autocomplete="off">
             <input type="hidden" name="_csrf" th:value="${_csrf.token}">
 
