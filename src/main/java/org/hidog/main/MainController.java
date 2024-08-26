@@ -30,7 +30,7 @@ public class MainController {
 //    @GetMapping("/main/index2")
 //    public String boardList(Model model) {
 //
-//         List<String[]> boardList = configInfoService.getBoardList();
+//        List<String[]> boardList = configInfoService.getBoardList();
 //
 //        model.addAttribute("boardList", boardList);
 //
