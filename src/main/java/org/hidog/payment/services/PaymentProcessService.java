@@ -47,11 +47,13 @@ public class PaymentProcessService {
         PaymentConfig config = configService.get();
         String signKey = config.getSignKey();
 
-        long timestamp = new Date().getTime();
+        Long timestamp = new Date().getTime();
+
 
         // 인증 실패, 승인 실패시 이동할 주소
         String orderNumber = result.getOrderNumber();
         String redirectUrl = utils.redirectUrl("/order/order_fail?orderNo=" + orderNumber);
+
 
         if (!result.getResultCode().equals("0000")) { // 인증 실패시
 
@@ -96,6 +98,9 @@ public class PaymentProcessService {
                 if (!resultMap.get("resultCode").equals("0000")) {
                     return null;
                 }
+                if(resultMap.get("payMethod").equals("VCard")){ //신용카드 ISP결제시 VCard로 나옴
+                    resultMap.put("payMethod", "Card");
+                }
                 PayMethod payMethod = PayMethod.valueOf(resultMap.get("payMethod").toUpperCase()); //대문자로 변경
 
                 String payLog = resultMap.entrySet()
@@ -104,11 +109,12 @@ public class PaymentProcessService {
 
                 return PayConfirmResult.builder()
                         .orderNo(Long.valueOf(resultMap.get("MOID")))
-                        .tid("tid")
+                        .tid(resultMap.get("tid"))
                         .payMethod(payMethod)
                         .bankName(resultMap.get("vactBankName")) // 가상계좌은행
                         .bankAccount(resultMap.get("VACT_Num")) // 가상계좌번호
                         .payLog(payLog)
+                        .timestamp(timestamp)
                         .build();
 
             } catch (JsonProcessingException e) {

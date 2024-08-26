@@ -41,7 +41,15 @@ public class RequestOrder {
 
     private String deliveryMemo; //배송 매모
 
+    @NotBlank
     private String payMethod = PayMethod.CARD.name(); //결제수단
+
+
+    private String refundBankCode; //환불 계좌 은행
+
+    private String refundAcctNum; //환불 계좌 번호
+
+    private String refundAcctName; //환불 계좌 예금주
 
     @AssertTrue
     private boolean agree; //약관동의
