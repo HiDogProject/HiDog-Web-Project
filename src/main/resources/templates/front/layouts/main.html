@@ -26,9 +26,7 @@
           th:each="cssFile: ${addCss}" th:href="${@utils.url(#strings.concat('/front/css/', cssFile, '.css'))}">
     <th:block layout:fragment="addCss"></th:block>
 
-    <th:block th:if="${skipCommonJs != true}">
-        <script th:src="${@utils.url('/common/js/common.js')}"></script>
-    </th:block>
+    <script th:src="${@utils.url('/common/js/common.js')}"></script>
     <script th:src="${@utils.url('/front/js/common.js')}"></script>
 
     <th:block layout:fragment="addCommonScript"></th:block>
