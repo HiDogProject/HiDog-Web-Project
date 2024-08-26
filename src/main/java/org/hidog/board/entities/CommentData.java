@@ -2,10 +2,7 @@ package org.hidog.board.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hidog.global.entities.BaseEntity;
 import org.hidog.member.entities.Member;
 
@@ -14,19 +11,17 @@ import org.hidog.member.entities.Member;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(indexes = @Index(name="idx_comment_basic", columnList = "listOrder DESC, createdAt ASC"))
+@Table(indexes = @Index(name="idx_comment_basic", columnList = "createdAt ASC"))
 public class CommentData extends BaseEntity {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private Long seq;
 
+    @ToString.Exclude
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="boardDataSeq")
     private BoardData boardData;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="memberSeq")
     private Member member;
 
     @Column(length=40, nullable = false)
@@ -45,21 +40,12 @@ public class CommentData extends BaseEntity {
     @Column(length=150)
     private String ua; // 작성자 User-Agent 정보
 
-    private long listOrder; // 댓글 1차 정렬 기준
-    private int depth; // 대댓글 들여쓰기 정도
-
     @Transient
-    private boolean editable; // 수정 가능 여부
-
-    @Transient
-    private boolean deletable; // 삭제 가능 여부
+    private boolean editable; // 수정, 삭제 가능 여부
 
     @Transient
     private boolean mine; // 소유자
 
     @Transient
-    private boolean showEditButton; // 수정 버튼 노출 여부
-
-    @Transient
-    private boolean showDeleteButton; // 삭제 버튼 노출 여부
+    private boolean showEdit; // 수정, 삭제 버튼 노출 여부
 }
