@@ -17,8 +17,7 @@
                 조회수 :
                 <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
             </span>
-            <span class="post_date"
-                  th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
+            <span class="post_date" th:text="${T(your.package.TimeUtils).formatRelativeTime(createdAt)}"></span>
         </div>
         <div class="links">
             <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">찜</span>
