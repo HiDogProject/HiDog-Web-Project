@@ -41,7 +41,6 @@ public class MemberUtil {
             member = memberInfo.getMember();
             if(member == null){
                 member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
-                infoService.addMemberInfo(member);
 
                 memberInfo.setMember(member);
             }

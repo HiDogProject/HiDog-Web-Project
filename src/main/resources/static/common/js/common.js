@@ -1,8 +1,13 @@
 const commonLib = {
     /**
-     * ajax 요청 공통 기능
+     * ajax 요청 공통 기능 (ajax 요청,응답 편의 함수)
      *
+     * @param url : 요청 URL
+     * @param method : 요청 방식 - GET, POST, PUT, PATCH, DELETE ...
+     * @param data
+     * @param headers
      * @param responseType : 응답 데이터 타입(text - text로, 그외는 json)
+     * @returns {Promise<unknown>}
      */
     ajaxLoad(url, method = "GET", data, headers, responseType) {
         if (!url) {
