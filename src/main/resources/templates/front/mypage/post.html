@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
-    <main layout:fragment="content">
-        <title>내가 쓴 글 보기</title>
-        <h1 th:text="#{내가_쓴_글_보기}"></h1>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/mypage}">
+
+    <section layout:fragment="content">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/post.css}">
+
+        <h1 th:text="#{내가_쓴_글_보기}">내가 쓴 글 보기</h1>
+
         <form name="frmPost" method="post" th:action="@{/mypage/post}" autocomplete="off">
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
 
             <table id="postTable">
                 <thead>
@@ -18,7 +21,7 @@
                 </thead>
 
                 <tbody>
-                    <tr th:each="post, iterStat : ${posts}">
+                    <tr th:each="post, iterStat : ${items}">
                         <td th:text="${iterStat.index + 1}">번호</td>
                         <td th:text="${post.poster}">작성자</td>
                         <td th:text="${post.subject}">제목</td>
@@ -27,6 +30,12 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="pagination">
+                <a th:href="@{${pagination.previousPageUrl}}" th:if="${pagination.hasPreviousPage}" class="prev">이전</a>
+                <span>페이지 <span th:text="${pagination.currentPage}">1</span> / <span th:text="${pagination.totalPages}">1</span></span>
+                <a th:href="@{${pagination.nextPageUrl}}" th:if="${pagination.hasNextPage}" class="next">다음</a>
+            </div>
         </form>
-    </main>
+    </section>
 </html>

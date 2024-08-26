@@ -2,6 +2,7 @@ package org.hidog.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hidog.board.services.BoardInfoService;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.member.MemberUtil;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/mypage")
@@ -26,6 +28,7 @@ public class MyPageController implements ExceptionProcessor {
 
     private final ProfileUpdateValidator profileUpdateValidator;
     private final MemberSaveService memberSaveService;
+    private final BoardInfoService boardInfoService;
     private final Utils utils;
     private final MemberUtil memberUtil;
 
@@ -53,6 +56,7 @@ public class MyPageController implements ExceptionProcessor {
     // 회원 정보 수정
     @PostMapping("/info")
     public String infoSave(@Valid RequestProfile form, Errors errors, Model model) {
+
         commonProcess("info", model);
 
         profileUpdateValidator.validate(form, errors);
@@ -66,18 +70,43 @@ public class MyPageController implements ExceptionProcessor {
         return "redirect:" + utils.redirectUrl("/mypage/myhome");
     }
 
+//    @PostMapping("/post")
+//    public String post(@ModelAttribute BoardDataSearch search, Model model) {
+//
+//        commonProcess("post", model);
+//
+//        search.setBid(memberUtil.getMember().getEmail());
+//
+//        ListData<BoardData> listData = boardInfoService.getList(search, DeleteStatus.UNDELETED);
+//
+//        model.addAttribute("items", listData.getItems());
+//        model.addAttribute("pagination", listData.getPagination());
+//
+//        return utils.tpl("mypage/post");
+//    }
+
     private void commonProcess(String mode, Model model) {
+
+        mode = Objects.requireNonNullElse(mode, "myhome");
+
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
         List<String> addCss = new ArrayList<>();
 
+        String pageTitle = ""; // 기본 페이지 제목
+
         if (mode.equals("info")) {
             addCommonScript.add("fileManager");
             addScript.add("mypage/info");
+            pageTitle = "회원 정보 수정";
+        } else if (mode.equals("post")) {
+            addCss.add("mypage/post");
+            pageTitle = "내 게시글";
         }
 
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
         model.addAttribute("addCss", addCss);
+        model.addAttribute("pageTitle", pageTitle); // 페이지 제목
     }
 }
