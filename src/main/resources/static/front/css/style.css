@@ -59,7 +59,7 @@ img { border: 0; }
 /* 헤더 영역 */
 header {
     background-color: snow;
-    padding: 15px;
+    padding: 10px 15px 15px 15px;
     border-bottom: 1px solid #e0e0e0;
 }
 
