@@ -217,6 +217,23 @@ public class BoardController implements ExceptionProcessor {
         return "redirect:" + utils.redirectUrl("/board/list/" + board.getBid());
     }
 
+    /**
+     * 비회원 비밀번호 검증
+     *
+     * @param password
+     * @param model
+     * @return
+     */
+    @PostMapping("/password")
+    public String confirmGuestPassword(@RequestParam("password") String password, Model model) {
+
+        authService.validate(password, boardData);
+
+        String script = "parent.location.reload();";
+        model.addAttribute("script", script);
+
+        return "common/_execute_script";
+    }
 
     /**
      * 게시판 설정이 필요한 공통 처리(모든 처리)

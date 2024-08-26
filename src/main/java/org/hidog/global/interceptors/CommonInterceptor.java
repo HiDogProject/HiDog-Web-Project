@@ -18,7 +18,9 @@ public class CommonInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+
         checkDevice(request);
+
 
         request.setAttribute("utils", utils);
 
@@ -26,14 +28,15 @@ public class CommonInterceptor implements HandlerInterceptor {
     }
 
     /**
-     * PC와 MOBILE 수동 변환
+     * PC와 Mobile 수동 변환
+     *
      * ?device=MOBILE
      * ?device=PC
      * @param request
      */
     private void checkDevice(HttpServletRequest request) {
         String device = request.getParameter("device");
-        if(!StringUtils.hasText(device)){
+        if (!StringUtils.hasText(device)) {
             return;
         }
 
