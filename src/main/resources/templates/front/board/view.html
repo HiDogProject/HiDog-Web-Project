@@ -12,7 +12,7 @@
     <th:block th:if="${board.skin == 'default'}">
         <th:block th:replace="~{front/board/walking/_common::pageTitle}"></th:block>
     </th:block>
-    
+
     <th:block th:if="${board.showListBelowView}">
         <th:block th:if="${board.skin == 'default'}">
             <th:block th:replace="~{front/board/default/_list_items::items}"></th:block>
