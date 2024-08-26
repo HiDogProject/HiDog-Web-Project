@@ -54,7 +54,7 @@ const mainMapLib = {
 
                     this.departure = this.arrival = position;
 
-                    commonLib.ajaxLoad('walking/map', 'POST', { clickDeparturePoint }, {
+                    commonLib.ajaxLoad('walking//map', 'POST', { clickDeparturePoint }, {
                         "Content-Type": "application/json"
                     })
                         .then(response => {
@@ -220,8 +220,8 @@ const mainMapLib = {
             const titleEl = infoBox.querySelector('.info-title');
             const contentEl = infoBox.querySelector('.info-content');
             const posterEl = infoBox.querySelector('.info-poster');
-            if (titleElem) titleEl.textContent = subject || null;
-            if (contentElem) contentEl.textContent = content || null;
-            if (posterElem) posterEl.textContent = poster || null;
+            if (titleEl) titleEl.textContent = subject || null;
+            if (contentEl) contentEl.textContent = content || null;
+            if (posterEl) posterEl.textContent = poster || null;
     }
 };

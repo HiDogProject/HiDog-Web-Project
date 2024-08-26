@@ -41,11 +41,12 @@ public class MainMapMarkerService {
                 e.printStackTrace();
             }
         }
-        System.out.println(result);
         return result;
     }
 
     public Map<String, Object> viaMarkerLocation(List<Map<String, String>> point) throws JsonProcessingException {
+        System.out.println("유입");
+
         String jsonString = objectMapper.writeValueAsString(point);
 
         BoardData boardData = dataRepository.findByLongText1(jsonString);
@@ -60,6 +61,7 @@ public class MainMapMarkerService {
         data.put("subject", subject);
         data.put("content", content);
 
+        System.out.println("abc" + data);
         return data;
     }
 }
