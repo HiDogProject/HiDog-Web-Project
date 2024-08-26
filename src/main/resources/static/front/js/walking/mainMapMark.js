@@ -1,12 +1,12 @@
 const mainMapLib = {
-    departure: null,
-    arrival: null,
-    departureList: [],
-    via: [],
-    markers: [],
-    viaMarkers: [],
-    resultDrawArr: [],
-    map: null,
+    departure: null, // 출발지 LatLng 객체
+    arrival: null, // 도착지 LatLng 객체
+    departureList: [], // DB 출발지 배열
+    via: [], // 경유지 LatLng 객체 배열
+    markers: [], // 마커
+    viaMarkers: [], // 경유 마커
+    resultDrawArr: [],  // 경로
+    map: null, // 지도 객체
     width: '100%',
     height: '600px',
     zoom: 17,
