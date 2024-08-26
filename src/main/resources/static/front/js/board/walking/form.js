@@ -126,6 +126,13 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    const submitEl = document.getElementById("submitBtn");
+    submitEl.addEventListener("click", function() {
+        if (tmapLib.resultDrawArr.length === 0) {
+            alert("출발 지점 및 경유 지점을 선택하세요.");
+            event.preventDefault();
+              }    })
+
 });
 
 /**
