@@ -63,7 +63,6 @@ public class MemberSaveService {
             throw new DuplicateMemberException();
         }
 
-        member.setEmail(form.getEmail());
         member.setUserName(userName);
         member.setAddress(form.getAddress());
         member.setDetailAddress(form.getDetailAddress());
