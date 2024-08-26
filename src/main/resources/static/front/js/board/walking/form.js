@@ -126,6 +126,13 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    const submitEl = document.getElementById("submitBtn");
+    submitEl.addEventListener("click", function() {
+        if (tmapLib.resultDrawArr.length === 0) {
+            alert("출발 지점 및 경유 지점을 선택하세요.");
+            event.preventDefault();
+              }    })
+
 });
 
 /**
@@ -140,36 +147,3 @@ function mapDrawingCallback(departurePoints, viaPoints) {
     frmSave.longText1.value = json;
     frmSave.longText2.value = json2;
 }
-
-
-
-
-
-// function loadMapCallback(data) {
-//     let locations= frmSave.longText1.value;
-//     if (!locations?.trim()) return;
-//
-//     locations = JSON.parse(locations);
-//     const start = locations.pop();
-//     data.arrival = data.departure = new Tmapv2.LatLng(start.lat, start.lng);
-//     data.via = locations.map(({lat, lng}) => new Tmapv2.LatLng(lat, lng));
-//
-//     data.route();
-// }
-
-/*
-
-// 제출 버튼 ajaxLoad 처리
-const submitEl = document.getElementById("submitBtn");
-submitEl.addEventListener("click", () => {
-      // DB 저장 경로 생성
-
-        via.forEach(point => this.push({lng: point.lng(), lat: point.lat()}), locations);
-
-        locations.push({lat: arrival.lat(), lng: arrival.lng()});
-
-        const {ajaxLoad} = commonLib;
-
-       // ajaxLoad("board/save", "POST", {locations}, {contentType: "application/json"})
-    });
-*/
