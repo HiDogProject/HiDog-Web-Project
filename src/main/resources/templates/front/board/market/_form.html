@@ -3,7 +3,7 @@
 <th:block th:fragment="form" th:object="${requestBoard}">
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <input type="hidden" name="gid" th:field="*{gid}">
-    <input type="hidden" name="gid" th:field="*{poster}">
+    <input type="hidden" name="poster" th:field="*{poster}">
 
     <h1 th:text="#{상품등록}"></h1>
 

@@ -6,13 +6,17 @@
 <main layout:fragment="content">
     <div id="mapId"></div>
     <div th:data-startMarker="*{startMarker}"></div>
-    <aside>
-        <input type="text" th:placeholder="#{검색어를_입력하세요.}">
-        <button type="submit" th:text="#{검색하기}"></button>
-        <ul>
-            <li>글1</li>
-            <li>글2</li>
-        </ul>
-    </aside>
+    <div id="infoBox">
+        <div id="infoContent">
+            <div class="img-box"></div>
+            <div class="info-box">
+                <p class="info-title" th:text="${subject}">기본 제목</p>
+                <p class="info-content" th:text="${content}">기본 내용</p>
+                <p class="info-poster" th:text="${poster}">글쓴이</p>
+            </div>
+        </div>
+    </div>
 </main>
+
+
 </html>
