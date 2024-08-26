@@ -40,7 +40,4 @@ public class Member extends BaseEntity implements Serializable {
 
     @Transient
     private FileInfo profileImage;
-
-    @Column(length=45, nullable = false)
-    private String gid;
 }
