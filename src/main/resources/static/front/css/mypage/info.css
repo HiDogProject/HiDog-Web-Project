@@ -113,24 +113,11 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
     margin-bottom: 5px;
 }
 
-/* 이미지 선택 버튼 */
-.fileUploads {
-    width: 150px;
-    padding: 8px 10px;
-    font-size: 15px;
-    color: #fff;
-    background-color: #9dc5f6;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    line-height: 24px;
-    height: 40px;
-}
-
-.fileUploads:hover {
-    background-color: #F5D2D2;
+.profile-image {
+    width: 250px;
+    height: 300px;
+    background: url("../../../common/img/noProfile") no-repeat center center;
+    border-radius: 50%;
 }
 
 /* 변경 저장 버튼 */
