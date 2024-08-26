@@ -5,6 +5,8 @@
 <main layout:fragment="content">
     <th:block th:if="${board.skin == 'default'}">
         <div th:replace="~{front/board/default/_common::pageTitle}"></div>
+    </th:block>
+    <th:block th:if="${board.skin == 'default'}">
         <th:block th:replace="~{front/board/default/_list_items::items}"></th:block>
     </th:block>
 
