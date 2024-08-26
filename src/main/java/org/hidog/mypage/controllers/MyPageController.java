@@ -4,14 +4,20 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
+import org.hidog.member.MemberUtil;
+import org.hidog.member.entities.Member;
 import org.hidog.member.services.MemberSaveService;
 import org.hidog.mypage.validators.ProfileUpdateValidator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/mypage")
@@ -19,8 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MyPageController implements ExceptionProcessor {
 
     private final ProfileUpdateValidator profileUpdateValidator;
-    private final MemberSaveService saveService;
+    private final MemberSaveService memberSaveService;
     private final Utils utils;
+    private final MemberUtil memberUtil;
 
     // 마이 페이지 홈
     @GetMapping("/myhome")
@@ -30,14 +37,23 @@ public class MyPageController implements ExceptionProcessor {
     }
 
     @GetMapping("/info")
-    public String info(@ModelAttribute RequestProfile form) {
+    public String info(@ModelAttribute RequestProfile form, Model model) {
+
+        commonProcess("info", model);
+
+        Member member = memberUtil.getMember();
+        form.setUserName(member.getUserName());
+        form.setAddress(member.getAddress());
+        form.setDetailAddress(member.getDetailAddress());
+        form.setEmail(member.getEmail());
 
         return utils.tpl("mypage/info");
     }
 
     // 회원 정보 수정
     @PostMapping("/info")
-    public String infoSave(@Valid RequestProfile form, Errors errors) {
+    public String infoSave(@Valid RequestProfile form, Errors errors, Model model) {
+        commonProcess("info", model);
 
         profileUpdateValidator.validate(form, errors);
 
@@ -45,8 +61,23 @@ public class MyPageController implements ExceptionProcessor {
             return utils.tpl("mypage/info");
         }
 
-        saveService.save(form);
+        memberSaveService.save(form);
 
-        return "redirect:" + utils.redirectUrl("mypage/myhome");
+        return "redirect:" + utils.redirectUrl("/mypage/myhome");
+    }
+
+    private void commonProcess(String mode, Model model) {
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
+        List<String> addCss = new ArrayList<>();
+
+        if (mode.equals("info")) {
+            addCommonScript.add("fileManager");
+            addScript.add("mypage/info");
+        }
+
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("addScript", addScript);
+        model.addAttribute("addCss", addCss);
     }
 }

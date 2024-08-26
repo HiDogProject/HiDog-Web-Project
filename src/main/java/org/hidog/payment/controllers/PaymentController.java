@@ -5,12 +5,14 @@ import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.order.entities.OrderInfo;
 import org.hidog.order.services.OrderPayService;
+import org.hidog.payment.services.PaymentCancelService;
 import org.hidog.payment.services.PaymentProcessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/payment")
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PaymentController implements ExceptionProcessor {
 
     private final PaymentProcessService processService;
+    private final PaymentCancelService cancelService;
     private final OrderPayService orderPayService;
     private final Utils utils;
 
@@ -33,6 +36,14 @@ public class PaymentController implements ExceptionProcessor {
 
         //주문 성공시에는 주문 상세 페이지로 이동.
         return "redirect:" + utils.redirectUrl("/order/detail/" + orderInfo.getOrderNo());
+    }
+
+    @GetMapping("/cancel/{orderNo}")
+    public String cancel(@PathVariable("orderNo") Long orderNo){
+
+        cancelService.cancel(orderNo,"단순변심");
+
+        return "redirect:" + utils.redirectUrl("/board/list/market");
     }
 
     @RequestMapping("/close")

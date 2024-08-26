@@ -41,6 +41,14 @@ window.addEventListener("DOMContentLoaded", function() {
     for (const el of els) {
         el.addEventListener("click", function() {
             const classList = this.classList; // 클래스 추가, 제거, 토글기능
+
+            // 로그인이 필요한 경우
+            if (classList.contains("required-login")) {
+                const rootUrl = document.querySelector("meta[name='rootUrl']").content;
+                location.href = `${rootUrl}member/login?redirectUrl=${location.pathname}${location.search}`;
+                return;
+            }
+
             const { seq, type } = this.dataset; // seq, type 가져오기 // 비구조화 할당
             if (!seq || !type) { //seq, type 는 필수
                 return;
