@@ -2,6 +2,7 @@ package org.hidog.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hidog.board.advices.BoardControllerAdvice;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.global.CommonSearch;
@@ -14,6 +15,7 @@ import org.hidog.member.services.MemberSaveService;
 import org.hidog.mypage.validators.ProfileUpdateValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +35,7 @@ public class MyPageController implements ExceptionProcessor {
     private final Utils utils;
     private final MemberUtil memberUtil;
     private final BoardInfoService boardInfoService;
+    private final BoardControllerAdvice board;
 
     // 마이 페이지 홈
     @GetMapping
@@ -73,6 +76,7 @@ public class MyPageController implements ExceptionProcessor {
         return "redirect:" + utils.redirectUrl("/mypage");
     }
 
+    // 게시글 목록
     @GetMapping("/post")
     public String myPost(@ModelAttribute CommonSearch search, Model model) {
 
@@ -84,7 +88,21 @@ public class MyPageController implements ExceptionProcessor {
         return utils.tpl("mypage/post");
     }
 
+    // 찜 목록
+    @GetMapping("/wishlist")
+    public String wishlist(@ModelAttribute CommonSearch search, Model model) {
+
+        ListData<BoardData> data = boardInfoService.getWishList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return utils.tpl("mypage/wishlist");
+    }
+
     private void commonProcess(String mode, Model model) {
+
+        mode = StringUtils.hasText(mode) ? mode : "main";
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
@@ -103,8 +121,8 @@ public class MyPageController implements ExceptionProcessor {
         } else if (mode.equals("post")) {
             addCss.add("mypage/post");
             pageTitle = "내 게시글";
-        } else if (model.equals("like")) {
-            addCss.add("mypage/like");
+        } else if (model.equals("wishlist")) {
+            addCss.add("mypage/wishlist");
             pageTitle = "찜 목록";
         } else if (model.equals("sellAndBuy")) {
             addCss.add("mypage/sellAndBuy");
