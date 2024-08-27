@@ -310,6 +310,41 @@ public class BoardInfoService {
     }
 
     /**
+     * 내가 작성한 게시글 목록
+     *
+     */
+    public ListData<BoardData> getMyList(CommonSearch search) {
+        if (!memberUtil.isLogin()) {
+            return new ListData<>();
+        }
+
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
+
+
+        QBoardData boardData = QBoardData.boardData;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(boardData.member.seq.eq(memberUtil.getMember().getSeq()));
+
+        List<BoardData> items = jpaQueryFactory.selectFrom(boardData)
+                .where(andBuilder)
+                .leftJoin(boardData.board)
+                .fetchJoin()
+                .offset(offset)
+                .limit(limit)
+                .orderBy(boardData.createdAt.desc())
+                .fetch();
+
+        long total = boardDataRepository.count(andBuilder);
+        int ranges = utils.isMobile() ? 5 : 10;
+        Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
+
+        return new ListData<>(items, pagination);
+    }
+
+    /**
      *  내가 찜한 게시글 목록 조회
      *
      * @param search
@@ -322,7 +357,6 @@ public class BoardInfoService {
         int limit = search.getLimit();
         limit = limit < 1 ? 10 : limit;
         int offset = limit * (page - 1); // jpa쿼리 팩토리 사용 위해 작성한 코드
-
 
         List<Long> seqs = wishListService.getList(WishType.BOARD);
         if(seqs == null || seqs.isEmpty()) {
@@ -351,7 +385,6 @@ public class BoardInfoService {
 
         return new ListData<>(items, pagination);
     }
-
 
     /**
      * 게시글 추가 정보 처리, 추가 데이터 처리
@@ -438,8 +471,6 @@ public class BoardInfoService {
         item.setShowDelete(showDelete);
         item.setShowList(showList);
         // 게시글 버튼 노출 권한 처리 E
-
-
     }
 
     public Map<String, Object> getMarkerPoint(Long seq) {

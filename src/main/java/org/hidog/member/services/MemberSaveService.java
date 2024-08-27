@@ -9,6 +9,7 @@ import org.hidog.member.entities.Authorities;
 import org.hidog.member.entities.Member;
 import org.hidog.member.entities.QMember;
 import org.hidog.member.exceptions.DuplicateMemberException;
+import org.hidog.member.exceptions.MemberNotFoundException;
 import org.hidog.member.repositories.AuthoritiesRepository;
 import org.hidog.member.repositories.MemberRepository;
 import org.hidog.mypage.controllers.RequestProfile;
@@ -55,11 +56,13 @@ public class MemberSaveService {
     public void save(RequestProfile form) {
         Member member = memberUtil.getMember();
 
+        String email = member.getEmail();
+        member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
         String userName = form.getUserName();
         String password = form.getPassword();
 
         QMember qMember = QMember.member;
-        if (memberRepository.exists(qMember.userName.eq(userName))) {
+        if (!member.getUserName().equals(userName) && memberRepository.exists(qMember.userName.eq(userName))) {
             throw new DuplicateMemberException();
         }
 

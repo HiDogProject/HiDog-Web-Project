@@ -20,8 +20,9 @@ public class MemberUtil {
     private final MemberInfoService infoService;
 
     public boolean isLogin() {
-        return getMember() != null;
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo;
+    } // 오류 발생하므로 코드 수정
 
     public boolean isAdmin() {
         if (isLogin()) {
@@ -43,6 +44,8 @@ public class MemberUtil {
                 member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
 
                 memberInfo.setMember(member);
+
+                infoService.addInfo(member);
             }
         }
         return member;
