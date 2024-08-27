@@ -15,5 +15,9 @@
         <th:block th:if="${board.skin == 'market'}">
             <th:block th:replace="~{front/board/market/_write::write}"></th:block>
         </th:block>
+
+        <th:block th:if="${board.skin == 'gallery'}">
+            <th:block th:replace="~{front/board/gallery/_write::gallery}"></th:block>
+        </th:block>
     </main>
 </html>
