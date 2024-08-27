@@ -143,10 +143,10 @@ public class MyPageController implements ExceptionProcessor {
         } else if (mode.equals("post")) {
             addCss.add("mypage/post");
             pageTitle = "내 게시글";
-        } else if (model.equals("wishlist")) {
+        } else if (mode.equals("wishlist")) {
             addCss.add("mypage/wishlist");
             pageTitle = "찜 목록";
-        } else if (model.equals("shop")) {
+        } else if (mode.equals("shop")) {
             addCss.add("mypage/shop");
             pageTitle = "상점";
         }
