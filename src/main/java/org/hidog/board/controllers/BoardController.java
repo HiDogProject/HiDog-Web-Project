@@ -304,6 +304,11 @@ public class BoardController implements ExceptionProcessor {
             addScript.add("board/walking/view");
         }
 
+        if (skin.equals("gallery")) {
+            addCommonScript.add("fileManager");
+            addScript.add("board/gallery/form");
+        }
+
         // 게시글 제목으로 title을 표시 하는 경우
         if (List.of("view", "update", "delete").contains(mode)) {
             pageTitle = boardData.getSubject();
