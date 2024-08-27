@@ -58,8 +58,8 @@ const viewMapLib = {
     },
 
     load(mapId, width, height, zoom) {
-        this.width = width ?? '80%';
-        this.height = height ?? '800px';
+        this.width = width ?? '40%';
+        this.height = height ?? '500px';
         this.zoom = zoom || 17;
 
         // navigator.geolocation.getCurrentPosition((pos) => {

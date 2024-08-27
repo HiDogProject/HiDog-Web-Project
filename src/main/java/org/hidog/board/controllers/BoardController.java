@@ -177,7 +177,6 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/view/{seq}")
-
     public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session) throws JsonProcessingException {
         commonProcess(seq, "view", model);
 
@@ -212,6 +211,26 @@ public class BoardController implements ExceptionProcessor {
 
         return utils.tpl("board/view");
     }
+
+//    @GetMapping("/view/{seq}")
+//    public String popupComment(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session){
+//        commonProcess(seq, "view", model);
+//
+//        // 댓글 커맨드 객체 처리 S
+//        RequestComment requestComment = new RequestComment();
+//        if (memberUtil.isLogin()) {
+//            requestComment.setCommenter(memberUtil.getMember().getUserName());
+//        }
+//
+//        model.addAttribute("requestComment", requestComment);
+//        // 댓글 커맨드 객체 처리 E
+//
+//        viewCountService.update(seq); // 조회수 증가
+//
+//
+//
+//        return utils.tpl("board/view");
+//    }
 
     /**
      * 게시글 삭제

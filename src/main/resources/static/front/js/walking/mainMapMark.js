@@ -189,6 +189,7 @@ const mainMapLib = {
         this.poster = response.poster;
         this.content = response.content;
         this.seq = response.seq;
+        this.boardData = response.boardData;
 
         const viaPoints = JSON.parse(response.viaPoints);
         console.log("viaPoints", viaPoints);
@@ -214,13 +215,14 @@ const mainMapLib = {
         this.updateInfoBox(this.subject, this.content, this.poster, this.seq);
     },
 
-    updateInfoBox(subject, content, poster, seq) {
+    updateInfoBox(subject, content, poster, seq, boardData) {
         const infoBox = document.getElementById('infoBox');
         if (infoBox) {
             const titleEl = infoBox.querySelector('.info-title');
             const contentEl = infoBox.querySelector('.info-content');
             const posterEl = infoBox.querySelector('.info-poster');
             const seqEl = infoBox.querySelector('.info-seq');
+
 
             if (titleEl) titleEl.innerHTML = subject || "제목";
             if (contentEl) contentEl.innerHTML = content || "게시글 내용";
