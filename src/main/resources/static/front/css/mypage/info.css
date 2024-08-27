@@ -120,6 +120,13 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
     border-radius: 50%;
 }
 
+.profile-image > .inner {
+    width: 200px;
+    height: 250px;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+
 /* 변경 저장 버튼 */
 .btn {
     padding: 10px 20px;
