@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.advices.BoardControllerAdvice;
 import org.hidog.board.entities.BoardData;
+import org.hidog.board.services.BoardConfigInfoService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.global.CommonSearch;
 import org.hidog.global.ListData;
@@ -17,10 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,7 @@ public class MyPageController implements ExceptionProcessor {
 
     private final ProfileUpdateValidator profileUpdateValidator;
     private final MemberSaveService memberSaveService;
+    private final BoardConfigInfoService boardConfigInfoService;
     private final Utils utils;
     private final MemberUtil memberUtil;
     private final BoardInfoService boardInfoService;
@@ -100,6 +99,14 @@ public class MyPageController implements ExceptionProcessor {
         return utils.tpl("mypage/wishlist");
     }
 
+    //내 상점
+    @GetMapping("/shop/{seq}")
+    public String info(@PathVariable("seq") Long seq, Model model) {
+        commonProcess("", model);
+        List<String[]> boardList = boardConfigInfoService.getBoardList("market");
+        return utils.tpl("mypage/shop");
+    }
+
     private void commonProcess(String mode, Model model) {
 
         mode = StringUtils.hasText(mode) ? mode : "";
@@ -124,8 +131,8 @@ public class MyPageController implements ExceptionProcessor {
         } else if (model.equals("wishlist")) {
             addCss.add("mypage/wishlist");
             pageTitle = "찜 목록";
-        } else if (model.equals("sellAndBuy")) {
-            addCss.add("mypage/sellAndBuy");
+        } else if (model.equals("shop")) {
+            addCss.add("mypage/shop");
             pageTitle = "상점";
         }
 
