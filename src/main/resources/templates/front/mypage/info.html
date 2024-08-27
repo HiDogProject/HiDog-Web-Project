@@ -12,6 +12,19 @@
             <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
             <dl>
+                <dt th:text="#{프로필}"></dt>
+                <dd>
+                    <div class="profile-image">
+                        <i th:if="${myProfileImage != null}" class="remove xi-close" th:data-seq="${myProfileImage.seq}"></i>
+
+                        <div class="fileUploads inner" th:data-gid="${loggedMember.email}" data-image-only="true" data-single="true">
+                            <img th:if="${myProfileImage != null}" th:object="${myProfileImage}" th:src="*{fileUrl}" alt="*{fileName}">
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl>
                 <dt th:text="#{이메일}"></dt>
 
                 <dd th:text="${loggedMember.email}"></dd>
@@ -53,6 +66,7 @@
                 <dd>
                     <div class="address-group">
                         <input type="text" id="user_postcode" placeholder="우편번호" readonly>
+
                         <input type="button" onclick="user_execDaumPostcode()" value="우편번호 찾기">
                     </div>
 
@@ -70,6 +84,7 @@
                 <button type="reset" class="btn btn-reset" th:text="#{다시_입력}"></button>
                 <button type="submit" class="btn" th:text="#{변경_사항_저장}"></button>
             </div>
+
         </form>
     </section>
 </html>
