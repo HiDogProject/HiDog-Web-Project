@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/mypage}">
+
     <head>
         <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/myhome.css}">
     </head>
@@ -7,6 +8,20 @@
     <main layout:fragment="content">
 
         <h1 th:text="${pageTitle}"></h1>
+
+        <!-- 프로필 이미지 -->
+        <dl>
+            <dd>
+                <div class="profile-image">
+
+                    <i th:if="${myProfileImage != null}" class="remove xi-close" th:data-seq="${myProfileImage.seq}"></i>
+
+                    <div class="fileUploads inner" th:data-gid="${loggedMember.email}" data-image-only="true" data-single="true">
+                        <img class="pi" th:if="${myProfileImage != null}" th:object="${myProfileImage}" th:src="*{fileUrl}" alt="*{fileName}">
+                    </div>
+                </div>
+            </dd>
+        </dl>
 
         <!-- 페이지 버튼 -->
         <div class="button-container">
