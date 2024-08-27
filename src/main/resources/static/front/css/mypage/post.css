@@ -1,77 +1,80 @@
-/* 기본 S */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* 폼 */
+form[name="frmPost"] {
+    border: 1px solid white;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    max-width: 1200px;
 }
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-}
-/* 기본 E */
 
 /* 제목 */
-h1 {
+.pn {
     text-align: center;
-    font-size: 2em;
-    margin-bottom: 20px;
+    margin: 0;
+    font-size: 25px;
+    font-weight: bold;
+    color: #333;
+    background-color: #9dc5f6;
+    padding: 5px;
 }
 
-/* 게시글 목록 S */
-#postTable {
-    width: 90%;
-    margin: 10px auto;
+/* 테이블 */
+.posts-table {
+    width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
+    margin: 20px 0;
 }
 
-#postTable thead {
-    background-color: #72A2F1;
-    color: #fff;
-}
-
-#postTable th, #postTable td {
-    color: black;
-    padding: 12px;
-    border: 1px solid #ddd;
+.posts-table th, .posts-table td {
+    padding: 10px;
     text-align: center;
-    vertical-align: middle;
-    font-size: 0.9em;
 }
 
-#postTable th {
+/* 테이블 맨 윗 줄 */
+.posts-table th {
+    background-color: #9dc5f6;
+    color: white;
     font-weight: bold;
 }
 
-#postTable td {
+/* 표 왼쪽 위 모서리 */
+.posts-table .th1 {
+    border-top-left-radius: 10px;
+}
+
+/* 표 오른쪽 위 모서리 */
+.posts-table .th4 {
+    border-top-right-radius: 10px;
+}
+
+.posts-table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-#postTable tr:nth-child(even) td {
-    background-color: #f2f2f2;
+.posts-table tr:hover {
+    background-color: #9dc5f6;
 }
 
-#postTable a {
-    color: #007bff;
+.posts-table .no-data td {
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+    padding: 20px;
+}
+
+.pagination-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* 페이지 번호 스타일 (선택 사항) */
+.pagination-container a {
     text-decoration: none;
+    color: #9dc5f6;
+    margin: 0 5px;
 }
 
-#postTable a:hover {
+.pagination-container a:hover {
     text-decoration: underline;
-}
-/* 게시글 목록 E */
-
-/* 반응형 디자인 (모바일 화면) */
-@media (max-width: 768px) {
-    #postTable {
-        width: 100%;
-    }
-    #postTable th, #postTable td {
-        font-size: 0.8em;
-        padding: 10px;
-    }
 }
