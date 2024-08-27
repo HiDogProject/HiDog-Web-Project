@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/mypage}">
 
-    <main layout:fragment="content">
+    <section layout:fragment="content">
 
         <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/info.css}">
 
         <h1 th:text="${pageTitle}"></h1>
 
-        <form name="frmSave" method="POST" th:action="${@utils.redirectUrl('/mypage/info')}" autocomplete="off" th:object="${requestProfile}">
+        <form name="frmUpdate" method="POST" th:action="${@utils.redirectUrl('/mypage/info')}" autocomplete="off" th:object="${requestProfile}">
 
             <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
             <dl>
-                <dt th:text="#{프로필}"></dt>
+                <dt th:text="#{프로필_이미지}"></dt>
 
                 <dd>
-                    <div class="fileUploads profile-image" th:data-gid="${loggedMember.email}"></div>
+                    <div class="profile-image">
+
+                        <i th:if="${myProfileImage != null}" class="remove xi-close" th:data-seq="${myProfileImage.seq}"></i>
+
+                        <div class="fileUploads inner" th:data-gid="${loggedMember.email}" data-image-only="true" data-single="true">
+                            <img th:if="${myProfileImage != null}" th:object="${myProfileImage}" th:src="*{fileUrl}" alt="*{fileName}">
+                        </div>
+                    </div>
                 </dd>
             </dl>
 
@@ -30,6 +37,7 @@
 
                 <dd>
                     <input type="text" name="userName" th:field="*{userName}">
+
                     <div class="error" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
                 </dd>
             </dl>
@@ -39,6 +47,7 @@
 
                 <dd>
                     <input type="password" name="password" th:field="*{password}">
+
                     <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
                 </dd>
             </dl>
@@ -48,6 +57,7 @@
 
                 <dd>
                     <input type="password" name="confirmPassword" th:field="*{confirmPassword}">
+
                     <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
                 </dd>
             </dl>
@@ -76,5 +86,5 @@
                 <button type="submit" class="btn" th:text="#{변경_사항_저장}"></button>
             </div>
         </form>
-    </main>
+    </section>
 </html>
