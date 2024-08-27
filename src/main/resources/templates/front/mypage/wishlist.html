@@ -1,46 +1,12 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
     <main layout:fragment="content">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/wishlist.css}">
+
+        <h1 class="pn" th:text="${pageTitle}"></h1>
+
         <a th:href="${@utils.redirectUrl('/mypage/info')}" th:text="#{회원_정보}"></a>
-        <a th:href="${@utils.redirectUrl('/mypage/mypost')}" th:text="#{내가_쓴_게시글}"></a>
-        <a th:href="${@utils.redirectUrl('/mypage/wishlist')}" th:text="#{찜한_게시글}"></a>
+        <a th:href="${@utils.redirectUrl('/mypage/post')}" th:text="#{내가_쓴_게시글}"></a>
     </main>
-</html>-->
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/mypage}">
-
-<main layout:fragment="content">
-
-    <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/wishlist.css}">
-
-    <h1 class="pn" th:text="${pageTitle}"></h1>
-
-    <form name="frmWishlist" method="post" th:action="@{/wishlist}" autocomplete="off">
-        <table class="wishlist-table">
-            <thead>
-            <tr>
-                <th class="th1">No.</th>
-                <th class="th2">제목</th>
-                <th class="th3">작성자</th>
-                <th class="th4">조회수</th>
-                <th class="th5">작성 날짜 및 작성 시간</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- 찜 목록 데이터 반복 -->
-            <tr th:each="item, iterStat : ${items}">
-                <td th:text="${iterStat.index + 1}"></td>
-                <td><a th:href="@{/board/view/{id}(id=${item.id})}" th:text="${item.title}"></a></td>
-                <td th:text="${item.author}"></td>
-                <td th:text="${item.viewCount}"></td>
-                <td th:text="${#temporals.format(item.createdAt, 'yyyy.MM.dd HH:mm')}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <!-- 페이지 번호 컨테이너 추가 -->
-        <div class="pagination-container">
-            <th:block th:replace="~{common/_pagination::pagination}"></th:block>
-        </div>
-    </form>
-</main>
 </html>
