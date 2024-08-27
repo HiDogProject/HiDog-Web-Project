@@ -3,6 +3,7 @@ package org.hidog.board.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.hidog.board.advices.BoardControllerAdvice;
 import org.hidog.board.entities.Board;
 import org.hidog.global.Utils;
 import org.hidog.global.rests.JSONData;
