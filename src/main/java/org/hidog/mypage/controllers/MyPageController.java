@@ -79,6 +79,8 @@ public class MyPageController implements ExceptionProcessor {
     @GetMapping("/post")
     public String myPost(@ModelAttribute CommonSearch search, Model model) {
 
+        commonProcess("post", model);
+
         ListData<BoardData> data = boardInfoService.getMyList(search);
 
         model.addAttribute("items", data.getItems());
