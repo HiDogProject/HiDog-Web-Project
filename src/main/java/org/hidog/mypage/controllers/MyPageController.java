@@ -2,6 +2,8 @@ package org.hidog.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hidog.board.advices.BoardControllerAdvice;
+import org.hidog.board.services.BoardConfigInfoService;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.member.MemberUtil;
@@ -11,10 +13,7 @@ import org.hidog.mypage.validators.ProfileUpdateValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +25,11 @@ public class MyPageController implements ExceptionProcessor {
 
     private final ProfileUpdateValidator profileUpdateValidator;
     private final MemberSaveService memberSaveService;
+    private final BoardConfigInfoService boardConfigInfoService;
+
     private final Utils utils;
     private final MemberUtil memberUtil;
+    private final BoardControllerAdvice board;
 
     // 마이 페이지 홈
     @GetMapping
@@ -49,6 +51,14 @@ public class MyPageController implements ExceptionProcessor {
         form.setEmail(member.getEmail());
 
         return utils.tpl("mypage/info");
+    }
+
+    //내 상점
+    @GetMapping("/shop/{seq}")
+    public String info(@PathVariable("seq") Long seq, Model model) {
+        commonProcess("", model);
+        List<String[]> boardList = boardConfigInfoService.getBoardList("market");
+        return utils.tpl("myPage/shop");
     }
 
     // 회원 정보 수정
