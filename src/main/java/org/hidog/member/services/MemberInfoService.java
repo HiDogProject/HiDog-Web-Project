@@ -37,6 +37,10 @@ public class MemberInfoService implements UserDetailsService {
         List<SimpleGrantedAuthority> authorities = tmp.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthority().name()))
                 .toList();
+//
+//        // 추가 데이터 처리
+//        addMemberInfo(member);
+
         return MemberInfo.builder()
                 .email(member.getEmail())
                 .password(member.getPassword())
