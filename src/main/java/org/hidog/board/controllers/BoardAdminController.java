@@ -8,9 +8,8 @@ import org.hidog.global.ListData;
 import org.hidog.global.constants.DeleteStatus;
 import org.hidog.global.exceptions.RestExceptionProcessor;
 import org.hidog.global.rests.JSONData;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/board/admin")
@@ -28,18 +27,19 @@ public class BoardAdminController implements RestExceptionProcessor {
     }
 
     @PostMapping("/{mode}") // 목록 수정, 삭제
-    public JSONData updatelist(@PathVariable("mode") String mode, @RequestBody RequestAdminList form) {
-        List<BoardData> items = boardAdminService.update(mode, form.getItems());
-        return new JSONData(items);
+    public ResponseEntity<Void> updatelist(@PathVariable("mode") String mode, @RequestBody RequestAdminList form) {
+        boardAdminService.update(mode, form.getItems());
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{mode}/{seq}") // 게시글 하나 수정, 삭제
-    public JSONData update(@PathVariable("mode") String mode, @PathVariable("seq") Long seq, @RequestBody RequestBoard form) {
+    public ResponseEntity<Void> update(@PathVariable("mode") String mode, @PathVariable("seq") Long seq, @RequestBody RequestBoard form) {
         form.setSeq(seq);
 
-        BoardData item = boardAdminService.update(mode, form);
+        boardAdminService.update(mode, form);
 
-        return new JSONData(item);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/info/{seq}")

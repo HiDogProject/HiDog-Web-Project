@@ -56,10 +56,7 @@ public class MyPageController implements ExceptionProcessor {
     @GetMapping("/shop/{seq}")
     public String info(@PathVariable("seq") Long seq, Model model) {
         commonProcess("", model);
-        List<String[]> board = boardConfigInfoService.getBoardList();
-        System.out.println(board + "!!!");
-
-
+        List<String[]> boardList = boardConfigInfoService.getBoardList("market");
         return utils.tpl("myPage/shop");
     }
 
