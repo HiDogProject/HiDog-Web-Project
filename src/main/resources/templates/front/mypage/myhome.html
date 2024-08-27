@@ -10,19 +10,19 @@
 
         <!-- 페이지 버튼 -->
         <div class="button-container">
-            <a th:href="${@utils.redirectUrl('/mypage/info')}" class="btn-wrapper">
+            <a th:href="@{/mypage/info}" class="btn-wrapper">
                 <button type="button" class="btn" th:text="#{회원_정보}"></button>
             </a>
 
-            <a th:href="${@utils.redirectUrl('/mypage/like')}" class="btn-wrapper">
+            <a th:href="@{/mypage/wishlist}" class="btn-wrapper">
                 <button type="button" class="btn" th:text="#{찜_목록_보기}"></button>
             </a>
 
-            <a th:href="${@utils.redirectUrl('/mypage/post')}" class="btn-wrapper">
+            <a th:href="@{/mypage/post}" class="btn-wrapper">
                 <button type="button" class="btn" th:text="#{내가_쓴_글_보기}"></button>
             </a>
 
-            <a th:href="${@utils.redirectUrl('/mypage/sellAndBuy')}" class="btn-wrapper">
+            <a th:href="@{/mypage/sellAndBuy}" class="btn-wrapper">
                 <button type="button" class="btn" th:text="#{판매_내역_구매_내역_보기}"></button>
             </a>
         </div>
