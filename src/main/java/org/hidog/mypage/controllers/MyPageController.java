@@ -102,7 +102,7 @@ public class MyPageController implements ExceptionProcessor {
 
     private void commonProcess(String mode, Model model) {
 
-        mode = StringUtils.hasText(mode) ? mode : "main";
+        mode = StringUtils.hasText(mode) ? mode : "";
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
