@@ -3,7 +3,6 @@ package org.hidog.board.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.hidog.board.advices.BoardControllerAdvice;
 import org.hidog.board.entities.Board;
 import org.hidog.global.Utils;
 import org.hidog.global.rests.JSONData;
@@ -63,7 +62,6 @@ public class BoardConfigInfoService {
         try {
             String url = utils.adminUrl("/api/board");
             ResponseEntity<JSONData> response = restTemplate.getForEntity(url, JSONData.class);
-            System.out.println(response);
             if (response.getStatusCode().isSameCodeAs(HttpStatus.OK)) {
                 JSONData jsonData = response.getBody();
                 if (!jsonData.isSuccess()) {
@@ -75,7 +73,6 @@ public class BoardConfigInfoService {
 
                 List<String[]> board = om.readValue(om.writeValueAsString(data), new TypeReference<>() {});
 
-                board.forEach(d -> System.out.println(Arrays.toString(d)));
                 return board;
             }
         } catch (Exception e) {

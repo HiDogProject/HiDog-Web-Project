@@ -2,7 +2,6 @@ package org.hidog.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hidog.board.advices.BoardControllerAdvice;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.services.BoardConfigInfoService;
 import org.hidog.board.services.BoardInfoService;
@@ -34,7 +33,6 @@ public class MyPageController implements ExceptionProcessor {
     private final Utils utils;
     private final MemberUtil memberUtil;
     private final BoardInfoService boardInfoService;
-    private final BoardControllerAdvice board;
 
     // 마이 페이지 홈
     @GetMapping
@@ -99,13 +97,6 @@ public class MyPageController implements ExceptionProcessor {
         return utils.tpl("mypage/wishlist");
     }
 
-    //내 상점
-    @GetMapping("/shop/{seq}")
-    public String info(@PathVariable("seq") Long seq, Model model) {
-        commonProcess("", model);
-        List<String[]> boardList = boardConfigInfoService.getBoardList("market");
-        return utils.tpl("mypage/shop");
-    }
 
     private void commonProcess(String mode, Model model) {
 

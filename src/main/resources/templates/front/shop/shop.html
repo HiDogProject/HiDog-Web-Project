@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
 <div class="board_list layout_width">
     <ul class="items">
         <li th:if="${items == null || items.isEmpty()}" class="no_data"
@@ -30,5 +31,6 @@
         </li>
     </ul>
 </div>
+</main>
 <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </html>

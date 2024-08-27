@@ -310,6 +310,46 @@ public class BoardInfoService {
     }
 
     /**
+     * 특정회원의 특정 게시판 조회
+     * @param seq : 회원 번호
+     * @param skin : 게시판 스킨
+     * @param search
+     * @return
+     */
+    public ListData<BoardData> getMarketList(Long seq, String skin,CommonSearch search) {
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 10 : limit;
+        int offset = (page - 1) * limit;
+
+
+        QBoardData boardData = QBoardData.boardData;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(boardData.member.seq.eq(seq));
+        andBuilder.and(boardData.board.skin.eq(skin));
+
+        List<BoardData> items = jpaQueryFactory.selectFrom(boardData)
+                .where(andBuilder)
+                .leftJoin(boardData.board)
+                .fetchJoin()
+                .offset(offset)
+                .limit(limit)
+                .orderBy(boardData.createdAt.desc())
+                .fetch();
+
+        long total = boardDataRepository.count(andBuilder);
+        int ranges = utils.isMobile() ? 5 : 10;
+        Pagination pagination = new Pagination(page, (int)total, ranges, limit, request);
+
+        return new ListData<>(items, pagination);
+    }
+
+
+
+
+
+
+    /**
      * 내가 작성한 게시글 목록
      *
      */
@@ -343,6 +383,7 @@ public class BoardInfoService {
 
         return new ListData<>(items, pagination);
     }
+
 
     /**
      *  내가 찜한 게시글 목록 조회
