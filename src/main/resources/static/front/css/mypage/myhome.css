@@ -27,10 +27,12 @@ h1 {
 .btn-wrapper {
     flex: 1;
     max-width: 200px;
+    display: flex;
+    justify-content: center;
 }
 
 .btn {
-    width: 90%;
+    width: 100%;
     padding: 15px;
     font-size: 1em;
     color: #fff;

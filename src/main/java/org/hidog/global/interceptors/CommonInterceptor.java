@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.hidog.global.Utils;
 import org.hidog.member.MemberUtil;
+import org.hidog.member.entities.Member;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,9 +22,7 @@ public class CommonInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-
         checkDevice(request);
-
 
         request.setAttribute("utils", utils);
 
@@ -56,5 +55,9 @@ public class CommonInterceptor implements HandlerInterceptor {
         request.setAttribute("isLogin", memberUtil.isLogin());
         request.setAttribute("isAdmin", memberUtil.isAdmin());
 
+        if (memberUtil.isLogin()) {
+            Member member = memberUtil.getMember();
+            request.setAttribute("myProfileImage", member.getProfileImage());
+        }
     }
 }

@@ -91,8 +91,8 @@ const mainMapLib = {
     },
 
     load(mapId, width, height, zoom) {
-        this.width = width ?? '80%';
-        this.height = height ?? '800px';
+        this.width = width ?? '70%';
+        this.height = height ?? '900px';
         this.zoom = zoom || 17;
 
 
@@ -225,7 +225,7 @@ const mainMapLib = {
             if (titleEl) titleEl.innerHTML = subject || "제목";
             if (contentEl) contentEl.innerHTML = content || "게시글 내용";
             if (posterEl) posterEl.innerHTML = poster || "작성자";
-            if (seqEl) seqEl.innerHTML = seq || "";
+            if (seqEl) seqEl.innerHTML = seq || "seq";
         }
     }
 

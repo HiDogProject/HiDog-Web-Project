@@ -3,7 +3,11 @@ package org.hidog.mypage.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.advices.BoardControllerAdvice;
+import org.hidog.board.entities.BoardData;
 import org.hidog.board.services.BoardConfigInfoService;
+import org.hidog.board.services.BoardInfoService;
+import org.hidog.global.CommonSearch;
+import org.hidog.global.ListData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.member.MemberUtil;
@@ -12,6 +16,7 @@ import org.hidog.member.services.MemberSaveService;
 import org.hidog.mypage.validators.ProfileUpdateValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +30,11 @@ public class MyPageController implements ExceptionProcessor {
 
     private final ProfileUpdateValidator profileUpdateValidator;
     private final MemberSaveService memberSaveService;
-
+    private final BoardConfigInfoService boardConfigInfoService;
     private final Utils utils;
     private final MemberUtil memberUtil;
+    private final BoardInfoService boardInfoService;
+    private final BoardControllerAdvice board;
 
     // 마이 페이지 홈
     @GetMapping
@@ -51,7 +58,6 @@ public class MyPageController implements ExceptionProcessor {
         return utils.tpl("mypage/info");
     }
 
-
     // 회원 정보 수정
     @PostMapping("/info")
     public String infoSave(@Valid RequestProfile form, Errors errors, Model model) {
@@ -66,25 +72,44 @@ public class MyPageController implements ExceptionProcessor {
 
         memberSaveService.save(form);
 
-        return "redirect:" + utils.redirectUrl("/mypage/myhome");
+        return "redirect:" + utils.redirectUrl("/mypage");
     }
 
-//    @PostMapping("/post")
-//    public String post(@ModelAttribute BoardDataSearch search, Model model) {
-//
-//        commonProcess("post", model);
-//
-//        search.setBid(memberUtil.getMember().getEmail());
-//
-//        ListData<BoardData> listData = boardInfoService.getList(search, DeleteStatus.UNDELETED);
-//
-//        model.addAttribute("items", listData.getItems());
-//        model.addAttribute("pagination", listData.getPagination());
-//
-//        return utils.tpl("mypage/post");
-//    }
+    // 게시글 목록
+    @GetMapping("/post")
+    public String myPost(@ModelAttribute CommonSearch search, Model model) {
+
+        ListData<BoardData> data = boardInfoService.getMyList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return utils.tpl("mypage/post");
+    }
+
+    // 찜 목록
+    @GetMapping("/wishlist")
+    public String wishlist(@ModelAttribute CommonSearch search, Model model) {
+
+        ListData<BoardData> data = boardInfoService.getWishList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return utils.tpl("mypage/wishlist");
+    }
+
+    //내 상점
+    @GetMapping("/shop/{seq}")
+    public String info(@PathVariable("seq") Long seq, Model model) {
+        commonProcess("", model);
+        List<String[]> boardList = boardConfigInfoService.getBoardList("market");
+        return utils.tpl("mypage/shop");
+    }
 
     private void commonProcess(String mode, Model model) {
+
+        mode = StringUtils.hasText(mode) ? mode : "";
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
@@ -98,15 +123,16 @@ public class MyPageController implements ExceptionProcessor {
         } else if (mode.equals("info")) {
             addCommonScript.add("fileManager");
             addScript.add("mypage/info");
+            addCss.add("mypage/info");
             pageTitle = "회원 정보 수정";
         } else if (mode.equals("post")) {
             addCss.add("mypage/post");
             pageTitle = "내 게시글";
-        } else if (model.equals("like")) {
-            addCss.add("mypage/like");
+        } else if (model.equals("wishlist")) {
+            addCss.add("mypage/wishlist");
             pageTitle = "찜 목록";
-        } else if (model.equals("sellAndBuy")) {
-            addCss.add("mypage/sellAndBuy");
+        } else if (model.equals("shop")) {
+            addCss.add("mypage/shop");
             pageTitle = "상점";
         }
 

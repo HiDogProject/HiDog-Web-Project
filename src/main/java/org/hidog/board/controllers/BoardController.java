@@ -43,14 +43,15 @@ public class BoardController implements ExceptionProcessor {
     private final BoardInfoService boardInfoService;
     private final BoardDeleteService boardDeleteService;
     private final BoardSaveService boardSaveService;
-    private final BoardValidator boardValidator;
-    private final Utils utils;
+    private final FileInfoService fileInfoService;
+
     private final ApiConfigService apiConfigService;
     private final BoardViewCountService viewCountService;
     private final BoardAuthService authService;
-    private final MemberUtil memberUtil;
-    private final FileInfoService fileInfoService;
 
+    private final BoardValidator boardValidator;
+    private final MemberUtil memberUtil;
+    private final Utils utils;
 
     private Board board; // 게시판 설정
     private BoardData boardData; // 게시글
@@ -84,8 +85,6 @@ public class BoardController implements ExceptionProcessor {
             form.setPoster(memberUtil.getMember().getUserName());
         }
 
-
-
         return utils.tpl("board/write");
     }
 
@@ -102,7 +101,6 @@ public class BoardController implements ExceptionProcessor {
 
         RequestBoard form = boardInfoService.getForm(boardData); // 쿼리를 2번하지 않고 바로 쓰기 위해서 seq말고 boardData 사용함
         model.addAttribute("requestBoard", form);
-
 
         return utils.tpl("board/update");
     }
@@ -124,8 +122,7 @@ public class BoardController implements ExceptionProcessor {
             BoardData data = (BoardData)model.getAttribute("boardData");
             isGuest = data.getMember() == null;
         }
-
-
+        
         form.setGuest(isGuest);
 
         boardValidator.validate(form, errors);
