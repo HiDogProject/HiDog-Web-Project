@@ -41,6 +41,9 @@ public class MyPageController implements ExceptionProcessor {
     public String myHome(Model model) {
 
         commonProcess("", model); // 페이지 제목 설정을 위해 호출
+
+        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png"));
+
         return utils.tpl("mypage/myhome");
     }
 
