@@ -51,7 +51,7 @@ dd {
     gap: 10px;
 }
 
-/* 우편번호 입력 필드 */
+/* 우편번호 입력 */
 #user_postcode {
     flex: 1;
     padding: 8px;
@@ -105,6 +105,7 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
     margin-bottom: 5px;
 }
 
+/* 주소 */
 #user_address {
     width: 100%;
     padding: 8px;
@@ -139,6 +140,7 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
     align-items: center;
 }
 
+/* 프로필 이미지 */
 .fileUploads.inner img {
     width: 100%;
     height: 100%;
