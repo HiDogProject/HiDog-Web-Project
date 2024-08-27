@@ -2,6 +2,10 @@ package org.hidog.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hidog.board.entities.BoardData;
+import org.hidog.board.services.BoardInfoService;
+import org.hidog.global.CommonSearch;
+import org.hidog.global.ListData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.member.MemberUtil;
@@ -28,6 +32,7 @@ public class MyPageController implements ExceptionProcessor {
     private final MemberSaveService memberSaveService;
     private final Utils utils;
     private final MemberUtil memberUtil;
+    private final BoardInfoService boardInfoService;
 
     // 마이 페이지 홈
     @GetMapping
@@ -68,20 +73,16 @@ public class MyPageController implements ExceptionProcessor {
         return "redirect:" + utils.redirectUrl("/mypage");
     }
 
-//    @PostMapping("/post")
-//    public String post(@ModelAttribute BoardDataSearch search, Model model) {
-//
-//        commonProcess("post", model);
-//
-//        search.setBid(memberUtil.getMember().getEmail());
-//
-//        ListData<BoardData> listData = boardInfoService.getList(search, DeleteStatus.UNDELETED);
-//
-//        model.addAttribute("items", listData.getItems());
-//        model.addAttribute("pagination", listData.getPagination());
-//
-//        return utils.tpl("mypage/post");
-//    }
+    @GetMapping("/post")
+    public String myPost(@ModelAttribute CommonSearch search, Model model) {
+
+        ListData<BoardData> data = boardInfoService.getMyList(search);
+
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
+
+        return utils.tpl("mypage/post");
+    }
 
     private void commonProcess(String mode, Model model) {
 
