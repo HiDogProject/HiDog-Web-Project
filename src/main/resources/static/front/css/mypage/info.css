@@ -114,6 +114,14 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
     margin-bottom: 5px;
 }
 
+.profile-image > .inner {
+    width: 250px;
+    height: 250px;
+    border: 1px solid #9dc5f6;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 /* 변경 저장 버튼 */
 .btn {
     font-size: 15px;
