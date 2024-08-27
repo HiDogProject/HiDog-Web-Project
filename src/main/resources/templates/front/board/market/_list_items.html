@@ -30,6 +30,14 @@
                     </div>
                     <!--// post_info -->
                 </a>
+                <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
+                    <span class="poster_info">
+                        <div class="profile-image">
+                            <img th:if="${item.member != null and item.member.profileImage != null}" th:src="@{${item.member.profileImage.fileUrl}}" alt="Profile Image">
+                        </div>
+                        <th:block th:text="*{poster}"></th:block>
+                    </span>
+                </a>
             </li>
         </ul>
         <!--// list_search -->

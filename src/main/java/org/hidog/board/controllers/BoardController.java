@@ -165,13 +165,14 @@ public class BoardController implements ExceptionProcessor {
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
-
+        if (memberUtil.isLogin()) {
+            model.addAttribute("memberSeq", memberUtil.getMember().getSeq().toString());
+        }
         return utils.tpl("board/list");
     }
 
     /**
      * 게시글 1개 보기
-     *
      * @param seq : 게시글 번호
      * @param model
      * @return

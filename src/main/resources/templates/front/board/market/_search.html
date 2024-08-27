@@ -16,7 +16,7 @@
         </form>
         <div class="links">
             <a th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" class="btn" th:text="#{판매하기}"></a>
-            <a th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" class="btn" th:text="#{내상점}"></a>
+            <a th:href="@{${utils.redirectUrl('/shop/') + memberSeq}}" class="btn" th:text="#{내상점}"></a>
         </div>
     </div>
 </th:block>

@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,16 +81,4 @@ public class BoardConfigInfoService {
         return null;
     }
 
-    /**
-     * Admin서버에서 가져온 BoardConfig중에서 Board의 특정 스킨만 가져오는것.
-     * @param skin - Board 설정에서 Skin 값
-     * @return
-     */
-    public List<String[]> getBoardList(String skin){
-        List<String[]> boardList = getBoardList();
-        List<String[]> filteredList = boardList.stream()
-                .filter(array -> Arrays.stream(array).anyMatch(skin::equals))
-                .toList();
-        return filteredList;
-    }
 }
