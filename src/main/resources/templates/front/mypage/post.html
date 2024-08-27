@@ -21,6 +21,8 @@
                 </thead>
 
                 <tbody>
+                <th:block th:replace="~{front/mypage/_list_items::items}"></th:block>
+
                     <tr th:each="post, iterStat : ${items}">
                         <td th:text="${iterStat.index + 1}">번호</td>
                         <td th:text="${post.poster}">작성자</td>
