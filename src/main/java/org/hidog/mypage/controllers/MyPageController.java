@@ -42,7 +42,7 @@ public class MyPageController implements ExceptionProcessor {
 
         commonProcess("", model); // 페이지 제목 설정을 위해 호출
 
-        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png"));
+        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
 
         return utils.tpl("mypage/myhome");
     }
@@ -51,6 +51,8 @@ public class MyPageController implements ExceptionProcessor {
     public String info(@ModelAttribute RequestProfile form, Model model) {
 
         commonProcess("info", model);
+
+        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
 
         Member member = memberUtil.getMember();
         form.setUserName(member.getUserName());
@@ -66,6 +68,8 @@ public class MyPageController implements ExceptionProcessor {
     public String infoSave(@Valid RequestProfile form, Errors errors, Model model) {
 
         commonProcess("info", model);
+
+        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
 
         profileUpdateValidator.validate(form, errors);
 
@@ -84,6 +88,8 @@ public class MyPageController implements ExceptionProcessor {
 
         commonProcess("post", model);
 
+        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
+
         ListData<BoardData> data = boardInfoService.getMyList(search);
 
         model.addAttribute("items", data.getItems());
@@ -95,6 +101,10 @@ public class MyPageController implements ExceptionProcessor {
     // 찜 목록
     @GetMapping("/wishlist")
     public String wishlist(@ModelAttribute CommonSearch search, Model model) {
+
+        commonProcess("wishlist", model);
+
+        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
 
         ListData<BoardData> data = boardInfoService.getWishList(search);
 
