@@ -10,6 +10,7 @@
         <form name="frmPost" method="post" th:action="@{/mypage/post}" autocomplete="off">
 
             <table id="postTable">
+
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -21,7 +22,8 @@
                 </thead>
 
                 <tbody>
-                <th:block th:replace="~{front/mypage/_list_items::items}"></th:block>
+
+                    <th:block th:replace="~{front/mypage/_list_items::items}"></th:block>
 
                     <tr th:each="post, iterStat : ${items}">
                         <td th:text="${iterStat.index + 1}">번호</td>
@@ -32,12 +34,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            <div class="pagination">
-                <a th:href="@{${pagination.previousPageUrl}}" th:if="${pagination.hasPreviousPage}" class="prev">이전</a>
-                <span>페이지 <span th:text="${pagination.currentPage}">1</span> / <span th:text="${pagination.totalPages}">1</span></span>
-                <a th:href="@{${pagination.nextPageUrl}}" th:if="${pagination.hasNextPage}" class="next">다음</a>
-            </div>
         </form>
     </main>
 </html>
