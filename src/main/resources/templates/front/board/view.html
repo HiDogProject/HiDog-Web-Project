@@ -21,8 +21,6 @@
 
     <th:block th:if="${board.useComment}" th:replace="~{front/board/_comment::comment}"></th:block>
 
-
-
     <!-- Walking Skin -->
     <th:block th:if="${board.skin == 'walking'}">
         <th:block th:replace="~{front/board/walking/_common::pageTitle}"></th:block>
@@ -58,7 +56,7 @@
         </th:block>
     </th:block>
 
-    <th:block th:if="${board.useComment}" th:replace="~{front/gallery/_comment::comment}"></th:block>
+    <th:block th:if="${board.useComment}" th:replace="~{front/board/_comment::comment}"></th:block>
 
 </main>
 </html>
