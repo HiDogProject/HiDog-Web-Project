@@ -3,43 +3,5 @@
 
     <main layout:fragment="content">
 
-        <div class="drop">
-            <!-- 지도 -->
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('아래의 공지사항 또는 QnA를 선택해주세요')" th:text="#{맵}"></a></div>
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/walking/map')}" th:text="#{맵}" /></li>
-                </ul>
-            </div>
-
-            <!-- 게시판 -->
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('아래의 공지사항 또는 QnA를 선택해주세요')" th:text="#{산책하개}"></a></div>
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/board/write/1')}" th:text="#{산책하개}" /></li>
-                </ul>
-            </div>
-
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('아래의 공지사항 또는 QnA를 선택해주세요')" th:text="#{글쓰기}"></a></div>
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/board/write/2')}" th:text="#{글쓰기}" /></li>
-                </ul>
-            </div>
-
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('아래의 공지사항 또는 QnA를 선택해주세요')" th:text="#{화개장터}"></a></div>
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/board/write/3')}" th:text="#{화개장터}" /></li>
-                </ul>
-            </div>
-
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('아래의 공지사항 또는 QnA를 선택해주세요')" th:text="#{자랑하개}"></a></div>
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/board/write/4')}" th:text="#{자랑하개}" /></li>
-                </ul>
-            </div>
-        </div>
     </main>
 </html>
