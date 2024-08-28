@@ -30,11 +30,9 @@ public class MyPageController implements ExceptionProcessor {
 
     private final ProfileUpdateValidator profileUpdateValidator;
     private final MemberSaveService memberSaveService;
-    private final BoardConfigInfoService boardConfigInfoService;
     private final Utils utils;
     private final MemberUtil memberUtil;
     private final BoardInfoService boardInfoService;
-    private final BoardControllerAdvice board;
 
     // 마이 페이지 홈
     @GetMapping
@@ -101,13 +99,6 @@ public class MyPageController implements ExceptionProcessor {
         return utils.tpl("mypage/wishlist");
     }
 
-    //내 상점
-    @GetMapping("/shop/{seq}")
-    public String info(@PathVariable("seq") Long seq, Model model) {
-        commonProcess("shop", model);
-        List<String[]> boardList = boardConfigInfoService.getBoardList("market");
-        return utils.tpl("mypage/shop");
-    }
 
     private void commonProcess(String mode, Model model) {
 
