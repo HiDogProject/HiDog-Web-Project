@@ -187,7 +187,6 @@ public class BoardController implements ExceptionProcessor {
             ListData<BoardData> data = boardInfoService.getList(board.getBid(), search);
             model.addAttribute("items", data.getItems());
             model.addAttribute("pagination", data.getPagination());
-            model.addAttribute("memberSeq", memberUtil.getMember().getSeq());
         }
 
 
@@ -203,7 +202,6 @@ public class BoardController implements ExceptionProcessor {
         viewCountService.update(seq); // 조회수 증가
 
         model.addAttribute("wishCount", wishListService.getWishCount(seq)); //좋아요 갯수
-
         String skin = board.getSkin(); // 스킨
 
         if (skin.equals("walking")) {
