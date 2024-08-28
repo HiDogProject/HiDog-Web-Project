@@ -3,18 +3,73 @@
 
     <main layout:fragment="content">
 
-        <div class="main_img">
-            <img th:src="${imageUrl2}" alt="main img">
+        <div class="swiper-container">
+            <div class="swiper mySwiper">
+
+                <div class="swiper-wrapper">
+
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide">
+                        <div class="main_img">
+                            <img th:src="${imageUrl2}" alt="main img">
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide">
+                        <div class="main_img">
+                            <img th:src="${imageUrl2}" alt="main img">
+                        </div>
+                    </div>
+
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
         </div>
 
         <div class="image-container">
-            <img th:src="${imageUrl_D1}" alt="Market Image">
-            <img th:src="${imageUrl_D2}" alt="Adopt Image">
-            <img th:src="${imageUrl_D3}" alt="Sotong Image">
-            <img th:src="${imageUrl_D4}" alt="Jarang Image">
-            <img th:src="${imageUrl_D5}" alt="Notice Image">
-            <img th:src="${imageUrl_D6}" alt="Weather Image">
-            <img th:src="${imageUrl_D7}" alt="Contest Image">
+            <a th:href="@{/board/write/3}">
+                <img th:src="${imageUrl_D1}" alt="Market Image">
+            </a>
+
+            <a href="/link/to/adopt">
+                <img th:src="${imageUrl_D2}" alt="Adopt Image">
+            </a>
+
+            <a th:href="@{/board/write/2}">
+                <img th:src="${imageUrl_D3}" alt="Sotong Image">
+            </a>
+
+            <a th:href="@{/board/write/4}">
+                <img th:src="${imageUrl_D4}" alt="Jarang Image">
+            </a>
+
+            <a href="/link/to/notice">
+                <img th:src="${imageUrl_D5}" alt="Notice Image">
+            </a>
+
+            <a href="/link/to/weather">
+                <img th:src="${imageUrl_D6}" alt="Weather Image">
+            </a>
+
+            <a href="/link/to/contest">
+                <img th:src="${imageUrl_D7}" alt="Contest Image">
+            </a>
+        </div>
+
+        <div class="sub_box">
+            <h2 class="tn">Hi dog 주간 Top</h2>
+
+            <div class="sub_banner">
+                <a th:href="@{/board/write/1}"> <!-- 산책하개 -->
+                    <img th:src="${subUrl2}" alt="sub banner2">
+                </a>
+
+                <a th:href="@{/board/write/4}"> <!-- 자랑하개 -->
+                    <img class="su" th:src="${subUrl1}" alt="sub banner2">
+                </a>
+            </div>
         </div>
     </main>
 </html>
