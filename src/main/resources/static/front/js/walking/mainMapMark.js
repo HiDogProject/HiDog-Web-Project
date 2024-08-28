@@ -15,6 +15,7 @@ const mainMapLib = {
     poster: "작성자",
     content: "게시글 내용",
     seq: null,
+    clickable: true,
     init() {
         const startMarkerElement = document.querySelector('[data-startMarker]');
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
@@ -28,24 +29,27 @@ const mainMapLib = {
                 position: new Tmapv2.LatLng(lat, lng),
                 map: this.map,
                 icon: 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9',
-                iconSize: new Tmapv2.Size(50, 50)
+                iconSize: new Tmapv2.Size(50, 50),
+                animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE,
+                animationLength: 900,
             };
 
             const startMarker = new Tmapv2.Marker(opt);
+
             this.markers.push(startMarker);
-            let clickable = true;
 
             let clickDeparturePoint = [];
 
             startMarker.addListener('click', () => {
-                if (clickable) {
+                if (this.clickable) {
                     this.markers.forEach(marker => {
                         if (marker !== startMarker) {
                             marker.setVisible(false);
                         }
                     });
+                    this.updateInfoBoxState()
                     this.showRoute();
-                    clickable = false;
+                    this.clickable = false;
 
                     const position = startMarker.getPosition();
                     const latFixed = parseFloat(position.lat()).toFixed(12);
@@ -73,10 +77,12 @@ const mainMapLib = {
                     this.viaMarkers.forEach(marker => {
                         marker.setMap(null);
                     });
+                    this.updateInfoBoxState()
+
                     this.viaMarkers = [];
 
                     this.hideRoute();
-                    clickable = true;
+                    this.clickable = true;
                     this.resultDrawArr = [];
 
                     this.subject = null;
@@ -168,13 +174,35 @@ const mainMapLib = {
 
     drawLine(arrPoint) {
         const polyline_ = new Tmapv2.Polyline({
-            path: arrPoint,
+            path: [], // 초기 경로는 빈 배열입니다.
             strokeColor: 'rgba(178,102,53,0.22)',
-            strokeWeight: 4.5,
+            strokeWeight: 9,
+            direction: true,
+            strokeStyle: 'solid',
+            directionColor: "white",
+            directionOpacity: 0.6,
             map: this.map
         });
+
+        let index = 0;
+        const path = [];
+        const totalPoints = arrPoint.length;
+
+        function animate() {
+            if (index < totalPoints) {
+                path.push(arrPoint[index]); // 새로운 점을 배열에 추가.
+                polyline_.setPath(path); // 경로를 업데이트
+                index++;
+                requestAnimationFrame(animate); // 다음 프레임을 요청
+            }
+        }
+
+        animate();
+
         this.resultDrawArr.push(polyline_);
-    },
+    }
+
+    ,
 
     hideRoute() {
         this.resultDrawArr.forEach(d => d.setMap(null));
@@ -189,6 +217,7 @@ const mainMapLib = {
         this.poster = response.poster;
         this.content = response.content;
         this.seq = response.seq;
+        this.boardData = response.boardData;
 
         const viaPoints = JSON.parse(response.viaPoints);
         console.log("viaPoints", viaPoints);
@@ -201,7 +230,8 @@ const mainMapLib = {
                 position: new Tmapv2.LatLng(lat, lng),
                 map: this.map,
                 icon: 'https://github.com/user-attachments/assets/62de235a-400d-4f78-b865-e4ab7d061828',
-                iconSize: new Tmapv2.Size(35, 35)
+                iconSize: new Tmapv2.Size(35, 35),
+                animation: Tmapv2.MarkerOptions.ANIMATE_BALLOON,
             };
 
             const viaMarker = new Tmapv2.Marker(opt);
@@ -214,7 +244,7 @@ const mainMapLib = {
         this.updateInfoBox(this.subject, this.content, this.poster, this.seq);
     },
 
-    updateInfoBox(subject, content, poster, seq) {
+    updateInfoBox(subject, content, poster, seq, boardData) {
         const infoBox = document.getElementById('infoBox');
         if (infoBox) {
             const titleEl = infoBox.querySelector('.info-title');
@@ -222,12 +252,38 @@ const mainMapLib = {
             const posterEl = infoBox.querySelector('.info-poster');
             const seqEl = infoBox.querySelector('.info-seq');
 
+
             if (titleEl) titleEl.innerHTML = subject || "제목";
             if (contentEl) contentEl.innerHTML = content || "게시글 내용";
             if (posterEl) posterEl.innerHTML = poster || "작성자";
-            if (seqEl) seqEl.innerHTML = seq || "seq";
+            if (seq !== null) {
+                if (seqEl) {
+                    const href = seqEl.href.substring(0, seqEl.href.lastIndexOf("/")) + "/" + this.seq;
+                    seqEl.href = href;
+                    ifrmBoard.location.href = href.substring(0, href.lastIndexOf("/board/view/")) + "/board/comment/" + this.seq;
+                }
+            }
         }
     }
 
+    ,
+    updateInfoBoxState() {
+        const infoBox = document.getElementById('infoBox');
+        const toggleButton = document.querySelector('#toggleButton');
+
+        if (!this.clickable && infoBox.classList.contains('info-box-expanded')) {
+            infoBox.classList.remove('info-box-expanded');
+        } else {
+            infoBox.classList.add('info-box-expanded');
+        }
+
+        if (infoBox.classList.contains('info-box-expanded')) {
+            toggleButton.style.right = '300px';
+            toggleButton.textContent = '>'; // 열렸을 때
+        } else {
+            toggleButton.style.right = '0px';
+            toggleButton.textContent = '<'; // 닫혔을 때
+        }
+    }
 
 };

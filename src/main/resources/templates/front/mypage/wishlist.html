@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
-    <aside th:fragment="menus">
+    <main layout:fragment="content">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/wishlist.css}">
+
+        <h1 class="pn" th:text="${pageTitle}"></h1>
+
         <a th:href="${@utils.redirectUrl('/mypage/info')}" th:text="#{회원_정보}"></a>
-        <a th:href="${@utils.redirectUrl('/mypage/mypost')}" th:text="#{내가_쓴_게시글}"></a>
-        <a th:href="${@utils.redirectUrl('/mypage/wishlist')}" th:text="#{찜한_게시글}"></a>
-    </aside>
+        <a th:href="${@utils.redirectUrl('/mypage/post')}" th:text="#{내가_쓴_게시글}"></a>
+    </main>
 </html>

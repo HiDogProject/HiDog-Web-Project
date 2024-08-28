@@ -97,4 +97,15 @@ public class WishListService {
 
         return false;
     }
+
+    /**
+     * 특정 게시글에 대한 좋아요 갯구 구하기
+     * @param seq
+     * @return
+     */
+    public Long getWishCount(Long seq){
+
+        Long count = wishListRepository.countBySeq(seq);
+        return count;
+    }
 }
