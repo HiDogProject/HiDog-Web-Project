@@ -111,6 +111,6 @@ public class ThumbnailService {
             dir += String.format("/%d_%d_%d%s", width, height, Objects.hash(url), extension); // Objects.hash(url) : 파일명
         }
 
-        return null;
+        return dir;
     }
 }
