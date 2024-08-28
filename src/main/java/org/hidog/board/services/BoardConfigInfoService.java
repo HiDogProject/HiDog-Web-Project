@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +61,6 @@ public class BoardConfigInfoService {
         try {
             String url = utils.adminUrl("/api/board");
             ResponseEntity<JSONData> response = restTemplate.getForEntity(url, JSONData.class);
-            System.out.println(response);
             if (response.getStatusCode().isSameCodeAs(HttpStatus.OK)) {
                 JSONData jsonData = response.getBody();
                 if (!jsonData.isSuccess()) {
@@ -74,7 +72,6 @@ public class BoardConfigInfoService {
 
                 List<String[]> board = om.readValue(om.writeValueAsString(data), new TypeReference<>() {});
 
-                board.forEach(d -> System.out.println(Arrays.toString(d)));
                 return board;
             }
         } catch (Exception e) {
@@ -84,16 +81,4 @@ public class BoardConfigInfoService {
         return null;
     }
 
-    /**
-     * Admin서버에서 가져온 BoardConfig중에서 Board의 특정 스킨만 가져오는것.
-     * @param skin - Board 설정에서 Skin 값
-     * @return
-     */
-    public List<String[]> getBoardList(String skin){
-        List<String[]> boardList = getBoardList();
-        List<String[]> filteredList = boardList.stream()
-                .filter(array -> Arrays.stream(array).anyMatch(skin::equals))
-                .toList();
-        return filteredList;
-    }
 }
