@@ -28,10 +28,12 @@ const mainMapLib = {
                 position: new Tmapv2.LatLng(lat, lng),
                 map: this.map,
                 icon: 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9',
-                iconSize: new Tmapv2.Size(50, 50)
+                iconSize: new Tmapv2.Size(50, 50),
+
             };
 
             const startMarker = new Tmapv2.Marker(opt);
+
             this.markers.push(startMarker);
             let clickable = true;
 
@@ -170,7 +172,11 @@ const mainMapLib = {
         const polyline_ = new Tmapv2.Polyline({
             path: arrPoint,
             strokeColor: 'rgba(178,102,53,0.22)',
-            strokeWeight: 4.5,
+            strokeWeight: 7,
+            direction: true,
+            strokeStyle: 'solid',
+            directionColor: "white",
+            directionOpacity: 0.6,
             map: this.map
         });
         this.resultDrawArr.push(polyline_);
