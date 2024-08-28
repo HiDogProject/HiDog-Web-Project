@@ -19,5 +19,12 @@
         <div th:replace="~{front/board/market/_common::pageTitle}"></div>
         <th:block th:replace="~{front/board/market/_list_items::items}"></th:block>
     </th:block>
+
+    <th:block th:if="${board.skin == 'gallery'}">
+        <div th:replace="~{front/board/gallery/_common::pageTitle}"></div>
+    </th:block>
+    <th:block th:if="${board.skin == 'gallery'}">
+        <th:block th:replace="~{front/board/gallery/_list_items::items}"></th:block>
+    </th:block>
 </main>
 </html>

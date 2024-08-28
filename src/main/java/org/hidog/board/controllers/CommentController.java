@@ -43,13 +43,14 @@ public class CommentController implements ExceptionProcessor {
      */
     @PostMapping("/save")
     public String save(@Valid RequestComment form, Errors errors, Model model) {
-
         commentValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             FieldError error = errors.getFieldErrors().stream().findFirst().orElse(null);
-
-            throw new AlertException(utils.getMessage(error == null || error.getCodes() == null ? "BadRequest" :  error.getCodes()[0]), HttpStatus.BAD_REQUEST);
+            throw new AlertException(
+                    utils.getMessage(error == null || error.getCodes() == null ? "BadRequest" : error.getCodes()[0]),
+                    HttpStatus.BAD_REQUEST
+            );
         }
 
         CommentData commentData = commentSaveService.save(form); // 댓글 저장, 수정

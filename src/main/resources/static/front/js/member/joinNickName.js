@@ -9,8 +9,11 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        fetch(`/app/member/join/check-username?userName=${encodeURIComponent(userName)}`)
-            .then(response => response.json()) // JSON 응답 처리
+        // 요청 URL 설정
+        var url = `/member/join/check-username?userName=${encodeURIComponent(userName)}`;
+
+        // ajaxLoad 함수 호출
+        commonLib.ajaxLoad(url, "GET", null, null, "json")
             .then(isTaken => {
                 if (isTaken) {
                     resultSpan.textContent = "이미 사용 중인 닉네임입니다.";

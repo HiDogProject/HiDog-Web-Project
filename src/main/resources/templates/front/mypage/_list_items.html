@@ -1,40 +1,40 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
+
     <th:block th:fragment="items">
 
-        <ul class="list-items">
-            <li th:if="${items == null || items.empty}" th:text="#{조회된_게시글이_없습니다.}" class="no-data"></li>
+        <tr th:if="${items == null || items.empty}" class="no-data">
+            <td colspan="4" th:text="#{조회된_게시글이_없습니다.}"></td>
+        </tr>
 
-            <li th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}">
-
+        <tr th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}" class="item">
+            <td>
                 <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="subject">
-
                     <span th:if="*{notice}" th:text="${'[' + #messages.msg('공지') + ']'}"></span>
 
                     <span th:if="*{category != null && category != ''}" th:text="*{'[' + category + ']'}" class="category"></span>
 
                     <th:block th:text="*{subject}"></th:block>
                 </a>
+            </td>
 
-                <div class="post-info">
+            <td>
+                <span class="poster">
+                    <th:block th:text="*{poster}"></th:block>
 
-                    <span class="poster">
+                    <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
+                </span>
+            </td>
 
-                        <th:block th:text="*{poster}"></th:block>
-
-                        <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
-                    </span>
-
+            <td>
                     <span class="view-count" th:if="*{viewCount > 0}"
-
                           th:text="*{viewCount < 1000 ? viewCount : #numbers.formatInteger(viewCount, 3, 'COMMA')}"></span>
+            </td>
 
-                    <span class="datetime" th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
-                </div>
-            </li>
-        </ul>
-
-        <th:block th:replace="~{common/_pagination::pagination}"></th:block>
-
+            <td>
+                <span class="datetime" th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
+            </td>
+        </tr>
     </th:block>
 </html>
