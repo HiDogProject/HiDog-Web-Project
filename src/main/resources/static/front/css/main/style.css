@@ -45,13 +45,25 @@ body, html {
     padding: 20px;
 }
 
-/* 이미지 스타일 */
+/* 아이콘 이미지 스타일 */
 .image-container img {
     width: 100px;
     height: 100px;
     border: 2px solid #ccc;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.image-container a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 160px;
+}
+
+.image-container h3 {
+    margin-top: 10px;
 }
 
 /* 서브 배너 */
@@ -81,4 +93,58 @@ body, html {
     border-radius: 25px;
     height: 390px;
     width: 600px;
+}
+
+/* 공지사항 1 */
+.notice1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px 0 10px 150px;
+    width: 300px;
+    text-align: center;
+}
+
+.notice1 .bulb {
+    width: auto;
+    height: 40px;
+    border: none;
+}
+
+.notice1 .no {
+    font-size: 20px;
+    margin: 0;
+}
+
+/* 공지사항 2 */
+.notice2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 15px;
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.notice2 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.notice2 .no2 {
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+/* 공지사항 강아지 이미지 */
+.notice2 .nd {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 10px;
 }
