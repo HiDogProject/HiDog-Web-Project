@@ -58,9 +58,23 @@ img { border: 0; }
 
 /* 헤더 영역 */
 header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: white;
-    padding: 10px 15px 15px 15px;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+}
+
+/* 로고 및 제목 */
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
 }
 
 /* 제목 */
@@ -71,39 +85,91 @@ header {
     margin: 0;
 }
 
-.logo img {
-    align-items: flex-start;
-    width: 50px;
-    height: 50px;
-}
-
-/* 네비게이션 메뉴 */
-nav {
-    display: flex;
-    justify-content: flex-end;
-}
-
-/* 메뉴 바 */
-.menus {
-    display: flex;
-    gap: 20px;
-}
-
-/* 메뉴 항목  */
-.menus li {
+/* 드롭 다운 메뉴 바 */
+.drop {
     display: flex;
     align-items: center;
 }
 
+.dropdown {
+    position: relative;
+    margin-right: 20px;
+    align-items: center;
+    height: 40px;
+}
+
+.nav_title {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.nav_title a {
+    text-decoration: none;
+    color: #333;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    background-color: white;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li {
+    margin: 0;
+}
+
+.dropdown-content li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    align-items: center;
+    height: 40px;
+}
+
+.dropdown-content li a:hover {
+    background-color: #9dc5f6;
+}
+
+/* 메뉴 바 */
+.menus {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* 메뉴 항목  */
+.menus li {
+    margin-left: 10px;
+}
+
 /* 링크 */
 .hba {
-    display: inline-block;
+    text-decoration: none;
 }
 
 /* 버튼 */
-button.hb {
+.hb {
     background-color: #9dc5f6;
-    color: #fff;
+    color: white;
     border: none;
     padding: 10px 20px;
     font-size: 11px;
