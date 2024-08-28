@@ -72,6 +72,13 @@ public class BoardValidator implements Validator, PasswordValidator {
                 }
 
                 /**
+                 * 게시글 삭제는 본인만 삭제 가능
+                 * 
+                 */
+
+
+
+                /**
                  공지글은 관리자만 작성 가능, 관리자가 아닌 경우 false로 고정
                  */
                 if ( !memberUtil.isAdmin()) {
