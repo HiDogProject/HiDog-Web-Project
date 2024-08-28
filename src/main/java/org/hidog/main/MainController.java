@@ -24,9 +24,12 @@ public class MainController {
         List<String[]> boardList = configInfoService.getBoardList();
 
         model.addAttribute("boardList", boardList);
-
+        /* 공통 헤더 & 푸터 이미지 */
         model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
         model.addAttribute("imageUrl2", utils.url("/common/img/main_dog.png")); // 메인 이미지
+        model.addAttribute("imageUrl3", utils.url("/common/img/main_dog3.png")); // 메인 이미지2
+        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
+        model.addAttribute("CAUrl", utils.url("/common/img/choongang.png")); // 푸터 전화기 이미지
 
         model.addAttribute("addCommonCss", List.of("swiper-bundle.min"));
         model.addAttribute("addScript", List.of( "main/banner"));
@@ -47,6 +50,12 @@ public class MainController {
         /* 서브 배너 이미지 */
         model.addAttribute("subUrl1", utils.url("/common/img/Jb2.jpg"));
         model.addAttribute("subUrl2", utils.url("/common/img/Jb1.png"));
+
+        /* 공지사항 이미지 */
+        model.addAttribute("bulbUrl", utils.url("/common/img/bulb.gif"));
+        model.addAttribute("noUrl", utils.url("/common/img/no_dog.jpg"));
+
+        /* 게시판별 최신 게시글 추가 */
 
         return "front/main/index";
     }
