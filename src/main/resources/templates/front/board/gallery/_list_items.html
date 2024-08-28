@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="items">
+
+    <div th:replace="~{common/_search_top}"></div>
+    <nav th:replace="~{front/board/gallery/_common::categorylink}"></nav>
+
+
+        <div class="links" th:if="${mode == null || mode != 'search'}">
+            <form th:action="${@utils.redirectUrl('/board/write/' + board.bid)}" method="get">
+                <button type="submit" class="write_btn" th:text="#{글쓰기}"></button>
+            </form>
+        </div>
+
+        <ul class="list-items">
+            <li th:if="${items == null || items.empty}" th:text="#{조회된_게시글이_없습니다.}" class="no-data"></li>
+            <li th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}">
+                <a th:href="*{@utils.redirectUrl('/board/view/' + seq )}" class="subject">
+                    [[*{editorImages}]]
+                    <th:block th:if="*{!#lists.isEmpty(attachFiles)}">
+                        <img th:src="*{@utils.getThumbUrl(attachFiles[0].seq, 100, 100)}">
+                    </th:block>
+                    <span class="notice" th:if="*{notice}">
+                        [<th:block th:text="#{공지}"></th:block>]
+                    </span>
+                    <span class="category" th:if="*{category != null && category != ''}" th:text="*{'[' + category +']'}" ></span>
+                    <th:block th:text="*{subject}"></th:block>
+                </a>
+
+                <div class="post_info">
+                    <span class="poster">
+                        <th:block th:text="*{poster}"></th:block>
+                        <th:block th:if="*{member != null}"
+                                  th:text="*{'(' + member.email + ')'}"></th:block>
+                    </span>
+                    <span class="view_count">
+                        조회수 :
+                        <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
+                    </span>
+
+                    <span class="post_date"
+                          th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
+                </div>
+                <!--// post_info -->
+            </li>
+        </ul>
+    <!--// board_list -->
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+</th:block>
+</html>

@@ -79,6 +79,8 @@ public class MyPageController implements ExceptionProcessor {
     @GetMapping("/post")
     public String myPost(@ModelAttribute CommonSearch search, Model model) {
 
+        commonProcess("post", model);
+
         ListData<BoardData> data = boardInfoService.getMyList(search);
 
         model.addAttribute("items", data.getItems());
@@ -102,7 +104,7 @@ public class MyPageController implements ExceptionProcessor {
     //내 상점
     @GetMapping("/shop/{seq}")
     public String info(@PathVariable("seq") Long seq, Model model) {
-        commonProcess("", model);
+        commonProcess("shop", model);
         List<String[]> boardList = boardConfigInfoService.getBoardList("market");
         return utils.tpl("mypage/shop");
     }

@@ -41,5 +41,4 @@ public class Member extends BaseEntity implements Serializable {
     @Transient
     private FileInfo profileImage;
 
-    private int postCount = 0;
 }
