@@ -194,3 +194,72 @@ button.hb:hover {
     align-items: center;
     gap: 10px;
 }
+
+/* 푸터 영역 S */
+footer {
+    background: #f9f9f9;
+    padding: 25px 0 50px;
+    margin-top: 100px;
+    text-align: center;
+    width: 100%;
+}
+
+footer .I {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 auto 12px;
+    display: block;
+}
+
+footer .center_phone {
+    border: 2px solid #2a2a2a;
+    border-radius: 20px;
+    height: 35px;
+    line-height: 31px;
+    width: 190px;
+    display: block;
+    margin: 0 auto 7px;
+    font-size: 1.538rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+footer .center_phone img {
+    height: 25px;
+    vertical-align: middle;
+}
+
+footer .choongang-info, footer .company-info {
+    font-size: 0.923rem;
+    color: #2a2a2a;
+    text-align: center;
+}
+
+footer .company-info {
+    margin: 3px 0 8px;
+    font-weight: 600;
+    color: #878787;
+}
+
+footer .links {
+    text-align: center;
+}
+
+footer .links a {
+    font-size: 0.846rem;
+    padding: 0 11px;
+    color: #878787;
+    position: relative;
+}
+
+footer .links a:not(.last)::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 8px;
+    background: #878787;
+    position: absolute;
+    right: 0;
+    top: 4px;
+}
+/* 푸터 영역 E */
