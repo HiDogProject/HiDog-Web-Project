@@ -335,9 +335,7 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("mode", mode);
 
-        System.out.println("addCommonScript" + addCommonScript);
         //권한 체크
-
         if(List.of("write","list").contains(mode)) {
             authService.check(mode, board.getBid());
         }
