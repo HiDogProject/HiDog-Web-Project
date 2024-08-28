@@ -3,58 +3,76 @@
 
     <main layout:fragment="content">
 
-        <div class="swiper-container">
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css}">
+        <script th:src="@{https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js}"></script>
+        <script th:src="@{/front/js/main/banner.js}"></script>
+
+        <section class="swiper-container">
             <div class="swiper mySwiper">
 
                 <div class="swiper-wrapper">
 
-                    <!-- Slide 1 -->
                     <div class="swiper-slide">
                         <div class="main_img">
                             <img th:src="${imageUrl2}" alt="main img">
                         </div>
                     </div>
 
-                    <!-- Slide 2 -->
                     <div class="swiper-slide">
                         <div class="main_img">
-                            <img th:src="${imageUrl2}" alt="main img">
+                            <img th:src="${imageUrl3}" alt="main img">
                         </div>
                     </div>
 
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
-        </div>
+        </section>
 
         <div class="image-container">
-            <a th:href="@{/app/board/write/3}">
+
+            <a th:href="@{/board/write/3}">
                 <img th:src="${imageUrl_D1}" alt="Market Image">
+
+                <h3 class="in">화개장터</h3>
             </a>
 
-            <a href="/link/to/adopt">
-                <img th:src="${imageUrl_D2}" alt="Adopt Image">
+            <a href="https://www.animal.go.kr/front/index.do">
+                <img th:src="${imageUrl_D2}" alt="국가동물보호정보시스템">
+
+                <h3 class="in">국가동물보호정보시스템</h3>
             </a>
 
-            <a th:href="@{/app/board/write/2}">
-                <img th:src="${imageUrl_D3}" alt="Sotong Image">
+            <a th:href="@{/board/write/2}">
+                <img th:src="${imageUrl_D3}" alt="소통하개">
+
+                <h3 class="in">소통하개</h3>
             </a>
 
-            <a th:href="@{/app/board/write/4}">
-                <img th:src="${imageUrl_D4}" alt="Jarang Image">
+            <a th:href="@{/board/write/4}">
+                <img th:src="${imageUrl_D4}" alt="자랑하개">
+
+                <h3 class="in">자랑하개</h3>
             </a>
 
             <a href="/link/to/notice">
-                <img th:src="${imageUrl_D5}" alt="Notice Image">
+                <img th:src="${imageUrl_D5}" alt="공지사항">
+
+                <h3 class="in">공지사항</h3>
             </a>
 
-            <a href="/link/to/weather">
-                <img th:src="${imageUrl_D6}" alt="Weather Image">
+            <a href="https://weather.naver.com/">
+                <img th:src="${imageUrl_D6}" alt="네이버 날씨">
+
+                <h3 class="in">날씨</h3>
             </a>
 
             <a href="/link/to/contest">
                 <img th:src="${imageUrl_D7}" alt="Contest Image">
+
+                <h3 class="in">이달개</h3>
             </a>
         </div>
 
@@ -62,14 +80,26 @@
             <h2 class="tn">Hi dog 주간 Top</h2>
 
             <div class="sub_banner">
-                <a th:href="@{/app/board/list/1}"> <!-- 산책하개 -->
+                <a th:href="@{/board/list/1}"> <!-- 산책하개 -->
                     <img th:src="${subUrl2}" alt="sub banner2">
                 </a>
 
-                <a th:href="@{/app/board/list/4}"> <!-- 자랑하개 -->
+                <a th:href="@{/board/list/4}"> <!-- 자랑하개 -->
                     <img class="su" th:src="${subUrl1}" alt="sub banner2">
                 </a>
             </div>
+        </div>
+
+        <div class="notice1">
+            <img class="bulb" th:src="${bulbUrl}" alt="bulb">
+            <h3 class="no">notice!</h3>
+        </div>
+
+        <div class="notice2">
+            <a th:href="@{mypage/post}"> <!-- 공지 사항 -->
+                <h3 class="no2">공지사항</h3>
+                <img class="nd" th:src="${noUrl}" alt="notice dog">
+            </a>
         </div>
     </main>
 </html>
