@@ -1,0 +1,221 @@
+.view-content {
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    font-family: Arial, sans-serif;
+}
+
+.product_info1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.product_info1 .subject {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.product_info1 .price {
+    font-size: 22px;
+    color: #FF4500; /* Orange color for the price */
+}
+
+.post_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.post_info .view_count {
+    margin-right: 15px;
+}
+
+.links {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+
+
+.product_info2 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.poster_info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #666;
+}
+
+.poster_info .left {
+    display: flex;
+    align-items: center;
+}
+
+.poster_info .left th:block:first-child {
+    margin-right: 5px;
+}
+
+.profile-image img {
+    width: 30px; /* 원하는 크기로 조정 */
+    height: 30px; /* 원하는 크기로 조정 */
+    object-fit: cover; /* 이미지를 잘라서 맞춤 */
+    border-radius: 50%; /* 둥글게 만듦 */
+    border: 2px solid #ccc; /* 테두리 추가 (선택사항) */
+}
+
+
+
+
+body {
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+}
+
+.container {
+    max-width: 1000px; /* 원하는 최대 너비를 설정 */
+    margin: 0 auto; /* 양옆을 자동으로 설정하여 중앙 정렬 */
+    padding: 20px; /* 컨테이너 안쪽 여백 추가 */
+}
+
+
+h2 {
+    height: 100px;
+    color: rgb(25, 25, 25);
+    font-size: 26px;
+    font-weight: 400;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-bottom: 2px solid rgb(25, 25, 25);
+}
+
+dl {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 10px 0;
+    margin-bottom: 40px;
+    align-items: flex-start;
+    border-bottom: 1px solid rgb(244, 244, 244);
+}
+
+dt,dd{
+    margin: 0;
+    padding: 10px;
+}
+
+dt {
+    width: 20%;
+    width: 10.5rem;
+    font-size: 18px;
+    font-weight: 400;
+    color: rgb(25, 25, 25);
+    padding-right: 10px;
+}
+
+dd {
+    width: 80%;
+    padding-left: 10px;
+}
+
+dd input[type="text"] {
+    width: 100%; /* input 요소가 dd의 너비를 채우도록 설정 */
+    padding: 5px; /* 내부 여백 */
+    height:3rem;
+    box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #2e2c2c;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+input[type="number"]{
+    width: 30%;
+    padding: 8px;
+    border: 1px solid #2e2c2c;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+    height: 150px;
+}
+
+::placeholder{
+    color: rgb(140, 140, 140);
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.error.global {
+    margin-bottom: 20px;
+    color: red;
+    font-size: 14px;
+}
+
+dl + h2 {
+    margin-top: 30px;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+label {
+    margin-right: 20px;
+}
+
+input[type="hidden"] {
+    display: none;
+}
+
+input[type="file"] {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.button-group {
+    text-align: right; /* 버튼을 오른쪽으로 정렬 */
+}
+
+button {
+    padding: 20px 40px;
+    margin-left: 10px;
+    background-color: #9dc5f6;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+

@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
-    <div class="board_list layout_width">
+    <div class="board_list">
 
         <th:block th:replace="~{front/board/market/_search::search}"></th:block>
 
-        <ul class="items">
+        <ul class="posts">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
                 th:text="#{조회된_게시글이_없습니다.}"></li>
 
             <li th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" class="item">
                 <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="item-link">
-                    <span class="subject">
-                        <th:block th:text="*{subject}"></th:block>
-                    </span>
+                    <dl class="subject">
+                        <dd th:text="*{subject}"></dd>
+                    </dl>
 
-                    <span class="product_info">
-                        <span class="product_name">
-                            <th:block th:text="*{text1}"></th:block>
-                        </span>
-                        <span class="price">
-                            <th:block th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></th:block>
-                            <th:block th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></th:block>
-                        </span>
-                    </span>
-                    <div class="post_info">
-                        <span class="view_count">
+                    <dl class="product_info">
+                        <dt class="product_name">
+                            <dd th:text="*{text1}"></dd>
+                        </dt>
+                        <dt class="price">
+                            <dd th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></dd>
+                            <dd th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></dd>
+                        </dt>
+                    </dl>
+                    <dl class="post_info">
+                        <dd class="view_count">
                             조회수 :
-                            <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
-                        </span>
-                        <span class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></span>
-                    </div>
+                            <dd th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></dd>
+                        </dd>
+                        <dt class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></dt>
+                    </dl>
                 </a>
                 <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
-                    <span class="poster_info">
-                        <div class="profile-image">
+                    <dl class="poster_info">
+                        <dd class="profile-image">
                             <img th:if="${item.member != null and item.member.profileImage != null}" th:src="@{${item.member.profileImage.fileUrl}}" alt="Profile Image">
-                        </div>
-                        <th:block th:text="*{poster}"></th:block>
-                    </span>
+                        </dd>
+                        <dd th:text="*{poster}"></dd>
+                    </dl>
                 </a>
+                <dd th:text="${item.member}"></dd>
+                <dd th:text="${item.member.profileImage}"></dd>
             </li>
         </ul>
         <!--// list_search -->
