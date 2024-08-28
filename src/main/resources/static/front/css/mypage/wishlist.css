@@ -1,50 +1,101 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* 전체 페이지 스타일 */
 main {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
-    margin: 20px 0 20px 0;
+    color: #333;
     padding: 20px;
 }
 
-h1 {
+h1.pn {
     text-align: center;
-    font-size: 2em;
-    color: #333;
-    margin: 0 0 20px 0;
+    font-size: 2rem;
+    margin-bottom: 30px;
 }
 
-.wishlist-table {
-    width: 80%;
+/* 전체 컨테이너 스타일 */
+.wishlist-container {
+    max-width: 1200px;
     margin: 0 auto;
-    border-collapse: collapse;
-    background-color: white;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 아이템 목록 스타일 */
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* 각 아이템 카드 스타일 */
+.item {
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    margin-bottom: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.wishlist-table th, .wishlist-table td {
+.item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.item-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.item-details {
     padding: 15px;
+}
+
+.item-title {
+    margin: 0 0 10px;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.item-description {
+    margin: 0;
+    color: #555;
+}
+
+/* 페이지네이션 스타일 */
+.pagination-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
     border: 1px solid #ddd;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.wishlist-table th {
-    background-color: #72A2F1;
-    color: white;
-    text-align: center;
-}
-
-.wishlist-table td a {
-    color: #007bff;
+    border-radius: 4px;
     text-decoration: none;
+    color: #333;
+    background-color: #f5f5f5;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.wishlist-table td a:hover {
-    text-decoration: underline;
+.page-link:hover {
+    background-color: #ddd;
+}
+
+.page-link.active {
+    background-color: #333;
+    color: #fff;
+}
+
+.page-link.disabled {
+    color: #aaa;
+    cursor: not-allowed;
+    background-color: #e5e5e5;
 }
