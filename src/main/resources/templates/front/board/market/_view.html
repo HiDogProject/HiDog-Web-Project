@@ -1,49 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 <dd th:fragment="view">
-
     <div class="container1" th:object="${boardData}">
-        <dl>
-            <dd th:text="*{subject}"></dd>
-        </dl>
-        <dl>
-            <dd th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></dd>
-            <dd th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></dd>
-        </dl>
-       <dl>
-           <dd th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></dd>
-           <dd th:text="${wishCount}"></dd>
-           <dd class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></dd>
-       </dl>
-        <div class="links">
-            <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">찜</span>
-            <a th:href="*{@utils.redirectUrl('/order')}" th:text="#{구매}"></a>
+        <div class="top-section">
+            <div class="image-section">
+                <img src="https://cdn.imweb.me/upload/S20211026228188315d8e6/d4365990c7671.jpg" alt="Product Image">
+            </div>
+
+            <div class="details-wrapper">
+                <div class="details-section">
+                    <span class="subject" th:text="*{subject}"></span>
+                    <div class="price-section">
+                        <p class="price" th:unless="*{num1 == 0}"
+                           th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></p>
+                        <p class="free" th:if="*{num1 == 0}" th:text="#{무료나눔}"></p>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <img th:src="${@utils.url('/common/img/market/view.png')}" width="21" height="13" alt="조회수 아이콘">
+                    <span class="views"
+                          th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></span>
+                    <img th:src="${@utils.url('/common/img/market/heart.png')}" width="16" height="16" alt="찜 아이콘">
+                    <span class="wish-count" th:text="${wishCount}"></span>
+                    <img th:src="${@utils.url('/common/img/market/time.png')}" width="16" height="16" alt="작성일 아이콘">
+                    <span class="post-date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></span>
+                </div>
+                <div class="links">
+                    <button th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}"
+                            data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">찜
+                    </button>
+                    <a class="buy-button" th:href="*{@utils.redirectUrl('/order')}" th:text="#{구매}">구매</a>
+                </div>
+            </div>
         </div>
 
-        <dl>
-            <dd th:text="*{content}"></dd>
-        </dl>
-
-        <div class="poster_info">
-            <dl>
-                <dt th:text="#{상점정보}"></dt>
-                <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
-                    <span class="poster_info">
+        <div class="bottom-section">
+            <div class="content-section">
+                <dl th:text="#{상품정보}"></dl>
+                <p th:text="*{content}"></p>
+            </div>
+            <div class="poster-info">
+                <dl>
+                    <dl th:text="#{상점정보}"></dl>
+                    <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
                         <div class="profile-image">
-                            <img th:if="${boardData.member != null and boardData.member.profileImage != null}" th:src="@{${item.member.profileImage.fileUrl}}" alt="Profile Image">
+                            <img th:if="${boardData.member != null and boardData.member.profileImage != null}"
+                                 th:src="@{${boardData.member.profileImage.fileUrl}}" alt="Profile Image">
                         </div>
-                        <th:block th:text="*{poster}"></th:block>
-                    </span>
-                </a>
-            </dl>
+                        <span th:text="*{poster}"></span>
+                    </a>
+                </dl>
+            </div>
         </div>
+
         <div class="links">
-            <a th:if="*{showEdit}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}" th:text="#{수정}" class="btn"></a>
-            <a th:if="*{showDelete}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}" th:text="#{삭제}" onclick="return confirm('정말 삭제하겠습니까?');" class="btn"></a>
+            <a class="btn" th:if="*{showEdit}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}" th:text="#{수정}">수정</a>
+            <a class="btn" th:if="*{showDelete}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}" th:text="#{삭제}"
+               onclick="return confirm('정말 삭제하겠습니까?');">삭제</a>
         </div>
-
-
-    </div>  <!--// view-content -->
-
-</th:block>
+    </div>
+</dd>
+</body>
 </html>

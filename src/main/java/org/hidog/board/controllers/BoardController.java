@@ -301,6 +301,10 @@ public class BoardController implements ExceptionProcessor {
         // 스킨별 공통 CSS
         addCss.add("board/" + skin + "/style");
 
+        if(skin.equals("market")){
+           addCss.add("board/market/" + mode);
+        }
+
         if (mode.equals("write") || mode.equals("update")) {
             // 글쓰기, 수정
             // 파일 업로드, 에디터 - 공통
