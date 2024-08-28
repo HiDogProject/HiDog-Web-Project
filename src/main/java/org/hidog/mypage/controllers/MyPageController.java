@@ -2,9 +2,7 @@ package org.hidog.mypage.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hidog.board.advices.BoardControllerAdvice;
 import org.hidog.board.entities.BoardData;
-import org.hidog.board.services.BoardConfigInfoService;
 import org.hidog.board.services.BoardInfoService;
 import org.hidog.global.CommonSearch;
 import org.hidog.global.ListData;
@@ -18,7 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +113,6 @@ public class MyPageController implements ExceptionProcessor {
         return utils.tpl("mypage/wishlist");
     }
 
-
     private void commonProcess(String mode, Model model) {
 
         mode = StringUtils.hasText(mode) ? mode : "";
@@ -137,9 +137,6 @@ public class MyPageController implements ExceptionProcessor {
         } else if (mode.equals("wishlist")) {
             addCss.add("mypage/wishlist");
             pageTitle = "찜 목록";
-        } else if (mode.equals("shop")) {
-            addCss.add("mypage/shop");
-            pageTitle = "상점";
         }
 
         model.addAttribute("addCommonScript", addCommonScript);
