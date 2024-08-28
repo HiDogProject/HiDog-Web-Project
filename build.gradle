@@ -40,7 +40,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     implementation 'org.modelmapper:modelmapper:3.2.1' //ModelMapper » 3.2.1
-
+    implementation 'net.coobird:thumbnailator:0.4.20' // 썸네일
 
 
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'

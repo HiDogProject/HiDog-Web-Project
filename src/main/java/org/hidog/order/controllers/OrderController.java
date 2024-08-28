@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.BoardData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
+import org.hidog.member.MemberUtil;
 import org.hidog.order.entities.OrderInfo;
 import org.hidog.order.services.OrderInfoService;
 import org.hidog.order.services.OrderPayService;
@@ -29,6 +30,7 @@ public class OrderController implements ExceptionProcessor {
     private final OrderInfoService infoService;
     private final OrderSaveService saveService;
     private final OrderPayService payService;
+    private final MemberUtil memberUtil;
 
     @ModelAttribute("payMethods")
     public List<String[]> payMethods(){
@@ -42,8 +44,10 @@ public class OrderController implements ExceptionProcessor {
     @GetMapping //주문서양식
     public String index(@ModelAttribute RequestOrder form, HttpSession session, Model model){
         BoardData boardData = (BoardData) session.getAttribute("boardData");
-        model.addAttribute("addCss", "order/style");
-        model.addAttribute("addScript", "order/joinAddress");
+        model.addAttribute("addScript", List.of("order/joinAddress", "order/form"));
+        form.setOrderName(memberUtil.getMember().getUserName());
+        form.setOrderEmail(memberUtil.getMember().getEmail());
+
 
 
         if (boardData != null) {

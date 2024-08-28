@@ -10,6 +10,5 @@ import java.util.List;
 public interface BoardDataRepository extends JpaRepository<BoardData, Long>, QuerydslPredicateExecutor<BoardData> {
     BoardData findByLongText1(String longText1);
     List<BoardData> findByLongText1IsNotNull();
-
 }
 

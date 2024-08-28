@@ -55,7 +55,7 @@ public class WalkingController {
         // Ajax로 선택한 마커 "clickDeparturePoint" 데이터 받아옴
         List<Map<String, String>> clickDeparturePoint = data.get("clickDeparturePoint");
 
-        Map<String, Object>  boardData = mainMapMarkerService.viaMarkerLocation(clickDeparturePoint);
+        Map<String, Object> boardData = mainMapMarkerService.locationDataSearch(clickDeparturePoint);
 
         return boardData;
     }
