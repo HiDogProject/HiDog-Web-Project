@@ -15,6 +15,7 @@ const mainMapLib = {
     poster: "작성자",
     content: "게시글 내용",
     seq: null,
+    clickable: true,
     init() {
         const startMarkerElement = document.querySelector('[data-startMarker]');
         const startMarkerData = startMarkerElement.getAttribute('data-startMarker');
@@ -35,19 +36,19 @@ const mainMapLib = {
             const startMarker = new Tmapv2.Marker(opt);
 
             this.markers.push(startMarker);
-            let clickable = true;
 
             let clickDeparturePoint = [];
 
             startMarker.addListener('click', () => {
-                if (clickable) {
+                if (this.clickable) {
                     this.markers.forEach(marker => {
                         if (marker !== startMarker) {
                             marker.setVisible(false);
                         }
                     });
+                    this.updateInfoBoxState()
                     this.showRoute();
-                    clickable = false;
+                    this.clickable = false;
 
                     const position = startMarker.getPosition();
                     const latFixed = parseFloat(position.lat()).toFixed(12);
@@ -75,10 +76,12 @@ const mainMapLib = {
                     this.viaMarkers.forEach(marker => {
                         marker.setMap(null);
                     });
+                    this.updateInfoBoxState()
+
                     this.viaMarkers = [];
 
                     this.hideRoute();
-                    clickable = true;
+                    this.clickable = true;
                     this.resultDrawArr = [];
 
                     this.subject = null;
@@ -237,5 +240,24 @@ const mainMapLib = {
         }
     }
 
+    ,
+    updateInfoBoxState() {
+        const infoBox = document.getElementById('infoBox');
+        const toggleButton = document.querySelector('#toggleButton');
+
+        if (!this.clickable && infoBox.classList.contains('info-box-expanded')) {
+            infoBox.classList.remove('info-box-expanded');
+        } else {
+            infoBox.classList.add('info-box-expanded');
+        }
+
+        if (infoBox.classList.contains('info-box-expanded')) {
+            toggleButton.style.right = '300px';
+            toggleButton.textContent = '>'; // 열렸을 때
+        } else {
+            toggleButton.style.right = '0px';
+            toggleButton.textContent = '<'; // 닫혔을 때
+        }
+    }
 
 };
