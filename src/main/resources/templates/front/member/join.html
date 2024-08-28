@@ -21,25 +21,26 @@
         <dl>
             <dt th:text="#{이메일}"></dt>
             <dd>
-                <div>
-                    <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
-                    <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드_전송}"></button>
-                    <br>
+                <div class="email_input_container">
+                    <div class="input_with_button">
+                        <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
+                        <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드_전송}"></button>
+                    </div>
                 </div>
                 <div class="auth_box">
-                    <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
+                    <div class="input_with_button">
                         <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
                         <span id="auth_count">03:00</span>
-                        <br>
                         <button type="button" id="email_confirm" th:text="#{확인}" disabled></button>
                         <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
+                    </div>
+                    <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
+                        <!-- Empty block or additional content can be placed here if needed -->
                     </th:block>
                     <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
                         <span class='confirmed' th:text="#{확인된_이메일입니다.}"></span>
                     </th:block>
                 </div>
-                <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
-
             </dd>
         </dl>
 
@@ -65,8 +66,10 @@
         <dl>
             <dt th:text="#{닉네임}"></dt>
             <dd>
-                <input type="text" id="userName" name="userName" th:field="*{userName}" />
-                <button type="button" id="checkUserName" th:text="#{중복_확인}"></button>
+                <div class="nickName_box">
+                    <input type="text" id="userName" name="userName" th:field="*{userName}" />
+                    <button type="button" id="checkUserName" th:text="#{중복_확인}"></button>
+                </div>
                 <div id="userNameError" class="error"></div>
             </dd>
         </dl>
@@ -75,18 +78,28 @@
         <dl>
             <dt th:text="#{주소}"></dt>
             <dd>
-                <input type="text" id="user_postcode" name="zipcode" placeholder="우편번호" readonly>
-                <input type="button" onclick="user_execDaumPostcode()" value="우편번호 찾기"><br>
-                <input type="text" id="user_address" name="address" placeholder="주소" readonly><br>
-                <input type="text" id="user_extraAddress" placeholder="참고항목" readonly>
-                <input type="text" id="user_detailAddress" name="detailAddress" placeholder="상세주소">
+                <div class="address_box1">
+                    <input type="text" id="user_postcode" name="zipcode" placeholder="우편번호" readonly>
+                    <input type="button" onclick="user_execDaumPostcode()" value="우편번호 찾기">
+                </div>
+                <input type="text" id="user_address" name="address" placeholder="주소" readonly>
+                <div class="address_box2">
+                    <input type="text" id="user_extraAddress" placeholder="참고항목" readonly>
+                    <input type="text" id="user_detailAddress" name="detailAddress" placeholder="상세주소">
+                </div>
             </dd>
         </dl>
 
         <!-- 약관 동의 체크박스 -->
         <div class="terms">
             <div class="tit" th:text="#{회원가입_약관}"></div>
-            <div class="terms-contents">약관 내용 뭐하지</div>
+            <div class="terms-contents">
+                <!-- 약관 내용 표시 버튼 -->
+                <button type="button" id="showTerms">약관 내용 보기</button>
+                <!-- 약관 내용을 포함하는 부분 -->
+                <div th:replace="front/member/terms :: #termsModal"></div>
+                <div id="modalOverlay"></div>
+            </div>
             <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}" />
             <label for="agree" th:text="#{약관_동의}"></label>
             <div class="error" th:if="${#fields.hasErrors('agree')}" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
