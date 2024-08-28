@@ -21,7 +21,17 @@ public class MainController {
     @GetMapping
     public String Main(Model model) {
 
-        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png"));
+        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
+        model.addAttribute("imageUrl2", utils.url("/common/img/main_dog2.png")); // 메인 이미지
+
+        /* 아이콘 이미지 */
+        model.addAttribute("imageUrl_D1", utils.url("/common/img/market.gif"));
+        model.addAttribute("imageUrl_D2", utils.url("/common/img/adopt.gif"));
+        model.addAttribute("imageUrl_D3", utils.url("/common/img/sotong.gif"));
+        model.addAttribute("imageUrl_D4", utils.url("/common/img/jarang.gif"));
+        model.addAttribute("imageUrl_D5", utils.url("/common/img/notice.gif"));
+        model.addAttribute("imageUrl_D6", utils.url("/common/img/weather.gif"));
+        model.addAttribute("imageUrl_D7", utils.url("/common/img/contest.gif"));
 
         List<String[]> boardList = configInfoService.getBoardList();
 
