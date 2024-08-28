@@ -186,6 +186,7 @@ public class BoardController implements ExceptionProcessor {
             ListData<BoardData> data = boardInfoService.getList(board.getBid(), search);
             model.addAttribute("items", data.getItems());
             model.addAttribute("pagination", data.getPagination());
+            model.addAttribute("memberSeq", memberUtil.getMember().getSeq());
         }
 
         // 댓글 커맨드 객체 처리 S

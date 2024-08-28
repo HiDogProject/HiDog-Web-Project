@@ -11,24 +11,26 @@
 
             <li th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" class="item">
                 <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="item-link">
-                    <div class="product_info">
                     <span class="subject">
                         <th:block th:text="*{subject}"></th:block>
                     </span>
+
+                    <span class="product_info">
+                        <span class="product_name">
+                            <th:block th:text="*{text1}"></th:block>
+                        </span>
                         <span class="price">
-                        <th:block th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></th:block>
-                        <th:block th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></th:block>
+                            <th:block th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></th:block>
+                            <th:block th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></th:block>
+                        </span>
                     </span>
-                    </div>
                     <div class="post_info">
-                    <span class="view_count">
-                        조회수 :
-                        <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
-                    </span>
-                        <span class="post_date"
-                              th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></span>
+                        <span class="view_count">
+                            조회수 :
+                            <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
+                        </span>
+                        <span class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></span>
                     </div>
-                    <!--// post_info -->
                 </a>
                 <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
                     <span class="poster_info">
