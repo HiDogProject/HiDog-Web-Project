@@ -89,6 +89,7 @@ const mainMapLib = {
                     this.content = null;
                     this.poster = null;
                     this.seq = null;
+
                     this.updateInfoBox(this.subject, this.content, this.poster, this.seq);
                 }
             });
