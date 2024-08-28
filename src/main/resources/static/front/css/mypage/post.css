@@ -71,7 +71,14 @@ form[name="frmPost"] {
 /* 페이지 번호 스타일 (선택 사항) */
 .pagination-container a {
     text-decoration: none;
-    color: #9dc5f6;
+    color: white;
+    background-color: #9dc5f6;
+    border-color: #9dc5f6;
+    border-width: 1px;
+    border-style: solid;
+    border-image: initial;
+    padding: 5px 10px;
+    border-radius: 3px;
     margin: 0 5px;
 }
 
