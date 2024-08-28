@@ -62,7 +62,7 @@ public class BoardConfigInfoService {
         try {
             String url = utils.adminUrl("/api/board");
             ResponseEntity<JSONData> response = restTemplate.getForEntity(url, JSONData.class);
-            System.out.println(response);
+
             if (response.getStatusCode().isSameCodeAs(HttpStatus.OK)) {
                 JSONData jsonData = response.getBody();
                 if (!jsonData.isSuccess()) {
