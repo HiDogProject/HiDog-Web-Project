@@ -42,6 +42,8 @@ public class MyPageController implements ExceptionProcessor {
         commonProcess("", model); // 페이지 제목 설정을 위해 호출
 
         model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
+        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
+        model.addAttribute("CAUrl", utils.url("/common/img/choongang.png")); // 푸터 전화기 이미지
 
         return utils.tpl("mypage/myhome");
     }
