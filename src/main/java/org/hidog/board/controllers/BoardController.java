@@ -21,6 +21,7 @@ import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.global.exceptions.UnAuthorizedException;
 import org.hidog.global.services.ApiConfigService;
 import org.hidog.member.MemberUtil;
+import org.hidog.wishlist.servies.WishListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -44,6 +45,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardDeleteService boardDeleteService;
     private final BoardSaveService boardSaveService;
     private final FileInfoService fileInfoService;
+    private final WishListService wishListService;
 
     private final ApiConfigService apiConfigService;
     private final BoardViewCountService viewCountService;
@@ -165,19 +167,19 @@ public class BoardController implements ExceptionProcessor {
 
         model.addAttribute("items", data.getItems());
         model.addAttribute("pagination", data.getPagination());
-
+        if (memberUtil.isLogin()) {
+            model.addAttribute("memberSeq", memberUtil.getMember().getSeq().toString());
+        }
         return utils.tpl("board/list");
     }
 
     /**
      * 게시글 1개 보기
-     *
      * @param seq : 게시글 번호
      * @param model
      * @return
      */
     @GetMapping("/view/{seq}")
-
     public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session) throws JsonProcessingException {
         commonProcess(seq, "view", model);
 
@@ -185,7 +187,9 @@ public class BoardController implements ExceptionProcessor {
             ListData<BoardData> data = boardInfoService.getList(board.getBid(), search);
             model.addAttribute("items", data.getItems());
             model.addAttribute("pagination", data.getPagination());
+            model.addAttribute("memberSeq", memberUtil.getMember().getSeq());
         }
+
 
         // 댓글 커맨드 객체 처리 S
         RequestComment requestComment = new RequestComment();
@@ -197,6 +201,8 @@ public class BoardController implements ExceptionProcessor {
         // 댓글 커맨드 객체 처리 E
 
         viewCountService.update(seq); // 조회수 증가
+
+        model.addAttribute("wishCount", wishListService.getWishCount(seq)); //좋아요 갯수
 
         String skin = board.getSkin(); // 스킨
 
@@ -211,6 +217,25 @@ public class BoardController implements ExceptionProcessor {
         }
 
         return utils.tpl("board/view");
+    }
+
+    // walking/map 에서 사용할 댓글
+    @GetMapping("/comment/{seq}")
+    public String popupComment(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session){
+        commonProcess(seq, "popup_comment", model);
+
+        // 댓글 커맨드 객체 처리 S
+        RequestComment requestComment = new RequestComment();
+        if (memberUtil.isLogin()) {
+            requestComment.setCommenter(memberUtil.getMember().getUserName());
+        }
+
+        model.addAttribute("requestComment", requestComment);
+        // 댓글 커맨드 객체 처리 E
+
+        viewCountService.update(seq); // 조회수 증가
+
+        return utils.tpl("board/_comment");
     }
 
     /**
@@ -292,8 +317,12 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
-        } else if (mode.equals("view")) { // 게시글 보기의 경우
+        } else if (mode.equals("view") || mode.equals("popup_comment")) { // 게시글 보기의 경우
             addScript.add("board/" + skin + "/view");
+
+            if (mode.equals("popup_comment")) {
+                addCss.add("");
+            }
         }
 
         if (skin.equals("walking")) {
@@ -319,7 +348,6 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("mode", mode);
 
         //권한 체크
-
         if(List.of("write","list").contains(mode)) {
             authService.check(mode, board.getBid());
         }

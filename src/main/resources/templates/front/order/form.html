@@ -30,11 +30,7 @@
                 </tr>
             </table>
         </div>
-    </div>  <!--// view-content -->
-
-
-
-
+    </div>
     <h2 th:text="#{주문서_작성}"></h2>
     <form name="frmSave" method="POST" th:action="${@utils.redirectUrl('/order')}" autocomplete="off" th:object="${requestOrder}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
@@ -110,35 +106,41 @@
             <dt th:text="#{결제방법}"></dt>
             <dd>
                 <span th:each="pay : ${payMethods}">
-                    <input type="radio" name="payMethod" th:value="${pay[0]}" th:id="${'payMethod-' + pay[0]}" th:field="*{payMethod}">
+                    <input type="radio" name="payMethod"
+                           th:value="${pay[0]}"
+                           th:id="${'payMethod-' + pay[0]}"
+                           onclick="toggleRefundFields()">
                     <label th:for="${'payMethod-' + pay[0]}" th:text="${pay[1]}"></label>
                 </span>
             </dd>
         </dl>
-        <h3 th:text="#{환불_계좌}"></h3>
-        <dl>
-            <dt th:text="#{예금주}"></dt>
-            <dd>
-                <input type="text" name="refundAcctName" th:field="*{refundAcctName}">
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{입금_은행}"></dt>
-            <dd>
-                <select th:field="*{refundBankCode}">
-                    <option th:each="refund : ${bankCodes}"
-                            th:value="${refund[1]}"
-                            th:text="${refund[2]}">
-                    </option>
-                </select>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{계좌_번호}"></dt>
-            <dd>
-                <input type="number" name="refundAcctNum" th:field="*{refundAcctNum}">
-            </dd>
-        </dl>
+
+        <div id="refundSection" class="hidden">
+            <h3 th:text="#{환불_계좌}"></h3>
+            <dl>
+                <dt th:text="#{예금주}"></dt>
+                <dd>
+                    <input type="text" name="refundAcctName" th:field="*{refundAcctName}">
+                </dd>
+            </dl>
+            <dl>
+                <dt th:text="#{입금_은행}"></dt>
+                <dd>
+                    <select th:field="*{refundBankCode}">
+                        <option th:each="refund : ${bankCodes}"
+                                th:value="${refund[1]}"
+                                th:text="${refund[2]}">
+                        </option>
+                    </select>
+                </dd>
+            </dl>
+            <dl>
+                <dt th:text="#{계좌_번호}"></dt>
+                <dd>
+                    <input type="number" name="refundAcctNum" th:field="*{refundAcctNum}">
+                </dd>
+            </dl>
+        </div>
         <h3 th:text="#{주문_약관}"></h3>
         <div>
             약관...

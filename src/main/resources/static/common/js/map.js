@@ -11,8 +11,8 @@ const tmapLib = {
     zoom: 17,
     currentAction: null, // start, end, via
     load(mapId, width, height, zoom) {
-        this.width = width ?? '80%';
-        this.height = height ?? '600px';
+        this.width = width ?? '70%';
+        this.height = height ?? '900px';
         this.zoom = zoom || 17;
 
         // navigator.geolocation.getCurrentPosition((pos) => {
@@ -158,11 +158,31 @@ const tmapLib = {
     // 경로 선 그리기
     drawLine(arrPoint) {
         const polyline_ = new Tmapv2.Polyline({
-            path: arrPoint,
-            strokeColor: '#ff0090', // 경로 선 색상
-            strokeWeight: 6, // 두께
+            path: [], // 초기 경로는 빈 배열입니다.
+            strokeColor: 'rgba(178,102,53,0.22)',
+            strokeWeight: 9,
+            direction: true,
+            strokeStyle: 'solid',
+            directionColor: "white",
+            directionOpacity: 0.6,
             map: this.map
         });
+
+        let index = 0;
+        const path = [];
+        const totalPoints = arrPoint.length;
+
+        function animate() {
+            if (index < totalPoints) {
+                path.push(arrPoint[index]); // 새로운 점을 배열에 추가.
+                polyline_.setPath(path); // 경로를 업데이트
+                index++;
+                requestAnimationFrame(animate); // 다음 프레임을 요청
+            }
+        }
+
+        animate();
+
         this.resultDrawArr.push(polyline_);
     },
 

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.entities.BoardData;
 import org.hidog.board.repositories.BoardDataRepository;
+import org.hidog.board.services.BoardInfoService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class MainMapMarkerService {
 
     private final BoardDataRepository dataRepository;
     private final ObjectMapper objectMapper;
+    private final BoardInfoService boardInfoService;
 
     public List<Double> startMarkerLocation() {
         List<Double> result = new ArrayList<>();
@@ -44,7 +46,7 @@ public class MainMapMarkerService {
         return result;
     }
 
-    public Map<String, Object> viaMarkerLocation(List<Map<String, String>> point) throws JsonProcessingException {
+    public Map<String, Object> locationDataSearch(List<Map<String, String>> point) throws JsonProcessingException {
         System.out.println("유입");
 
         String jsonString = objectMapper.writeValueAsString(point);
@@ -54,14 +56,16 @@ public class MainMapMarkerService {
         String poster = boardData.getPoster();
         String subject = boardData.getSubject();
         String content = boardData.getContent();
-        String seq = String.valueOf(boardData.getSeq());
+        Long seq = boardData.getSeq();
+        String stringSeq = String.valueOf(seq);
 
         Map<String, Object> data = new HashMap<>();
         data.put("viaPoints", viaPoints);
         data.put("poster", poster);
         data.put("subject", subject);
         data.put("content", content);
-        data.put("seq", seq);
+        data.put("seq", stringSeq);
+
 
         return data;
     }
