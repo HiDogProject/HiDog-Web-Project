@@ -203,4 +203,12 @@ public class Utils { // 빈의 이름 - utils
         String ua = request.getHeader("User-Agent");
         return Objects.hash(ip, ua);
     }
+
+    public String getThumbUrl(Long seq, int width, int height) {
+        return String.format("%s?seq=%d&width=%d&height=%d", url("/file/thumb"), seq, width, height);
+    }
+
+    public String getThumbUrl(String url, int width, int height) {
+        return String.format("%s?url=%s&width=%d&height=%d", url("/file/thumb"), url, width, height);
+    }
 }
