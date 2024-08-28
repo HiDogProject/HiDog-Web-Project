@@ -21,6 +21,7 @@ import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.global.exceptions.UnAuthorizedException;
 import org.hidog.global.services.ApiConfigService;
 import org.hidog.member.MemberUtil;
+import org.hidog.wishlist.servies.WishListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -44,6 +45,7 @@ public class BoardController implements ExceptionProcessor {
     private final BoardDeleteService boardDeleteService;
     private final BoardSaveService boardSaveService;
     private final FileInfoService fileInfoService;
+    private final WishListService wishListService;
 
     private final ApiConfigService apiConfigService;
     private final BoardViewCountService viewCountService;
@@ -189,6 +191,7 @@ public class BoardController implements ExceptionProcessor {
             model.addAttribute("memberSeq", memberUtil.getMember().getSeq());
         }
 
+
         // 댓글 커맨드 객체 처리 S
         RequestComment requestComment = new RequestComment();
         if (memberUtil.isLogin()) {
@@ -199,6 +202,8 @@ public class BoardController implements ExceptionProcessor {
         // 댓글 커맨드 객체 처리 E
 
         viewCountService.update(seq); // 조회수 증가
+
+        model.addAttribute("wishCount", wishListService.getWishCount(seq)); //좋아요 갯수
 
         String skin = board.getSkin(); // 스킨
 

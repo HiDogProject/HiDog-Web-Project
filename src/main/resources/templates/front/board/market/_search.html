@@ -15,8 +15,10 @@
             <button type="submit" th:text="#{검색하기}"></button>
         </form>
         <div class="links">
-            <a th:href="${@utils.redirectUrl('/board/write/' + board.bid)}" class="btn" th:text="#{판매하기}"></a>
-            <a th:href="@{${utils.redirectUrl('/shop/') + memberSeq}}" class="btn" th:text="#{내상점}"></a>
+            <a class="sold" th:href="${@utils.redirectUrl('/board/write/' + board.bid)}">
+                <img th:src="${@utils.url('/common/img/market/sold.png')}" width="23" height="26" alt="판매하기버튼 이미지">판매하기</a>
+            <a class="sold" th:href="@{${utils.redirectUrl('/shop/') + memberSeq}}">
+                <img th:src="${@utils.url('/common/img/market/myshop.png')}" width="23" height="26" alt="내상점 이미지">내상점</a>
         </div>
     </div>
 </th:block>
