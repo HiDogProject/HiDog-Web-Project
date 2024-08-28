@@ -1,57 +1,150 @@
-h1 {
-    text-align: center;
+/* 기본 */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
 }
 
-/* 전체 메뉴 바 */
-.drop {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 50px;
+/* Swiper 컨테이너 스타일 */
+.swiper-container {
+    width: 100%;
 }
 
-/* 개별 메뉴 바 */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.nav_title {
+/* Swiper 슬라이드 스타일 */
+.swiper-slide {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px;
-    padding: 0 10px;
+    height: 100%;
 }
 
-/* 드르륵 하면 나오는 서브 메뉴 */
-.nav_title a {
+/* 메인 이미지 스타일 */
+.main_img {
+
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.main_img img {
+    width: 100%;
+    height: 450px;
+}
+
+/* 이미지 컨테이너 스타일 */
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+/* 아이콘 이미지 스타일 */
+.image-container img {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.image-container a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 160px;
+}
+
+.image-container h3 {
+    margin-top: 10px;
+}
+
+/* 서브 배너 */
+.sub_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sub_box .tn {
+    margin-bottom: 20px;
+}
+
+.sub_banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.sub_banner img {
+    height: 400px;
+    width: 600px;
+}
+
+.sub_banner img.su {
+    border-radius: 25px;
+    height: 390px;
+    width: 600px;
+}
+
+/* 공지사항 1 */
+.notice1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px 0 10px 150px;
+    width: 300px;
+    text-align: center;
+}
+
+.notice1 .bulb {
+    width: auto;
+    height: 40px;
+    border: none;
+}
+
+.notice1 .no {
+    font-size: 20px;
+    margin: 0;
+}
+
+/* 공지사항 2 */
+.notice2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 15px;
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.notice2 a {
     text-decoration: none;
-    color: #333;
+    color: inherit;
+}
+
+.notice2 .no2 {
     font-size: 16px;
+    margin: 0;
+    padding: 0;
 }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 15px 15px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #9dc5f6;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
+/* 공지사항 강아지 이미지 */
+.notice2 .nd {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 10px;
 }

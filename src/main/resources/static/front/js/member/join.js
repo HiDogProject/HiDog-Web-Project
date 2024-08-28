@@ -170,3 +170,29 @@ const authCount = {
         countEl.innerHTML = "03:00";
     }
 };
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 약관 내용 보기 버튼 클릭 시 모달 열기
+    document.getElementById('showTerms').addEventListener('click', function() {
+        document.getElementById('termsModal').style.display = 'block';
+        document.getElementById('modalOverlay').style.display = 'block';
+    });
+
+    // 모달 닫기 핸들러 정의
+    function closeModal() {
+        document.getElementById('termsModal').style.display = 'none';
+        document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+    // 모달 닫기 이벤트 리스너 추가
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+
+    // 오버레이 클릭 시 모달 닫기
+    document.getElementById('modalOverlay').addEventListener('click', closeModal);
+
+    // 약관 동의 버튼 클릭 시 동의 체크박스 체크
+    document.getElementById('agreeButton').addEventListener('click', function() {
+        document.getElementById('agree').checked = true;
+        closeModal(); // 모달 닫기
+    });
+});
