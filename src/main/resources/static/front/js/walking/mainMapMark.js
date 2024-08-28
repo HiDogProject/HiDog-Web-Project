@@ -30,7 +30,8 @@ const mainMapLib = {
                 map: this.map,
                 icon: 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9',
                 iconSize: new Tmapv2.Size(50, 50),
-
+                animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE,
+                animationLength: 900,
             };
 
             const startMarker = new Tmapv2.Marker(opt);
@@ -173,17 +174,35 @@ const mainMapLib = {
 
     drawLine(arrPoint) {
         const polyline_ = new Tmapv2.Polyline({
-            path: arrPoint,
+            path: [], // 초기 경로는 빈 배열입니다.
             strokeColor: 'rgba(178,102,53,0.22)',
-            strokeWeight: 7,
+            strokeWeight: 9,
             direction: true,
             strokeStyle: 'solid',
             directionColor: "white",
             directionOpacity: 0.6,
             map: this.map
         });
+
+        let index = 0;
+        const path = [];
+        const totalPoints = arrPoint.length;
+
+        function animate() {
+            if (index < totalPoints) {
+                path.push(arrPoint[index]); // 새로운 점을 배열에 추가.
+                polyline_.setPath(path); // 경로를 업데이트
+                index++;
+                requestAnimationFrame(animate); // 다음 프레임을 요청
+            }
+        }
+
+        animate();
+
         this.resultDrawArr.push(polyline_);
-    },
+    }
+
+    ,
 
     hideRoute() {
         this.resultDrawArr.forEach(d => d.setMap(null));
@@ -211,7 +230,8 @@ const mainMapLib = {
                 position: new Tmapv2.LatLng(lat, lng),
                 map: this.map,
                 icon: 'https://github.com/user-attachments/assets/62de235a-400d-4f78-b865-e4ab7d061828',
-                iconSize: new Tmapv2.Size(35, 35)
+                iconSize: new Tmapv2.Size(35, 35),
+                animation: Tmapv2.MarkerOptions.ANIMATE_BALLOON,
             };
 
             const viaMarker = new Tmapv2.Marker(opt);
