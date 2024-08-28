@@ -222,7 +222,7 @@ public class BoardController implements ExceptionProcessor {
     // walking/map 에서 사용할 댓글
     @GetMapping("/comment/{seq}")
     public String popupComment(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model, HttpSession session){
-        commonProcess(seq, "view", model);
+        commonProcess(seq, "popup_comment", model);
 
         // 댓글 커맨드 객체 처리 S
         RequestComment requestComment = new RequestComment();
@@ -317,8 +317,12 @@ public class BoardController implements ExceptionProcessor {
             }
 
             addScript.add("board/" + skin + "/form");
-        } else if (mode.equals("view")) { // 게시글 보기의 경우
+        } else if (mode.equals("view") || mode.equals("popup_comment")) { // 게시글 보기의 경우
             addScript.add("board/" + skin + "/view");
+
+            if (mode.equals("popup_comment")) {
+                addCss.add("");
+            }
         }
 
         if (skin.equals("walking")) {
