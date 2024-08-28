@@ -9,7 +9,6 @@
             <div th:data-startMarker="*{startMarker}"></div>
             <div id="infoBox" class="info-box">
                 <div id="infoContent" class="info-box-content">
-                    <div class="img-box"></div>
                     <p class="info-title" id="infoTitle" th:text="${subject != null ? subject : '게시글 제목'}">
                         게시글 제목
                     </p>
@@ -21,13 +20,13 @@
                     </p>
                     <ul class="btn-group">
                         <li>
-                            <a class="info-seq" th:href="${@utils.redirectUrl('/board/view/4952')}">
+                            <a class="info-seq" th:href="${@utils.redirectUrl('/board/view/' + seq)}" th:text="${seq}">
                                 <img src="https://github.com/user-attachments/assets/ee5cbff7-8855-4950-8153-9acae4582203" alt="게시글 가기">
                             </a>
                         </li>
                     </ul>
-                    <iframe name="ifrmBoard">
-              
+                    <iframe name="ifrmBoard" class="map_comment" th:src="${@utils.redirectUrl('/board/comment/4952')}">
+
                     </iframe>
                 </div>
             </div>
