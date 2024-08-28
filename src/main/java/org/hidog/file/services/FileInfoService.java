@@ -1,7 +1,6 @@
 package org.hidog.file.services;
 
 import com.querydsl.core.BooleanBuilder;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.hidog.file.constants.FileStatus;
 import org.hidog.file.entities.FileInfo;
@@ -27,7 +26,6 @@ public class FileInfoService {
 
     private final FileInfoRepository infoRepository;
     private final FileProperties properties;
-    private final HttpServletRequest request;
     private final Utils utils;
 
     /**
