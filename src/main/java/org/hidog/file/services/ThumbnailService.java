@@ -1,14 +1,19 @@
 package org.hidog.file.services;
 
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.hidog.file.controllers.RequestThumb;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.global.configs.FileProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 @Service
@@ -18,6 +23,7 @@ public class ThumbnailService {
 
     private final FileProperties properties;
     private final FileInfoService infoService; // seq
+    private final RestTemplate restTemplate; // 원격 url - 먼저 다운로드?
 
     /**
      *  썸네일 생성
@@ -32,19 +38,43 @@ public class ThumbnailService {
             int width = form.getWidth() == null || form.getWidth() < 10 ? 10 : form.getWidth(); // 값이 없을 때는 10px로 값 고정
             int height = form.getHeight() == null || form.getHeight() < 10 ? 10 : form.getHeight();
 
-            /**
-             * 썸네일 이미지가 이미 존재하면 생성을 안하고 경로만 반환
-             */
+
+            // 썸네일 이미지가 이미 존재하면 생성을 안하고 경로만 반환 - 서버 부하 방지
             String thumbPath = getThumbnailPath(seq, url, width, height);
             File _thumbPath = new File(thumbPath);
+            if (_thumbPath == null) {
+                return null;
+            }
+
             if (_thumbPath.exists()) {
                 return thumbPath;
             }
 
             if (seq != null && seq > 0L) { // 파일 등록번호
-
+                /**
+                 * https://github.com/coobird/thumbnailator/wiki/Examples
+                 *
+                 * Thumbnails.of(new File("original.jpg"))
+                 *         .size(160, 160)
+                 *         .rotate(90)
+                 *         .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File("watermark.png")), 0.5f)
+                 *         .outputQuality(0.8)
+                 *         .toFile(new File("image-with-watermark.jpg"));
+                 */
+                FileInfo fileInfo = infoService.get(seq);
+                Thumbnails.of(fileInfo.getFilePath()) // fileInfo.getFilePath() : 원본파일경로
+                        .size(width, height)
+                        .toFile(thumbPath);
+            } else { // 파일 url
+                String orgPath = String.format("%s_original", thumbPath);
+                byte[] bytes = restTemplate.getForObject(URI.create(url), byte[].class); // 원격 url - 먼저 이미지 다운로드
+                Files.write(Paths.get(orgPath), bytes);
+                Thumbnails.of(orgPath)
+                        .size(width, height)
+                        .toFile(thumbPath);
             }
 
+            return thumbPath;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,7 +92,7 @@ public class ThumbnailService {
      * @return
      */
     public String getThumbnailPath(Long seq, String url, int width, int height) {
-        if (seq == null && !StringUtils.hasText(url)) { // SEQ, URL 중 한개는 필수
+        if ((seq == null || seq < 1L) && !StringUtils.hasText(url)) { // SEQ, URL 중 한개는 필수
             return null;
         }
 

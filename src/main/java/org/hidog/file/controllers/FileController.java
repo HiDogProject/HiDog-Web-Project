@@ -1,5 +1,6 @@
 package org.hidog.file.controllers;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hidog.file.entities.FileInfo;
@@ -10,10 +11,13 @@ import org.hidog.global.exceptions.RestExceptionProcessor;
 import org.hidog.global.rests.JSONData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 
 @RestController
@@ -28,6 +32,7 @@ public class FileController implements RestExceptionProcessor {
     private final BeforeFileUploadProcess beforeProcess;
     private final AfterFileUploadProcess afterProcess;
     private final Utils utils;
+    private final ThumbnailService thumbnailService;
 
     @PostMapping("/upload")
     public ResponseEntity<JSONData> upload(@RequestPart("file") MultipartFile[] files,
@@ -88,7 +93,22 @@ public class FileController implements RestExceptionProcessor {
     }
 
     @GetMapping("/thumb")
-    public void thumb(RequestMapping form) {
+    public void thumb(RequestThumb form, HttpServletResponse response) {
+        String path = thumbnailService.create(form);
+        if (!StringUtils.hasText(path)) {
+            return;
+        }
 
+        File file = new File(path);
+        try (FileInputStream fis = new FileInputStream(file);
+             BufferedInputStream bis = new BufferedInputStream(fis)) {
+            String contentType = Files.probeContentType(file.toPath());
+            response.setHeader("Content-Type", contentType);
+            OutputStream out = response.getOutputStream(); // 출력
+            out.write(bis.readAllBytes()); // 화면에 바로 출력
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
