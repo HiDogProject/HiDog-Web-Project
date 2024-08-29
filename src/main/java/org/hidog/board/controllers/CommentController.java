@@ -43,23 +43,18 @@ public class CommentController implements ExceptionProcessor {
      */
     @PostMapping("/save")
     public String save(@Valid RequestComment form, Errors errors, Model model) {
+
         commentValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             FieldError error = errors.getFieldErrors().stream().findFirst().orElse(null);
-            throw new AlertException(
-                    utils.getMessage(error == null || error.getCodes() == null ? "BadRequest" : error.getCodes()[0]),
-                    HttpStatus.BAD_REQUEST
-            );
+
+            throw new AlertException(utils.getMessage(error == null || error.getCodes() == null ? "BadRequest" :  error.getCodes()[0]), HttpStatus.BAD_REQUEST);
         }
 
         CommentData commentData = commentSaveService.save(form); // 댓글 저장, 수정
 
-        // 동적 URL 생성
-        String redirectUrl = utils.redirectUrl(String.format("/board/view/%d?comment_id=%d", commentData.getBoardData().getSeq(), commentData.getSeq()));
-
-        // 생성된 URL로 script 작성
-        String script = String.format("parent.location.replace('%s');", redirectUrl);
+        String script = String.format("parent.location.replace('/board/view/%d?comment_id=%d');", commentData.getBoardData().getSeq(), commentData.getSeq());
 
         model.addAttribute("script", script);
 
