@@ -63,7 +63,9 @@
     </th:block>
 
     <!-- 댓글 -->
-    <th:block th:if="${board.useComment}" th:replace="~{front/board/_comment::comment}"></th:block>
+    <th:block th:if="${board.useComment}">
+    <th:block  th:replace="~{front/board/_comment::comment}"></th:block>
+    </th:block>
 
 </main>
 </html>
