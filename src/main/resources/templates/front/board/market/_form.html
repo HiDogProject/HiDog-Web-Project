@@ -64,10 +64,6 @@
                 <div class="error" th:each="err : ${#fields.errors('num2')}" th:text="${err}"></div>
             </dd>
         </dl>
-        <div class="button-group">
-            <button type="reset" th:text="#{다시입력}"></button>
-            <button type="submit" th:text="#{작성하기}"></button>
-        </div>
     </div>
     </body>
     <script th:replace="~{common/_file_tpl::image}"></script>

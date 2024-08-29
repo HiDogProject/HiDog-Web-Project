@@ -28,6 +28,7 @@ public class ShopController {
     public String info(@PathVariable("seq") Long seq, @ModelAttribute CommonSearch search, Model model) {
         ListData< BoardData> data = boardInfoService.getMarketList(seq, "market", search);
         model.addAttribute("items", data.getItems());
+        model.addAttribute("addCss", "shop/shop");
 
 
 

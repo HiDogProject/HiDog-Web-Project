@@ -1,0 +1,171 @@
+/* styles.css */
+body {
+    background-color: rgb(255, 255, 255);
+    margin: 0;
+    padding: 0;
+}
+
+.container1 {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+}
+
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px; /* 위 요소와의 간격 */
+    padding-top: 30px; /* 줄과 콘텐츠 사이에 간격 추가 */
+    border-top: 1px solid rgb(0, 0, 0);/* 위에 줄을 그림 */
+    gap: 20px; /* image-section과 details-wrapper 사이의 간격 */
+    margin-bottom: 100px;
+}
+
+.image-section{
+    flex: 1;
+    max-width: 50%;
+}
+
+.image-section img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.details-wrapper {
+    flex: 1; /* details-wrapper가 오른쪽에 위치 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+
+.subject {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+
+.price-section {
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgb(238, 238, 238);
+}
+
+
+.free {
+    color: #ff0000;
+}
+
+.info-section {
+    font-size: 16px;
+    height: 40%;
+    margin-bottom: 20px;
+}
+
+.info-section span {
+    color: rgb(204, 204, 204);
+    margin-right: 20px;
+}
+
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wishlist-toggle,
+.buy-button {
+    background-color: #fff;
+    border: 2px solid #ff4500;
+    color: #ff4500;
+    padding: 12px 24px; /* 크기를 키우기 위해 padding을 증가 */
+    border-radius: 5px; /* border-radius를 동일하게 설정 */
+    cursor: pointer;
+    font-size: 16px; /* 크기를 키우기 위해 font-size를 증가 */
+    text-align: center;
+    width: 100%; /* 버튼이 동일한 너비를 가지도록 설정 */
+    box-sizing: border-box; /* padding 포함한 전체 너비 계산 */
+}
+
+.wishlist-toggle {
+    background-color: #fff;
+    border: 1px solid #ff4500;
+    color: #ff4500;
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.wishlist-toggle.on {
+    background-color: #ff4500;
+    color: #fff;
+}
+
+.buy-button {
+    background-color: #ff4500;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+
+/* bottom-section layout */
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+    margin-top: 30px; /* 위 요소와의 간격 */
+    padding-top: 20px; /* 줄과 콘텐츠 사이에 간격 추가 */
+    border-top: 2px solid rgb(0, 0, 0);/* 위에 줄을 그림 */
+}
+
+.content-section {
+    flex: 2; /* content-section이 더 많은 공간을 차지 */
+    font-size: 16px;
+    color: #333;
+    padding-right: 20px; /* 오른쪽에 여백 추가 */
+    border-right: 2px solid rgb(238, 238, 238); /* content-section의 오른쪽에 줄 추가 */
+}
+
+.poster-info {
+    flex: 1; /* poster-info가 content-section에 비해 더 적은 공간을 차지 */
+    margin-top: 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.content-section dl,
+.poster-info dl{
+    font-size: 20px;
+    border-bottom: 2px solid rgb(238, 238, 238);/* 위에 줄을 그림 */
+
+}
+
+.poster-info .item-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+}
+
+.links .btn {
+    background-color: #ff4500;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+    display: inline-block;
+    margin-right: 10px;
+}

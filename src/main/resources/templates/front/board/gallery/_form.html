@@ -59,7 +59,7 @@
 <!--            <th:block th:each="file : *{@fileInfoService.getList(gid, 'attach')}">-->
 <!--                <img th:src="${file.fileUrl}" alt="프로필 이미지" id="profile-image-preview">-->
 <!--            </th:block>-->
-            <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true"></button>
+            <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="true" th:data-image-only="true" data-location="attach"></button>
             <div class="uploaded-files" id="uploaded-files-attach">
                 <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="file-item" th:id="${'file-' + file.seq}">
                     <a th:href="${@utils.redirectUrl('/file/download/' + file.seq)}" th:text="${file.fileName}"></a>
