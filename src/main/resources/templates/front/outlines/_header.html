@@ -80,7 +80,7 @@
                         <button type="submit" class="hb" th:text="#{마이_페이지}"></button>
                     </a>
 
-                    <a class="hba" sec:authorize="hasAnyAuthority('ADMIN')" th:href="${@utils.redirectUrl('/admin')}" target="_blank">
+                    <a class="hba" sec:authorize="hasAnyAuthority('ADMIN')" th:href="${@utils.adminUrl('/')}" target="_blank">
                         <button type="submit" class="hb" th:text="#{관리자_페이지}"></button>
                     </a>
                 </li>

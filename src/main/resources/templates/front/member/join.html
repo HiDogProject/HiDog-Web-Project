@@ -23,7 +23,7 @@
             <dd>
                 <div class="email_input_container">
                     <div class="input_with_button">
-                        <input type="text" name="email" th:field="*{email}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
+                        <input type="text" name="email" th:field="*{email}" th:placeholder="#{ex)_user01@naver.com}" th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}">
                         <button th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}" type="button" id="email_verify" th:text="#{인증코드_전송}"></button>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                         <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
                     </div>
                     <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
-                        <!-- Empty block or additional content can be placed here if needed -->
+
                     </th:block>
                     <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
                         <span class='confirmed' th:text="#{확인된_이메일입니다.}"></span>
@@ -48,7 +48,7 @@
         <dl>
             <dt th:text="#{비밀번호}"></dt>
             <dd>
-                <input type="password" id="password" name="password" th:field="*{password}" />
+                <input type="password" id="password" name="password" th:placeholder="#{비밀번호양식}" th:field="*{password}" />
                 <div class="error" th:if="${#fields.hasErrors('password')}" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -57,7 +57,7 @@
         <dl>
             <dt th:text="#{비밀번호_확인}"></dt>
             <dd>
-                <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" />
+                <input type="password" id="confirmPassword" name="confirmPassword" th:placeholder="#{비밀번호확인양식}" th:field="*{confirmPassword}" />
                 <div class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -67,7 +67,7 @@
             <dt th:text="#{닉네임}"></dt>
             <dd>
                 <div class="nickName_box">
-                    <input type="text" id="userName" name="userName" th:field="*{userName}" />
+                    <input type="text" id="userName" name="userName" th:placeholder="#{닉네임양식}" th:field="*{userName}" />
                     <button type="button" id="checkUserName" th:text="#{중복_확인}"></button>
                 </div>
                 <div id="userNameError" class="error"></div>
@@ -107,7 +107,6 @@
 
         <!-- 버튼 -->
         <div class="buttons">
-            <button type="reset" th:text="#{다시_입력}"></button>
             <button type="submit" th:text="#{가입하기}"></button>
         </div>
     </form>
