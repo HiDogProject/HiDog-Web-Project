@@ -11,7 +11,14 @@ body {
     background-color: #F5FFFA; /* 배경 색상 설정 */
 }
 
+header {
+    width: 100% !important;
+}
+
 main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: #fff; /* 배경 색상 설정 */
     padding: 20px;
     border-radius: 8px; /* 모서리 둥글게 */
@@ -121,9 +128,7 @@ button:hover {
     margin-bottom: 10px; /* 닉네임 박스와 다음 요소 간의 간격 설정 */
 }
 
-.nickName_box input[type="text"] {
-    margin-right: 10px; /* 버튼과의 간격 설정 */
-}
+
 
 .address_box1,
 .address_box2 {
@@ -155,10 +160,6 @@ button:hover {
 
 .address_box1 input[type="button"]:hover {
     background-color: #0056b3; /* 버튼에 마우스 오버 시 배경색 변경 */
-}
-
-.address_box2 input[type="text"] {
-    flex: 1; /* 입력 필드가 가변 너비를 가지도록 설정 */
 }
 
 

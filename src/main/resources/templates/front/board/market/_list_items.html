@@ -2,9 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
     <div class="board_list">
-
-        <th:block th:replace="~{front/board/market/_search::search}"></th:block>
-
         <ul class="posts">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
                 th:text="#{조회된_게시글이_없습니다.}"></li>
@@ -45,9 +42,6 @@
             </li>
         </ul>
         <!--// list_search -->
-
-        <th:block th:if="${boardData == null && !#strings.isEmpty(board.htmlBottom)}" th:utext="${board.htmlBottom}"></th:block>
-
     </div>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </th:block>
