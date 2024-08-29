@@ -11,7 +11,7 @@
 /* 페이징 공통 E */
 
 /* 프로필 이미지 S */
-.profile-image-container {
+poster > profile-image-container {
     display: inline-block;
     width: 40px;            /* 프로필 이미지의 컨테이너 너비 */
     height: 40px;           /* 프로필 이미지의 컨테이너 높이 */
