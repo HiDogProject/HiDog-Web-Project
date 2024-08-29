@@ -21,9 +21,9 @@
                     </div>
                     <span class="badge" th:if="*{selectedImages.size() > 1}" th:text="*{#strings.concat('+', selectedImages.size() - 1)}"></span>
                 </div>
-                <th:block th:each="file, status : ${@utils.getSelectedImages(item.gid)}">
-                    <div class="photos" th:if="${status.index==0}"></div>
-                </th:block>
+<!--                <th:block th:each="file, status : ${@utils.getSelectedImages(item.gid)}">-->
+<!--                    <div class="photos" th:if="${status.index==0}"></div>-->
+<!--                </th:block>-->
                 <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="item-link">
                     <dl class="subject">
                         <dd th:text="*{subject}"></dd>
@@ -48,15 +48,9 @@
                 </a>
                 <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
                     <dl class="poster_info">
-                        <dd class="profile-image">
-                            <img th:if="${item.member != null and item.member.profileImage != null}"
-                                 th:src="@{${item.member.profileImage.fileUrl}}" alt="Profile Image">
-                        </dd>
                         <dd th:text="*{poster}"></dd>
                     </dl>
                 </a>
-                <dd th:text="${item.member}"></dd>
-                <dd th:text="${item.member.profileImage}"></dd>
             </li>
         </ul>
         <!--// list_search -->
