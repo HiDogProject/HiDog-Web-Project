@@ -3,6 +3,7 @@ package org.hidog.file.controllers;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hidog.file.constants.FileStatus;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.file.services.*;
 import org.hidog.global.Utils;
@@ -18,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/file")
@@ -113,14 +116,19 @@ public class FileController implements RestExceptionProcessor {
         }
     }
 
-    @PatchMapping("/select")
-    public JSONData fileSelect(@Valid @RequestBody RequestSelect form, Errors errors){
+    @PatchMapping("/select/{mode}")
+    public JSONData fileSelect(@PathVariable("mode") String mode, @Valid @RequestBody RequestSelect form, Errors errors){
 
         if(errors.hasErrors()){
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
-        selectService.process(form);
-        List<FileInfo> items = infoService.getSelectedList(form.getGid(), form.getLocation(), form.getCnt());
-        return new JSONData(items);
+        selectService.process(mode, form);
+        List<FileInfo> items = infoService.getSelectedList(form.getGid(), form.getLocation(), FileStatus.ALL);
+
+        if (form.getCnt() > 0 && items != null && !items.isEmpty()) {
+            items = items.stream().limit(form.getCnt()).toList();
+        }
+
+        return new JSONData(Objects.requireNonNullElse(items, Collections.EMPTY_LIST));
     }
 }

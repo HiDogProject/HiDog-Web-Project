@@ -211,4 +211,5 @@ public class Utils { // 빈의 이름 - utils
     public String getThumbUrl(String url, int width, int height) {
         return String.format("%s?url=%s&width=%d&height=%d", url("/file/thumb"), url, width, height);
     }
+
 }

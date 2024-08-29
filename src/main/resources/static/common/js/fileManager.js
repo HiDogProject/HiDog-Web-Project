@@ -129,6 +129,34 @@ const fileManager = {
                 console.error(err);
             }
         })();
+    },
+    /**
+     * 파일 선택 처리
+     *
+     */
+    select(mode, gid, location, seq, cnt, callback) {
+
+        const formData = { gid };
+        if (location?.trim()) {
+            formData.location = location;
+        }
+
+        seq = Array.isArray(seq) ? seq : [seq];
+        formData.seq = seq;
+        if (cnt > 0) formData.cnt = cnt;
+
+        const { ajaxLoad } = commonLib;
+        const headers = { 'Content-Type': 'application/json' };
+        (async() => {
+            try {
+                const res = await ajaxLoad(`/file/select/${mode}`, 'PATCH', formData, headers);
+                if (res.success && typeof callback === 'function') {
+                    callback(res.data);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        })();
     }
 };
 
