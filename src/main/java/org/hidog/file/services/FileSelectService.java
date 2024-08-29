@@ -2,6 +2,7 @@ package org.hidog.file.services;
 
 import lombok.RequiredArgsConstructor;
 import org.hidog.file.constants.FileStatus;
+import org.hidog.file.controllers.RequestSelect;
 import org.hidog.file.entities.FileInfo;
 import org.hidog.file.repositories.FileInfoRepository;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,9 @@ public class FileSelectService {
 
     public void process(List<Long> seqs, String gid){
         process(seqs, gid, null);
+    }
+
+    public void process(RequestSelect form){
+        process(form.getSeq(), form.getGid(), form.getLocation());
     }
 }

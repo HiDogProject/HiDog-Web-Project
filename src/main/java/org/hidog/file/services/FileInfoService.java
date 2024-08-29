@@ -89,11 +89,19 @@ public class FileInfoService {
     }
 
     public List<FileInfo> getSelectedList(String gid, String location){
-        return getSelectedList(gid, location, FileStatus.DONE);
+        return getSelectedList(gid, location ,FileStatus.DONE);
     }
 
     public List<FileInfo> getSelectedList(String gid){
         return getSelectedList(gid, null);
+    }
+    public  List<FileInfo> getSelectedList(String gid, String location, int cnt){
+        List<FileInfo> items = getSelectedList(gid, location, FileStatus.DONE);
+
+        if(cnt == 0){
+            return items;
+        }
+        return items == null || items.isEmpty() ? null :items.stream().limit(cnt).toList();
     }
 
 
