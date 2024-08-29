@@ -1,51 +1,118 @@
+window.addEventListener("DOMContentLoaded", function() {
+    (async() => {
+        try {
+            const { editorLoad } = commonLib;
+            const editor = await editorLoad("content");
+            if (editor) window.editor = editor;
+        } catch (err) {}
+    })();
+
+    /* 이미지 본문 추가 이벤트 처리 S */
+    const insertEditors = document.getElementsByClassName("insert-editor");
+    for (const el of insertEditors) {
+        el.addEventListener("click", (e) => insertEditor(e.currentTarget.dataset.url));
+    }
+
+    const removeEls = document.querySelectorAll(".file-item .remove");
+    for (const el of removeEls) {
+        el.addEventListener("click", function() {
+            if (confirm('정말 삭제하겠습니까?')) {
+                const seq = this.dataset.seq;
+                fileManager.delete(seq);
+            }
+        });
+    }
+    /* 이미지 본문 추가 이벤트 처리 E */
+
+    /* 이미지 선택 처리 S */
+    const selectEls = document.querySelectorAll(".photo-item .select");
+    for (const el of selectEls) {
+        el.addEventListener("click", function() {
+
+        });
+    }
+    /* 이미지 선택 처리 E */
+});
+
+
 /**
- * 프로필 이미지 업로드 후속 처리
+ * 파일 업로드 후속 처리
  *
+ * files : 업로드한 파일 목록
  */
 function fileUploadCallback(files) {
-    if (files.length === 0) {
+    if (!files || files.length === 0) {
         return;
     }
 
-    const targetEl = document.querySelector(".profile-image");
+    // 에디터에 첨부할 이미지 URL
+    const imageUrls = [];
 
-    // 현재 이미지 박스에 추가된 모든 이미지와 삭제 버튼들을 지우지 않고 유지
-    // 각 파일을 순회하며 새로운 HTML을 생성하여 추가합니다
-    files.forEach(file => {
-        let html = document.getElementById("image-file-tpl").innerHTML;
-        html = html.replace(/\[seq\]/g, file.seq)
-            .replace(/\[fileUrl\]/g, file.fileUrl);
+    // 파일 업로드 location 별 파일 목록 템플릿
+    const attachTpl = document.getElementById("attach-file-tpl").innerHTML;
+    const editorTpl = document.getElementById("editor-file-tpl").innerHTML;
 
-        const domParser = new DOMParser();
-        const dom = domParser.parseFromString(html, 'text/html');
-        const box = dom.querySelector(".image-file-box");
+    const attachTarget = document.getElementById("uploaded-files-attach");
+    const editorTarget = document.getElementById("uploaded-files-editor");
 
-        // 새로운 이미지 박스를 추가합니다
-        targetEl.append(box);
+    const domParser = new DOMParser();
 
-        const removeEl = box.querySelector(".remove");
-        removeEl.addEventListener("click", function() {
-            if (!confirm('정말 삭제 하겠습니까?')) {
-                return;
+    for (const file of files) {
+        const { seq, location, fileUrl, fileName, thumbUrl } = file;
+
+        const target = location === 'editor' ? editorTarget : attachTarget;
+        let html = location === 'editor' ? editorTpl : attachTpl;
+
+        const _thumbUrl = `${thumbUrl}?seq=${seq}&width=150&height=150`;
+        html = html.replace(/\[seq\]/g, seq)
+            .replace(/\[fileName\]/g, fileName)
+            .replace(/\[fileUrl\]/g, fileUrl)
+            .replace(/\[thumbUrl]/g, _thumbUrl);
+
+        const dom = domParser.parseFromString(html, "text/html");
+        const el = dom.querySelector(".photo-item");
+
+        target.append(el);
+
+        if (location === 'editor') { // 에디터 첨부
+            imageUrls.push(fileUrl);
+
+            const insertEditorEl = el.querySelector(".insert-editor");
+            if (insertEditorEl) {
+                insertEditorEl.addEventListener("click", (e) => insertEditor(e.currentTarget.dataset.url));
             }
+        }
 
-            const seq = this.dataset.seq;
-            fileManager.delete(seq);
+        // 파일 삭제 이벤트 처리
+        const removeEl = el.querySelector(".remove");
+        removeEl.addEventListener("click", () => {
+            if (confirm('정말 삭제하겠습니까?')) {
+                fileManager.delete(seq);
+            }
         });
-    });
+
+    }
+
+    // 에디터 본문에 이미지 추가
+    if (imageUrls.length > 0) {
+        insertEditor(imageUrls);
+    }
 }
 
+function insertEditor(source) {
+    editor.execute("insertImage", { source });
+}
+
+
 /**
- * 파일 삭제 후 후속 처리
+ * 파일 삭제 후속 처리
  *
  */
 function fileDeleteCallback(file) {
-    const targetEl = document.querySelector(".profile-image");
-    if (targetEl) {
-        // 파일이 삭제되었을 때 그에 해당하는 이미지를 찾아서 제거합니다
-        const boxToRemove = targetEl.querySelector(`.image-file-box[data-seq="${file.seq}"]`);
-        if (boxToRemove) {
-            targetEl.removeChild(boxToRemove);
-        }
-    }
+    if (!file) return;
+
+    const { seq } = file;
+
+    const el = document.getElementById(`file-${seq}`);
+    el.parentElement.removeChild(el);
 }
