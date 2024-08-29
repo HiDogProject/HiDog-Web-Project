@@ -3,12 +3,9 @@
 
     <section layout:fragment="content">
 
-        <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/info.css}">
-
         <h1 class="pn" th:text="${pageTitle}"></h1>
 
         <form name="frmUpdate" method="POST" th:action="${@utils.redirectUrl('/mypage/info')}" autocomplete="off" th:object="${requestProfile}">
-
             <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
             <dl>
@@ -26,7 +23,6 @@
 
             <dl>
                 <dt th:text="#{이메일}"></dt>
-
                 <dd th:text="${loggedMember.email}"></dd>
             </dl>
 
@@ -35,7 +31,6 @@
 
                 <dd>
                     <input type="text" name="userName" th:field="*{userName}">
-
                     <div class="error" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
                 </dd>
             </dl>
@@ -45,7 +40,6 @@
 
                 <dd>
                     <input type="password" name="password" th:field="*{password}">
-
                     <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
                 </dd>
             </dl>
@@ -55,7 +49,6 @@
 
                 <dd>
                     <input type="password" name="confirmPassword" th:field="*{confirmPassword}">
-
                     <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
                 </dd>
             </dl>
@@ -66,16 +59,13 @@
                 <dd>
                     <div class="address-group">
                         <input type="text" id="user_postcode" placeholder="우편번호" readonly>
-
                         <input type="button" onclick="user_execDaumPostcode()" value="우편번호 찾기">
                     </div>
 
                     <input type="text" id="user_address" name="address" placeholder="주소" readonly th:field="*{address}">
-
                     <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
 
                     <input type="text" id="user_detailAddress" name="detailAddress" placeholder="상세주소" th:field="*{detailAddress}">
-
                     <div class="error" th:each="err : ${#fields.errors('detailAddress')}" th:text="${err}"></div>
                 </dd>
             </dl>
