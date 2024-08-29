@@ -41,10 +41,6 @@ public class MyPageController implements ExceptionProcessor {
 
         commonProcess("", model); // 페이지 제목 설정을 위해 호출
 
-        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
-        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
-        model.addAttribute("CAUrl", utils.url("/common/img/choongang.png")); // 푸터 전화기 이미지
-
         return utils.tpl("mypage/myhome");
     }
 
@@ -52,9 +48,6 @@ public class MyPageController implements ExceptionProcessor {
     public String info(@ModelAttribute RequestProfile form, Model model) {
 
         commonProcess("info", model);
-
-        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
-        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
 
         Member member = memberUtil.getMember();
         form.setUserName(member.getUserName());
@@ -70,9 +63,6 @@ public class MyPageController implements ExceptionProcessor {
     public String infoSave(@Valid RequestProfile form, Errors errors, Model model) {
 
         commonProcess("info", model);
-
-        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
-        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
 
         profileUpdateValidator.validate(form, errors);
 
@@ -91,9 +81,6 @@ public class MyPageController implements ExceptionProcessor {
 
         commonProcess("post", model);
 
-        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
-        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
-
         ListData<BoardData> data = boardInfoService.getMyList(search);
 
         model.addAttribute("items", data.getItems());
@@ -108,9 +95,6 @@ public class MyPageController implements ExceptionProcessor {
 
         commonProcess("wishlist", model);
 
-        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
-        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
-
         ListData<BoardData> data = boardInfoService.getWishList(search);
 
         model.addAttribute("items", data.getItems());
@@ -120,13 +104,12 @@ public class MyPageController implements ExceptionProcessor {
     }
 
     private void commonProcess(String mode, Model model) {
-
         mode = StringUtils.hasText(mode) ? mode : "";
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
         List<String> addCss = new ArrayList<>();
-
+        addCss.add("mypage/style");
         String pageTitle = ""; // 기본 페이지 제목
 
         if (mode.equals("")) {
@@ -147,7 +130,11 @@ public class MyPageController implements ExceptionProcessor {
 
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
-        model.addAttribute("addCss", addCss);
+        model.addAttribute("addCss", addCss); // 여기로 css 연동했으므로 css html 에 css 연동 안해도 됨
         model.addAttribute("pageTitle", pageTitle); // 페이지 제목
+
+        model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
+        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
+        model.addAttribute("CAUrl", utils.url("/common/img/choongang.png")); // 푸터 전화기 이미지
     }
 }

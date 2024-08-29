@@ -8,6 +8,17 @@
     <main layout:fragment="content">
 
         <h1 th:text="${pageTitle}"></h1>
+
+        <dl>
+            <dd>
+                <div class="profile-image">
+                    <div class="fileUploads inner" th:data-gid="${loggedMember.email}" data-image-only="true" data-single="true">
+                        <img th:if="${myProfileImage != null}" th:object="${myProfileImage}" th:src="*{fileUrl}" alt="*{fileName}">
+                    </div>
+                </div>
+            </dd>
+        </dl>
+
         <!-- 페이지 버튼 -->
         <div class="button-container">
             <a th:href="@{/mypage/info}" class="btn-wrapper">
