@@ -31,55 +31,67 @@
 
         <div class="image-container">
 
-            <a th:href="${@utils.redirectUrl('/board/list/1')}">
-                <img th:src="${imageUrl_D1}" alt="Market Image">
+            <ul class="board-container">
+                <!-- 첫 번째 게시판 항목 -->
+                <li class="board-item">
+                    <a th:href="@{'/board/write/' + ${boardList[0][0]}}">
+                        <img th:src="${imageUrl_D1}" alt="산책" class="board-image">
+                        <h3 class="board-title" th:text="${boardList[0][1]}"></h3>
+                    </a>
+                </li>
 
-                <h3 class="in">화개장터</h3>
-            </a>
+                <!-- 두 번째 게시판 항목 -->
+                <li class="board-item">
+                    <a th:href="@{'/board/write/' + ${boardList[1][0]}}">
+                        <img th:src="${imageUrl_D2}" alt="소통하개" class="board-image">
+                        <h3 class="board-title" th:text="${boardList[1][1]}"></h3>
+                    </a>
+                </li>
 
-            <a href="https://www.animal.go.kr/front/index.do">
-                <img th:src="${imageUrl_D2}" alt="국가동물보호정보시스템">
+                <!-- 세 번째 게시판 항목 -->
+                <li class="board-item">
+                    <a th:href="@{'/board/write/' + ${boardList[2][0]}}">
+                        <img th:src="${imageUrl_D3}" alt="화개장터" class="board-image">
+                        <h3 class="board-title" th:text="${boardList[2][1]}"></h3>
+                    </a>
+                </li>
 
-                <h3 class="in">국가동물보호정보시스템</h3>
-            </a>
+                <!-- 네 번째 게시판 항목 -->
+                <li class="board-item">
+                    <a th:href="@{'/board/write/' + ${boardList[3][0]}}">
+                        <img th:src="${imageUrl_D4}" alt="자랑하개" class="board-image">
+                        <h3 class="board-title" th:text="${boardList[3][1]}"></h3>
+                    </a>
+                </li>
+            </ul>
 
-            <a th:href="${@utils.redirectUrl('/board/list/2')}">
-                <img th:src="${imageUrl_D3}" alt="소통하개">
+            <div class="link-container">
+                <a href="https://www.animal.go.kr/front/index.do">
+                    <img th:src="${imageUrl_D5}" alt="국가동물보호정보시스템">
+                    <h3 class="in">국가동물보호정보시스템</h3>
+                </a>
 
-                <h3 class="in">소통하개</h3>
-            </a>
+                <a href="https://weather.naver.com/">
+                    <img th:src="${imageUrl_D6}" alt="네이버 날씨">
+                    <h3 class="in">날씨</h3>
+                </a>
 
-            <a th:href="${@utils.redirectUrl('/board/list/3')}">
-                <img th:src="${imageUrl_D4}" alt="자랑하개">
-
-                <h3 class="in">자랑하개</h3>
-            </a>
-
-            <a href="https://weather.naver.com/">
-                <img th:src="${imageUrl_D5}" alt="네이버 날씨">
-
-                <h3 class="in">날씨</h3>
-            </a>
-
-            <a href="/link/to/contest">
-                <img th:src="${imageUrl_D6}" alt="Contest Image">
-
-                <h3 class="in">이달개</h3>
-            </a>
+                <a href="/link/to/contest">
+                    <img th:src="${imageUrl_D7}" alt="Contest Image">
+                    <h3 class="in">이달개</h3>
+                </a>
+            </div>
         </div>
 
         <div class="sub_box">
             <h2 class="tn">Hi dog 주간 Top</h2>
 
             <div class="sub_banner">
-                <a th:href="${@utils.redirectUrl('/board/list/2')}"> <!-- 산책하개 -->
+                <a th:href="@{'/board/write/' + ${boardList[0][0]}}"> <!-- 산책하개 -->
                     <img th:src="${subUrl2}" alt="sub banner2">
                 </a>
 
-
-
-                <a th:href="${@utils.redirectUrl('/board/list/3')}"> <!-- 자랑하개 -->
-
+                <a th:href="@{'/board/write/' + ${boardList[3][0]}}"> <!-- 자랑하개 -->
                     <img class="su" th:src="${subUrl1}" alt="sub banner2">
                 </a>
             </div>

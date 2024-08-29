@@ -35,13 +35,16 @@ public class MainController {
         model.addAttribute("addCommonScript", List.of("swiper-bundle.min"));
 
         /* 아이콘 이미지 */
-        model.addAttribute("imageUrl_D1", utils.url("/common/img/market.gif"));
-        model.addAttribute("imageUrl_D2", utils.url("/common/img/adopt.gif"));
-        model.addAttribute("imageUrl_D3", utils.url("/common/img/sotong.gif"));
-        model.addAttribute("imageUrl_D4", utils.url("/common/img/jarang.gif"));
-        model.addAttribute("imageUrl_D5", utils.url("/common/img/weather.gif"));
-        model.addAttribute("imageUrl_D6", utils.url("/common/img/contest.gif"));
+        model.addAttribute("imageUrl_D1", utils.url("/common/img/walk.gif")); // 산책하개 이미지
+        model.addAttribute("imageUrl_D2", utils.url("/common/img/sotong.gif")); // 소통하개 이미지
+        model.addAttribute("imageUrl_D3", utils.url("/common/img/market.gif")); // 화개장터 이미지
+        model.addAttribute("imageUrl_D4", utils.url("/common/img/jarang.gif")); // 자랑하개 이미지
 
+        model.addAttribute("imageUrl_D5", utils.url("/common/img/adopt.gif")); // 국가동물보호 이미지
+        model.addAttribute("imageUrl_D6", utils.url("/common/img/weather.gif")); // 네이버 날씨 이미지
+        model.addAttribute("imageUrl_D7", utils.url("/common/img/contest.gif")); // 이달개 이미지
+
+        /* 드롭 다운 */
         model.addAttribute("addCss", List.of("main/style"));
         model.addAttribute("addScript", List.of( "main/dropdown"));
 
