@@ -81,3 +81,20 @@
     border-radius: 50%;
     margin-right: 10px;
 }
+
+.board-main .list-item .photos{
+    position: relative;
+    width: 162px;
+    height: 162px;
+    margin-right: 10px;
+    bordeer: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 3px;
+}
+.board-main .list-item .photo > .inner{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    height: 150px;
+}
+

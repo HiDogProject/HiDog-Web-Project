@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
+
+    <th:block th:if="${board.skin == 'market'}">
+        <th:block th:replace="~{front/board/market/_search::search}"></th:block>
+    </th:block>
+
     <div class="board_list">
         <ul class="posts">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
                 th:text="#{조회된_게시글이_없습니다.}"></li>
 
-            <li th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" class="item">
+            <li th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}"
+                class="item">
+                <div class='photos' th:if="*{selectedImages != null && !selectedImages.empty}">
+                    <div class="inner">
+                        <a th:href="${@utils.redirectUrl('/board/view/' + item.seq)}" th:each="image : *{selectedImages}" th:object="${image}">
+                            <div th:style="*{#strings.concat('background:url(', thumbUrl ,'?seq=',seq,'&width=150&height=150) no-repeat center center; background-size: cover')}" class="photo"></div>
+                        </a>
+                    </div>
+                    <span class="badge" th:if="*{selectedImages.size() > 1}" th:text="*{#strings.concat('+', selectedImages.size() - 1)}"></span>
+                </div>
+                <th:block th:each="file, status : ${@utils.getSelectedImages(item.gid)}">
+                    <div class="photos" th:if="${status.index==0}"></div>
+                </th:block>
                 <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="item-link">
                     <dl class="subject">
                         <dd th:text="*{subject}"></dd>
@@ -14,17 +31,17 @@
 
                     <dl class="product_info">
                         <dt class="product_name">
-                            <dd th:text="*{text1}"></dd>
+                        <dd th:text="*{text1}"></dd>
                         </dt>
                         <dt class="price">
-                            <dd th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></dd>
-                            <dd th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></dd>
+                        <dd th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></dd>
+                        <dd th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></dd>
                         </dt>
                     </dl>
                     <dl class="post_info">
                         <dd class="view_count">
                             조회수 :
-                            <dd th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></dd>
+                        <dd th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></dd>
                         </dd>
                         <dt class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></dt>
                     </dl>
@@ -32,7 +49,8 @@
                 <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
                     <dl class="poster_info">
                         <dd class="profile-image">
-                            <img th:if="${item.member != null and item.member.profileImage != null}" th:src="@{${item.member.profileImage.fileUrl}}" alt="Profile Image">
+                            <img th:if="${item.member != null and item.member.profileImage != null}"
+                                 th:src="@{${item.member.profileImage.fileUrl}}" alt="Profile Image">
                         </dd>
                         <dd th:text="*{poster}"></dd>
                     </dl>
