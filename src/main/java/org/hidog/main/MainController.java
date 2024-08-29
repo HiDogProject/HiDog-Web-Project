@@ -29,7 +29,6 @@ public class MainController {
         model.addAttribute("imageUrl2", utils.url("/common/img/main_dog.png")); // 메인 이미지
         model.addAttribute("imageUrl3", utils.url("/common/img/main_dog3.png")); // 메인 이미지2
         model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
-        model.addAttribute("CAUrl", utils.url("/common/img/choongang.png")); // 푸터 전화기 이미지
 
         model.addAttribute("addCommonCss", List.of("swiper-bundle.min"));
         model.addAttribute("addScript", List.of( "main/banner"));
@@ -40,9 +39,8 @@ public class MainController {
         model.addAttribute("imageUrl_D2", utils.url("/common/img/adopt.gif"));
         model.addAttribute("imageUrl_D3", utils.url("/common/img/sotong.gif"));
         model.addAttribute("imageUrl_D4", utils.url("/common/img/jarang.gif"));
-        model.addAttribute("imageUrl_D5", utils.url("/common/img/notice.gif"));
-        model.addAttribute("imageUrl_D6", utils.url("/common/img/weather.gif"));
-        model.addAttribute("imageUrl_D7", utils.url("/common/img/contest.gif"));
+        model.addAttribute("imageUrl_D5", utils.url("/common/img/weather.gif"));
+        model.addAttribute("imageUrl_D6", utils.url("/common/img/contest.gif"));
 
         model.addAttribute("addCss", List.of("main/style"));
         model.addAttribute("addScript", List.of( "main/dropdown"));
@@ -53,7 +51,6 @@ public class MainController {
 
         /* 공지사항 이미지 */
         model.addAttribute("bulbUrl", utils.url("/common/img/bulb.gif"));
-        model.addAttribute("noUrl", utils.url("/common/img/no_dog.jpg"));
 
         /* 게시판별 최신 게시글 추가 */
 
