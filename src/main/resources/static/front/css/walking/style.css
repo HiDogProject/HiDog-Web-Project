@@ -77,3 +77,7 @@
     .info-seq {
         display: none;
     }
+
+    .btns { /* 게시글에선 수정 삭제 버튼 안 보임 */
+        display: none;
+    }
