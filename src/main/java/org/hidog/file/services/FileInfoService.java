@@ -130,7 +130,7 @@ public class FileInfoService {
         item.setFileUrl(fileUrl);
         item.setFilePath(filePath);
 
-        item.setThumbPath(utils.url("/file/thumb/"));
+        item.setThumbUrl(utils.url("/file/thumb"));
     }
 
     // 브라우저 접근 주소

@@ -45,6 +45,32 @@ img { border: 0; }
     text-align: center;
     line-height: 20px;
 }
+
+
+/*강사님*/
+.photo-item-wrapper {
+    display: flex;
+}
+
+.photo-item .bg {
+    width: 150px;
+    height: 150px;
+}
+
+.photo-item + .photo-item {
+    margin-left: 5px;
+}
+
+.photo-item .select {
+    border: 1px solid #000;
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.photo-item .select.on {
+    background: #000;
+    color: #fff;
+}
 /* 파일 공통 E */
 
 /* 찜하기 */
