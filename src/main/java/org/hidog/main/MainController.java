@@ -29,7 +29,6 @@ public class MainController {
         model.addAttribute("imageUrl2", utils.url("/common/img/main_dog.png")); // 메인 이미지
         model.addAttribute("imageUrl3", utils.url("/common/img/main_dog3.png")); // 메인 이미지2
         model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
-        model.addAttribute("CAUrl", utils.url("/common/img/choongang.png")); // 푸터 전화기 이미지
 
         model.addAttribute("addCommonCss", List.of("swiper-bundle.min"));
         model.addAttribute("addScript", List.of( "main/banner"));
