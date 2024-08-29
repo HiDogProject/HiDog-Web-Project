@@ -7,6 +7,10 @@
         <th:block th:replace="~{front/board/default/_update::update}"></th:block>
     </th:block>
 
+    <th:block th:if="${board.skin == 'gallery'}">
+        <th:block th:replace="~{front/board/gallery/_update::update}"></th:block>
+    </th:block>
+
     <th:block th:if="${board.skin == 'walking'}">
         <th:block th:replace="~{front/board/walking/_update::update}"></th:block>
     </th:block>
@@ -14,10 +18,5 @@
     <th:block th:if="${board.skin == 'market'}">
         <th:block th:replace="~{front/board/market/_update::update}"></th:block>
     </th:block>
-
-    <th:block th:if="${board.skin == 'gallery'}">
-        <th:block th:replace="~{front/board/gallery/_update::update}"></th:block>
-    </th:block>
-
 </main>
 </html>
