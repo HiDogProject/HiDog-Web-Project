@@ -4,32 +4,11 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
 <div class="board_list layout_width">
-    <ul class="items">
-        <li th:if="${items == null || items.isEmpty()}" class="no_data"
-            th:text="#{조회된_게시글이_없습니다.}"></li>
-        <li th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" class="item">
-            <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="item-link">
-                <div class="product_info">
-                    <span class="subject">
-                        <th:block th:text="*{subject}"></th:block>
-                    </span>
-                    <span class="price">
-                        <th:block th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></th:block>
-                        <th:block th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></th:block>
-                    </span>
-                </div>
-                <div class="post_info">
-                    <span class="view_count">
-                        조회수 :
-                        <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
-                    </span>
-                    <span class="post_date"
-                          th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></span>
-                </div>
-                <!--// post_info -->
-            </a>
-        </li>
-    </ul>
+    <dl class="shop-info">
+        <dt class="user-name">
+        </dt>
+    </dl>
+    <th:block th:replace="~{front/board/market/_list_items::items}"></th:block>
 </div>
 </main>
 <th:block th:replace="~{common/_pagination::pagination}"></th:block>
