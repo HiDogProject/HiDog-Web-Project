@@ -40,9 +40,8 @@ public class MainController {
         model.addAttribute("imageUrl_D2", utils.url("/common/img/adopt.gif"));
         model.addAttribute("imageUrl_D3", utils.url("/common/img/sotong.gif"));
         model.addAttribute("imageUrl_D4", utils.url("/common/img/jarang.gif"));
-        model.addAttribute("imageUrl_D5", utils.url("/common/img/notice.gif"));
-        model.addAttribute("imageUrl_D6", utils.url("/common/img/weather.gif"));
-        model.addAttribute("imageUrl_D7", utils.url("/common/img/contest.gif"));
+        model.addAttribute("imageUrl_D5", utils.url("/common/img/weather.gif"));
+        model.addAttribute("imageUrl_D6", utils.url("/common/img/contest.gif"));
 
         model.addAttribute("addCss", List.of("main/style"));
         model.addAttribute("addScript", List.of( "main/dropdown"));
@@ -53,7 +52,6 @@ public class MainController {
 
         /* 공지사항 이미지 */
         model.addAttribute("bulbUrl", utils.url("/common/img/bulb.gif"));
-        model.addAttribute("noUrl", utils.url("/common/img/no_dog.jpg"));
 
         /* 게시판별 최신 게시글 추가 */
 
