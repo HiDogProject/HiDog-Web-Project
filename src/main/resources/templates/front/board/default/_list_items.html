@@ -27,9 +27,11 @@
                         <img th:if="*{member != null and member.profileImage != null}" th:src="@{*{member.profileImage.fileUrl}}" alt="Profile Image">
                     </span>
                     <span class="poster">
-                        <th:block th:text="*{poster}"></th:block>
-                        <th:block th:if="*{member != null}"
-                                  th:text="*{'(' + member.email + ')'}"></th:block>
+                        <th:block th:if="*{member == null}" th:text="*{poster}"></th:block>
+                    <th:block th:if="*{member != null && member.profileImage != null}">
+                        <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}" th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
+                    </th:block>
+                    <th:block th:if="*{member != null && member.profileImage == null}" th:text="*{#strings.concat(poster, '(', member.email, ')')}"></th:block>
                     </span>
                     <span class="view_count">
                         조회수 :

@@ -21,7 +21,9 @@ public class CommentData extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private BoardData boardData;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Member member;
 
     @Column(length=40, nullable = false)

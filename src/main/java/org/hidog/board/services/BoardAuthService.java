@@ -85,7 +85,6 @@ public class BoardAuthService {
              *      - 비회원 게시글은 인증 여부 체크 -> 인증 X -> 비밀번호 확인 페이지로 이동 검증
              *      - 검증 완료된 경우, 문제 X
              */
-
             if (List.of("update", "delete").contains(mode) && boardData != null && !boardData.isEditable()) {
                 if (boardData.getMember() == null) {
                     // 비회원 게시글 - 비밀번호 검증 필요
