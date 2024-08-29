@@ -2,15 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/mypage}">
 
     <main layout:fragment="content">
-
-        <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/post.css}">
-
         <h1 class="pn" th:text="${pageTitle}"></h1>
-
-        <form name="frmPost" method="post" th:action="@{/mypage/post}" autocomplete="off">
-
             <table class="posts-table">
-
                 <thead>
                     <tr>
                         <th class="th1">게시글 제목</th>
@@ -28,6 +21,5 @@
             <div class="pagination-container">
                 <th:block th:replace="~{common/_pagination::pagination}"></th:block>
             </div>
-        </form>
     </main>
 </html>
