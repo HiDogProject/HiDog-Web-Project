@@ -11,9 +11,9 @@ const mainMapLib = {
     height: '600px',
     zoom: 17,
     currentAction: null,
-    subject: "게시글 제목",
-    poster: "작성자",
-    content: "게시글 내용",
+    subject: "",
+    poster: "",
+    content: "",
     seq: null,
     clickable: true,
     init() {
@@ -193,7 +193,7 @@ const mainMapLib = {
                 path.push(arrPoint[index]); // 새로운 점을 배열에 추가.
                 polyline_.setPath(path); // 경로를 업데이트
                 index++;
-                requestAnimationFrame(animate); // 다음 프레임을 요청
+                requestAnimationFrame(animate); // 다음 프레임 요청
             }
         }
 
@@ -253,14 +253,15 @@ const mainMapLib = {
             const seqEl = infoBox.querySelector('.info-seq');
 
 
-            if (titleEl) titleEl.innerHTML = subject || "제목";
-            if (contentEl) contentEl.innerHTML = content || "게시글 내용";
-            if (posterEl) posterEl.innerHTML = poster || "작성자";
+            if (titleEl) titleEl.innerHTML = subject || "";
+            if (contentEl) contentEl.innerHTML = content || "";
+            if (posterEl) posterEl.innerHTML = poster || "";
             if (seq !== null) {
                 if (seqEl) {
                     const href = seqEl.href.substring(0, seqEl.href.lastIndexOf("/")) + "/" + this.seq;
                     seqEl.href = href;
                     ifrmBoard.location.href = href.substring(0, href.lastIndexOf("/board/view/")) + "/board/comment/" + this.seq;
+                    console.log(ifrmBoard.location.href)
                 }
             }
         }
@@ -270,8 +271,10 @@ const mainMapLib = {
     updateInfoBoxState() {
         const infoBox = document.getElementById('infoBox');
         const toggleButton = document.querySelector('#toggleButton');
+        const iframe = document.querySelector('iframe[name="ifrmBoard"]');
+        const infoSeq = document.querySelector('.info-seq');
 
-        if (!this.clickable && infoBox.classList.contains('info-box-expanded')) {
+        if (!this.clickable || infoBox.classList.contains('info-box-expanded')) {
             infoBox.classList.remove('info-box-expanded');
         } else {
             infoBox.classList.add('info-box-expanded');
@@ -280,9 +283,15 @@ const mainMapLib = {
         if (infoBox.classList.contains('info-box-expanded')) {
             toggleButton.style.right = '300px';
             toggleButton.textContent = '>'; // 열렸을 때
+            iframe.style.display = 'block';
+            infoSeq.style.display = 'block';
         } else {
             toggleButton.style.right = '0px';
             toggleButton.textContent = '<'; // 닫혔을 때
+            if (this.seq == "" || this.seq == null) {
+                iframe.style.display = 'none';
+                infoSeq.style.display = 'none';
+            }
         }
     }
 

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/popup}">
+<main layout:fragment="content">
+    <th:block th:if="${board.useComment}">
+        <th:block  th:replace="~{front/board/_comment::comment}"></th:block>
+    </th:block>
+</main>
+</html>
