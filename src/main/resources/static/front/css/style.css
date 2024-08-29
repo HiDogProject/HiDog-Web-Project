@@ -58,55 +58,127 @@ img { border: 0; }
 
 /* 헤더 영역 */
 header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: white;
-    padding: 10px 15px 15px 15px;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* 로고 및 제목 */
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
 }
 
 /* 제목 */
 .hn {
     font-size: 24px;
+    font-weight: bold;
     text-align: left;
     color: #333;
     margin: 0;
 }
 
-.logo img {
-    align-items: flex-start;
-    width: 50px;
-    height: 50px;
-}
-
-/* 네비게이션 메뉴 */
-nav {
-    display: flex;
-    justify-content: flex-end;
-}
-
-/* 메뉴 바 */
-.menus {
-    display: flex;
-    gap: 20px;
-}
-
-/* 메뉴 항목  */
-.menus li {
+/* 드롭 다운 메뉴 바 */
+.drop {
     display: flex;
     align-items: center;
 }
 
+.dropdown {
+    position: relative;
+    margin-right: 20px;
+    align-items: center;
+    height: 40px;
+}
+
+.nav_title {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.nav_title a {
+    text-decoration: none;
+    color: #333;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    background-color: white;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li {
+    margin: 0;
+}
+
+.dropdown-content li a {
+    display: block;
+    font-weight: bold;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    align-items: center;
+    height: 40px;
+}
+
+.dropdown-content li a:hover {
+    background-color: #9dc5f6;
+}
+
+/* 메뉴 바 */
+.menus {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* 메뉴 항목  */
+.menus li {
+    margin-left: 10px;
+}
+
 /* 링크 */
 .hba {
-    display: inline-block;
+    text-decoration: none;
 }
 
 /* 버튼 */
-button.hb {
+.hb {
     background-color: #9dc5f6;
-    color: #fff;
+    color: white;
     border: none;
     padding: 10px 20px;
     font-size: 11px;
+    font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -122,6 +194,7 @@ button.hb:hover {
     align-items: center;
     gap: 10px;
 }
+
 
 /* 파일 공통 S */
 .photo-item-wrapper{
@@ -148,3 +221,73 @@ button.hb:hover {
     color: #fff;
 }
 /* 파일 공통 E */
+
+/* 푸터 영역 S */
+footer {
+    background: #f9f9f9;
+    padding: 25px 0 50px;
+    margin-top: 100px;
+    text-align: center;
+    width: 100%;
+}
+
+footer .I {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 auto 12px;
+    display: block;
+}
+
+footer .center_phone {
+    border: 2px solid #2a2a2a;
+    border-radius: 20px;
+    height: 35px;
+    line-height: 31px;
+    width: 190px;
+    display: block;
+    margin: 0 auto 7px;
+    font-size: 1.538rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+footer .center_phone img {
+    height: 25px;
+    vertical-align: middle;
+}
+
+footer .choongang-info, footer .company-info {
+    font-size: 0.923rem;
+    color: #2a2a2a;
+    text-align: center;
+}
+
+footer .company-info {
+    margin: 3px 0 8px;
+    font-weight: 600;
+    color: #878787;
+}
+
+footer .links {
+    text-align: center;
+}
+
+footer .links a {
+    font-size: 0.846rem;
+    padding: 0 11px;
+    color: #878787;
+    position: relative;
+}
+
+footer .links a:not(.last)::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 8px;
+    background: #878787;
+    position: absolute;
+    right: 0;
+    top: 4px;
+}
+/* 푸터 영역 E */
+

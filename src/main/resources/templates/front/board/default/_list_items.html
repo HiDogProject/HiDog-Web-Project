@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
 
-    <div th:replace="~{common/_search_top}"></div>
+    <div th:replace="~{common/_search_top::search}"></div>
     <nav th:replace="~{front/board/default/_common::categorylink}"></nav>
 
 
@@ -22,8 +22,10 @@
                     <span class="category" th:if="*{category != null && category != ''}" th:text="*{'[' + category +']'}" ></span>
                     <th:block th:text="*{subject}"></th:block>
                 </a>
-
                 <div class="post_info">
+                    <span class="profile-image-container">
+                        <img th:if="*{member != null and member.profileImage != null}" th:src="@{*{member.profileImage.fileUrl}}" alt="Profile Image">
+                    </span>
                     <span class="poster">
                         <th:block th:text="*{poster}"></th:block>
                         <th:block th:if="*{member != null}"

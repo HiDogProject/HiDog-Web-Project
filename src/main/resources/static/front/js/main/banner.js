@@ -4,7 +4,8 @@ window.addEventListener("DOMContentLoaded", function() {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
         },
-        loop: true,
-        speed: 1000,
+        pagination: {
+            el: ".swiper-pagination",
+        },
     });
 });

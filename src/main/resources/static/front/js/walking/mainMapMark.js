@@ -256,7 +256,13 @@ const mainMapLib = {
             if (titleEl) titleEl.innerHTML = subject || "제목";
             if (contentEl) contentEl.innerHTML = content || "게시글 내용";
             if (posterEl) posterEl.innerHTML = poster || "작성자";
-            if (seqEl) seqEl.innerHTML = seq || "seq";
+            if (seq !== null) {
+                if (seqEl) {
+                    const href = seqEl.href.substring(0, seqEl.href.lastIndexOf("/")) + "/" + this.seq;
+                    seqEl.href = href;
+                    ifrmBoard.location.href = href.substring(0, href.lastIndexOf("/board/view/")) + "/board/comment/" + this.seq;
+                }
+            }
         }
     }
 
