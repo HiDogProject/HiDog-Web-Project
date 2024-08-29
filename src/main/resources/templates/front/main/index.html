@@ -33,7 +33,7 @@
 
         <div class="image-container">
 
-            <a th:href="@{/board/write/3}">
+            <a th:href="${@utils.redirectUrl('/board/list/1')}">
                 <img th:src="${imageUrl_D1}" alt="Market Image">
 
                 <h3 class="in">화개장터</h3>
@@ -45,13 +45,13 @@
                 <h3 class="in">국가동물보호정보시스템</h3>
             </a>
 
-            <a th:href="@{/board/write/2}">
+            <a th:href="${@utils.redirectUrl('/board/list/2')}">
                 <img th:src="${imageUrl_D3}" alt="소통하개">
 
                 <h3 class="in">소통하개</h3>
             </a>
 
-            <a th:href="@{/board/write/4}">
+            <a th:href="${@utils.redirectUrl('/board/list/3')}">
                 <img th:src="${imageUrl_D4}" alt="자랑하개">
 
                 <h3 class="in">자랑하개</h3>
@@ -80,11 +80,11 @@
             <h2 class="tn">Hi dog 주간 Top</h2>
 
             <div class="sub_banner">
-                <a th:href="@{/board/list/1}"> <!-- 산책하개 -->
+                <a th:href="${@utils.redirectUrl('/board/list/2')}"> <!-- 산책하개 -->
                     <img th:src="${subUrl2}" alt="sub banner2">
                 </a>
 
-                <a th:href="@{/board/list/4}"> <!-- 자랑하개 -->
+                <a th:href="${@utils.redirectUrl('/board/list/3')}"> <!-- 자랑하개 -->
                     <img class="su" th:src="${subUrl1}" alt="sub banner2">
                 </a>
             </div>
