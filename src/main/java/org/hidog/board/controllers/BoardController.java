@@ -233,7 +233,7 @@ public class BoardController implements ExceptionProcessor {
 
         viewCountService.update(seq); // 조회수 증가
 
-        return utils.tpl("board/_comment");
+        return utils.tpl("board/popup_comment");
     }
 
     /**
@@ -245,7 +245,7 @@ public class BoardController implements ExceptionProcessor {
      */
     @GetMapping("/delete/{seq}")
     public String delete(@PathVariable("seq") Long seq, Model model) {
-        commonProcess(seq, "deelete", model);
+        commonProcess(seq, "delete", model);
 
         boardDeleteService.delete(seq);
 

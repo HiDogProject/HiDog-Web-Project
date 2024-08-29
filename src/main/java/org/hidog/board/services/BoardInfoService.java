@@ -456,7 +456,7 @@ public class BoardInfoService {
 
         // 회원 - 직접 작성한 게시글인 경우만 수정,삭제(editable)
         Member boardMember = item.getMember(); // 게시글을 작성한 회원
-        Member loggedMember = item.getMember(); // 로그인한 회원
+        Member loggedMember = memberUtil.getMember(); // 로그인한 회원
         if (boardMember != null && memberUtil.isLogin() && boardMember.getEmail().equals(loggedMember.getEmail())) {
             editable = true; // 수정, 삭제 가능
             mine = true; // 게시글 소유자
@@ -489,7 +489,7 @@ public class BoardInfoService {
         /* 게시글 권한 정보 처리 E */
 
         // 게시글 버튼 노출 권한 처리 S
-        boolean showEdit = false, showList= false, showDelete = false;
+        boolean showEdit = false, showWrite = false , showList= false, showDelete = false;
 
         Authority editAuthority = board.getWriteAccessType(); // 글작성, 수정 권한
         Authority listAuthority = board.getListAccessType(); // 글목록 보기 권한
@@ -497,7 +497,7 @@ public class BoardInfoService {
 
         if (editAuthority == Authority.ALL || boardMember == null ||
                 (editAuthority == Authority.USER && memberUtil.isLogin())) { // 수정 삭제 권한이 ALL인 경우, 비회원인 경우, 회원만 가능한 경우 + 로그인한 경우 수정, 삭제 버튼 클릭시 비회원 검증 하므로 노출
-            showEdit = showDelete = true;
+            showWrite = true;
         }
 
         if (listAuthority == Authority.ALL || (listAuthority == Authority.USER && memberUtil.isLogin())) {
@@ -505,9 +505,14 @@ public class BoardInfoService {
         }
 
         if (memberUtil.isAdmin()) { // 관리자는 모든 권한 가능
-            showEdit = showDelete = showList = true;
+            showWrite = showEdit = showDelete = showList = true;
         }
 
+        if (boardMember == null || mine) { // 비회원 게시글이거나 회원게시글의 소유자인 경우
+            showEdit = showDelete = true;
+        }
+
+        item.setShowWrite(showWrite);
         item.setShowEdit(showEdit);
         item.setShowDelete(showDelete);
         item.setShowList(showList);
