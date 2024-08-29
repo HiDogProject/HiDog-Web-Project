@@ -3,6 +3,30 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/popup}">
 <main layout:fragment="content">
+    <div class="view-content" th:object="${boardData}">
+        <div class="subject">
+            <span th:if="*{category != null && !#strings.isEmpty(#strings.trim(category))}" th:text="*{'[' + category + ']'}"></span>
+            <th:block  th:text="*{subject}"></th:block>
+        </div>
+        <div class="post-info">
+            <div class="left">
+                <th:block th:text="#{작성자}"></th:block>:
+                <th:block th:if="*{member != null && member.profileImage != null}">
+                    <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}" th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
+                </th:block>
+                <th:block th:text="*{poster}"></th:block>
+                <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
+            </div>
+
+        </div> <!--// post-info -->
+        <div class="contents off">
+            <div class="inner" th:if="*{editorView}" th:utext="*{content}"></div>
+            <div class="inner" th:unless="*{editorView}" th:utext="*{@utils.nl2br(content)}"></div>
+            <button type="button" class="more" th:text="#{더보기}"></button>
+        </div>
+
+
+    </div>  <!--// view-content -->
     <th:block th:if="${board.useComment}">
         <th:block  th:replace="~{front/board/_comment::comment}"></th:block>
     </th:block>

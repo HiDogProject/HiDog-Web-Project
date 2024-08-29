@@ -81,3 +81,25 @@
     .btns { /* 게시글에선 수정 삭제 버튼 안 보임 */
         display: none;
     }
+
+    .view-content .contents .more {
+        display: none;
+    }
+
+    .view-content .contents.off {
+        min-height: auto;
+    }
+    .view-content .contents.off > .inner {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        line-height: 15px;
+        height: 75px;
+    }
+
+    .view-content .contents.off .more {
+        display: block;
+        margin: 10px auto;
+    }
