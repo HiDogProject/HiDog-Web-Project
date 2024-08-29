@@ -33,6 +33,7 @@ public class FileController implements RestExceptionProcessor {
     private final AfterFileUploadProcess afterProcess;
     private final Utils utils;
     private final ThumbnailService thumbnailService;
+    private final FileSelectService selectService;
 
     @PostMapping("/upload")
     public ResponseEntity<JSONData> upload(@RequestPart("file") MultipartFile[] files,
@@ -110,5 +111,16 @@ public class FileController implements RestExceptionProcessor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @PatchMapping("/select")
+    public JSONData fileSelect(@Valid @RequestBody RequestSelect form, Errors errors){
+
+        if(errors.hasErrors()){
+            throw new BadRequestException(utils.getErrorMessages(errors));
+        }
+        selectService.process(form);
+        List<FileInfo> items = infoService.getSelectedList(form.getGid(), form.getLocation(), form.getCnt());
+        return new JSONData(items);
     }
 }
