@@ -59,8 +59,8 @@
         </div>
 
         <div class="links">
-            <a class="btn" th:if="*{showEdit}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}" th:text="#{수정}">수정</a>
-            <a class="btn" th:if="*{showDelete}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}" th:text="#{삭제}"
+            <a class="btn" th:if="*{showEdit && editable}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}" th:text="#{수정}">수정</a>
+            <a class="btn" th:if="*{showDelete && editable}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}" th:text="#{삭제}"
                onclick="return confirm('정말 삭제하겠습니까?');">삭제</a>
         </div>
     </div>
