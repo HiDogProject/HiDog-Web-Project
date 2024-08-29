@@ -45,47 +45,58 @@ window.addEventListener("DOMContentLoaded", function() {
 
 
             if (dataset.editable == 'false') { // 비회원 댓글 -> 비밀번호 확인 필요
-                checkRequiredPassword(seq, () => callbackSuccess(seq), function() {
-                    // 비번확인이 필요한 경우
-                    const passwordBox = document.createElement("input");
-                    passwordBox.type = "password";
-                    passwordBox.placeholder = "비밀번호 입력";
-                    const button = document.createElement("button");
-                    const buttonText = document.createTextNode("확인");
-                    button.appendChild(buttonText);
-
-                    targetEl.innerHTML = "";
-                    targetEl.appendChild(passwordBox);
-                    targetEl.appendChild(button);
-
-                    /**
-                     * 비회원 비밀번호 확인 버튼 클릭시
-                     *
-                     */
-                    button.addEventListener("click", async function() {
-                        const guestPw = passwordBox.value.trim();
-                        if (!guestPw) {
-                            alert('비밀번호를 입력하세요.');
-                            passwordBox.focus();
-                            return;
-                        }
-
-                        const { ajaxLoad } = commonLib;
-
-                        try {
-                            const result = await ajaxLoad(`/api/comment/auth_validate?password=${guestPw}`);
-                            if (result.success) {
-                                callbackSuccess(seq); // textarea 보여주고,
-                            } else {
-                                throw new Error(result.message);
-                            }
-                        } catch (err) { // 비밀번호 검증 실패시
-                            alert('비밀번호가 일치하지 않습니다.');
-                        }
-                    });
-                });
+                checkRequiredPassword(seq, () => callbackSuccess(seq), createPasswordForm);
             } else { // 댓글 수정 가능 권한인 경우
                 callbackSuccess(seq);
+            }
+        });
+    }
+
+    /* 댓글 삭제 버튼 클릭 처리 S */
+    const deleteComments = document.getElementsByClassName("delete_comment");
+    for ( const el of deleteComments ) {
+        el.addEventListener("click", function () {
+
+        })
+    }
+
+
+    function createPasswordForm() {
+        // 비번확인이 필요한 경우
+        const passwordBox = document.createElement("input");
+        passwordBox.type = "password";
+        passwordBox.placeholder = "비밀번호 입력";
+        const button = document.createElement("button");
+        const buttonText = document.createTextNode("확인");
+        button.appendChild(buttonText);
+
+        targetEl.innerHTML = "";
+        targetEl.appendChild(passwordBox);
+        targetEl.appendChild(button);
+
+        /**
+         * 비회원 비밀번호 확인 버튼 클릭시
+         *
+         */
+        button.addEventListener("click", async function() {
+            const guestPw = passwordBox.value.trim();
+            if (!guestPw) {
+                alert('비밀번호를 입력하세요.');
+                passwordBox.focus();
+                return;
+            }
+
+            const { ajaxLoad } = commonLib;
+
+            try {
+                const result = await ajaxLoad(`/api/comment/auth_validate?password=${guestPw}`);
+                if (result.success) {
+                    callbackSuccess(seq); // textarea 보여주고,
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (err) { // 비밀번호 검증 실패시
+                alert('비밀번호가 일치하지 않습니다.');
             }
         });
     }
