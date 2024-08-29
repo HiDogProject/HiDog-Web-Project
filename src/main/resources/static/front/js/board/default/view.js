@@ -45,23 +45,42 @@ window.addEventListener("DOMContentLoaded", function() {
 
 
             if (dataset.editable == 'false') { // 비회원 댓글 -> 비밀번호 확인 필요
-                checkRequiredPassword(seq, () => callbackSuccess(seq), createPasswordForm);
+                checkRequiredPassword(seq, () => callbackSuccess(seq), () => createPasswordForm(targetEl));
             } else { // 댓글 수정 가능 권한인 경우
                 callbackSuccess(seq);
             }
         });
     }
 
-    /* 댓글 삭제 버튼 클릭 처리 S */
+    /* 댓글 삭제 버튼 처리 S */
     const deleteComments = document.getElementsByClassName("delete_comment");
-    for ( const el of deleteComments ) {
-        el.addEventListener("click", function () {
+    let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
+    rootUrl = rootUrl === '/' ? '' : rootUrl;
 
-        })
+    for (const el of deleteComments) {
+        el.addEventListener("click", function() {
+            const dataset = this.dataset;
+            const seq = dataset.seq;
+            const deleteUrl = rootUrl + `/comment/delete/${seq}`;
+
+            const commentEl = document.getElementById(`comment_${seq}`);
+            const targetEl = commentEl.querySelector(".comment");
+
+            if (dataset.deletable === 'false') {
+                checkRequiredPassword(seq, () => {
+                    // 비번 확인 성공시 처리
+                    ifrmProcess.location.replace(deleteUrl);
+                }, () => createPasswordForm((targetEl))); // 비번 확인이 필요한 경우
+            } else {
+                // 비번 확인 성공시 처리
+                ifrmProcess.location.replace(deleteUrl);
+            }
+        });
     }
 
+    /* 댓글 삭제 버튼 처리 E */
 
-    function createPasswordForm() {
+    function createPasswordForm(targetEl) {
         // 비번확인이 필요한 경우
         const passwordBox = document.createElement("input");
         passwordBox.type = "password";
@@ -86,7 +105,8 @@ window.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            const { ajaxLoad } = commonLib;
+            const { ajaxLoad } = commonLib
+
 
             try {
                 const result = await ajaxLoad(`/api/comment/auth_validate?password=${guestPw}`);
