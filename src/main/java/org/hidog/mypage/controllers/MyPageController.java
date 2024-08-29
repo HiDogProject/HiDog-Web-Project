@@ -54,6 +54,7 @@ public class MyPageController implements ExceptionProcessor {
         commonProcess("info", model);
 
         model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
+        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
 
         Member member = memberUtil.getMember();
         form.setUserName(member.getUserName());
@@ -71,6 +72,7 @@ public class MyPageController implements ExceptionProcessor {
         commonProcess("info", model);
 
         model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
+        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
 
         profileUpdateValidator.validate(form, errors);
 
@@ -90,6 +92,7 @@ public class MyPageController implements ExceptionProcessor {
         commonProcess("post", model);
 
         model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
+        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
 
         ListData<BoardData> data = boardInfoService.getMyList(search);
 
@@ -106,6 +109,7 @@ public class MyPageController implements ExceptionProcessor {
         commonProcess("wishlist", model);
 
         model.addAttribute("imageUrl", utils.url("/common/img/Hidog.png")); // 로고 이미지
+        model.addAttribute("callUrl", utils.url("/common/img/call.gif")); // 푸터 전화기 이미지
 
         ListData<BoardData> data = boardInfoService.getWishList(search);
 
