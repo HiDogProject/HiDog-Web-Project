@@ -42,8 +42,7 @@ public class CommentController implements ExceptionProcessor {
      * @return
      */
     @PostMapping("/save")
-    public String save(@Valid RequestComment form, Errors errors, Model model) {
-
+    public String save(@Valid RequestComment form, Errors errors, Model model, HttpServletRequest request) {
         commentValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
@@ -54,8 +53,15 @@ public class CommentController implements ExceptionProcessor {
 
         CommentData commentData = commentSaveService.save(form); // 댓글 저장, 수정
 
-        String script = String.format("parent.location.replace('/board/view/%d?comment_id=%d');", commentData.getBoardData().getSeq(), commentData.getSeq());
-
+        String referrer = request.getHeader("referer");
+        String script  = null;
+        if (referrer.contains("/board/comment")) {
+            String url = utils.redirectUrl("/board/comment");
+            script = String.format("parent.location.replace('%s/%s?comment_id=%s');", url, commentData.getBoardData().getSeq(), commentData.getSeq());
+        } else {
+            String url = utils.redirectUrl("/board/view");
+            script = String.format("parent.location.replace('%s/%s?comment_id=%s');", url, commentData.getBoardData().getSeq(), commentData.getSeq());
+        }
         model.addAttribute("script", script);
 
         return "common/_execute_script";
