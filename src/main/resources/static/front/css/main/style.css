@@ -6,7 +6,6 @@ body, html {
     width: 100%;
 }
 
-/* 스와이프 S */
 /* Swiper 컨테이너 */
 .swiper {
     width: 100%;
@@ -20,7 +19,6 @@ body, html {
     align-items: center;
     height: 100%;
 }
-/* 스와이프 E */
 
 /* 메인 이미지 */
 .main_img {
@@ -151,7 +149,7 @@ body, html {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    padding: 10px 0 10px 150px;
+    padding: 10px 0 10px 80px;
     width: 300px;
     text-align: center;
 }
@@ -163,6 +161,65 @@ body, html {
 }
 
 .notice .no {
-    font-size: 20px;
+    font-size: 15px;
     margin: 0;
+}
+
+/* 최신 게시글 목록 */
+.new_post {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+    padding: 0 80px;
+}
+
+.board-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #9dc5f6;
+    position: relative;
+}
+
+.board-section h2 {
+    margin: 0 0 10px 0;
+}
+
+.subject {
+    flex: 1;
+    font-weight: bold;
+    margin: 0 20px 5px 0;
+}
+
+.post-info {
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* 4개 블록으로 나누기 */
+.board-section:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.board-section:nth-child(2) {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+.board-section:nth-child(3) {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.board-section:nth-child(4) {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
 }
