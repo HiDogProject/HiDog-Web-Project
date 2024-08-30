@@ -7,8 +7,10 @@
 <dd th:fragment="view">
     <div class="container1" th:object="${boardData}">
         <div class="top-section">
-            <div class="image-section">
-                <img src="https://cdn.imweb.me/upload/S20211026228188315d8e6/d4365990c7671.jpg" alt="Product Image">
+            <div th:if="*{attachFiles != null && !attachFiles.empty}" class="downloads">
+                <div th:each="file, status : *{attachFiles}" th:object="${file}">
+                    <img th:src="${file.fileUrl}"></img>
+                </div>
             </div>
 
             <div class="details-wrapper">

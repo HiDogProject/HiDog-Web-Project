@@ -13,7 +13,7 @@
                 <dt th:text="#{상품_이미지}"></dt>
                 <dd class="image-box">
                     <button type="button" class="fileUploads" th:data-gid="*{gid}"
-                            data-location="attach" th:text="#{이미지_등록}" data-select-cnt="2"></button>
+                            data-location="attach" th:text="#{이미지_등록}" data-select-cnt="1"></button>
                     <div class="uploaded-files photo-item-wrapper" id="uploaded-files-attach">
                         <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="photo-item"
                              th:id="${'file-' + file.seq}">
