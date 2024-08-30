@@ -6,7 +6,6 @@ window.addEventListener("DOMContentLoaded", function() {
     const toggleButton = document.getElementById('toggleButton');
     const infoBox = document.getElementById('infoBox');
     const iframe = document.querySelector('iframe[name="ifrmBoard"]');
-    const infoSeq = document.querySelector('.info-seq');
     // 초기 상태 설정
     toggleButton.textContent = '<'; // 닫혀 있을 때
 
@@ -17,10 +16,8 @@ window.addEventListener("DOMContentLoaded", function() {
             toggleButton.textContent = '<'; // 닫혔을 때
             if (mainMapLib.seq == "" || mainMapLib.seq == null) {
                 iframe.style.display = 'none';
-                infoSeq.style.display = 'none';
             } else {
                 iframe.style.display = 'block';
-                infoSeq.style.display = 'block';
             }
         } else {
             infoBox.classList.add('info-box-expanded');
@@ -28,10 +25,8 @@ window.addEventListener("DOMContentLoaded", function() {
             toggleButton.textContent = '>'; // 열렸을 때
             if (mainMapLib.seq == "" || mainMapLib.seq == null) {
                 iframe.style.display = 'none';
-                infoSeq.style.display = 'none';
             } else {
                 iframe.style.display = 'block';
-                infoSeq.style.display = 'block';
             }
         }
     });
