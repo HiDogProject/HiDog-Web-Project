@@ -37,3 +37,86 @@
 .comment_items .btns { text-align: right; }
 .comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
 .comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
+body {
+    font-family: Arial, sans-serif;
+}
+
+.form-container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #F5F6F8;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    border-top: 2px solid #333;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.form-table dt {
+    background-color: #EAEAEA;
+    padding: 10px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.form-table dd {
+    padding: 10px;
+}
+
+.form-table td, .form-table th {
+    border-bottom: 1px solid #ddd;
+}
+
+.form-table tr:last-child td {
+    border-bottom: none;
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-submit {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.uploaded-files {
+    margin-top: 10px;
+}
+
+.file-item {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.file-item img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.error {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 5px;
+}
