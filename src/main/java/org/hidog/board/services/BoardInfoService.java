@@ -549,7 +549,7 @@ public class BoardInfoService {
      * @return
      */
     public List<BoardData> getLatest(String bid, int cnt) {
-        cnt = Math.max(cnt, 5);
+        cnt = Math.max(cnt, 2);
         BoardDataSearch search = new BoardDataSearch();
         search.setBid(bid);
         search.setLimit(cnt);
