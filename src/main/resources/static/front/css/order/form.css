@@ -1,8 +1,9 @@
 /* 전체 컨테이너 */
 .container {
-    max-width: 1000px; /* 원하는 최대 너비를 설정 */
-    margin: 0 auto; /* 양옆을 자동으로 설정하여 중앙 정렬 */
-    padding: 20px; /* 컨테이너 안쪽 여백 추가 */
+    margin: 0 16px; /* 양옆을 자동으로 설정하여 중앙 정렬 */
+
+    width: 100%;
+    box-sizing: border-box; /* 패딩을 포함하여 전체 너비 조정 */
 }
 
 /* 섹션 제목 */

@@ -22,6 +22,69 @@ body {
     margin-bottom: 100px;
 }
 
+/*이미지 슬라이드*/
+/* 슬라이더 컨테이너 */
+.slider {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px; /* 슬라이드 컨테이너의 최대 너비 설정 */
+    aspect-ratio: 1; /* 비율을 1:1로 유지 */
+    margin: auto; /* 중앙 정렬 */
+}
+
+/* 슬라이드 목록 */
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* 개별 슬라이드 */
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    display: flex; /* 이미지가 컨테이너를 가득 채우도록 함 */
+    justify-content: center;
+    align-items: center;
+}
+
+/* 슬라이드 이미지 */
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 비율 유지하면서 컨테이너에 맞게 조정 */
+}
+
+/* 네비게이션 버튼 */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 18px;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+/* 버튼 hover 효과 */
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
 .image-section{
     flex: 1;
     max-width: 50%;

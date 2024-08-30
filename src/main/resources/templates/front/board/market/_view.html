@@ -7,12 +7,15 @@
 <dd th:fragment="view">
     <div class="container1" th:object="${boardData}">
         <div class="top-section">
-            <div th:if="*{attachFiles != null && !attachFiles.empty}" class="downloads">
-                <div th:each="file, status : *{attachFiles}" th:object="${file}">
-                    <img th:src="${file.fileUrl}"></img>
+            <div class="slider">
+                <div class="slides">
+                    <div th:each="file, status : *{attachFiles}" th:object="${file}" class="slide">
+                        <img th:src="${file.fileUrl}" alt="Image">
+                    </div>
                 </div>
+                <button class="prev">‹</button>
+                <button class="next">›</button>
             </div>
-
             <div class="details-wrapper">
                 <div class="details-section">
                     <span class="subject" th:text="*{subject}"></span>

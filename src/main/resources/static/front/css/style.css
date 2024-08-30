@@ -317,3 +317,13 @@ footer .links a:not(.last)::after {
 }
 /* 푸터 영역 E */
 
+
+
+/* 프로필 이미지 */
+.profile-image img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px; /* 프로필 이미지 옆 여백 추가 */
+}
+
