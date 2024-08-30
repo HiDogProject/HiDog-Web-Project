@@ -2,6 +2,7 @@ package org.hidog.main;
 
 import lombok.RequiredArgsConstructor;
 import org.hidog.board.services.BoardConfigInfoService;
+import org.hidog.board.services.BoardInfoService;
 import org.hidog.global.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +17,13 @@ import java.util.List;
 public class MainController {
 
     private final BoardConfigInfoService configInfoService;
+    private final BoardInfoService boardInfoService;
     private final Utils utils;
 
     @GetMapping
-    public String Main(Model model) {
+    public String Main( Model model) {
         List<String[]> boardList = configInfoService.getBoardList();
+        
 
         model.addAttribute("boardList", boardList);
 

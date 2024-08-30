@@ -10,6 +10,7 @@
 .pagination .page + .page { margin-left: 3px; }
 /* 페이징 공통 E */
 
+
 /* 프로필 이미지 스타일 */
 .post-info .poster img {
     width: 30px;  /* 고정된 너비 설정 */
@@ -18,6 +19,57 @@
     margin-right: 8px;
     vertical-align: middle;
 }
+
+
+/* 검색 */
+#search_top {
+    display: flex; /* 폼 요소들을 수평으로 배치합니다. */
+    align-items: center; /* 요소들을 수직으로 가운데 정렬합니다. */
+    border: 1px solid #ddd; /* 폼의 경계선 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    padding: 10px; /* 폼 내부의 여백 */
+    background-color: #fff; /* 배경색 */
+    max-width: 800px; /* 폼의 최대 너비 */
+    margin: 20px auto; /* 폼을 중앙에 배치 */
+}
+
+/* 드롭다운 스타일링 */
+#search_top select {
+    border: 1px solid #ccc; /* 테두리 색상 */
+    border-radius: 5px; /* 둥근 모서리 */
+    padding: 8px 12px; /* 패딩 */
+    font-size: 16px; /* 글자 크기 */
+    margin-right: 10px; /* 오른쪽 여백 */
+    flex: 1; /* 드롭다운이 가로 공간을 적당히 차지하도록 설정 */
+}
+
+/* 텍스트 입력 필드 스타일링 */
+#search_top input[type="text"] {
+    border: 1px solid #ccc; /* 테두리 색상 */
+    border-radius: 5px; /* 둥근 모서리 */
+    padding: 8px 12px; /* 패딩 */
+    font-size: 16px; /* 글자 크기 */
+    flex: 2; /* 입력 필드가 더 많은 가로 공간을 차지하도록 설정 */
+    margin-right: 10px; /* 오른쪽 여백 */
+}
+
+/* 제출 버튼 스타일링 */
+#search_top button[type="submit"] {
+    background-color: #000; /* 버튼 배경색 */
+    color: #fff; /* 버튼 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    padding: 8px 16px; /* 패딩 */
+    font-size: 16px; /* 글자 크기 */
+    cursor: pointer; /* 클릭 가능 커서 */
+    transition: background-color 0.3s ease; /* 부드러운 배경색 변경 효과 */
+}
+
+/* 제출 버튼 호버 상태 */
+#search_top button[type="submit"]:hover {
+    background-color: #fff; /* 호버 시 배경색 변경 */
+}
+
 
 /* 댓글 */
 #frmComment { margin: 20px 0 30px; }
@@ -37,3 +89,4 @@
 .comment_items .btns { text-align: right; }
 .comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
 .comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
+

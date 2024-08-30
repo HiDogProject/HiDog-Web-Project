@@ -3,6 +3,7 @@
     display: flex;
     border-bottom: 1px solid #ccc;
     height: 45px;
+    align-items: center; /* 수직 정렬 */
 }
 
 .board-main .list-items li:first-of-type {
@@ -16,18 +17,26 @@
 .board-main .list-items .post-info {
     width: 300px;
     text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 내용물 오른쪽 정렬 */
 }
 
 .board-main .list-items .post-info > span {
-    line-height: 43px;
+    line-height: normal; /* 부모의 align-items 설정으로 인해 line-height 조정 불필요 */
+    margin-left: 10px; /* 요소 간 간격 추가 */
 }
 
 .board-main .list-items .subject {
     flex-grow: 1;
-    line-height: 43px;
+    line-height: 1.5; /* 기본 line-height 사용 */
     padding: 0 10px;
     font-size: 1.15rem;
+    display: flex; /* 요소들을 flex로 수평 정렬 */
+    align-items: center;
 }
+
+/* 나머지 스타일 동일 */
 
 .board-main .list-items .no-data {
     align-items: center;
@@ -42,12 +51,13 @@
     margin-bottom: 25px;
 }
 
+/* 분류 버튼 스타일 */
 .board-main .category-links a {
     height: 45px;
     padding: 0 35px;
     line-height: 45px;
     background: #ccc;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 1.15rem;
 }
 
@@ -129,11 +139,30 @@
     border-bottom: 1px solid #ccc;
     padding: 0 15px;
 }
+
 .board-main .downloads li a {
     font-size: 1.15rem;
     line-height: 34px;
 }
+
 .border-main .downloads li a:hover {
     text-decoration: underline;
 }
+
 /* 게시글 보기 공통 E */
+
+
+/* 게시판 이름 */
+.page-title {
+    padding-top: 50px;
+}
+
+
+.write_btn {
+    height: 45px;
+    padding: 0 35px;
+    line-height: 45px;
+    background: #ccc;
+    border-radius: 5px;
+    font-size: 1.15rem;
+}
