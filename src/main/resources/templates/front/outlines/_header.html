@@ -2,60 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <header th:fragment="common">
+        <div class="top-bar">
+            <div class="logo-container">
+                <div class="logo">
 
-        <div class="logo-container">
-            <div class="logo">
 
-                <a th:href="@{/}" class="logo-link"> <!-- 로고 이미지 클릭 시 메인 페이지로 이동 -->
-                    <img th:src="${@utils.url('/common/img/Hidog.png')}" alt="Hi Dog Logo">
-                </a>
+                    <a th:href="@{/}" class="logo-link"> <!-- 로고 이미지 클릭 시 메인 페이지로 이동 -->
+                        <img th:src="${@utils.url('/common/img/Hidog.png')}" alt="Hi Dog Logo">
+                    </a>
+                </div>
+
+                <h1 class="hn">Hi Dog</h1>
             </div>
 
-            <h1 class="hn">Hi Dog</h1>
-        </div>
+            <div class="drop">
 
-        <div class="drop">
+                <!-- 지도 -->
+                <div class="dropdown">
+                    <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{맵}"></a></div>
 
-            <!-- 지도 -->
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{맵}"></a></div>
+                    <ul class="dropdown-content">
+                        <li><a th:href="${@utils.redirectUrl('/walking/map')}" th:text="#{맵}" /></li>
+                    </ul>
+                </div>
 
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/walking/map')}" th:text="#{맵}" /></li>
-                </ul>
-            </div>
+                <!-- 게시판 -->
+                <div class="dropdown">
+                    <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{산책하개}"></a></div>
 
-            <!-- 게시판 -->
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{산책하개}"></a></div>
+                    <ul class="dropdown-content">
+                        <li><a th:href="${@utils.redirectUrl('/board/list/1')}" th:text="#{산책하개}" /></li>
+                    </ul>
+                </div>
 
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/board/list/1')}" th:text="#{산책하개}" /></li>
-                </ul>
-            </div>
+                <div class="dropdown">
+                    <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{소통하개}"></a></div>
 
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{소통하개}"></a></div>
+                    <ul class="dropdown-content">
+                        <li><a th:href="${@utils.redirectUrl('/board/list/2')}" th:text="#{소통하개}" /></li>
+                    </ul>
+                </div>
 
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/board/list/2')}" th:text="#{소통하개}" /></li>
-                </ul>
-            </div>
+                <div class="dropdown">
+                    <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{화개장터}"></a></div>
 
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{화개장터}"></a></div>
+                    <ul class="dropdown-content">
+                        <li><a th:href="${@utils.redirectUrl('/board/list/3')}" th:text="#{화개장터}" /></li>
+                    </ul>
+                </div>
 
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/board/list/3')}" th:text="#{화개장터}" /></li>
-                </ul>
-            </div>
+                <div class="dropdown">
+                    <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{자랑하개}"></a></div>
 
-            <div class="dropdown">
-                <div class="nav_title"><a onclick="alert('상단 메뉴 바의 게시판 중 하나를 선택해주세요.')" th:text="#{자랑하개}"></a></div>
-
-                <ul class="dropdown-content">
-                    <li><a th:href="${@utils.redirectUrl('/board/list/4')}" th:text="#{자랑하개}" /></li>
-                </ul>
+                    <ul class="dropdown-content">
+                        <li><a th:href="${@utils.redirectUrl('/board/list/4')}" th:text="#{자랑하개}" /></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
