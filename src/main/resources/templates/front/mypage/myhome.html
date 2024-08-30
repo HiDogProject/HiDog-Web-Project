@@ -7,17 +7,20 @@
 
     <main layout:fragment="content">
 
-        <h1 th:text="${pageTitle}"></h1>
+        <div class="ti">
+            <h1 th:text="${pageTitle}"></h1>
 
-        <dl>
-            <dd>
-                <div class="profile-image">
-                    <div class="fileUploads inner" th:data-gid="${loggedMember.email}" data-image-only="true" data-single="true">
-                        <img th:if="${myProfileImage != null}" th:object="${myProfileImage}" th:src="*{fileUrl}" alt="*{fileName}">
+            <dl>
+                <dd>
+                    <div class="profile-image2">
+
+                        <div class="fileUploads inner" th:data-gid="${loggedMember.email}" data-image-only="true" data-single="true">
+                            <img th:if="${myProfileImage != null}" th:object="${myProfileImage}" th:src="*{fileUrl}" alt="*{fileName}">
+                        </div>
                     </div>
-                </div>
-            </dd>
-        </dl>
+                </dd>
+            </dl>
+        </div>
 
         <!-- 페이지 버튼 -->
         <div class="button-container">
@@ -31,10 +34,6 @@
 
             <a th:href="@{/mypage/post}" class="btn-wrapper">
                 <button type="button" class="btn" th:text="#{내가_쓴_글_보기}"></button>
-            </a>
-
-            <a th:href="@{/shop}" class="btn-wrapper">
-                <button type="button" class="btn" th:text="#{상점}"></button>
             </a>
         </div>
     </main>
