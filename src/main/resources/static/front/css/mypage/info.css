@@ -9,16 +9,7 @@ form {
     background-color: #fff;
 }
 
-/* 제목 */
-.pn {
-    text-align: center;
-    margin: 0;
-    font-size: 25px;
-    font-weight: bold;
-    color: #333;
-    background-color: #9dc5f6;
-    padding: 5px;
-}
+
 
 /* dl */
 dl {

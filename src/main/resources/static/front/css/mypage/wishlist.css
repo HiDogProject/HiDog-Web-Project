@@ -1,18 +1,17 @@
 /* 전체 페이지 스타일 */
 main {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
     color: #333;
-    padding: 20px;
 }
 
+/* 제목 */
 h1.pn {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 30px;
 }
 
-/* 전체 컨테이너 스타일 */
+/* 전체 컨테이너 */
 .wishlist-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -22,14 +21,14 @@ h1.pn {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 아이템 목록 스타일 */
+/* 아이템 목록 */
 .item-list {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
 
-/* 각 아이템 카드 스타일 */
+/* 각 아이템 카드 */
 .item {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -67,7 +66,7 @@ h1.pn {
     color: #555;
 }
 
-/* 페이지네이션 스타일 */
+/* 페이지네이션 */
 .pagination-container {
     text-align: center;
     margin-top: 20px;
