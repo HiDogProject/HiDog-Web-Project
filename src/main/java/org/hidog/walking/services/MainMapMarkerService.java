@@ -53,17 +53,11 @@ public class MainMapMarkerService {
 
         BoardData boardData = dataRepository.findByLongText1(jsonString);
         String viaPoints = boardData.getLongText2();
-        String poster = boardData.getPoster();
-        String subject = boardData.getSubject();
-        String content = boardData.getContent();
         Long seq = boardData.getSeq();
         String stringSeq = String.valueOf(seq);
 
         Map<String, Object> data = new HashMap<>();
         data.put("viaPoints", viaPoints);
-        data.put("poster", poster);
-        data.put("subject", subject);
-        data.put("content", content);
         data.put("seq", stringSeq);
 
 
