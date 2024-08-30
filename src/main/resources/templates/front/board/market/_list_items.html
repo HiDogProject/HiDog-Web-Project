@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
-
-    <th:block th:if="${board.skin == 'market'}">
-        <th:block th:replace="~{front/board/market/_search::search}"></th:block>
-    </th:block>
-
     <div class="board_list">
         <ul class="posts">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
@@ -21,9 +16,6 @@
                     </div>
                     <span class="badge" th:if="*{selectedImages.size() > 1}" th:text="*{#strings.concat('+', selectedImages.size() - 1)}"></span>
                 </div>
-<!--                <th:block th:each="file, status : ${@utils.getSelectedImages(item.gid)}">-->
-<!--                    <div class="photos" th:if="${status.index==0}"></div>-->
-<!--                </th:block>-->
                 <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="item-link">
                     <dl class="subject">
                         <dd th:text="*{subject}"></dd>
@@ -47,6 +39,17 @@
                     </dl>
                 </a>
                 <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
+                    <span class="poster">
+                        <span class="profile-image-container">
+                        <img th:if="*{member != null and member.profileImage != null}" th:src="@{*{member.profileImage.fileUrl}}" alt="Profile Image">
+                    </span>
+                    <span class="poster">
+                        <th:block th:if="*{member == null}" th:text="*{poster}"></th:block>
+                    <th:block th:if="*{member != null && member.profileImage != null}">
+                        <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}" th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
+                    </th:block>
+                    <th:block th:if="*{member != null && member.profileImage == null}" th:text="*{#strings.concat(poster, '(', member.email, ')')}"></th:block>
+                    </span>
                     <dl class="poster_info">
                         <dd th:text="*{poster}"></dd>
                     </dl>
