@@ -100,8 +100,36 @@ function insertEditor(source) {
 function fileDeleteCallback(file) {
     if (!file) return;
 
-    const { seq } = file;
+    const { seq, extension, location } = file;
 
     const el = document.getElementById(`file-${seq}`);
     el.parentElement.removeChild(el);
+
+    if (location !== 'editor' || !editor) {
+        return;
+    }
+
+    const fileName = `${seq}${extension}`;
+    const html = editor.getData();
+    const domParser = new DOMParser();
+    const dom = domParser.parseFromString(html, "text/html");
+    const figures = dom.getElementsByTagName("figure");
+    for (const figure of figures) {
+        const images = figure.getElementsByTagName("img");
+        const cnt = images.length;
+
+        for (const image of images) {
+            if (image.src.includes(fileName)) {
+                image.parentElement.removeChild(image);
+            }
+        }
+
+        // 이미지가 1개만 있는 figure 태그인 경우
+        if (cnt === 1 && figure.getElementsByTagName("img").length === 0) {
+            figure.parentElement.removeChild(figure);
+        }
+    }
+
+    const newHtml = dom.body.innerHTML;
+    editor.setData(newHtml);
 }

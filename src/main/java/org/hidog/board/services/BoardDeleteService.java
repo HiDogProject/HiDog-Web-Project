@@ -48,6 +48,7 @@ public class BoardDeleteService {
         // 업로드된 파일 삭제
         fileDeleteService.delete(gid);
 
+        // 게시글 삭제
         boardDataRepository.delete(data);
         boardDataRepository.flush();
 

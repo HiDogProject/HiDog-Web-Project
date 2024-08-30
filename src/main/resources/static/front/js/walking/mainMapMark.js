@@ -281,7 +281,7 @@ const mainMapLib = {
         }
 
         if (infoBox.classList.contains('info-box-expanded')) {
-            toggleButton.style.right = '300px';
+            toggleButton.style.right = '400px';
             toggleButton.textContent = '>'; // 열렸을 때
             iframe.style.display = 'block';
             infoSeq.style.display = 'block';

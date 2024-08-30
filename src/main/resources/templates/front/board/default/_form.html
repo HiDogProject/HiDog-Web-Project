@@ -67,6 +67,7 @@
                     data-location="attach" th:text="#{파일_선택}"></button>
             <div class="uploaded-files photo-item-wrapper" id="uploaded-files-attach">
                 <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="file-item" th:id="${'file-' + file.seq}">
+                    <img th:src="${file.fileUrl}"></img>
                     <a th:href="${@utils.redirectUrl('/file/download/' + file.seq)}" th:text="${file.fileName}"></a>
                     <i class="xi-close remove" th:data-seq="${file.seq}"></i>
                 </div>

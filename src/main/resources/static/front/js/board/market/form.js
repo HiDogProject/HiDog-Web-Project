@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", function() {
         el.addEventListener("click", (e) => insertEditor(e.currentTarget.dataset.url));
     }
 
-    const removeEls = document.querySelectorAll(".file-item .remove");
+    const removeEls = document.querySelectorAll(".photo-item .remove");
     for (const el of removeEls) {
         el.addEventListener("click", function() {
             if (confirm('정말 삭제하겠습니까?')) {
@@ -25,15 +25,46 @@ window.addEventListener("DOMContentLoaded", function() {
     /* 이미지 본문 추가 이벤트 처리 E */
 
     /* 이미지 선택 처리 S */
-    const selectEls = document.querySelectorAll(".photo-item .select");
-    for (const el of selectEls) {
-        el.addEventListener("click", function() {
-
-        });
+    const fileUploads = document.getElementsByClassName("fileUploads");
+    for (const fileUpload of fileUploads) {
+        const {gid, location, selectCnt } = fileUpload.dataset;
+        const selectEls = document.querySelectorAll(`#uploaded-files-${location} .photo-item .select`);
+        for (const el of selectEls) {
+            const seq = el.dataset.seq;
+            selectEventHandler(el, gid, location, seq, selectCnt);
+        }
     }
     /* 이미지 선택 처리 E */
 });
 
+function checkSelectCount(location, cnt) {
+    const items = document.querySelectorAll(`#uploaded-files-${location} .select.on`);
+    if (items.length >= cnt) {
+        throw new Error(`이미지는 최대 ${cnt}개 까지 선택하세요.`);
+    }
+}
+
+function selectEventHandler(el, gid, location, seq, selectCnt) {
+    el.addEventListener("click", function() {
+        try {
+            const { seq } = this.dataset;
+
+
+            const mode = el.classList.contains("on") ? "deselect":"select";
+            if (mode == 'select') {
+                checkSelectCount(location, selectCnt);
+            }
+            fileManager.select(mode, gid, location, seq, selectCnt, () => {
+                // 파일 선택 처리 후속 작업 ...
+                el.classList.toggle("on");
+
+            });
+        } catch (err) {
+            alert(err.message);
+            console.error(err);
+        }
+    });
+}
 
 /**
  * 파일 업로드 후속 처리
@@ -91,6 +122,10 @@ function fileUploadCallback(files) {
             }
         });
 
+        const selectEl = el.querySelector(".select");
+        const fileUpload = document.querySelector(`[data-location='${file.location}']`);
+        const selectCnt = fileUpload != null ? fileUpload.dataset.selectCnt : 0;
+        selectEventHandler(selectEl, file.gid, file.location, file.seq, selectCnt);
     }
 
     // 에디터 본문에 이미지 추가

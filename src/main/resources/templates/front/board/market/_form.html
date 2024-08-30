@@ -8,24 +8,18 @@
     <body>
     <div class="container">
         <h2 th:text="#{상품정보}"></h2>
-        <dl>
-            <dl>
-                <dt th:text="#{이미지}"></dt>
-                <dd>
-                    <div class="profile-image fileUploads" data-mode="dragNdrop" th:data-gid="*{gid}" th:data-single="false" th:data-image-only="true" data-location="attach">
-                        <th:block th:each="image : *{attachFiles}" th:object="${image}">
-                            <img th:src="*{fileUrl}" alt="프로필 이미지" id="profile-image-preview">
-                        </th:block>
+        <dl th:if="${board.useUploadFile}">
+            <dt th:text="#{상품_이미지}"></dt>
+            <dd>
+                <button type="button" class="fileUploads" th:data-gid="*{gid}"
+                        data-location="attach" th:text="#{이미지_등록}" data-select-cnt="2"></button>
+                <div class="uploaded-files photo-item-wrapper" id="uploaded-files-attach">
+                    <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="photo-item" th:id="${'file-' + file.seq}">
+                        <div class="bg" th:style="${#strings.concat('background:url(', @utils.getThumbUrl(file.seq, 150, 150), ') no-repeat center center; background-size: cover;')}"></div>
+                        <i class="xi-close remove" th:data-seq="${file.seq}"></i>
                     </div>
-                    <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}" th:data-single="false" th:data-image-only="true"></button>
-                    <div class="uploaded-files" id="uploaded-files-attach">
-                        <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="file-item" th:id="${'file-' + file.seq}">
-                            <a th:href="${@utils.redirectUrl('/file/download/' + file.seq)}" th:text="${file.fileName}"></a>
-                            <i class="xi-close remove" th:data-seq="${file.seq}"></i>
-                        </div>
-                    </div>
-                </dd>
-            </dl>
+                </div>
+            </dd>
         </dl>
         <dl>
             <dt th:text="#{제목}"></dt>
@@ -66,6 +60,8 @@
         </dl>
     </div>
     </body>
-    <script th:replace="~{common/_file_tpl::image}"></script>
+
+    <script th:replace="~{common/_file_tpl::gallery-attach}"></script>
+    <script th:replace="~{common/_file_tpl::gallery-editor}"></script>
 </th:block>
 </html>

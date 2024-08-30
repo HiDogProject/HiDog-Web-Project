@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", function() {
             }
         } else {
             infoBox.classList.add('info-box-expanded');
-            toggleButton.style.right = '300px';
+            toggleButton.style.right = '400px';
             toggleButton.textContent = '>'; // 열렸을 때
             if (mainMapLib.seq == "" || mainMapLib.seq == null) {
                 iframe.style.display = 'none';

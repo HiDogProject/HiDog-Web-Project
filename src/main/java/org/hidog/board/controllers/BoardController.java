@@ -323,13 +323,15 @@ public class BoardController implements ExceptionProcessor {
             addScript.add("board/" + skin + "/view");
 
             if (mode.equals("popup_comment")) {
-                addCss.add("");
+                addCss.add("style");
+                addCss.add("walking/style");
+                addScript.add("walking/content");
             }
         }
 
         if (skin.equals("walking")) {
             addCommonScript.add("map");
-            addScript.add("board/walking/view");
+            addScript.add("board/walking/mapView");
         }
 
         if (skin.equals("gallery")) {

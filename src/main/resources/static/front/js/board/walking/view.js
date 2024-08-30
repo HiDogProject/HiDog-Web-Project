@@ -1,193 +1,180 @@
-const viewMapLib = {
-    departure: null, // 출발지 LatLng 객체
-    arrival: null, // 도착지 LatLng 객체
-    via: [], // 경유지 LatLng 객체 배열
-    markers: [], // 마커
-    viaMarkers: [], // 경유 마커
-    resultDrawArr: [],  // 경로
-    map: null, // 지도 객체
-    width: '100%',
-    height: '600px',
-    zoom: 17,
-    markerPointArray: [],
-    init() {
-        const opt = {
-            position: this.departure,
-            map: this.map,
-            icon: 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9',
-            iconSize: new Tmapv2.Size(50, 50),
-            animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE,
-            animationLength: 900,
-        };
-        this.arrival = this.departure;
-        const startMarker = new Tmapv2.Marker(opt);
-        this.markers.push(startMarker);
-        console.log(startMarker)
-
-        let clickable = true;
-
-        startMarker.addListener('click', () => {
-            if (clickable) {
-                // 경유지 마커 설정
-                const viaPointsData = JSON.parse(viewMapLib.markerPointArray.viaPoints);
-                this.via = viaPointsData;
-                this.viaPoints = viaPointsData.map(point => new Tmapv2.LatLng(point.lat, point.lng));
-
-                clickable = false;
-
-                this.viaPoints.forEach(viaPoint => {
-                    const opt = {
-                        position: viaPoint,
-                        map: this.map,
-                        icon: 'https://github.com/user-attachments/assets/62de235a-400d-4f78-b865-e4ab7d061828',
-                        iconSize: new Tmapv2.Size(35, 35),
-                        animation: Tmapv2.MarkerOptions.ANIMATE_BALLOON,
-                    };
-                    const viaMarker = new Tmapv2.Marker(opt);
-                    this.viaMarkers.push(viaMarker);
-                });
-                this.route();
-            } else {
-                this.viaMarkers.forEach(marker => {
-                    marker.setMap(null);
-                });
-                this.viaMarkers = [];
-
-                this.hideRoute();
-                clickable = true;
-                this.resultDrawArr = [];
-            }
-        });
-    },
-
-    load(mapId, width, height, zoom) {
-        this.width = width ?? '40%';
-        this.height = height ?? '500px';
-        this.zoom = zoom || 17;
-
-        // navigator.geolocation.getCurrentPosition((pos) => {
-        //     const { latitude, longitude } = pos.coords;
-
-            this.map = new Tmapv2.Map(mapId, {
-                center: this.departure,
-                width: this.width,
-                height: this.height,
-                zoom: this.zoom,
-                zoomControl: true,
-                scrollwheel: true
-            });
-
-            if (typeof this.init === 'function') {
-                this.init();
-            }
-        // });
-    },
-
-    async route() {
-        const appKey = document.querySelector("meta[name='tmap_apikey']")?.content;
-
-        if (!this.departure || !this.arrival || !appKey) {
-            return;
-        }
-
-        const { ajaxLoad } = commonLib;
-
-        const passList = this.via.map(point => `${point.lng},${point.lat}`).join('_');
-
-        const data = {
-            startX: this.departure.lng(),
-            startY: this.departure.lat(),
-            endX: this.arrival.lng(),
-            endY: this.arrival.lat(),
-            passList: passList,
-            reqCoordType: 'WGS84GEO',
-            resCoordType: 'EPSG3857',
-            startName: '출발지',
-            endName: '도착지',
-        };
-
-        const headers = { appKey };
-        const url = "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result";
-
-        try {
-            const response = await ajaxLoad(url, 'POST', data, headers, "JSON");
-            const resultData = response.features;
-            const drawInfoArr = [];
-            for (let i in resultData) {
-                const geometry = resultData[i].geometry;
-
-                if (geometry.type === "LineString") {
-                    for (let j in geometry.coordinates) {
-                        const latLng = new Tmapv2.Point(
-                            geometry.coordinates[j][0],
-                            geometry.coordinates[j][1]
-                        );
-
-                        const convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latLng);
-                        const convertChange = new Tmapv2.LatLng(
-                            convertPoint._lat.toFixed(12),
-                            convertPoint._lng.toFixed(12)
-                        );
-                        drawInfoArr.push(convertChange);
-                    }
-                }
-            }
-
-            this.drawLine(drawInfoArr);
-        } catch (err) {
-            console.log(err);
-        }
-    },
-
-    drawLine(arrPoint) {
-        const polyline_ = new Tmapv2.Polyline({
-            path: [], // 초기 경로는 빈 배열입니다.
-            strokeColor: 'rgba(178,102,53,0.22)',
-            strokeWeight: 9,
-            direction: true,
-            strokeStyle: 'solid',
-            directionColor: "white",
-            directionOpacity: 0.6,
-            map: this.map
-        });
-
-        let index = 0;
-        const path = [];
-        const totalPoints = arrPoint.length;
-
-        function animate() {
-            if (index < totalPoints) {
-                path.push(arrPoint[index]); // 새로운 점을 배열에 추가.
-                polyline_.setPath(path); // 경로를 업데이트
-                index++;
-                requestAnimationFrame(animate); // 다음 프레임을 요청
-            }
-        }
-
-        animate();
-
-        this.resultDrawArr.push(polyline_);
-    },
-
-    hideRoute() {
-        this.resultDrawArr.forEach(d => d.setMap(null));
-    },
-
-    showRoute() {
-        this.resultDrawArr.forEach(d => d.setMap(this.map));
-    },
-};
-
 window.addEventListener("DOMContentLoaded", function() {
-    if (typeof viewMapLib.load === 'function') {
-        const markerPointElement = document.querySelector('[data-markerPoint]');
-        const markerPointData = markerPointElement.getAttribute('data-markerPoint');
-        viewMapLib.markerPointArray = JSON.parse(markerPointData);
+    // 댓글 작성 후 URL에 comment_id=댓글 등록번호 -> hash 추가 -> 이동
+    if (location.search.indexOf("comment_id=") != -1) {
+        const searchParams = new URLSearchParams(location.search);
 
-        // 출발지 마커 설정
-        const departureData = JSON.parse(viewMapLib.markerPointArray.departurePoint)[0];
-        viewMapLib.departure = new Tmapv2.LatLng(departureData.lat, departureData.lng);
+        const seq = searchParams.get("comment_id");
 
-        viewMapLib.load("mapId");
+        location.hash=`#comment_${seq}`;
+    }
+
+    /* 댓글 수정 버튼 클릭 처리 S */
+    const editComments = document.getElementsByClassName("edit_comment");
+    for (const el of editComments) {
+        el.addEventListener("click", function() {
+            const dataset = this.dataset;
+            const seq = dataset.seq;
+            const commentEl = document.getElementById(`comment_${seq}`);
+            const targetEl = commentEl.querySelector(".comment");
+
+            /**
+             * targetEl의 하위 요소로 textarea가 있는 경우 : 댓글 수정 처리
+             * 없는 경우는 -> 비회원 비밀번호 검증 또는 texarea 노출 처리
+             */
+
+            const textarea = targetEl.querySelector("textarea");
+            if (textarea) { // 댓글 수정 처리
+                const content = textarea.value.trim();
+                const formData = new FormData();
+                formData.append('mode', 'edit');
+                formData.append('seq', seq);
+                formData.append('content', content);
+
+                const { ajaxLoad } = commonLib;
+
+                ajaxLoad('/api/comment', 'PATCH', formData, null, 'text')
+                    .then(res => {
+                        targetEl.innerHTML = content.replace(/\n/gm, '<br>')
+                            .replace(/\r/gm, '');
+
+                    })
+                    .catch(err => console.error(err));
+
+                return;
+            }
+
+
+            if (dataset.editable == 'false') { // 비회원 댓글 -> 비밀번호 확인 필요
+                checkRequiredPassword(seq, () => callbackSuccess(seq), () => createPasswordForm(seq, targetEl, callbackSuccess));
+            } else { // 댓글 수정 가능 권한인 경우
+                callbackSuccess(seq);
+            }
+        });
+    }
+
+    /* 댓글 삭제 버튼 클릭 처리 S */
+    const deleteComments = document.getElementsByClassName("delete_comment");
+    let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
+    rootUrl = rootUrl === '/' ? '' : rootUrl;
+    for (const el of deleteComments) {
+        el.addEventListener("click", function() {
+            if (!confirm('정말 삭제하겠습니까?')) {
+                return;
+            }
+
+            const dataset = this.dataset;
+            const seq = dataset.seq;
+            const deleteUrl = rootUrl + `comment/delete/${seq}`;
+
+            const commentEl = document.getElementById(`comment_${seq}`);
+            const targetEl = commentEl.querySelector(".comment");
+
+
+            if (dataset.deletable === 'false') {
+                checkRequiredPassword(seq, () => ifrmProcess.location.replace(deleteUrl), () => createPasswordForm(seq, targetEl, () => ifrmProcess.location.replace(deleteUrl))); // 비번 확인이 필요한 경우
+            } else {
+                // 비번 확인 성공시 처리
+                ifrmProcess.location.replace(deleteUrl);
+            }
+        });
+    }
+    /* 댓글 삭제 버튼 클릭 처리 E */
+
+    function createPasswordForm(seq, targetEl, callbackSuccess) {
+        // 비번확인이 필요한 경우
+        const passwordBox = document.createElement("input");
+        passwordBox.type = "password";
+        passwordBox.placeholder = "비밀번호 입력";
+        const button = document.createElement("button");
+        const buttonText = document.createTextNode("확인");
+        button.appendChild(buttonText);
+
+        targetEl.innerHTML = "";
+        targetEl.appendChild(passwordBox);
+        targetEl.appendChild(button);
+
+        /**
+         * 비회원 비밀번호 확인 버튼 클릭시
+         *
+         */
+        button.addEventListener("click", async function() {
+            const guestPw = passwordBox.value.trim();
+            if (!guestPw) {
+                alert('비밀번호를 입력하세요.');
+                passwordBox.focus();
+                return;
+            }
+
+            const { ajaxLoad } = commonLib;
+            try {
+                const result = await ajaxLoad(`/api/comment/auth_validate?password=${guestPw}`);
+                if (result.success) {
+                    callbackSuccess(seq); // textarea 보여주고,
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (err) { // 비밀번호 검증 실패시
+                alert('비밀번호가 일치하지 않습니다.');
+            }
+        });
+    }
+
+    /**
+     * 인증 성공시
+     *      textarea로 수정 노출
+     *
+     * @param seq : 댓글 등록 번호
+     *           1) 댓글 가져오기
+     *           2) textarea 생성 : 댓글 내용
+     *
+     */
+    async function callbackSuccess(seq) {
+        try {
+            const { ajaxLoad } = commonLib;
+
+            // 댓글 가져오기
+            const result = await ajaxLoad(`/api/comment/${seq}`);
+            if (!result.success) {
+                throw new Error(result.message);
+            }
+
+            const data = result.data;
+
+            const targetEl = document.querySelector(`#comment_${seq} .comment`);
+            const textarea = document.createElement("textarea");
+            textarea.value = data.content;
+
+            targetEl.innerHTML = "";
+            targetEl.appendChild(textarea);
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    /**
+     * 비회원 비밀번호 필요한지 체크
+     *
+     * @param seq : 댓글 등록번호
+     * @param success : 비밀번호 검증 이미 완료 된 상태 -> 댓글 수정 textarea 노출
+     * @param failure : 비밀번호 검증 필요 -> 비밀번호 입력 항목 노출
+     */
+    async function checkRequiredPassword(seq, success, failure) {
+        try {
+            const { ajaxLoad } = commonLib;
+
+            const result = await ajaxLoad(`/api/comment/auth_check?seq=${seq}`);
+
+            if (result.success && typeof success == 'function') {
+                success();
+            } else if (!result.success && typeof failure == 'function') {
+                failure();
+            }
+
+        } catch (err) { // 비밀번호 검증 필요
+            if (typeof failure == 'function') {
+                failure();
+            }
+        }
     }
 });

@@ -9,7 +9,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.hidog.board.advices.BoardControllerAdvice;
 import org.hidog.board.controllers.BoardDataSearch;
 import org.hidog.board.controllers.RequestBoard;
 import org.hidog.board.entities.Board;
@@ -30,6 +29,7 @@ import org.hidog.global.constants.DeleteStatus;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.constants.Authority;
 import org.hidog.member.entities.Member;
+import org.hidog.member.services.MemberInfoService;
 import org.hidog.wishlist.constants.WishType;
 import org.hidog.wishlist.servies.WishListService;
 import org.modelmapper.ModelMapper;
@@ -53,9 +53,8 @@ public class BoardInfoService {
     private final ModelMapper modelMapper;
     private final FileInfoService fileInfoService;
     private final WishListService wishListService;
-    private final BoardControllerAdvice board;
     private final CommentInfoService commentInfoService;
-
+    private final MemberInfoService memberInfoService;
 
     /**
      * 게시글 목록 조회
@@ -442,8 +441,11 @@ public class BoardInfoService {
        List<FileInfo> editorImages = fileInfoService.getList(gid, "editor");
        List<FileInfo> attachFiles = fileInfoService.getList(gid, "attach");
 
-       item.setEditorImages(editorImages);
+        List<FileInfo> selectedImages = fileInfoService.getSelectedImages(gid);
+
+        item.setEditorImages(editorImages);
        item.setAttachFiles(attachFiles);
+       item.setSelectedImages(selectedImages);
        /* 업로드한 파일 목록 E */
 
         /* 게시글 권한 정보 처리 S */
@@ -517,6 +519,13 @@ public class BoardInfoService {
         item.setShowDelete(showDelete);
         item.setShowList(showList);
         // 게시글 버튼 노출 권한 처리 E
+
+        // 회원 프로필 이미지 업데이트
+        Member member = item.getMember();
+        if (member != null) {
+            memberInfoService.addInfo(member);
+        }
+
     }
 
     public Map<String, Object> getMarkerPoint(Long seq) {
