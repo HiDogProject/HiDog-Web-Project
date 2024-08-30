@@ -5,26 +5,40 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
-main {
-    padding: 20px;
+/* 프로필 틀 */
+.ti {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
 }
 
+/* 제목 */
 h1 {
     font-size: 2em;
     color: #333;
-    padding-bottom: 10px;
-    text-align: center;
+    margin-bottom: 20px;
 }
 
-.profile-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* 프로필 이미지 */
+.profile-image2 {
     position: relative;
-    width: 500px;
-    height: 500px;
+    width: 350px;
+    height: 350px;
     border-radius: 50%;
     overflow: hidden;
+}
+
+/* 이미지 */
+.profile-image2 img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
     cursor: pointer;
 }
 
@@ -34,6 +48,7 @@ h1 {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+    padding-top: 30px;
 }
 
 .btn-wrapper {
@@ -55,6 +70,7 @@ h1 {
     cursor: pointer;
 }
 
+/* 클릭 시 색상 변경 */
 .btn:hover {
     background-color: #F5D2D2;
 }

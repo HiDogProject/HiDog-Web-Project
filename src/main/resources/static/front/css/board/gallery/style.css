@@ -60,15 +60,15 @@
 }
 
 .list-items li:hover .photos .photo {
-    animation: slideShow 6s ease infinite;
+    animation: slideShow 7s ease infinite;
 }
 
 /* 슬라이드 애니메이션 */
 @keyframes slideShow {
-    0%, 20% { opacity: 1; z-index: 1; }
-    25%, 45% { opacity: 0; z-index: 0; }
-    50%, 70% { opacity: 1; z-index: 1; }
-    75%, 95% { opacity: 0; z-index: 0; }
+    0%, 30% { opacity: 1; z-index: 1; } /* 첫 번째 이미지 */
+    35%, 55% { opacity: 0; z-index: 0; } /* 첫 번째 이미지 사라짐 */
+    60%, 80% { opacity: 1; z-index: 1; } /* 두 번째 이미지 */
+    85%, 100% { opacity: 0; z-index: 0; } /* 두 번째 이미지 사라짐 */
 }
 
 /* 게시글 제목 및 내용 */
