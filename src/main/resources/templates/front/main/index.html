@@ -14,13 +14,13 @@
 
                     <div class="swiper-slide">
                         <div class="main_img">
-                            <img th:src="${imageUrl2}" alt="main img1">
+                            <img th:src="${@utils.url('/common/img/main_dog.png')}" alt="main img1">
                         </div>
                     </div>
 
                     <div class="swiper-slide">
                         <div class="main_img">
-                            <img th:src="${imageUrl3}" alt="main img2">
+                            <img th:src="${@utils.url('/common/img/main_dog3.png')}" alt="main img2">
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <!-- 첫 번째 게시판 항목 -->
                 <li class="board-item">
                     <a th:href="@{'/board/write/' + ${boardList[0][0]}}">
-                        <img th:src="${imageUrl_D1}" alt="산책" class="board-image">
+                        <img th:src="${@utils.url('/common/img/walk.gif')}" alt="산책" class="board-image">
                         <h3 class="board-title" th:text="${boardList[0][1]}"></h3>
                     </a>
                 </li>
@@ -46,7 +46,7 @@
                 <!-- 두 번째 게시판 항목 -->
                 <li class="board-item">
                     <a th:href="@{'/board/write/' + ${boardList[1][0]}}">
-                        <img th:src="${imageUrl_D2}" alt="소통하개" class="board-image">
+                        <img th:src="${@utils.url('/common/img/sotong.gif')}" alt="소통하개" class="board-image">
                         <h3 class="board-title" th:text="${boardList[1][1]}"></h3>
                     </a>
                 </li>
@@ -54,7 +54,7 @@
                 <!-- 세 번째 게시판 항목 -->
                 <li class="board-item">
                     <a th:href="@{'/board/write/' + ${boardList[2][0]}}">
-                        <img th:src="${imageUrl_D3}" alt="화개장터" class="board-image">
+                        <img th:src="${@utils.url('/common/img/market.gif')}" alt="화개장터" class="board-image">
                         <h3 class="board-title" th:text="${boardList[2][1]}"></h3>
                     </a>
                 </li>
@@ -62,7 +62,7 @@
                 <!-- 네 번째 게시판 항목 -->
                 <li class="board-item">
                     <a th:href="@{'/board/write/' + ${boardList[3][0]}}">
-                        <img th:src="${imageUrl_D4}" alt="자랑하개" class="board-image">
+                        <img th:src="${@utils.url('/common/img/jarang.gif')}" alt="자랑하개" class="board-image">
                         <h3 class="board-title" th:text="${boardList[3][1]}"></h3>
                     </a>
                 </li>
@@ -71,17 +71,17 @@
             <div class="link-container">
 
                 <a href="https://www.animal.go.kr/front/index.do">
-                    <img th:src="${imageUrl_D5}" alt="국가동물보호정보시스템">
+                    <img th:src="${@utils.url('/common/img/adopt.gif')}" alt="국가동물보호정보시스템">
                     <h3 class="in">국가동물보호정보시스템</h3>
                 </a>
 
                 <a href="https://weather.naver.com/">
-                    <img th:src="${imageUrl_D6}" alt="네이버 날씨">
+                    <img th:src="${@utils.url('/common/img/weather.gif')}" alt="네이버 날씨">
                     <h3 class="in">날씨</h3>
                 </a>
 
                 <a href="/link/to/contest">
-                    <img th:src="${imageUrl_D7}" alt="Contest Image">
+                    <img th:src="${@utils.url('/common/img/contest.gif')}" alt="Contest Image">
                     <h3 class="in">이달개</h3>
                 </a>
             </div>
@@ -94,18 +94,18 @@
             <div class="sub_banner">
 
                 <a th:href="${@utils.redirectUrl('/board/write/1')}">
-                    <img th:src="${subUrl1}" alt="sub banner1">
+                    <img th:src="${@utils.url('/common/img/Jb1.png')}" alt="sub banner1">
                 </a>
 
                 <a th:href="${@utils.redirectUrl('/board/write/4')}">
-                    <img class="su" th:src="${subUrl2}" alt="sub banner2">
+                    <img class="su" th:src="${@utils.url('/common/img/Jb2.jpg')}" alt="sub banner2">
                 </a>
             </div>
         </div>
 
         <!-- notice -->
         <div class="notice">
-            <img class="bulb" th:src="${bulbUrl}" alt="bulb">
+            <img class="bulb" th:src="${@utils.url('/common/img/bulb.gif')}" alt="bulb">
             <h3 class="no">notice</h3>
         </div>
 
