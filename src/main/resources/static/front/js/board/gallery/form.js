@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", function() {
         el.addEventListener("click", (e) => insertEditor(e.currentTarget.dataset.url));
     }
 
-    const removeEls = document.querySelectorAll(".file-item .remove");
+    const removeEls = document.querySelectorAll(".photo-item .remove");
     for (const el of removeEls) {
         el.addEventListener("click", function() {
             if (confirm('정말 삭제하겠습니까?')) {
@@ -23,8 +23,48 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
     /* 이미지 본문 추가 이벤트 처리 E */
+
+    /* 이미지 선택 처리 S */
+    const fileUploads = document.getElementsByClassName("fileUploads");
+    for (const fileUpload of fileUploads) {
+        const {gid, location, selectCnt } = fileUpload.dataset;
+        const selectEls = document.querySelectorAll(`#uploaded-files-${location} .photo-item .select`);
+        for (const el of selectEls) {
+            const seq = el.dataset.seq;
+            selectEventHandler(el, gid, location, seq, selectCnt);
+        }
+    }
+    /* 이미지 선택 처리 E */
 });
 
+function checkSelectCount(location, cnt) {
+    const items = document.querySelectorAll(`#uploaded-files-${location} .select.on`);
+    if (items.length >= cnt) {
+        throw new Error(`이미지는 최대 ${cnt}개 까지 선택하세요.`);
+    }
+}
+
+function selectEventHandler(el, gid, location, seq, selectCnt) {
+    el.addEventListener("click", function() {
+        try {
+            const { seq } = this.dataset;
+
+
+            const mode = el.classList.contains("on") ? "deselect":"select";
+            if (mode == 'select') {
+                checkSelectCount(location, selectCnt);
+            }
+            fileManager.select(mode, gid, location, seq, selectCnt, () => {
+                // 파일 선택 처리 후속 작업 ...
+                el.classList.toggle("on");
+
+            });
+        } catch (err) {
+            alert(err.message);
+            console.error(err);
+        }
+    });
+}
 
 /**
  * 파일 업로드 후속 처리
@@ -49,17 +89,19 @@ function fileUploadCallback(files) {
     const domParser = new DOMParser();
 
     for (const file of files) {
-        const { seq, location, fileUrl, fileName } = file;
+        const { seq, location, fileUrl, fileName, thumbUrl } = file;
 
         const target = location === 'editor' ? editorTarget : attachTarget;
         let html = location === 'editor' ? editorTpl : attachTpl;
 
+        const _thumbUrl = `${thumbUrl}?seq=${seq}&width=150&height=150`;
         html = html.replace(/\[seq\]/g, seq)
             .replace(/\[fileName\]/g, fileName)
-            .replace(/\[fileUrl\]/g, fileUrl);
+            .replace(/\[fileUrl\]/g, fileUrl)
+            .replace(/\[thumbUrl]/g, _thumbUrl);
 
         const dom = domParser.parseFromString(html, "text/html");
-        const el = dom.querySelector(".file-item");
+        const el = dom.querySelector(".photo-item");
 
         target.append(el);
 
@@ -80,6 +122,10 @@ function fileUploadCallback(files) {
             }
         });
 
+        const selectEl = el.querySelector(".select");
+        const fileUpload = document.querySelector(`[data-location='${file.location}']`);
+        const selectCnt = fileUpload != null ? fileUpload.dataset.selectCnt : 0;
+        selectEventHandler(selectEl, file.gid, file.location, file.seq, selectCnt);
     }
 
     // 에디터 본문에 이미지 추가
@@ -100,36 +146,8 @@ function insertEditor(source) {
 function fileDeleteCallback(file) {
     if (!file) return;
 
-    const { seq, extension, location } = file;
+    const { seq } = file;
 
     const el = document.getElementById(`file-${seq}`);
     el.parentElement.removeChild(el);
-
-    if (location !== 'editor' || !editor) {
-        return;
-    }
-
-    const fileName = `${seq}${extension}`;
-    const html = editor.getData();
-    const domParser = new DOMParser();
-    const dom = domParser.parseFromString(html, "text/html");
-    const figures = dom.getElementsByTagName("figure");
-    for (const figure of figures) {
-        const images = figure.getElementsByTagName("img");
-        const cnt = images.length;
-
-        for (const image of images) {
-            if (image.src.includes(fileName)) {
-                image.parentElement.removeChild(image);
-            }
-        }
-
-        // 이미지가 1개만 있는 figure 태그인 경우
-        if (cnt === 1 && figure.getElementsByTagName("img").length === 0) {
-            figure.parentElement.removeChild(figure);
-        }
-    }
-
-    const newHtml = dom.body.innerHTML;
-    editor.setData(newHtml);
 }
