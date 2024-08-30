@@ -106,75 +106,85 @@
         <!-- notice -->
         <div class="notice">
             <img class="bulb" th:src="${@utils.url('/common/img/bulb.gif')}" alt="bulb">
-            <h3 class="no">notice</h3>
+            <h3 class="no">게시판별 최신 글</h3>
         </div>
 
         <!-- 게시판 최신글 -->
         <div class="new_post">
 
-            <h2>
-                <a th:href="${@utils.redirectUrl('/board/list/1')}" th:text="#{산책하개}"></a>
-            </h2>
+            <div class="board-section">
 
-            <ul>
-                <li th:each="item : ${@bInfo.getLatest('1', 10)}" th:object="${item}">
-                    <a th:href="*{@bInfo.getViewUrl(seq)}">
-                        <div class="subject" th:text="*{subject}"></div>
+                <h2>
+                    <a th:href="${@utils.redirectUrl('/board/list/1')}" th:text="#{산책하개}"></a>
+                </h2>
 
-                        <div class="post-info">
-                            <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+                <ul>
+                    <li th:each="item : ${@bInfo.getLatest('1', 10)}" th:object="${item}">
+                        <a th:href="*{@bInfo.getViewUrl(seq)}" class="list-item">
+                            <div class="subject" th:text="*{subject}"></div>
 
-            <h2>
-                <a th:href="${@utils.redirectUrl('/board/list/2')}" th:text="#{소통하개}"></a>
-            </h2>
+                            <div class="post-info">
+                                <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-            <ul>
-                <li th:each="item : ${@bInfo.getLatest('2', 10)}" th:object="${item}">
-                    <a th:href="*{@bInfo.getViewUrl(seq)}">
-                        <div class="subject" th:text="*{subject}"></div>
+            <div class="board-section">
 
-                        <div class="post-info">
-                            <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+                <h2>
+                    <a th:href="${@utils.redirectUrl('/board/list/2')}" th:text="#{소통하개}"></a>
+                </h2>
 
-            <h2>
-                <a th:href="${@utils.redirectUrl('/board/list/3')}" th:text="#{화개장터}"></a>
-            </h2>
+                <ul>
+                    <li th:each="item : ${@bInfo.getLatest('2', 10)}" th:object="${item}">
+                        <a th:href="*{@bInfo.getViewUrl(seq)}" class="list-item">
+                            <div class="subject" th:text="*{subject}"></div>
 
-            <ul>
-                <li th:each="item : ${@bInfo.getLatest('3', 10)}" th:object="${item}">
-                    <a th:href="*{@bInfo.getViewUrl(seq)}">
-                        <div class="subject" th:text="*{subject}"></div>
+                            <div class="post-info">
+                                <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-                        <div class="post-info">
-                            <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+            <div class="board-section">
+                <h2>
+                    <a th:href="${@utils.redirectUrl('/board/list/3')}" th:text="#{화개장터}"></a>
+                </h2>
 
-            <h2>
-                <a th:href="${@utils.redirectUrl('/board/list/4')}" th:text="#{자랑하개}"></a>
-            </h2>
+                <ul>
+                    <li th:each="item : ${@bInfo.getLatest('3', 10)}" th:object="${item}">
+                        <a th:href="*{@bInfo.getViewUrl(seq)}" class="list-item">
+                            <div class="subject" th:text="*{subject}"></div>
 
-            <ul>
-                <li th:each="item : ${@bInfo.getLatest('4', 10)}" th:object="${item}">
-                    <a th:href="*{@bInfo.getViewUrl(seq)}">
-                        <div class="subject" th:text="*{subject}"></div>
+                            <div class="post-info">
+                                <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-                        <div class="post-info">
-                            <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+            <div class="board-section">
+                <h2>
+                    <a th:href="${@utils.redirectUrl('/board/list/4')}" th:text="#{자랑하개}"></a>
+                </h2>
+
+                <ul>
+                    <li th:each="item : ${@bInfo.getLatest('4', 10)}" th:object="${item}">
+                        <a th:href="*{@bInfo.getViewUrl(seq)}" class="list-item">
+                            <div class="subject" th:text="*{subject}"></div>
+
+                            <div class="post-info">
+                                <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </main>
 </html>
