@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/mypage}">
     <main layout:fragment="content">
 
-        <link rel="stylesheet" type="text/css" th:href="@{/front/css/mypage/wishlist.css}">
-
         <h1 class="pn" th:text="${pageTitle}"></h1>
+        <table class="posts-table">
+            <thead>
+                <tr>
+                    <th class="th1">게시글 제목</th>
+                    <th class="th2">작성자명 (이메일)</th>
+                    <th class="th3">조회수</th>
+                    <th class="th4">작성 날짜 및 작성 시간</th>
+                </tr>
+            </thead>
 
-        <a th:href="${@utils.redirectUrl('/mypage/info')}" th:text="#{회원_정보}"></a>
-        <a th:href="${@utils.redirectUrl('/mypage/post')}" th:text="#{내가_쓴_게시글}"></a>
+            <tbody>
+                <th:block th:replace="~{front/mypage/_list_items::items}"></th:block>
+            </tbody>
+        </table>
+
+        <div class="pagination-container">
+            <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+        </div>
     </main>
 </html>
