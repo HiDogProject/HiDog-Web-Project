@@ -75,9 +75,12 @@ public class CommentController implements ExceptionProcessor {
 
         boardAuthService.check("comment_delete", seq);
 
-        Long boardDataSeq = commentDeleteService.delete(seq);
+        commentDeleteService.delete(seq);
 
-        return "redirect:/board/view/" + boardDataSeq;
+        String script = "parent.location.reload();";
+        model.addAttribute("script", script);
+
+        return "common/_execute_script";
     }
 
     @ExceptionHandler(GuestPasswordCheckException.class)

@@ -16,6 +16,18 @@ h1 {
     text-align: center;
 }
 
+.profile-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
 /* 버튼 */
 .button-container {
     display: flex;

@@ -7,6 +7,7 @@
         <script th:src="@{https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js}"></script>
         <script th:src="@{/front/js/main/banner.js}"></script>
 
+        <!-- 스와이프 -->
         <section class="main-banner">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
@@ -23,6 +24,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="swiper-pagination"></div>
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
@@ -31,63 +33,148 @@
 
         <div class="image-container">
 
-            <a th:href="${@utils.redirectUrl('/board/list/1')}">
-                <img th:src="${imageUrl_D1}" alt="Market Image">
+            <ul class="board-container">
 
-                <h3 class="in">화개장터</h3>
-            </a>
+                <!-- 첫 번째 게시판 항목 -->
+                <li class="board-item">
+                    <a th:href="@{'/board/write/' + ${boardList[0][0]}}">
+                        <img th:src="${imageUrl_D1}" alt="산책" class="board-image">
+                        <h3 class="board-title" th:text="${boardList[0][1]}"></h3>
+                    </a>
+                </li>
 
-            <a href="https://www.animal.go.kr/front/index.do">
-                <img th:src="${imageUrl_D2}" alt="국가동물보호정보시스템">
+                <!-- 두 번째 게시판 항목 -->
+                <li class="board-item">
+                    <a th:href="@{'/board/write/' + ${boardList[1][0]}}">
+                        <img th:src="${imageUrl_D2}" alt="소통하개" class="board-image">
+                        <h3 class="board-title" th:text="${boardList[1][1]}"></h3>
+                    </a>
+                </li>
 
-                <h3 class="in">국가동물보호정보시스템</h3>
-            </a>
+                <!-- 세 번째 게시판 항목 -->
+                <li class="board-item">
+                    <a th:href="@{'/board/write/' + ${boardList[2][0]}}">
+                        <img th:src="${imageUrl_D3}" alt="화개장터" class="board-image">
+                        <h3 class="board-title" th:text="${boardList[2][1]}"></h3>
+                    </a>
+                </li>
 
-            <a th:href="${@utils.redirectUrl('/board/list/2')}">
-                <img th:src="${imageUrl_D3}" alt="소통하개">
+                <!-- 네 번째 게시판 항목 -->
+                <li class="board-item">
+                    <a th:href="@{'/board/write/' + ${boardList[3][0]}}">
+                        <img th:src="${imageUrl_D4}" alt="자랑하개" class="board-image">
+                        <h3 class="board-title" th:text="${boardList[3][1]}"></h3>
+                    </a>
+                </li>
+            </ul>
 
-                <h3 class="in">소통하개</h3>
-            </a>
+            <div class="link-container">
 
-            <a th:href="${@utils.redirectUrl('/board/list/3')}">
-                <img th:src="${imageUrl_D4}" alt="자랑하개">
-
-                <h3 class="in">자랑하개</h3>
-            </a>
-
-            <a href="https://weather.naver.com/">
-                <img th:src="${imageUrl_D5}" alt="네이버 날씨">
-
-                <h3 class="in">날씨</h3>
-            </a>
-
-            <a href="/link/to/contest">
-                <img th:src="${imageUrl_D6}" alt="Contest Image">
-
-                <h3 class="in">이달개</h3>
-            </a>
-        </div>
-
-        <div class="sub_box">
-            <h2 class="tn">Hi dog 주간 Top</h2>
-
-            <div class="sub_banner">
-                <a th:href="${@utils.redirectUrl('/board/list/2')}"> <!-- 산책하개 -->
-                    <img th:src="${subUrl2}" alt="sub banner2">
+                <a href="https://www.animal.go.kr/front/index.do">
+                    <img th:src="${imageUrl_D5}" alt="국가동물보호정보시스템">
+                    <h3 class="in">국가동물보호정보시스템</h3>
                 </a>
 
+                <a href="https://weather.naver.com/">
+                    <img th:src="${imageUrl_D6}" alt="네이버 날씨">
+                    <h3 class="in">날씨</h3>
+                </a>
 
-
-                <a th:href="${@utils.redirectUrl('/board/list/3')}"> <!-- 자랑하개 -->
-
-                    <img class="su" th:src="${subUrl1}" alt="sub banner2">
+                <a href="/link/to/contest">
+                    <img th:src="${imageUrl_D7}" alt="Contest Image">
+                    <h3 class="in">이달개</h3>
                 </a>
             </div>
         </div>
 
+        <div class="sub_box">
+
+            <h2 class="tn">Hi dog 주간 Top</h2>
+
+            <div class="sub_banner">
+
+                <a th:href="${@utils.redirectUrl('/board/write/1')}">
+                    <img th:src="${subUrl1}" alt="sub banner1">
+                </a>
+
+                <a th:href="${@utils.redirectUrl('/board/write/4')}">
+                    <img class="su" th:src="${subUrl2}" alt="sub banner2">
+                </a>
+            </div>
+        </div>
+
+        <!-- notice -->
         <div class="notice">
             <img class="bulb" th:src="${bulbUrl}" alt="bulb">
             <h3 class="no">notice</h3>
+        </div>
+
+        <!-- 게시판 최신글 -->
+        <div class="new_post">
+
+            <h2>
+                <a th:href="${@utils.redirectUrl('/board/list/1')}" th:text="#{산책하개}"></a>
+            </h2>
+
+            <ul>
+                <li th:each="item : ${@bInfo.getLatest('1', 10)}" th:object="${item}">
+                    <a th:href="*{@bInfo.getViewUrl(seq)}">
+                        <div class="subject" th:text="*{subject}"></div>
+
+                        <div class="post-info">
+                            <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <h2>
+                <a th:href="${@utils.redirectUrl('/board/list/2')}" th:text="#{소통하개}"></a>
+            </h2>
+
+            <ul>
+                <li th:each="item : ${@bInfo.getLatest('2', 10)}" th:object="${item}">
+                    <a th:href="*{@bInfo.getViewUrl(seq)}">
+                        <div class="subject" th:text="*{subject}"></div>
+
+                        <div class="post-info">
+                            <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <h2>
+                <a th:href="${@utils.redirectUrl('/board/list/3')}" th:text="#{화개장터}"></a>
+            </h2>
+
+            <ul>
+                <li th:each="item : ${@bInfo.getLatest('3', 10)}" th:object="${item}">
+                    <a th:href="*{@bInfo.getViewUrl(seq)}">
+                        <div class="subject" th:text="*{subject}"></div>
+
+                        <div class="post-info">
+                            <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+            <h2>
+                <a th:href="${@utils.redirectUrl('/board/list/4')}" th:text="#{자랑하개}"></a>
+            </h2>
+
+            <ul>
+                <li th:each="item : ${@bInfo.getLatest('4', 10)}" th:object="${item}">
+                    <a th:href="*{@bInfo.getViewUrl(seq)}">
+                        <div class="subject" th:text="*{subject}"></div>
+
+                        <div class="post-info">
+                            <th:block th:text="*{#temporals.format(createdAt, 'yy.MM.dd')}"></th:block>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </main>
 </html>

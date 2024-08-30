@@ -3,16 +3,17 @@
       xmlns:layout="http://www.thymeleaf.org"
       layout:decorate="~{front/layouts/main}">
 
-<main layout:fragment="content">
-    <div class="container">
-        <div id="mapId" class="map"></div>
-        <div th:data-startMarker="*{startMarker}"></div>
-        <div id="infoBox" class="info-box">
-            <div id="infoContent" class="info-box-content">
-                <div class="dn">
+    <main layout:fragment="content">
+        <div class="container">
+            <div id="mapId" class="map"></div>
+            <div th:data-startMarker="*{startMarker}"></div>
+            <div id="infoBox" class="info-box">
+                <div id="infoContent" class="info-box-content">
                     <th:block th:if="*{member != null && member.profileImage != null}">
                         <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}" th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
                     </th:block>
+                    <p class="info-title" id="infoTitle" th:text="${subject != null ? subject : ''}">
+                    </p>
                     <p class="info-poster" id="infoPoster" th:text="${poster != null ? poster : ''}">
                     </p>
                     <p class="info-content" id="infoContentText" th:text="${content != null ? content : ''}">
@@ -25,12 +26,11 @@
                             </a>
                         </li>
                     </ul>
+                    <iframe name="ifrmBoard" class="map_comment"></iframe>
                 </div>
-                <iframe name="ifrmBoard" class="map_comment"></iframe>
             </div>
+            <button id="toggleButton" class="toggle-button"> | </button>
         </div>
-        <button id="toggleButton" class="toggle-button"> | </button>
-    </div>
 
-</main>
+    </main>
 </html>

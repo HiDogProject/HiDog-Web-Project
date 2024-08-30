@@ -1,13 +1,3 @@
-/* 폼 */
-form[name="frmPost"] {
-    border: 1px solid white;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    max-width: 1200px;
-}
-
 /* 제목 */
 .pn {
     text-align: center;
