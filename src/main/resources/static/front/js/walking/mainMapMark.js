@@ -92,9 +92,9 @@ const mainMapLib = {
     },
 
     load(mapId, width, height, zoom) {
-        this.width = width ?? '70%';
-        this.height = height ?? '900px';
-        this.zoom = zoom || 17;
+        this.width = width ?? '80%';
+        this.height = height ?? '800px';
+        this.zoom = zoom || 16;
 
 
             this.map = new Tmapv2.Map(mapId, {

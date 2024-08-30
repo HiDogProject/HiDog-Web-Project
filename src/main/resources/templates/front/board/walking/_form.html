@@ -6,15 +6,14 @@
     <input type="hidden" name="longText1" th:field="*{longText1}">
     <input type="hidden" name="longText2" th:field="*{longText2}">
 
-
-
     <div th:replace="~{front/board/walking/_common::category}"></div>
 
 
     <dl>
         <dt th:text="#{작성자}"></dt>
         <dd>
-            <input type="text" name="poster" th:field="*{poster}">
+            <input type="text" name="poster" th:field="*{poster}"
+                   th:attr="readonly=${@memberUtil.isLogin != null and isLogin ? 'readonly' : null}">
             <div class="error" th:each="err : ${#fields.errors('poster')}" th:text="${err}"></div>
         </dd>
     </dl>
@@ -68,8 +67,9 @@
         <dd>
             <button type="button" class="fileUploads" th:data-gid="*{gid}"
                     data-location="attach" th:text="#{파일_선택}"></button>
-            <div class="uploaded-files" id="uploaded-files-attach">
+            <div class="uploaded-files photo-item-wrapper" id="uploaded-files-attach">
                 <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="file-item" th:id="${'file-' + file.seq}">
+                    <img th:src="${file.fileUrl}"></img>
                     <a th:href="${@utils.redirectUrl('/file/download/' + file.seq)}" th:text="${file.fileName}"></a>
                     <i class="xi-close remove" th:data-seq="${file.seq}"></i>
                 </div>
@@ -79,6 +79,7 @@
 
     <script th:replace="~{common/_file_tpl::attach}"></script>
     <script th:replace="~{common/_file_tpl::editor}"></script>
+
 
     <div id="mapId"></div>
     <button type="button" id="reset">다시 선택</button>
