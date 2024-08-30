@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", function() {
     // 초기 상태 설정
     toggleButton.textContent = '<'; // 닫혀 있을 때
 
-    toggleButton.addEventListener('click', function() {
+    function toggleInfoBox() {
         if (infoBox.classList.contains('info-box-expanded')) {
             infoBox.classList.remove('info-box-expanded');
             toggleButton.style.right = '0px';
@@ -29,5 +29,15 @@ window.addEventListener("DOMContentLoaded", function() {
                 iframe.style.display = 'block';
             }
         }
+    }
+
+    toggleButton.addEventListener('click', toggleInfoBox);
+
+    window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            if (infoBox.classList.contains('info-box-expanded')) {
+                toggleInfoBox();
+            }
+        }
     });
-})
+});

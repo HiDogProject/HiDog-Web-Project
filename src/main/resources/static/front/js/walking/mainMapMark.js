@@ -9,7 +9,7 @@ const mainMapLib = {
     map: null, // 지도 객체
     width: '100%',
     height: '600px',
-    zoom: 17,
+    zoom: 18,
     currentAction: null,
     seq: null,
     clickable: true,
@@ -94,7 +94,7 @@ const mainMapLib = {
     load(mapId, width, height, zoom) {
         this.width = width ?? '80%';
         this.height = height ?? '800px';
-        this.zoom = zoom || 16;
+        this.zoom = zoom || 17;
 
 
             this.map = new Tmapv2.Map(mapId, {
