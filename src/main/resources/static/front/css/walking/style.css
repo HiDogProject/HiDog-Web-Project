@@ -85,6 +85,9 @@
     .view-content .contents .more {
         display: none;
     }
+    .view-content .contents,  .view-content .contents * {
+        word-break: break-all;
+    }
 
     .view-content .contents.off {
         min-height: auto;
@@ -98,7 +101,6 @@
         -webkit-box-orient: vertical;
         line-height: 15px;
         height: 75px;
-        word-break: break-word;
     }
 
     .view-content .contents.off .more {
