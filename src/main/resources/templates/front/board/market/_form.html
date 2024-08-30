@@ -7,20 +7,24 @@
 
     <body>
     <div class="container">
-        <h2 th:text="#{상품정보}"></h2>
-        <dl th:if="${board.useUploadFile}">
-            <dt th:text="#{상품_이미지}"></dt>
-            <dd>
-                <button type="button" class="fileUploads" th:data-gid="*{gid}"
-                        data-location="attach" th:text="#{이미지_등록}" data-select-cnt="2"></button>
-                <div class="uploaded-files photo-item-wrapper" id="uploaded-files-attach">
-                    <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="photo-item" th:id="${'file-' + file.seq}">
-                        <div class="bg" th:style="${#strings.concat('background:url(', @utils.getThumbUrl(file.seq, 150, 150), ') no-repeat center center; background-size: cover;')}"></div>
-                        <i class="xi-close remove" th:data-seq="${file.seq}"></i>
+        <div class="image-container">
+            <h2 th:text="#{상품정보}"></h2>
+            <dl th:if="${board.useUploadFile}">
+                <dt th:text="#{상품_이미지}"></dt>
+                <dd class="image-box">
+                    <button type="button" class="fileUploads" th:data-gid="*{gid}"
+                            data-location="attach" th:text="#{이미지_등록}" data-select-cnt="2"></button>
+                    <div class="uploaded-files photo-item-wrapper" id="uploaded-files-attach">
+                        <div th:if="*{attachFiles != null}" th:each="file : *{attachFiles}" class="photo-item"
+                             th:id="${'file-' + file.seq}">
+                            <div class="bg"
+                                 th:style="${#strings.concat('background:url(', @utils.getThumbUrl(file.seq, 150, 150), ') no-repeat center center; background-size: cover;')}"></div>
+                            <i class="xi-close remove" th:data-seq="${file.seq}"></i>
+                        </div>
                     </div>
-                </div>
-            </dd>
-        </dl>
+                </dd>
+            </dl>
+        </div>
         <dl>
             <dt th:text="#{제목}"></dt>
             <dd>
@@ -38,7 +42,8 @@
         <dl>
             <dt th:text="#{설명}"></dt>
             <dd>
-                <textarea name="content" th:field="*{content}" id="content" placeholder="브랜드, 모델명, 구매 시기, 하자 유무 등 상품 설명을 최대한 자세히 적어주세요."></textarea>
+            <textarea name="content" th:field="*{content}" id="content"
+                      placeholder="브랜드, 모델명, 구매 시기, 하자 유무 등 상품 설명을 최대한 자세히 적어주세요."></textarea>
                 <div class="error" th:each="err : ${#fields.errors('content')}" th:text="${err}"></div>
             </dd>
         </dl>
@@ -48,7 +53,8 @@
             <dt th:text="#{가격}"></dt>
             <dd>
                 <input type="number" name="num1" th:field="*{num1}">
-                <div class="error" th:each="err : ${#fields.errors('num1')}" th:text="${err}" placeholder="가격을 입력해 주세요."></div>
+                <div class="error" th:each="err : ${#fields.errors('num1')}" th:text="${err}"
+                     placeholder="가격을 입력해 주세요."></div>
             </dd>
         </dl>
         <dl>
