@@ -11,7 +11,7 @@
     <dl>
         <dt th:text="#{작성자}"></dt>
         <dd>
-            <input type="text" name="poster" th:field="*{poster}">
+            <input type="text" name="poster" th:field="*{poster}" th:attr="readonly=${@memberUtil.isLogin != null and isLogin ? 'readonly' : null}">
             <div class="error" th:each="err : ${#fields.errors('poster')}" th:text="${err}"></div>
         </dd>
     </dl>

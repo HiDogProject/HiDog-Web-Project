@@ -105,6 +105,9 @@ window.addEventListener("DOMContentLoaded", function() {
 
     const completeEl = document.getElementById("complete");
     completeEl.addEventListener("click", () => {
+        if (tmapLib.via.length == 0 || tmapLib.departure == null) {
+            alert("출발 지점 및 경유 지점을 선택하세요.");
+        } else{
         if (tmapLib.resultDrawArr.length == 0) {
             tmapLib.route(tmapLib.mapId)
 
@@ -114,6 +117,7 @@ window.addEventListener("DOMContentLoaded", function() {
         }
         viasEl.style.display = 'none';
         startEl.style.display = 'none';
+        }
     });
 
 
