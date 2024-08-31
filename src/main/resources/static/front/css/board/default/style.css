@@ -83,28 +83,34 @@
 }
 /* 게시글 목록 공통 E */
 
+.board-main .view-content {
+    border-top: 1px solid;
+    margin-top: 10px;
+}
+
 /* 게시글 보기 공통 S */
 .board-main .view-content .subject {
-    border: 1px solid #ccc;
     padding: 10px 15px;
-    font-size: 1.15rem;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
+    background-color: #F5F6F8;
 }
 
 .board-main .view-content .post-info {
-    border: 1px solid #ccc;
+    border-top: 1px solid #ededed;
     padding: 10px 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
 }
 
 .board-main .view-content .contents {
+    border-top: 1px solid #ededed;
+    border-bottom: 1px solid #ccc;
+    font-weight: lighter;
+    font-size: 1.25rem;
     min-height: 350px;
-    border: 1px solid #ccc;
     padding: 15px;
-    margin-bottom: 10px;
+    word-break: break-all;
 }
 
 .board-main .view-content .contents img {
@@ -130,7 +136,6 @@
     text-decoration: underline;
 }
 /* 게시글 보기 공통 E */
-
 
 /* 테이블 스타일 공통 S */
 /* 테이블 스타일 */
@@ -198,3 +203,4 @@ textarea {
 
 
 
+v

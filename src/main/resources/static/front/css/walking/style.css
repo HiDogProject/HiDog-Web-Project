@@ -1,3 +1,12 @@
+* { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; }
+html { font-size: 13px; }
+body { margin: 0; }
+a { text-decoration: none; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+dl, dt, dd { margin: 0; padding: 0; }
+img { border: 0; }
+
+
 .container {
     display: flex;
     justify-content: center;
@@ -6,46 +15,23 @@
     position: relative;
 }
 
+
 .info-box {
     position: absolute;
     top: 0;
     right: 0;
     width: 400px;
-    height: 100%;
+    height: calc(100vh + 50px); /* 맵의 하단과 맞추기 위해 높이 설정 */
     background-color: white;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     overflow-y: auto;
-    background-color: #edf5e9;
+    margin-bottom: 0px;
 }
 
 .info-box-expanded {
     transform: translateX(0);
-}
-
-/* 제목 스타일 */
-.info-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-/* 내용 스타일 */
-.info-content {
-    font-size: 16px;
-    color: #555;
-    margin: 10px 0;
-}
-
-/* 작성자 스타일 */
-.info-poster {
-    font-size: 14px;
-    color: #777;
-    margin-top: 10px;
 }
 
 .toggle-button {
@@ -82,6 +68,10 @@
     display: none;
 }
 
+.view-content .contents, .view-content .contents * {
+    word-break: break-all;
+}
+
 .view-content .contents .more {
     display: none;
 }
@@ -107,7 +97,7 @@
 
 
 .map {
-    margin-top: -70px;
+    margin-top:50px;
 }
 
 .subject {
