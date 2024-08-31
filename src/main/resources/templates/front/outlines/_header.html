@@ -8,7 +8,7 @@
 
 
                     <a th:href="@{/}" class="logo-link"> <!-- 로고 이미지 클릭 시 메인 페이지로 이동 -->
-                        <img th:src="${@utils.url('/common/img/Hidog.png')}" alt="Hi Dog Logo">
+                        <img th:src="${@utils.url('/common/img/Logo.png')}" alt="Hi Dog Logo">
                     </a>
                 </div>
 
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <nav>
+        <nav class="mm">
             <ul class="menus">
 
                 <li th:block class="iL" th:if="${isLogin == null || !isLogin}">

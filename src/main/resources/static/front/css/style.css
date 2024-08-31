@@ -191,7 +191,7 @@ header {
 }
 
 /* 하단 메뉴 바 */
-nav {
+nav .mm {
     background-color: #F2F2F2;
     /*padding: 10px 0;*/
 }
@@ -264,11 +264,6 @@ footer .center_phone {
     font-size: 1.538rem;
     font-weight: 800;
     text-align: center;
-}
-
-footer .center_phone img {
-    height: 25px;
-    vertical-align: middle;
 }
 
 footer .choongang-info, footer .company-info {
