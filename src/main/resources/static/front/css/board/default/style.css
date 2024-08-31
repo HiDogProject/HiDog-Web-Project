@@ -56,11 +56,14 @@
 }
 
 .board-main .category-links .link {
-    padding: 10px 20px; /* 링크 내부 여백 */
-    color: #333; /* 기본 텍스트 색상 */
+    width: 150px;
+    padding: 10px; /* 링크 내부 여백 */
+    color: #000; /* 기본 텍스트 색상 */
     text-decoration: none; /* 밑줄 제거 */
     display: inline-block; /* 링크를 블록 요소로 처리 */
     border-right: 1px solid #ddd; /* 오른쪽 테두리 추가 */
+    text-align: center;
+    background-color: #F2F2F2;
     transition: background-color 0.3s, color 0.3s; /* 배경색과 텍스트 색상 전환 애니메이션 */
 }
 
