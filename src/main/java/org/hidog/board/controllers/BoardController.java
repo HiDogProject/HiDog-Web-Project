@@ -326,7 +326,6 @@ public class BoardController implements ExceptionProcessor {
             addScript.add("board/" + skin + "/view");
 
             if (mode.equals("popup_comment")) {
-                addCss.add("style");
                 addCss.add("walking/style");
                 addScript.add("walking/content");
             }
