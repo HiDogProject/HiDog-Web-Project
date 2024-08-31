@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="menu">
+    <div class="menu-box">
+        <a class="sold_btn" th:href="${@utils.redirectUrl('/board/write/' + board.bid)}">
+            <button type="button" class="sold_btn" th:text="#{판매하기}"></button>
+        </a>
+        <a class="myshop_btn" th:href="@{${utils.redirectUrl('/shop/') + memberSeq}}">
+            <button type="button" class="myshop_btn" th:text="#{내_상점}"></button>
+        </a>
+    </div>
+</th:block>
