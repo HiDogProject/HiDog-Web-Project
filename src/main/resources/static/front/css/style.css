@@ -193,7 +193,7 @@ header {
 /* 하단 메뉴 바 */
 nav .mm {
     background-color: #F2F2F2;
-    padding: 10px 0;
+    /*padding: 10px 0;*/
 }
 
 .menus {
@@ -301,3 +301,10 @@ footer .links a:not(.last)::after {
 }
 /* 푸터 영역 E */
 
+.submitBtn {
+    color: #0064C5;
+}
+
+.cancelBtn {
+    color: #BBBBBB;
+}

@@ -7,9 +7,9 @@ const mainMapLib = {
     viaMarkers: [], // 경유 마커
     resultDrawArr: [],  // 경로
     map: null, // 지도 객체
-    width: '100%',
-    height: '600px',
-    zoom: 17,
+    width: '80%',
+    height: '500px',
+    zoom: 18,
     currentAction: null,
     seq: null,
     clickable: true,
@@ -93,7 +93,7 @@ const mainMapLib = {
 
     load(mapId, width, height, zoom) {
         this.width = width ?? '70%';
-        this.height = height ?? '900px';
+        this.height = height ?? '600px';
         this.zoom = zoom || 17;
 
 

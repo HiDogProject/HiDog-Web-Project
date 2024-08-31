@@ -299,6 +299,10 @@ public class BoardController implements ExceptionProcessor {
         // 스킨별 공통 CSS
         addCss.add("board/" + skin + "/style");
 
+        if(skin.equals("default")){
+            addCss.add("board/default/" + mode);
+        }
+
         if(skin.equals("market")){
            addCss.add("board/market/" + mode);
         }
@@ -322,13 +326,13 @@ public class BoardController implements ExceptionProcessor {
             addScript.add("board/" + skin + "/view");
 
             if (mode.equals("popup_comment")) {
-                addCss.add("style");
                 addCss.add("walking/style");
                 addScript.add("walking/content");
             }
         }
 
         if (skin.equals("walking")) {
+            addCss.add("board/walking/" + mode);
             addCommonScript.add("map");
             addScript.add("board/walking/mapView");
         }

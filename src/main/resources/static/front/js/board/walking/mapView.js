@@ -6,8 +6,8 @@ const viewMapLib = {
     viaMarkers: [], // 경유 마커
     resultDrawArr: [],  // 경로
     map: null, // 지도 객체
-    width: '100%',
-    height: '600px',
+    width: '40%',
+    height: '500px',
     zoom: 17,
     markerPointArray: [],
     init() {
@@ -61,7 +61,7 @@ const viewMapLib = {
     },
 
     load(mapId, width, height, zoom) {
-        this.width = width ?? '40%';
+        this.width = width ?? '80%';
         this.height = height ?? '500px';
         this.zoom = zoom || 17;
 
