@@ -8,6 +8,7 @@ import org.hidog.order.constants.OrderStatus;
 import org.hidog.order.controllers.RequestOrder;
 import org.hidog.order.entities.OrderInfo;
 import org.hidog.order.entities.OrderItem;
+import org.hidog.order.exceptions.BuyerSellerConflictError;
 import org.hidog.order.exceptions.ItemAlreadySoldException;
 import org.hidog.order.repository.OrderInfoRepository;
 import org.hidog.order.repository.OrderItemRepository;
@@ -38,6 +39,13 @@ public class OrderSaveService {
         if(orderItemList != null){
             throw new ItemAlreadySoldException();
         }
+
+        //구매자와 판매자가 같은 경우
+        BoardData data = boardInfoService.get(bSeq);
+        if(data.getMember().getEmail().equals(memberUtil.getMember().getEmail())){
+         throw new BuyerSellerConflictError();
+        }
+
 
 
         //게시글 조회
