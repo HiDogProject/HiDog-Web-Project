@@ -306,3 +306,10 @@ footer .links a:not(.last)::after {
 }
 /* 푸터 영역 E */
 
+.submitBtn {
+    color: #0064C5;
+}
+
+.cancelBtn {
+    color: #BBBBBB;
+}
