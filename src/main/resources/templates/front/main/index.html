@@ -132,33 +132,31 @@
             </div>
         </div>
 
-        <div class="sub_box">
+        <h3 class="bn">기능 소개</h3>
 
-            <h2 class="tn">기능 안내</h2>
+        <div class="sub_banner">
 
-            <div class="sub_banner">
+            <div class="item-container1">
+                <h3>맵</h3>
+                <a href="/board/list/1">
+                    <img src="/common/img/Jb1.png" alt="sub banner1">
+                </a>
+            </div>
 
-                <div class="item-container1">
-                    <h3>맵</h3>
-                    <a th:href="${@utils.redirectUrl('/board/list/1')}">
-                        <img th:src="${@utils.url('/common/img/Jb1.png')}" alt="sub banner1">
-                    </a>
-                </div>
+            <div class="item-container2">
+                <a href="/board/list/4">
+                    <img class="su" src="/common/img/Jb2.jpg" alt="sub banner2">
+                </a>
+                <h3>화개장터</h3>
+            </div>
 
-                <div class="item-container2">
-                    <h3>화개장터</h3>
-                    <a th:href="${@utils.redirectUrl('/board/list/4')}">
-                        <img class="su" th:src="${@utils.url('/common/img/Jb2.jpg')}" alt="sub banner2">
-                    </a>
-                </div>
-
-                <div class="item-container3">
-                    <h3>이달개</h3>
-                    <a th:href="${@utils.redirectUrl('/board/list/1')}">
-                        <img th:src="${@utils.url('/common/img/Jb1.png')}" alt="sub banner1">
-                    </a>
-                </div>
+            <div class="item-container3">
+                <h3>이달개</h3>
+                <a href="/board/list/1">
+                    <img src="/common/img/Jb1.png" alt="sub banner1">
+                </a>
             </div>
         </div>
+
     </main>
 </html>
