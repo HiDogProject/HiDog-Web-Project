@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class CommentNotFoundException extends AlertBackException {
 
     public CommentNotFoundException() {
-        super("NotFound.comment", HttpStatus.NOT_FOUND);
+        super("NotFound.comment", HttpStatus.CONFLICT);
         setErrorCode(true);
     }
 }
