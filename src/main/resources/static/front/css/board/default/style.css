@@ -1,7 +1,7 @@
 /* 통합검색 공통 S */
 /* 검색 폼 컨테이너 */
 .top-box {
-    float: right;
+    float: left;
     display: flex; /* 가로로 배치 */
     align-items: center; /* 수직 가운데 정렬 */
     margin-bottom: 20px; /* 아래쪽 여백 */
@@ -93,6 +93,7 @@
     padding: 10px 15px;
     font-size: 1.5rem;
     background-color: #F5F6F8;
+
 }
 
 .board-main .view-content .post-info {
@@ -144,6 +145,7 @@ table {
     border-collapse: collapse; /* 경계선 중복 제거 */
     align-content: center;
 }
+
 th.top-border {
     border-top: 1px solid ; /* 상단 경계선을 굵고 짙은 색상으로 설정 */
 }
@@ -151,7 +153,6 @@ th.top-border {
 th {
     text-align: left; /* 텍스트 왼쪽 정렬 */
     padding: 10px; /* 패딩 추가 */
-    background-color: #F5F6F8; /* 항목 영역 배경색 */
     border-top: 1px solid;
     border-bottom: 1px solid hsl(0, 0%, 80%); /* 연한 회색 테두리 */
     width: 150px; /* 항목명 너비 고정 */
@@ -200,7 +201,3 @@ textarea {
     margin-top: 5px; /* 위쪽 여백 */
 }
 /* 오류 메시지의 스타일 E */
-
-
-
-v
