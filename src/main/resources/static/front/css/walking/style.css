@@ -1,107 +1,120 @@
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        position: relative;
-    }
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
 
-    .info-box {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 400px;
-        height: 100%;
-        background-color: white;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
-        overflow-y: auto;
-        background-color: #edf5e9;
-    }
+.info-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+    background-color: #edf5e9;
+}
 
-    .info-box-expanded {
-        transform: translateX(0);
-    }
+.info-box-expanded {
+    transform: translateX(0);
+}
 
-    /* 제목 스타일 */
-    .info-title {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-        margin: 0;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #ddd;
-    }
+/* 제목 스타일 */
+.info-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
 
-    /* 내용 스타일 */
-    .info-content {
-        font-size: 16px;
-        color: #555;
-        margin: 10px 0;
-    }
+/* 내용 스타일 */
+.info-content {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0;
+}
 
-    /* 작성자 스타일 */
-    .info-poster {
-        font-size: 14px;
-        color: #777;
-        margin-top: 10px;
-    }
+/* 작성자 스타일 */
+.info-poster {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
 
-    .toggle-button {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
-        padding: 7px;
-        cursor: pointer;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        z-index: 1000;
-        transition: right 0.3s ease-in-out;
-        font-size: 18px;
-    }
+.toggle-button {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    padding: 7px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: right 0.3s ease-in-out;
+    font-size: 18px;
+}
 
-    .info-box-expanded ~ .toggle-button {
-        right: 300px;
-    }
+.info-box-expanded ~ .toggle-button {
+    right: 300px;
+}
 
-    .map_comment {
-        border: none;
-        width: 100%;
-        height: 80vh;
-    }
+.map_comment {
+    border: none;
+    width: 100%;
+    height: 80vh;
+}
 
-    .info-seq {
-        display: none;
-    }
+.info-seq {
+    display: none;
+}
 
-    .btns { /* 게시글에선 수정 삭제 버튼 안 보임 */
-        display: none;
-    }
+.btns { /* 게시글에선 수정 삭제 버튼 안 보임 */
+    display: none;
+}
 
-    .view-content .contents .more {
-        display: none;
-    }
+.view-content .contents .more {
+    display: none;
+}
 
-    .view-content .contents.off {
-        min-height: auto;
-    }
+.view-content .contents.off {
+    min-height: auto;
+}
 
-    .view-content .contents.off > .inner {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        line-height: 15px;
-        height: 75px;
-        word-break: break-word;
-    }
+.view-content .contents.off > .inner {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    line-height: 15px;
+    height: 75px;
+}
 
-    .view-content .contents.off .more {
-        display: block;
-        margin: 10px auto;
-    }
+.view-content .contents.off .more {
+    display: block;
+    margin: 10px auto;
+}
+
+
+.map {
+    margin-top: -70px;
+}
+
+.subject {
+    text-align: center;
+
+}
+
+.post-info {
+    text-align: center;
+}

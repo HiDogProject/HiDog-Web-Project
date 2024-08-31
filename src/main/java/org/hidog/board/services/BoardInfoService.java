@@ -549,7 +549,7 @@ public class BoardInfoService {
      * @return
      */
     public List<BoardData> getLatest(String bid, int cnt) {
-        cnt = Math.max(cnt, 5);
+        cnt = Math.max(cnt, 2);
         BoardDataSearch search = new BoardDataSearch();
         search.setBid(bid);
         search.setLimit(cnt);
@@ -565,5 +565,24 @@ public class BoardInfoService {
 
     public String getViewUrl(Long seq) {
         return utils.redirectUrl("/board/view/" + seq);
+    }
+
+    /**
+     * 조회수가 많은 게시글 리스트
+     *
+     * @param bid
+     * @param cnt
+     * @return
+     */
+    public List<BoardData> getRank(String bid, int cnt) {
+        cnt = Math.max(cnt, 3);
+        BoardDataSearch search = new BoardDataSearch();
+        search.setBid(bid);
+        search.setLimit(cnt);
+
+        ListData<BoardData> data = getList(bid, search);
+
+
+        return data.getItems();
     }
 }

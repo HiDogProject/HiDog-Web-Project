@@ -20,7 +20,6 @@ public class MainController {
 
     @GetMapping
     public String Main(Model model) {
-
         List<String[]> boardList = configInfoService.getBoardList();
 
         model.addAttribute("boardList", boardList);

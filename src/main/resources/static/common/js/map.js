@@ -11,8 +11,8 @@ const tmapLib = {
     zoom: 17,
     currentAction: null, // start, end, via
     load(mapId, width, height, zoom) {
-        this.width = width ?? '70%';
-        this.height = height ?? '900px';
+        this.width = width ?? '60%';
+        this.height = height ?? '600px';
         this.zoom = zoom || 17;
 
         // navigator.geolocation.getCurrentPosition((pos) => {
@@ -38,7 +38,6 @@ const tmapLib = {
                         return;
                     }
                     this.departure = e.latLng;
-                    console.log(e.latLng);
                     this.arrival = e.latLng;
                     opt.icon = 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9'
                     opt.iconSize = new Tmapv2.Size(50, 50);
@@ -54,11 +53,9 @@ const tmapLib = {
                         if (clickable) {
                             this.hideRoute();
                             clickable = false;
-                            console.log("숨김")
                         } else {
                             this.showRoute();
                             clickable = true;
-                            console.log("노출")
                         }
                     });
 
@@ -206,3 +203,4 @@ const tmapLib = {
         this.resultDrawArr = [];
     }
 };
+

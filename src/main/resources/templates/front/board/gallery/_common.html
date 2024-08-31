@@ -28,7 +28,7 @@
     <input th:if="*{mode == 'edit' && seq != null}" type="hidden" name="seq" th:field="*{seq}">
 
     <div class="commenter_info">
-        <input type="text" name="commenter" th:placeholder="#{작성자}" th:field="*{commenter}">
+        <input type="text" name="commenter" th:placeholder="#{작성자}" th:field="*{commenter}" th:attr="readonly=${@memberUtil.isLogin != null and isLogin ? 'readonly' : null}">
 
         <input th:if="${!isLogin}" type="password" name="guestPw" th:placeholder="#{비밀번호}" th:field="*{guestPw}">
     </div>
