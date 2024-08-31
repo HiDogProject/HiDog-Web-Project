@@ -114,7 +114,6 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
     position: relative;
     width: 200px;
     height: 200px;
-    background-color: #30B1E3;
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
