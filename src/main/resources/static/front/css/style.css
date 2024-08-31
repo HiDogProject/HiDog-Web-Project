@@ -241,7 +241,7 @@ button.hb:hover {
 footer {
     background: #f9f9f9;
     padding: 25px 0 20px;
-    margin-top: 100px;
+    margin-top: auto; /* 푸터를 화면 하단으로 이동 */
     text-align: center;
     width: 100%;
 }
@@ -251,6 +251,8 @@ footer .I {
     text-align: center;
     margin: 0 auto 12px;
     display: block;
+    text-decoration: none; /* 링크 기본 스타일 제거 */
+    color: inherit; /* 부모의 색상 상속 */
 }
 
 footer .center_phone {
@@ -264,6 +266,8 @@ footer .center_phone {
     font-size: 1.538rem;
     font-weight: 800;
     text-align: center;
+    text-decoration: none; /* 링크 기본 스타일 제거 */
+    color: inherit; /* 부모의 색상 상속 */
 }
 
 footer .choongang-info, footer .company-info {
@@ -287,6 +291,7 @@ footer .links a {
     padding: 0 11px;
     color: #878787;
     position: relative;
+    text-decoration: none; /* 링크 기본 스타일 제거 */
 }
 
 footer .links a:not(.last)::after {

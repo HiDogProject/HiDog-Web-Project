@@ -1,11 +1,11 @@
 /* 제목 */
 .pn {
     text-align: center;
-    margin: 0;
+    margin-top: 20px;
     font-size: 25px;
     font-weight: bold;
-    color: #333;
-    background-color: #9dc5f6;
+    color: #30B1E3;
+    background-color: white;
     padding: 5px;
 }
 
@@ -23,7 +23,7 @@
 
 /* 테이블 맨 윗 줄 */
 .posts-table th {
-    background-color: #9dc5f6;
+    background-color: #30B1E3;
     color: white;
     font-weight: bold;
 }
@@ -43,7 +43,7 @@
 }
 
 .posts-table tr:hover {
-    background-color: #9dc5f6;
+    background-color: #27a7d9;
 }
 
 .posts-table .no-data td {
@@ -62,8 +62,8 @@
 .pagination-container a {
     text-decoration: none;
     color: white;
-    background-color: #9dc5f6;
-    border-color: #9dc5f6;
+    background-color: #30B1E3;
+    border-color: #30B1E3;
     border-width: 1px;
     border-style: solid;
     border-image: initial;

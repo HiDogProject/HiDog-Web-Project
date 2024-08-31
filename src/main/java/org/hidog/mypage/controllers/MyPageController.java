@@ -125,7 +125,7 @@ public class MyPageController implements ExceptionProcessor {
             pageTitle = "내 게시글";
         } else if (mode.equals("wishlist")) {
             addCss.add("mypage/wishlist");
-            pageTitle = "찜 목록";
+            pageTitle = "내 관심 목록";
         }
 
         model.addAttribute("addCommonScript", addCommonScript);

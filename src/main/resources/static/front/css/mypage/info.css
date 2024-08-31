@@ -9,8 +9,6 @@ form {
     background-color: #fff;
 }
 
-
-
 /* dl */
 dl {
     margin-bottom: 20px;
@@ -58,7 +56,7 @@ input[type="button"] {
     padding: 8px 10px;
     font-size: 15px;
     color: #fff;
-    background-color: #9dc5f6;
+    background-color: #30B1E3;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -69,7 +67,7 @@ input[type="button"] {
 }
 
 input[type="button"]:hover {
-    background-color: #F5D2D2;
+    background-color: #27a7d9;
 }
 
 /* 입력 필드와 버튼의 크기 조정 */
@@ -116,7 +114,6 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
     position: relative;
     width: 200px;
     height: 200px;
-    background-color: #9dc5f6;
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
@@ -144,7 +141,7 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
     bottom: 25px;
     right: 25px;
     font-size: 10px;
-    color: #9dc5f6;
+    color: #30B1E3;
     cursor: pointer;
     padding: 5px;
 }
@@ -153,7 +150,7 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
 .btn {
     font-size: 15px;
     color: #fff;
-    background-color: #9dc5f6;
+    background-color: #30B1E3;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -163,7 +160,7 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
 }
 
 .btn:hover {
-    background-color: #F5D2D2;
+    background-color: #27a7d9;
 }
 
 /* 버튼 그룹 */
@@ -175,11 +172,4 @@ input[name="userName"], input[name="password"], input[name="confirmPassword"], #
 
 .btn-reset {
     margin-right: 10px;
-}
-
-/* 테두리 색 변경 */
-input:focus {
-    border-color: #66afe9;
-    outline: none;
-    box-shadow: 0 0 5px rgba(102, 175, 233, 0.8);
 }
