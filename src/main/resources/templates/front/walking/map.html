@@ -9,24 +9,8 @@
         <div th:data-startMarker="*{startMarker}"></div>
         <div id="infoBox" class="info-box">
             <div id="infoContent" class="info-box-content">
-                <div class="dn">
-                    <th:block th:if="*{member != null && member.profileImage != null}">
-                        <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}" th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
-                    </th:block>
-                    <p class="info-poster" id="infoPoster" th:text="${poster != null ? poster : ''}">
-                    </p>
-                    <p class="info-content" id="infoContentText" th:text="${content != null ? content : ''}">
-                    </p>
-
-                    <ul class="btn-group">
-                        <li>
-                            <a class="info-seq" th:href="${@utils.redirectUrl('/board/view/')}">
-                                <img src="https://github.com/user-attachments/assets/ee5cbff7-8855-4950-8153-9acae4582203" alt="게시글 가기">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <iframe name="ifrmBoard" class="map_comment"></iframe>
+                <div class="info-seq"></div>
+                <iframe name="ifrmBoard" class="map_comment" th:href="${@utils.redirectUrl('/board/comment/')}"></iframe>
             </div>
         </div>
         <button id="toggleButton" class="toggle-button"> | </button>

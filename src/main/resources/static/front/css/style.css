@@ -104,10 +104,14 @@ img { border: 0; }
 
 /* 헤더 영역 */
 header {
+    background-color: #F2F2F2;
+}
+
+/* 상단 바 (로고, 제목, 드롭다운 메뉴) */
+.top-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: white;
     padding: 10px;
     border-bottom: 1px solid #ccc;
 }
@@ -116,6 +120,7 @@ header {
 .logo-container {
     display: flex;
     align-items: center;
+    padding-left: 50px;
 }
 
 .logo img {
@@ -124,7 +129,6 @@ header {
     height: 50px;
 }
 
-/* 제목 */
 .hn {
     font-size: 24px;
     font-weight: bold;
@@ -133,17 +137,16 @@ header {
     margin: 0;
 }
 
-/* 드롭 다운 메뉴 바 */
+/* 드롭다운 메뉴 */
 .drop {
     display: flex;
     align-items: center;
+    gap: 20px;
+    padding-right: 50px;
 }
 
 .dropdown {
     position: relative;
-    margin-right: 20px;
-    align-items: center;
-    height: 40px;
 }
 
 .nav_title {
@@ -155,19 +158,16 @@ header {
 .nav_title a {
     text-decoration: none;
     color: #333;
-    padding: 20px;
+    padding: 10px 20px;
     font-weight: bold;
     font-size: 15px;
-    display: flex;
-    align-items: center;
-    height: 100%;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
     top: 100%;
-    left: 10px;
+    left: 0;
     background-color: white;
     list-style: none;
     padding: 0;
@@ -180,25 +180,22 @@ header {
     display: block;
 }
 
-.dropdown-content li {
-    margin: 0;
-}
-
 .dropdown-content li a {
-    display: block;
-    font-weight: bold;
     padding: 10px;
     text-decoration: none;
     color: #333;
-    align-items: center;
-    height: 40px;
 }
 
 .dropdown-content li a:hover {
-    background-color: #9dc5f6;
+    background-color: #30B1E3;
 }
 
-/* 메뉴 바 */
+/* 하단 메뉴 바 */
+nav {
+    background-color: #F2F2F2;
+    padding: 10px 0;
+}
+
 .menus {
     list-style: none;
     padding: 0;
@@ -207,7 +204,7 @@ header {
     align-items: center;
 }
 
-/* 메뉴 항목  */
+/* 메뉴 항목 */
 .menus li {
     margin-left: 10px;
 }
@@ -219,7 +216,7 @@ header {
 
 /* 버튼 */
 .hb {
-    background-color: #9dc5f6;
+    background-color: #30B1E3;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -229,7 +226,6 @@ header {
     cursor: pointer;
 }
 
-/* 버튼 호버 시 배경색 변경 */
 button.hb:hover {
     background-color: #F5D2D2;
 }
@@ -241,37 +237,10 @@ button.hb:hover {
     gap: 10px;
 }
 
-
-/* 파일 공통 S */
-.photo-item-wrapper{
-    display: flex;
-}
-.photo-item .bg{
-    width: 150px;
-    height : 150px;
-}
-
-.photo-item + .photo-item {
-    margin-left: 5px;
-}
-
-.photo-item .select{
-    border: 1px solid #000;
-    display: inline-block;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-.photo-item .select.on{
-    background-color: #000;
-    color: #fff;
-}
-/* 파일 공통 E */
-
 /* 푸터 영역 S */
 footer {
     background: #f9f9f9;
-    padding: 25px 0 50px;
+    padding: 25px 0 20px;
     margin-top: 100px;
     text-align: center;
     width: 100%;
@@ -337,3 +306,10 @@ footer .links a:not(.last)::after {
 }
 /* 푸터 영역 E */
 
+.submitBtn {
+    color: #0064C5;
+}
+
+.cancelBtn {
+    color: #BBBBBB;
+}

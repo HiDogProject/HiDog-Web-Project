@@ -3,7 +3,6 @@
     display: flex;
     border-bottom: 1px solid #ccc;
     height: 45px;
-    align-items: center; /* 수직 정렬 */
 }
 
 .board-main .list-items li:first-of-type {
@@ -17,26 +16,18 @@
 .board-main .list-items .post-info {
     width: 300px;
     text-align: right;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* 내용물 오른쪽 정렬 */
 }
 
 .board-main .list-items .post-info > span {
-    line-height: normal; /* 부모의 align-items 설정으로 인해 line-height 조정 불필요 */
-    margin-left: 10px; /* 요소 간 간격 추가 */
+    line-height: 43px;
 }
 
 .board-main .list-items .subject {
     flex-grow: 1;
-    line-height: 1.5; /* 기본 line-height 사용 */
+    line-height: 43px;
     padding: 0 10px;
     font-size: 1.15rem;
-    display: flex; /* 요소들을 flex로 수평 정렬 */
-    align-items: center;
 }
-
-/* 나머지 스타일 동일 */
 
 .board-main .list-items .no-data {
     align-items: center;
@@ -51,13 +42,12 @@
     margin-bottom: 25px;
 }
 
-/* 분류 버튼 스타일 */
 .board-main .category-links a {
     height: 45px;
     padding: 0 35px;
     line-height: 45px;
     background: #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 1.15rem;
 }
 
@@ -139,30 +129,110 @@
     border-bottom: 1px solid #ccc;
     padding: 0 15px;
 }
-
 .board-main .downloads li a {
     font-size: 1.15rem;
     line-height: 34px;
 }
-
 .border-main .downloads li a:hover {
     text-decoration: underline;
 }
-
 /* 게시글 보기 공통 E */
 
 
-/* 게시판 이름 */
-.page-title {
-    padding-top: 50px;
+/* 테이블 스타일 */
+table {
+    width: 100%; /* 테이블 전체 너비 사용 */
+    border-collapse: collapse; /* 경계선 중복 제거 */
+    align-content: center;
+}
+th.top-border {
+    border-top: 1px solid ; /* 상단 경계선을 굵고 짙은 색상으로 설정 */
+}
+/* 테이블 헤더 셀 스타일 */
+th {
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    padding: 10px; /* 패딩 추가 */
+    background-color: #F5F6F8; /* 항목 영역 배경색 */
+    border-top: 1px solid;
+    border-bottom: 1px solid hsl(0, 0%, 80%); /* 연한 회색 테두리 */
+    width: 150px; /* 항목명 너비 고정 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    font-weight: bold; /* 글자 굵게 */
+    color: #333; /* 글자 색상 */
+    text-align: center;
+}
+
+/* 테이블 데이터 셀 스타일 */
+td {
+    padding: 10px; /* 패딩 추가 */
+    border-bottom: 1px solid hsl(0, 0%, 80%); /* 연한 회색 테두리 */
+    border-top: 1px solid;
 }
 
 
-.write_btn {
-    height: 45px;
-    padding: 0 35px;
-    line-height: 45px;
-    background: #ccc;
-    border-radius: 5px;
-    font-size: 1.15rem;
+.short-input {
+    max-width: 20%;
 }
+
+/* 입력 필드 (input, textarea) 스타일 */
+input[type="text"], input[type="password"], textarea {
+    width: 100%; /* 입력 필드 전체 너비 */
+    padding: 8px; /* 안쪽 여백 */
+    border: 1px solid #ccc; /* 테두리 색상 */
+    font-size: 14px; /* 글자 크기 */
+    background-color: white; /* 입력 박스 배경색 흰색 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+}
+
+.short-input {
+    width: 50px; /* 원하는 너비로 조정 */
+}
+
+textarea {
+    resize: vertical; /* 수직 크기 조정만 가능 */
+}
+
+/* 오류 메시지의 스타일 */
+.error {
+    color: #d9534f; /* 오류 글자 색상 */
+    font-size: 12px; /* 글자 크기 */
+    margin-top: 5px; /* 위쪽 여백 */
+}
+
+/* 작성하기 버튼 스타일 */
+#submitBtn {
+    padding: 10px 20px; /* 안쪽 여백 */
+    font-size: 16px; /* 글자 크기 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 모양 변경 */
+    margin-top: 20px; /* 위쪽 여백 */
+    background-color: #0064C5; /* 배경색 */
+    color: white; /* 글자 색상 */
+}
+
+/* 리셋 버튼 스타일 */
+#resetBtn {
+    padding: 10px 20px; /* 안쪽 여백 */
+    font-size: 16px; /* 글자 크기 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 모양 변경 */
+    margin-top: 20px; /* 위쪽 여백 */
+    background-color: #6c757d; /* 배경색 */
+    color: white; /* 글자 색상 */
+}
+.button-group {
+    text-align: center; /* 버튼을 가운데 정렬 */
+    padding: 10px 0; /* 버튼 상하 여백 추가 */
+}
+/* 작성하기 버튼 호버 효과 */
+#submitBtn:hover {
+    background-color: #0056b3; /* 호버 시 배경색 */
+}
+
+/* 리셋 버튼 호버 효과 */
+#resetBtn:hover {
+    background-color: #5a6268; /* 호버 시 배경색 */
+}
+
+
+
