@@ -14,16 +14,10 @@ html, body {
     padding: 0 20px;
 }
 
-/* 제목 */
-h1 {
-    font-size: 2em;
-    color: #333;
-    margin-bottom: 20px;
-}
-
 /* 프로필 이미지 */
 .profile-image2 {
     position: relative;
+    margin-top: 30px;
     width: 350px;
     height: 350px;
     border-radius: 50%;
