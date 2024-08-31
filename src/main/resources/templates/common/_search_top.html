@@ -11,7 +11,9 @@
             </select>
             <input type="text" name="skey" th:field="*{skey}"
                    th:placeholder="#{검색어를_입력하세요.}">
-            <button type="submit" th:text="#{검색}"></button>
+            <button type="submit">
+                <i class="xi-search xi-x"></i>
+            </button>
         </form>
     </th:block>
 </html>

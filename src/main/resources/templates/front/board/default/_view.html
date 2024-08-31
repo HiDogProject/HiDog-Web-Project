@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="view">
 
+    <div th:replace="~{front/board/default/_common::pageTitle}"></div>
+
     <div class="view-content" th:object="${boardData}">
         <div class="subject">
             <span th:if="*{category != null && !#strings.isEmpty(#strings.trim(category))}" th:text="*{'[' + category + ']'}"></span>
@@ -41,7 +43,6 @@
 
             <a th:if="*{showList}" th:href="${@utils.redirectUrl('/board/list/' + board.bid)}" th:text="#{글목록}" class="btn"></a>
         </div>
-
     </div>  <!--// view-content -->
 
 </th:block>
