@@ -36,7 +36,7 @@ public class OrderSaveService {
         //현재 거래중 인지 확인
         Long bSeq = form.getBSeq();
         List<OrderItem> orderItemList = itemRepository.findByBoardDataSeq(bSeq);
-        if(orderItemList != null){
+        if(!orderItemList.isEmpty()){
             throw new ItemAlreadySoldException();
         }
 

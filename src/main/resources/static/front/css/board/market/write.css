@@ -1,19 +1,4 @@
-.container {
-    max-width: 1000px; /* 원하는 최대 너비를 설정 */
-    margin: 0 auto; /* 양옆을 자동으로 설정하여 중앙 정렬 */
-    padding: 20px; /* 컨테이너 안쪽 여백 추가 */
-}
-
-
-/*이미지 추가 버튼*/
-/* fileUploads 버튼 스타일링 */
-.container {
-    display: flex;
-    flex-direction: column; /* 수직 방향으로 정렬 */
-    gap: 20px; /* 항목 간의 간격 설정 */
-}
-
-
+/*첨부파일 스타일링*/
 .fileUploads {
     width: 200px;
     height: 200px;
@@ -29,6 +14,12 @@
     color: #666;
     margin-right: 20px; /* 버튼과 photo-item 사이 간격 조절 */
     order: 0; /* 기본 순서 */
+}
+
+.upload-icon {
+    width: 50px; /* 이미지 크기 조정 */
+    height: 50px;
+    margin-bottom: 10px; /* 이미지와 텍스트 사이 간격 */
 }
 
 .fileUploads::before {
@@ -111,137 +102,18 @@
 }
 
 
-dd {
-    display: flex;
-    align-items: center;
+
+#content {
+    height: 200px; /* 원하는 높이로 설정 */
+    width: 100%; /* 필요에 따라 너비도 설정 가능 */
+    resize: none; /* 사용자가 크기를 조절하지 못하도록 할 경우 */
 }
 
 
-h2 {
-    height: 100px;
-    color: rgb(25, 25, 25);
-    font-size: 26px;
-    font-weight: 400;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    border-bottom: 2px solid rgb(25, 25, 25);
-}
-
-dl {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    padding: 10px 0;
-    margin-bottom: 40px;
-    align-items: flex-start;
-    border-bottom: 1px solid rgb(244, 244, 244);
-}
-
-dt,dd{
-    margin: 0;
-    padding: 10px;
-}
-
-dt {
-    width: 20%;
-    width: 10.5rem;
-    font-size: 18px;
-    font-weight: 400;
-    color: rgb(25, 25, 25);
-    padding-right: 10px;
-}
-
-dd {
-    width: 80%;
-    padding-left: 10px;
-}
-
-dd input[type="text"] {
-    width: 100%; /* input 요소가 dd의 너비를 채우도록 설정 */
-    padding: 5px; /* 내부 여백 */
-    height:3rem;
-    box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
-}
-
-input[type="text"],
-textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #2e2c2c;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: #fff;
-    box-sizing: border-box;
-}
 
 input[type="number"]{
-    width: 30%;
-    padding: 8px;
-    border: 1px solid #2e2c2c;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: #fff;
-    box-sizing: border-box;
+    padding: 8px; /* 안쪽 여백 */
+    font-size: 14px; /* 글자 크기 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
 }
 
-textarea {
-    resize: none;
-    height: 150px;
-}
-
-::placeholder{
-    color: rgb(140, 140, 140);
-}
-
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-.error.global {
-    margin-bottom: 20px;
-    color: red;
-    font-size: 14px;
-}
-
-dl + h2 {
-    margin-top: 30px;
-}
-
-input[type="radio"] {
-    margin-right: 10px;
-}
-
-label {
-    margin-right: 20px;
-}
-
-input[type="hidden"] {
-    display: none;
-}
-
-input[type="file"] {
-    display: block;
-    margin-bottom: 10px;
-}
-
-.button-group {
-    text-align: right; /* 버튼을 오른쪽으로 정렬 */
-}
-
-button {
-    padding: 20px 40px;
-    margin-left: 10px;
-    background-color: #9dc5f6;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
