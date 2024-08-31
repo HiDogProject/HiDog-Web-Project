@@ -129,6 +129,7 @@ header {
     height: 50px;
 }
 
+/* 제목 */
 .hn {
     font-size: 24px;
     font-weight: bold;
@@ -137,7 +138,7 @@ header {
     margin: 0;
 }
 
-/* 드롭다운 메뉴 */
+/* 드롭 다운 메뉴 바 */
 .drop {
     display: flex;
     align-items: center;

@@ -3,108 +3,120 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-    <div class="view-content" th:object="${boardData}">
-        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-        <h2 th:text="#{주문상품}"></h2>
-        <div class="product_info">
-            <table>
-                <tr>
-                    <th th:text="#{상품명}"></th>
-                    <td class="productName">
-                        <th:block th:text="*{text1}"></th:block>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{가격}"></th>
-                    <td class="price">
-                        <th:block th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></th:block>
-                        <th:block th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></th:block>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{판매자}"></th>
-                    <td class="poster_info">
-                        <span th:text="*{poster}"></span>
-                        <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
-                    </td>
-                </tr>
-            </table>
+    <div class="layout-width">
+        <div class="view-content" th:object="${boardData}">
+            <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+            <h2 th:text="#{주문상품}"></h2>
+            <div class="product_info">
+                <table>
+                    <tr>
+                        <th th:text="#{상품명}"></th>
+                        <td class="productName">
+                            <th:block th:text="*{text1}"></th:block>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{가격}"></th>
+                        <td class="price">
+                            <th:block th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></th:block>
+                            <th:block th:unless="*{num1 == 0}"
+                                      th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></th:block>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{판매자}"></th>
+                        <td class="poster_info">
+                            <span th:text="*{poster}"></span>
+                            <th:block th:if="*{member != null}"
+                                      th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-    <h2 th:text="#{주문서_작성}"></h2>
-    <form name="frmSave" method="POST" th:action="${@utils.redirectUrl('/order')}" autocomplete="off" th:object="${requestOrder}">
-        <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
-        <input type="hidden" name="bSeq" th:field="*{bSeq}">
-        <input type="hidden" name="orderNo" th:field="*{orderNo}">
+        <h2 th:text="#{주문서_작성}"></h2>
+        <form name="frmSave" method="POST" th:action="${@utils.redirectUrl('/order')}" autocomplete="off"
+              th:object="${requestOrder}">
+            <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+            <input type="hidden" name="bSeq" th:field="*{bSeq}">
+            <input type="hidden" name="orderNo" th:field="*{orderNo}">
 
-        <h3 th:text="#{주문_정보입력}"></h3>
-        <dl>
-            <dt th:text="#{주문자_이름}"></dt>
-            <dd>
-                <input type="text" name="orderName" th:field="*{orderName}">
-                <div class="error" th:each="err : ${#fields.errors('orderName')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{이메일}"></dt>
-            <dd>
-                <input type="text" name="orderEmail" th:field="*{orderEmail}">
-                <div class="error" th:each="err : ${#fields.errors('orderEmail')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{휴대전화번호}"></dt>
-            <dd>
-                <input type="text" name="orderMobile" th:field="*{orderMobile}">
-                <div class="error" th:each="err : ${#fields.errors('orderMobile')}" th:text="${err}"></div>
-            </dd>
-        </dl>
+            <h3 th:text="#{주문_정보입력}"></h3>
+            <table>
+                <tbody>
+                <tr>
+                    <th th:text="#{주문자_이름}"></th>
+                    <td>
+                        <input type="text" name="orderName" th:field="*{orderName}">
+                        <div class="error" th:each="err : ${#fields.errors('orderName')}" th:text="${err}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th th:text="#{이메일}"></th>
+                    <td>
+                        <input type="text" name="orderEmail" th:field="*{orderEmail}">
+                        <div class="error" th:each="err : ${#fields.errors('orderEmail')}" th:text="${err}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th th:text="#{휴대전화번호}"></th>
+                    <td>
+                        <input type="text" name="orderMobile" th:field="*{orderMobile}">
+                        <div class="error" th:each="err : ${#fields.errors('orderMobile')}" th:text="${err}"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h3 th:text="#{배송정보_입력}"></h3>
+            <table>
+                <tbody>
+                <tr>
+                    <th th:text="#{받는분_이름}"></th>
+                    <td>
+                        <input type="text" name="receiverName" th:field="*{receiverName}">
+                        <div class="error" th:each="err : ${#fields.errors('receiverName')}" th:text="${err}"></div>
+                    <td/>
+                </tr>
+                <tr>
+                    <th th:text="#{휴대전화번호}"></th>
+                    <td>
+                        <input type="text" name="receiverMobile" th:field="*{receiverMobile}">
+                        <div class="error" th:each="err : ${#fields.errors('receiverMobile')}" th:text="${err}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th th:text="#{배송지_주소}"></th>
+                    <td>
+                        <input type="button" onclick="user_execDaumPostcode()" th:value="#{우편번호}"><br>
+                        <input type="text" id="user_postcode" name="zoneCode" th:field="*{zoneCode}" readonly>
+                        <input type="text" id="user_address" name="address" th:field="*{address}" readonly>
+                        <input type="text" id="user_extraAddress" name="addressSub" th:field="*{addressSub}">
+                        <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
+                        <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
+                        <div class="error" th:each="err : ${#fields.errors('addressSub')}" th:text="${err}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th th:text="#{배송_메모}"></th>
+                    <td>
+                        <input type="text" name="deliveryMemo" th:field="*{deliveryMemo}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-
-        <h3 th:text="#{배송정보_입력}"></h3>
-        <dl>
-            <dt th:text="#{받는분_이름}"></dt>
-            <dd>
-                <input type="text" name="receiverName" th:field="*{receiverName}">
-                <div class="error" th:each="err : ${#fields.errors('receiverName')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{휴대전화번호}"></dt>
-            <dd>
-                <input type="text" name="receiverMobile" th:field="*{receiverMobile}">
-                <div class="error" th:each="err : ${#fields.errors('receiverMobile')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{배송지_주소}"></dt>
-            <dd>
-                <input type="button" onclick="user_execDaumPostcode()" th:value="#{우편번호}"><br>
-                <input type="text" id="user_postcode" name="zoneCode" th:field="*{zoneCode}" readonly>
-                <input type="text" id="user_address" name="address" th:field="*{address}" readonly>
-                <input type="text" id="user_extraAddress" name="addressSub" th:field="*{addressSub}">
-                <div class="error" th:each="err : ${#fields.errors('zoneCode')}" th:text="${err}"></div>
-                <div class="error" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
-                <div class="error" th:each="err : ${#fields.errors('addressSub')}" th:text="${err}"></div>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{배송_메모}"></dt>
-            <dd>
-                <input type="text" name="deliveryMemo" th:field="*{deliveryMemo}">
-            </dd>
-        </dl>
-
-        <h3 th:text="#{결제정보}"></h3>
-        <dl>
-            <dt th:text="#{결제금액}"></dt>
-            <dd>
-                <th:block th:text="${boardData.num1}"></th:block>
-            </dd>
-        </dl>
-        <dl>
-            <dt th:text="#{결제방법}"></dt>
-            <dd>
+            <h3 th:text="#{결제정보}"></h3>
+            <table>
+                <tbody>
+                <tr>
+                    <th th:text="#{결제금액}"></th>
+                    <td>
+                        <th:block th:text="${boardData.num1}"></th:block>
+                    </td>
+                </tr>
+                <tr>
+                    <th th:text="#{결제방법}"></th>
+                    <td>
                 <span th:each="pay : ${payMethods}">
                     <input type="radio" name="payMethod"
                            th:value="${pay[0]}"
@@ -112,50 +124,64 @@
                            onclick="toggleRefundFields()">
                     <label th:for="${'payMethod-' + pay[0]}" th:text="${pay[1]}"></label>
                 </span>
-            </dd>
-        </dl>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-        <div id="refundSection" class="hidden">
-            <h3 th:text="#{환불_계좌}"></h3>
-            <dl>
-                <dt th:text="#{예금주}"></dt>
-                <dd>
-                    <input type="text" name="refundAcctName" th:field="*{refundAcctName}">
-                </dd>
-            </dl>
-            <dl>
-                <dt th:text="#{입금_은행}"></dt>
-                <dd>
-                    <select th:field="*{refundBankCode}">
-                        <option th:each="refund : ${bankCodes}"
-                                th:value="${refund[1]}"
-                                th:text="${refund[2]}">
-                        </option>
-                    </select>
-                </dd>
-            </dl>
-            <dl>
-                <dt th:text="#{계좌_번호}"></dt>
-                <dd>
-                    <input type="number" name="refundAcctNum" th:field="*{refundAcctNum}">
-                </dd>
-            </dl>
-        </div>
-        <h3 th:text="#{주문_약관}"></h3>
-        <div>
-            약관...
-        </div>
-        <div class="terms-agree">
-            <input type="checkbox" name="agree" value="true" th:field="*{agree}" id="agree">
-            <label for="agree" th:text="#{주문_약관에_동의합니다.}"></label>
-        </div>
-        <div class="error" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
-        <button class="orderSubmit" type="submit" th:text="#{주문하기}"></button>
-    </form>
+            <table>
+                <tbody>
+                <div id="refundSection" class="hidden">
+                    <h3 th:text="#{환불_계좌}"></h3>
+                    <tr>
+                        <th th:text="#{예금주}"></th>
+                        <td>
+                            <input type="text" name="refundAcctName" th:field="*{refundAcctName}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{입금_은행}"></th>
+                        <td>
+                            <select th:field="*{refundBankCode}">
+                                <option th:each="refund : ${bankCodes}"
+                                        th:value="${refund[1]}"
+                                        th:text="${refund[2]}">
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{계좌_번호}"></th>
+                        <td>
+                            <input type="number" name="refundAcctNum" th:field="*{refundAcctNum}">
+                        </td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                <h3 th:text="#{주문_약관}"></h3>
+                <th class="terms-agree" th:text="주문_약관">
+                <td>
+                    <input type="checkbox" name="agree" value="true" th:field="*{agree}" id="agree">
+                    <label for="agree" th:text="#{주문_약관에_동의합니다.}"></label>
+                </td>
+                </th>
+                <div class="error" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
 
-    <th:block th:if="${config != null}">
-        <th:block th:replace="~{front/order/_payment::payform}"></th:block>
-    </th:block>
+                </tbody>
+            </table>
+            <div class="button-group">
+                <button type="submit" id="submitBtn" th:text="#{주문하기}"></button>
+                <button type="reset" id="resetBtn" th:text="#{다시입력}"></button>
+            </div>
+        </form>
+
+        <th:block th:if="${config != null}">
+            <th:block th:replace="~{front/order/_payment::payform}"></th:block>
+        </th:block>
+    </div>
 </main>
 
 
