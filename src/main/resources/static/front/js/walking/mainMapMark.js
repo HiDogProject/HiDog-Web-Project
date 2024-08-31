@@ -7,13 +7,10 @@ const mainMapLib = {
     viaMarkers: [], // 경유 마커
     resultDrawArr: [],  // 경로
     map: null, // 지도 객체
-    width: '100%',
-    height: '600px',
-    zoom: 17,
+    width: '80%',
+    height: '500px',
+    zoom: 18,
     currentAction: null,
-    subject: "",
-    poster: "",
-    content: "",
     seq: null,
     clickable: true,
     init() {
@@ -85,20 +82,18 @@ const mainMapLib = {
                     this.clickable = true;
                     this.resultDrawArr = [];
 
-                    this.subject = null;
-                    this.content = null;
-                    this.poster = null;
+
                     this.seq = null;
 
-                    this.updateInfoBox(this.subject, this.content, this.poster, this.seq);
+                    this.updateInfoBox(this.seq);
                 }
             });
         }
     },
 
     load(mapId, width, height, zoom) {
-        this.width = width ?? '70%';
-        this.height = height ?? '900px';
+        this.width = width ?? '80%';
+        this.height = height ?? '700px';
         this.zoom = zoom || 17;
 
 
@@ -213,14 +208,9 @@ const mainMapLib = {
     },
 
     callback(response) {
-        this.subject = response.subject;
-        this.poster = response.poster;
-        this.content = response.content;
         this.seq = response.seq;
-        this.boardData = response.boardData;
 
         const viaPoints = JSON.parse(response.viaPoints);
-        console.log("viaPoints", viaPoints);
         this.via = viaPoints;
         viaPoints.forEach(point => {
             const lat = point.lat;
@@ -241,27 +231,19 @@ const mainMapLib = {
         this.route();
 
         // 인포박스 업데이트
-        this.updateInfoBox(this.subject, this.content, this.poster, this.seq);
+        this.updateInfoBox(this.seq);
     },
 
-    updateInfoBox(subject, content, poster, seq, boardData) {
+    updateInfoBox(seq) {
         const infoBox = document.getElementById('infoBox');
+        let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
         if (infoBox) {
-            const titleEl = infoBox.querySelector('.info-title');
-            const contentEl = infoBox.querySelector('.info-content');
-            const posterEl = infoBox.querySelector('.info-poster');
             const seqEl = infoBox.querySelector('.info-seq');
-
-
-            if (titleEl) titleEl.innerHTML = subject || "";
-            if (contentEl) contentEl.innerHTML = content || "";
-            if (posterEl) posterEl.innerHTML = poster || "";
             if (seq !== null) {
                 if (seqEl) {
-                    const href = seqEl.href.substring(0, seqEl.href.lastIndexOf("/")) + "/" + this.seq;
-                    seqEl.href = href;
-                    ifrmBoard.location.href = href.substring(0, href.lastIndexOf("/board/view/")) + "/board/comment/" + this.seq;
-                    console.log(ifrmBoard.location.href)
+                    rootUrl = rootUrl === '/' ? '' : rootUrl;
+                    const href = rootUrl + 'board/comment/' + this.seq;
+                    ifrmBoard.location.href = href;
                 }
             }
         }
@@ -272,7 +254,6 @@ const mainMapLib = {
         const infoBox = document.getElementById('infoBox');
         const toggleButton = document.querySelector('#toggleButton');
         const iframe = document.querySelector('iframe[name="ifrmBoard"]');
-        const infoSeq = document.querySelector('.info-seq');
 
         if (!this.clickable || infoBox.classList.contains('info-box-expanded')) {
             infoBox.classList.remove('info-box-expanded');
@@ -284,13 +265,11 @@ const mainMapLib = {
             toggleButton.style.right = '400px';
             toggleButton.textContent = '>'; // 열렸을 때
             iframe.style.display = 'block';
-            infoSeq.style.display = 'block';
         } else {
             toggleButton.style.right = '0px';
             toggleButton.textContent = '<'; // 닫혔을 때
             if (this.seq == "" || this.seq == null) {
                 iframe.style.display = 'none';
-                infoSeq.style.display = 'none';
             }
         }
     }

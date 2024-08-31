@@ -231,9 +231,8 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("requestComment", requestComment);
         // 댓글 커맨드 객체 처리 E
 
-        viewCountService.update(seq); // 조회수 증가
 
-        return utils.tpl("board/popup_comment");
+        return utils.tpl("board/popup_content");
     }
 
     /**
@@ -299,6 +298,10 @@ public class BoardController implements ExceptionProcessor {
 
         // 스킨별 공통 CSS
         addCss.add("board/" + skin + "/style");
+
+        if(skin.equals("default")){
+            addCss.add("board/default/" + mode);
+        }
 
         if(skin.equals("market")){
            addCss.add("board/market/" + mode);
