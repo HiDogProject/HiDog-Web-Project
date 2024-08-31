@@ -255,23 +255,22 @@ const mainMapLib = {
         const toggleButton = document.querySelector('#toggleButton');
         const iframe = document.querySelector('iframe[name="ifrmBoard"]');
 
-        if (!this.clickable || infoBox.classList.contains('info-box-expanded')) {
-            infoBox.classList.remove('info-box-expanded');
+        if (!this.clickable || infoBox.style.transform === 'translateX(0)') {
+            // 인포창이 열려 있는 상태에서 클릭이 안 되거나 이미 열려 있으면 닫기
+            infoBox.style.transform = 'translateX(100%)';
+            toggleButton.style.right = '0px';
+            toggleButton.textContent = '<'; // 닫혔을 때
+            if (this.seq === "" || this.seq == null) {
+                iframe.style.display = 'none';
+            } else {
+                iframe.style.display = 'block';
+            }
         } else {
-            infoBox.classList.add('info-box-expanded');
-        }
-
-        if (infoBox.classList.contains('info-box-expanded')) {
+            // 인포창이 닫혀 있을 때 열기
+            infoBox.style.transform = 'translateX(0)';
             toggleButton.style.right = '400px';
             toggleButton.textContent = '>'; // 열렸을 때
             iframe.style.display = 'block';
-        } else {
-            toggleButton.style.right = '0px';
-            toggleButton.textContent = '<'; // 닫혔을 때
-            if (this.seq == "" || this.seq == null) {
-                iframe.style.display = 'none';
-            }
         }
     }
-
 };

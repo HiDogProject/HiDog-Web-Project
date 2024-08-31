@@ -1,11 +1,10 @@
 * { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; }
 html { font-size: 13px; }
-body { margin: 0; }
+body { margin: 0; overflow-x: hidden; } /* 가로 스크롤 방지 */
 a { text-decoration: none; }
 ul, ol { list-style: none; margin: 0; padding: 0; }
 dl, dt, dd { margin: 0; padding: 0; }
 img { border: 0; }
-
 
 .container {
     display: flex;
@@ -13,8 +12,8 @@ img { border: 0; }
     align-items: center;
     height: 100vh;
     position: relative;
+    overflow: hidden; /* 스크롤 방지 */
 }
-
 
 .info-box {
     position: absolute;
@@ -24,14 +23,10 @@ img { border: 0; }
     height: calc(100vh + 50px); /* 맵의 하단과 맞추기 위해 높이 설정 */
     background-color: white;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    transform: translateX(100%);
+    transform: translateX(100%); /* 초기 상태는 화면 밖 */
     transition: transform 0.3s ease-in-out;
     overflow-y: auto;
     margin-bottom: 0px;
-}
-
-.info-box-expanded {
-    transform: translateX(0);
 }
 
 .toggle-button {
@@ -41,7 +36,7 @@ img { border: 0; }
     transform: translateY(-50%);
     padding: 7px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: #30B1E3;
     color: white;
     border: none;
     border-radius: 5px;
@@ -50,8 +45,8 @@ img { border: 0; }
     font-size: 18px;
 }
 
-.info-box-expanded ~ .toggle-button {
-    right: 300px;
+.toggle-button:hover {
+    background-color: #27a7d9; /* 호버 시 배경색 */
 }
 
 .map_comment {
@@ -95,14 +90,12 @@ img { border: 0; }
     margin: 10px auto;
 }
 
-
 .map {
-    margin-top:50px;
+    position: absolute;
 }
 
 .subject {
     text-align: center;
-
 }
 
 .post-info {

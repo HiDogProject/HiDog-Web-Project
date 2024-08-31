@@ -11,8 +11,8 @@ const tmapLib = {
     zoom: 17,
     currentAction: null, // start, end, via
     load(mapId, width, height, zoom) {
-        this.width = width ?? '60%';
-        this.height = height ?? '600px';
+        this.width = width ?? '100%';
+        this.height = height ?? '450px';
         this.zoom = zoom || 17;
 
         // navigator.geolocation.getCurrentPosition((pos) => {
