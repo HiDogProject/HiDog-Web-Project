@@ -1,93 +1,83 @@
+/* 통합검색 공통 S */
+/* 검색 폼 컨테이너 */
+.top-box {
+    float: right;
+    display: flex; /* 가로로 배치 */
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+}
+
+/* 셀렉트 박스 스타일 */
+.top-box select {
+    padding: 8px 12px; /* 내부 여백 */
+    font-size: 14px; /* 글꼴 크기 */
+    border: 1.5px solid #444; /* 테두리 */
+    background-color: #fff; /* 배경색 */
+    appearance: none; /* 기본 브라우저 스타일 제거 */
+}
+
+/* 입력 필드 스타일 */
+.top-box input[type="text"] {
+    flex-grow: 1; /* 가능한 공간을 모두 차지 */
+    padding: 8px 12px; /* 내부 여백 */
+    font-size: 14px; /* 글꼴 크기 */
+    border: 1.5px solid #444; /* 테두리 */
+    outline: none; /* 포커스 시 외곽선 제거 */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 내측 그림자 */
+}
+
+/* 검색 버튼 스타일 */
+.top-box button {
+    width: 100px;
+    padding: 10px; /* 내부 여백 */
+    font-size: 14px; /* 글꼴 크기 */
+    border: 1px solid #444; /* 테두리 */
+    background-color: #444; /* 배경색 */
+    color: white; /* 텍스트 색상 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+    transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+}
+
+/* 검색 폼의 모든 요소에 공통적으로 적용되는 스타일 */
+.top-box select,
+.top-box input[type="text"],
+.top-box button {
+    height: 40px; /* 높이 설정 */
+}
+
+/* 통합검색 공통 E */
+
 /* 게시글 목록 공통 S */
-.board-main .list-items li {
-    display: flex;
-    border-bottom: 1px solid #ccc;
-    height: 45px;
-}
-
-.board-main .list-items li:first-of-type {
-    border-top: 1px solid #ccc;
-}
-
-.board-main .list-item li:hover {
-    background: #f8f8f8;
-}
-
-.board-main .list-items .post-info {
-    width: 300px;
-    text-align: right;
-}
-
-.board-main .list-items .post-info > span {
-    line-height: 43px;
-}
-
-.board-main .list-items .subject {
-    flex-grow: 1;
-    line-height: 43px;
-    padding: 0 10px;
-    font-size: 1.15rem;
-}
-
-.board-main .list-items .no-data {
-    align-items: center;
-    height: 250px;
-    font-size: 1.15rem;
-    justify-content: center;
-}
-
+/* 전체 nav 컨테이너 스타일 - cateogory 영역 */
 .board-main .category-links {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
+    display: flex; /* 가로로 항목 배치 */
+    border-bottom: 1px solid #ddd; /* 하단 테두리 추가 */
+    margin-bottom: 10px; /* 아래쪽 간격 추가 */
 }
 
-.board-main .category-links a {
-    height: 45px;
-    padding: 0 35px;
-    line-height: 45px;
-    background: #ccc;
-    border-radius: 10px;
-    font-size: 1.15rem;
+.board-main .category-links .link {
+    padding: 10px 20px; /* 링크 내부 여백 */
+    color: #333; /* 기본 텍스트 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    display: inline-block; /* 링크를 블록 요소로 처리 */
+    border-right: 1px solid #ddd; /* 오른쪽 테두리 추가 */
+    transition: background-color 0.3s, color 0.3s; /* 배경색과 텍스트 색상 전환 애니메이션 */
 }
 
-.board-main .category-links a.on {
-    background: #000;
-    color: #fff;
+.board-main .category-links .link:hover {
+    color: #00a8e8; /* hover 시 텍스트 색상 변경 (파란색) */
+    font-weight: bold; /* 활성화된 링크의 텍스트 굵기 */
 }
 
-.board-main .category-links a + a {
-    margin-left: 10px;
+.board-main .category-links .link.on {
+    background-color: #00a8e8; /* 활성화된 링크의 배경색 */
+    color: white; /* 활성화된 링크의 텍스트 색상 */
+    font-weight: bold; /* 활성화된 링크의 텍스트 굵기 */
 }
 
-.board-main .bottom-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 65px;
+.board-main .category-links .link:last-child {
+    border-right: none; /* 마지막 항목의 오른쪽 테두리 제거 */
 }
-
-.board-main .links .btn {
-    display: inline-block;
-    height: 45px;
-    padding: 0 35px;
-    line-height: 45px;
-    background: #ccc;
-    border-radius: 10px;
-    font-size: 1.15rem;
-    border: 0;
-    transition: all 1s;
-}
-
-.board-main .links .btn:hover {
-    background: #000;
-    color: #fff;
-}
-
-.board-main .links .btn + .btn {
-    margin-left: 5px;
-}
-
 /* 게시글 목록 공통 E */
 
 /* 게시글 보기 공통 S */
@@ -112,6 +102,7 @@
     border: 1px solid #ccc;
     padding: 15px;
     margin-bottom: 10px;
+    word-break: break-all;
 }
 
 .board-main .view-content .contents img {
@@ -138,25 +129,70 @@
 }
 /* 게시글 보기 공통 E */
 
-/* 댓글 */
-#frmComment { margin: 20px 0 30px; }
-.commenter_info { margin-bottom: 5px; }
-.commenter_info input { width: 120px; }
-.comment_content { display: flex; height: 100px; }
-.comment_content button { width: 100px; background: #000; color: #fff; border: 0; cursor: pointer; font-size: 1.15rem; }
-.comment_content textarea { flex-grow: 1; border: 1px solid #d5d5d5; padding: 10px; resize: none; }
 
-.comment_items { margin-top: 10px; }
-.comment_items > li { border: 1px solid #d5d5d5; padding: 10px; border-radius: 3px; }
-.comment_items > li + li { margin-top: 10px; }
-.comment_items .comment_top { display: flex; justify-content: space-between; height: 35px; align-items: center; border-bottom: 1px solid #222; margin-bottom: 10px; padding: 0 10px; }
-.comment_items .comment { padding: 10px; background: #f8f8f8; border-radius: 3px; margin-bottom: 10px; }
-.comment_items .comment textarea { width: 100%; height: 150px; border: 1px solid #d5d5d5; padding: 10px; border-radius: 3px; resize: none; }
+/* 테이블 스타일 공통 S */
+/* 테이블 스타일 */
+table {
+    width: 100%; /* 테이블 전체 너비 사용 */
+    border-collapse: collapse; /* 경계선 중복 제거 */
+    align-content: center;
+}
+th.top-border {
+    border-top: 1px solid ; /* 상단 경계선을 굵고 짙은 색상으로 설정 */
+}
+/* 테이블 헤더 셀 스타일 */
+th {
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    padding: 10px; /* 패딩 추가 */
+    background-color: #F5F6F8; /* 항목 영역 배경색 */
+    border-top: 1px solid;
+    border-bottom: 1px solid hsl(0, 0%, 80%); /* 연한 회색 테두리 */
+    width: 150px; /* 항목명 너비 고정 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    font-weight: bold; /* 글자 굵게 */
+    color: #333; /* 글자 색상 */
+    text-align: center;
+}
 
-.comment_items .btns { text-align: right; }
-.comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
-.comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
+/* 테이블 데이터 셀 스타일 */
+td {
+    padding: 10px; /* 패딩 추가 */
+    border-bottom: 1px solid hsl(0, 0%, 80%); /* 연한 회색 테두리 */
+    border-top: 1px solid;
+}
+/* 테이블 스타일 공통 E */
 
+
+.short-input {
+    max-width: 20%;
+}
+
+/* 입력 필드 (input, textarea) 스타일 S */
+input[type="text"], input[type="password"], textarea {
+    width: 100%; /* 입력 필드 전체 너비 */
+    padding: 8px; /* 안쪽 여백 */
+    border: 1px solid #ccc; /* 테두리 색상 */
+    font-size: 14px; /* 글자 크기 */
+    background-color: white; /* 입력 박스 배경색 흰색 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+}
+
+.short-input {
+    width: 50px; /* 원하는 너비로 조정 */
+}
+
+textarea {
+    resize: vertical; /* 수직 크기 조정만 가능 */
+}
+/* 입력 필드 (input, textarea) 스타일 E */
+
+/* 오류 메시지의 스타일 S  */
+.error {
+    color: #d9534f; /* 오류 글자 색상 */
+    font-size: 12px; /* 글자 크기 */
+    margin-top: 5px; /* 위쪽 여백 */
+}
+/* 오류 메시지의 스타일 E */
 
 
 

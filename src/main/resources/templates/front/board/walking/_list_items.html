@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
 
-    <div th:replace="~{common/_search_top::search}"></div>
+
     <nav th:replace="~{front/board/walking/_common::categorylink}"></nav>
+    <div th:replace="~{common/_search_top::search}"></div>
 
 
     <div class="links" th:if="${mode == null || mode != 'search'}">
@@ -12,35 +13,46 @@
         </form>
     </div>
 
-    <ul class="list-items">
-        <li th:if="${items == null || items.empty}" th:text="#{조회된_게시글이_없습니다.}" class="no-data"></li>
-        <li th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}">
-            <a th:href="*{@utils.redirectUrl('/board/view/' + seq )}" class="subject">
-                    <span class="notice" th:if="*{notice}">
-                        [<th:block th:text="#{공지}"></th:block>]
-                    </span>
-                <span class="category" th:if="*{category != null && category != ''}" th:text="*{'[' + category +']'}" ></span>
-                <th:block th:text="*{subject}"></th:block>
-            </a>
-            <div class="post_info">
+    <table class="board-list">
+        <thead>
+        <thead>
+        <tr>
+            <th class="no" th:text="#{제목}"></th>
+            <th class="poster" th:text="#{작성자}"></th>
+            <th class="post_date" th:text="#{작성일시}"></th>
+            <th class="view_count" th:text="#{조회수}"></th>
+        </tr>
+        </thead>
+
+        </thead>
+        <tbody>
+        <tr th:if="${items == null || items.empty}">
+            <td colspan="4" class="no-data" th:text="#{조회된_게시글이_없습니다.}"></td>
+        </tr>
+        <tr th:if="${items != null && !items.empty}" th:each="item : ${items}" th:object="${item}">
+            <td>
+                <a th:href="*{@utils.redirectUrl('/board/view/' + seq )}" class="subject">
+                        <span class="notice" th:if="*{notice}">
+                            [<th:block th:text="#{공지}"></th:block>]
+                        </span>
+                    <span class="category" th:if="*{category != null && category != ''}" th:text="*{'[' + category +']'}" ></span>
+                    <th:block th:text="*{subject}"></th:block>
+                </a>
+            </td>
+            <td class="post_info">
                     <span class="poster" id="profile-image-container">
-                        <th:block th:if="*{member == null}" th:text="*{poster}"></th:block>
-                        <th:block th:if="*{member != null && member.profileImage != null}">
-                            <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}" th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
-                        </th:block>
+                        <th:block th:text="*{poster}"></th:block>
                         <th:block th:if="*{member != null && member.profileImage == null}" th:text="*{#strings.concat(poster, '(', member.email, ')')}"></th:block>
                     </span>
-                <span class="view_count">
-                        조회수 :
-                        <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
-                    </span>
+            </td>
+            <td class="post_date" th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></td>
+            <td class="view_count">
+                <th:block th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></th:block>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-                <span class="post_date"
-                      th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></span>
-            </div>
-            <!--// post_info -->
-        </li>
-    </ul>
     <!--// board_list -->
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </th:block>
