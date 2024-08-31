@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
+
+    <div th:replace="~{common/_search_top::search}"></div>
     <div class="board_list">
         <ul class="posts">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
@@ -10,12 +12,14 @@
                 class="item">
                 <div class='photos' th:if="*{selectedImages != null && !selectedImages.empty}">
                     <div class="inner">
-
-                        <a th:href="${@utils.redirectUrl('/board/view/' + item.seq)}" th:each="image : *{selectedImages}" th:object="${image}">
-                            <div th:style="*{#strings.concat('background:url(', thumbUrl ,'?seq=',seq,'&width=150&height=150) no-repeat center center; background-size: cover')}" class="photo"></div>
+                        <a th:href="${@utils.redirectUrl('/board/view/' + item.seq)}"
+                           th:each="image : *{selectedImages}" th:object="${image}">
+                            <div th:style="*{#strings.concat('background:url(', thumbUrl ,'?seq=',seq,'&width=150&height=150) no-repeat center center; background-size: cover')}"
+                                 class="photo"></div>
                         </a>
                     </div>
-                    <span class="badge" th:if="*{selectedImages.size() > 1}" th:text="*{#strings.concat('+', selectedImages.size() - 1)}"></span>
+                    <span class="badge" th:if="*{selectedImages.size() > 1}"
+                          th:text="*{#strings.concat('+', selectedImages.size() - 1)}"></span>
                 </div>
                 <a th:href="*{@utils.redirectUrl('/board/view/' + seq)}" class="item-link">
                     <dl class="subject">
@@ -32,28 +36,24 @@
                         </dt>
                     </dl>
                     <dl class="post_info">
-                        <dd class="view_count">
-                            조회수 :
-                        <dd th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></dd>
-                        </dd>
-                        <dt class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></dt>
+                        <div class="view-count">
+                            <dt th:text="조회수">
+                            <dd th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></dd>
+                            </dt>
+                        </div>
+                        <dd class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></dd>
                     </dl>
                 </a>
-                <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
-                    <span class="poster">
-                        <span class="profile-image-container">
-                        <img th:if="*{member != null and member.profileImage != null}" th:src="@{*{member.profileImage.fileUrl}}" alt="Profile Image">
+                <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="shop-link">
+                    <span class="post-info">
+                        <div class="profile-image">
+                            <th:block th:if="*{member != null && member.profileImage != null}">
+                        <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}"
+                             th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
+                            </th:block>
+                        <th:block th:if="*{member != null}" th:text="*{poster}"></th:block>
+                        </div>
                     </span>
-                    <span class="poster">
-                        <th:block th:if="*{member == null}" th:text="*{poster}"></th:block>
-                    <th:block th:if="*{member != null && member.profileImage != null}">
-                        <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}" th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
-                    </th:block>
-                    <th:block th:if="*{member != null && member.profileImage == null}" th:text="*{#strings.concat(poster, '(', member.email, ')')}"></th:block>
-                    </span>
-                    <dl class="poster_info">
-                        <dd th:text="*{poster}"></dd>
-                    </dl>
                 </a>
             </li>
         </ul>

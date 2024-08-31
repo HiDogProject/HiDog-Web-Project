@@ -1,4 +1,4 @@
-.ck-editor__editable {
+    .ck-editor__editable {
     height: 350px;
 }
 .dn { display: none; }
@@ -11,7 +11,7 @@
 /* 페이징 공통 E */
 
 /* 프로필 이미지 스타일 */
-.post-info .poster img {
+.post-info .profile-image img {
     width: 30px;  /* 고정된 너비 설정 */
     height: 30px; /* 고정된 높이 설정 */
     border-radius: 50%; /* 원형으로 만들기 */
