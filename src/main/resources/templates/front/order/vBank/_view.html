@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th th:fragment="view">
+<th:block th:fragment="view">
     <div class="view-content" th:object="${orderInfo}">
         <div class="order_info">
             <span class="success">
@@ -67,5 +67,6 @@
                 </tr>
             </table>
         </div>
+    </div>
 </th:block>
 </html>
