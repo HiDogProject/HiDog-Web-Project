@@ -63,7 +63,7 @@ h1 {
     padding: 15px;
     font-size: 1em;
     color: #fff;
-    background-color: #9dc5f6;
+    background-color: #30B1E3;
     border: none;
     border-radius: 5px;
     text-align: center;
@@ -72,7 +72,7 @@ h1 {
 
 /* 클릭 시 색상 변경 */
 .btn:hover {
-    background-color: #F5D2D2;
+    background-color: #27a7d9;
 }
 
 .btn:focus {
