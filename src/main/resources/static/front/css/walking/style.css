@@ -91,6 +91,10 @@ img { border: 0; }
     display: none;
 }
 
+.view-content .contents, .view-content .contents * {
+    word-break: break-all;
+}
+
 .view-content .contents .more {
     display: none;
 }

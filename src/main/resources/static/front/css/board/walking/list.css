@@ -1,0 +1,69 @@
+/* 테이블 기본 스타일 */
+.board-list {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    text-align: left;
+    table-layout: fixed; /* 비율에 따라 열 너비를 고정 */
+}
+
+/* 각 열의 너비 설정 */
+.board-list thead th,
+.board-list tbody td {
+    padding: 10px 8px;
+    overflow: hidden; /* 텍스트가 넘칠 경우 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트는 ...으로 표시 */
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+}
+
+.board-list thead th:nth-child(1),
+.board-list tbody td:nth-child(1) {
+    width: 50%; /* 제목: 5 */
+}
+
+.board-list thead th:nth-child(2),
+.board-list tbody td:nth-child(2) {
+    width: 20%; /* 작성자: 2 */
+}
+
+.board-list thead th:nth-child(3),
+.board-list tbody td:nth-child(3) {
+    width: 20%; /* 작성일시: 2 */
+}
+
+.board-list thead th:nth-child(4),
+.board-list tbody td:nth-child(4) {
+    width: 10%; /* 조회수: 1 */
+}
+
+/* 기타 스타일 */
+.board-list .subject .notice {
+    color: red;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.board-list .subject .category {
+    color: #888;
+    margin-right: 5px;
+}
+
+.board-list .post_info img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* 작성자, 작성일시, 조회수 칸의 텍스트 가운데 정렬 */
+.board-list .post_info,
+.board-list .post_date,
+.board-list .view_count {
+    text-align: center;
+}
+
+
+.board-list .view_count::before {
+    text-align: center;
+}

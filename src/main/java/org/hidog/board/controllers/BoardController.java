@@ -332,6 +332,7 @@ public class BoardController implements ExceptionProcessor {
         }
 
         if (skin.equals("walking")) {
+            addCss.add("board/walking/" + mode);
             addCommonScript.add("map");
             addScript.add("board/walking/mapView");
         }
