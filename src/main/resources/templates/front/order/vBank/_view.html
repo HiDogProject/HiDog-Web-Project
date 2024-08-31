@@ -1,53 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="view">
-    <div class="view-content" th:object="${orderInfo}">
+    <div class="layout-width" th:object="${orderInfo}">
+        <img th:src="*{@utils.url('/common/img/order/orderSucess.png')}">
         <div class="order_info">
-            <span class="success">
-                <th:block th:text="#{주문이_완료되었습니다.}"></th:block>
-            </span>
             <table>
                 <tr>
                     <th th:text="#{주문번호}"></th>
-                    <td class="order_no">
-                        <th:block th:text="*{orderNo}"></th:block>
-                    </td>
+                    <td th:text="*{orderNo}"></td>
                 </tr>
                 <tr>
                     <th th:text="#{결제방법}"></th>
-                    <td class="payMethod">
-                        <th:block th:text="*{payMethod}"></th:block>
-                    </td>
+                    <td th:text="*{payMethod}"></td>
                 </tr>
                 <tr>
-                    <th th:text="#{입금계좌}"></th>
-                    <td class="payBankAccount">
-                        <span th:text="*{payBankName}"></span>
-                        <span th:text="*{payBankAccount}"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{입금금액}"></th>
-                    <td class="payBankAccount">
-                        <span th:text="*{totalPayPrice}"></span>
-                    </td>
+                    <th th:text="#{주문상태}"></th>
+                    <td th:text="*{status.getTitle()}"></td>
                 </tr>
             </table>
         </div>
         <div class="delivery_info">
             <table>
                 <tr>
-                    <td>
-                        <th:block th:text="*{receiverName}"></th:block>
-                        <th:block th:text="*{receiverMobile}"></th:block>
-                    </td>
+                    <th th:text="#{받는분_이름}"></th>
+                    <td th:text="*{receiverName}"></td>
                 </tr>
                 <tr>
-                    <td>
-                        <th:block th:text="*{zoneCode}"></th:block>
-                        <th:block th:text="*{address}"></th:block>
-                        <th:block th:text="*{addressSub}"></th:block>
-                    </td>
+                    <th th:text="#{연락처}"></th>
+                    <td th:text="*{receiverMobile}"></td>
+                </tr>
+                <tr>
+                    <th th:text="#{배송주소}"></th>
+                    <td th:text="'(' + *{zoneCode} + ') ' + *{address} + ' ' +  *{addressSub}"></td>
                 </tr>
             </table>
         </div>
@@ -55,15 +39,11 @@
             <table>
                 <tr>
                     <th th:text="#{상품명}"></th>
-                    <td class="product_item">
-                        <th:block th:text="*{orderItem.itemName}"></th:block>
-                    </td>
+                    <td th:text="*{orderItem.itemName}"></td>
                 </tr>
                 <tr>
                     <th th:text="#{수량}"></th>
-                    <td class="product_item">
-                        <th:block th:text="*{orderItem.qty}"></th:block>
-                    </td>
+                    <td th:text="*{orderItem.qty}"></td>
                 </tr>
             </table>
         </div>
