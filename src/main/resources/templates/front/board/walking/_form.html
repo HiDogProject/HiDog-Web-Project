@@ -39,6 +39,18 @@
             </td>
         </tr>
         <tr>
+            <th th:text="#{위치}"></th>
+            <td>
+                <div id="mapId" class="writeMap"></div>
+                <div class="mapButton-group" >
+                    <button type="button" id="reset">다시 선택</button>
+                    <button type="button" id="start">출발점</button>
+                    <button type="button" id="vias">경유</button>
+                    <button type="button" id="complete">완료</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
             <th th:text="#{내용}"></th>
             <td>
                 <textarea name="content" th:field="*{content}" id="content"></textarea>
@@ -80,11 +92,6 @@
     <script th:replace="~{common/_file_tpl::attach}"></script>
     <script th:replace="~{common/_file_tpl::editor}"></script>
 
-    <div id="mapId"></div>
-    <button type="button" id="reset">다시 선택</button>
-    <button type="button" id="start">출발점</button>
-    <button type="button" id="vias">경유</button>
-    <button type="button" id="complete">완료</button>
 
 </th:block>
 </html>

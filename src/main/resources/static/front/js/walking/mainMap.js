@@ -6,23 +6,28 @@ window.addEventListener("DOMContentLoaded", function() {
     const toggleButton = document.getElementById('toggleButton');
     const infoBox = document.getElementById('infoBox');
     const iframe = document.querySelector('iframe[name="ifrmBoard"]');
+    const map = document.getElementById('mapId');
+
     // 초기 상태 설정
     toggleButton.textContent = '<'; // 닫혀 있을 때
+    infoBox.style.transform = 'translateX(100%)'; // 초기에는 화면 밖으로 이동
 
     function toggleInfoBox() {
-        if (infoBox.classList.contains('info-box-expanded')) {
-            infoBox.classList.remove('info-box-expanded');
-            toggleButton.style.right = '0px';
-            toggleButton.textContent = '<'; // 닫혔을 때
+        if (infoBox.style.transform === 'translateX(100%)') {
+            infoBox.style.transform = 'translateX(0)';
+            toggleButton.style.right = '400px';
+            map.style.right = '400px'
+            toggleButton.textContent = '>'; // 열렸을 때
             if (mainMapLib.seq == "" || mainMapLib.seq == null) {
                 iframe.style.display = 'none';
             } else {
                 iframe.style.display = 'block';
             }
         } else {
-            infoBox.classList.add('info-box-expanded');
-            toggleButton.style.right = '400px';
-            toggleButton.textContent = '>'; // 열렸을 때
+            infoBox.style.transform = 'translateX(100%)';
+            toggleButton.style.right = '0px';
+            map.style.right = '200px'
+            toggleButton.textContent = '<'; // 닫혔을 때
             if (mainMapLib.seq == "" || mainMapLib.seq == null) {
                 iframe.style.display = 'none';
             } else {
@@ -35,7 +40,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
     window.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
-            if (infoBox.classList.contains('info-box-expanded')) {
+            if (infoBox.style.transform === 'translateX(0)') {
                 toggleInfoBox();
             }
         }
