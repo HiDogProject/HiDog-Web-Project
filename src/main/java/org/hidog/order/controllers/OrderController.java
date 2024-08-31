@@ -45,6 +45,7 @@ public class OrderController implements ExceptionProcessor {
     public String index(@ModelAttribute RequestOrder form, HttpSession session, Model model){
         BoardData boardData = (BoardData) session.getAttribute("boardData");
         model.addAttribute("addScript", List.of("order/joinAddress", "order/form"));
+        model.addAttribute("addCss", List.of("order/form"));
         form.setOrderName(memberUtil.getMember().getUserName());
         form.setOrderEmail(memberUtil.getMember().getEmail());
 

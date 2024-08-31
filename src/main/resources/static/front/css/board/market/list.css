@@ -1,0 +1,152 @@
+/* board_list에 대한 스타일 */
+.board_list {
+    width: 100%;
+    padding: 0 16px; /* 좌우 패딩을 추가하여 양옆에 공백 추가 */
+    box-sizing: border-box; /* 패딩을 포함하여 전체 너비 조정 */
+}
+
+/* items 클래스를 그리드 컨테이너로 설정 */
+.posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 유연한 그리드 레이아웃 */
+    gap: 16px; /* 항목 간의 간격 */
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    margin: 0 auto; /* 가운데 정렬 */
+    max-width: 1200px; /* 최대 너비 설정 (필요에 따라 조정) */
+}
+
+/* 항목에 대한 스타일 */
+.item {
+    background: #ffffff; /* 배경색 (좀 더 깔끔한 흰색으로 설정) */
+    border: 1px solid #e0e0e0; /* 테두리 (부드러운 회색) */
+    padding: 16px; /* 패딩 (좀 더 넓게 설정) */
+    border-radius: 8px; /* 모서리 둥글게 (좀 더 둥글게 설정) */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+    box-sizing: border-box; /* 테두리와 패딩을 포함한 전체 너비/높이 조정 */
+    overflow: hidden; /* 콘텐츠가 넘칠 경우 숨기기 */
+    display: flex; /* 플렉스 박스 레이아웃 사용 */
+    flex-direction: column; /* 세로 방향 레이아웃 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 호버 시 애니메이션 효과 */
+}
+
+.item:hover {
+    transform: translateY(-8px); /* 호버 시 살짝 위로 이동 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강조 */
+}
+
+/* 링크 스타일 */
+.item-link {
+    display: block; /* 링크를 블록으로 설정하여 전체 영역을 클릭 가능하게 만듭니다 */
+    text-decoration: none; /* 기본 링크 밑줄 제거 */
+    color: inherit; /* 기본 색상 유지 */
+}
+
+/* 상품 정보에 대한 스타일 */
+.product_info {
+    display: flex;
+    flex-direction: column; /* 세로 방향 레이아웃 */
+    flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+}
+
+/* 제목 스타일 */
+.subject {
+    font-size: 1.2em; /* 제목 폰트 사이즈 (조정) */
+    margin-bottom: 8px; /* 제목 아래 여백 추가 */
+    white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+    overflow: hidden; /* 넘치는 텍스트 숨기기 */
+    text-overflow: ellipsis; /* 넘치는 부분을 '...'으로 표시 */
+}
+
+/* 가격에 대한 스타일 */
+.price {
+    font-size: 1.6em; /* 제목 폰트 사이즈 (조정) */
+    margin-bottom: 8px; /* 가격 아래 여백 추가 */
+}
+
+/* 게시물 정보에 대한 스타일 */
+.post_info {
+    display: flex; /* Flexbox를 사용하여 자식 요소를 수평으로 나열 */
+    flex-direction: column; /* Flex 항목을 수직으로 나열 */
+    align-items: flex-end; /* Flex 항목을 오른쪽으로 정렬 */
+    margin-top: 10px; /* 위쪽 마진 (필요에 따라 조정) */
+}
+
+.view-count {
+    display: flex; /* 각 항목을 Flexbox로 설정 */
+    align-items: center; /* 아이템을 수직으로 가운데 정렬 */
+}
+.post_date {
+    margin-top: 10px; /* 위쪽 마진 (필요에 따라 조정) */
+}
+
+/* 조회수 및 날짜 스타일 */
+.view_count, .post_date {
+    display: block;
+    margin-bottom: 4px; /* 아래쪽 여백 추가 */
+}
+
+/* 프로필 이미지 */
+.profile-image img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px; /* 프로필 이미지 옆 여백 추가 */
+}
+
+/* 사진 스타일 */
+.photos {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 비율을 유지하기 위해 padding-top 사용 */
+    border: 1px solid #ddd; /* 테두리 색상 조정 */
+    border-radius: 4px; /* 모서리 둥글게 */
+    overflow: hidden; /* 넘치는 부분 숨기기 */
+}
+
+.photos .inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    overflow: hidden;
+}
+
+.photos a {
+    flex: 1;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.5); /* 링크 배경색 (투명도 추가) */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 150px; /* 중앙 정렬을 위한 높이 설정 */
+}
+
+.photos .photo {
+    width: 100%;
+    height: 100%;
+    background-size: cover; /* 사진이 컨테이너에 맞게 조정 */
+}
+
+.photos .badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6); /* 배지 배경색 (투명도 추가) */
+    color: #fff; /* 배지 텍스트 색상 */
+    padding: 4px 8px;
+    border-radius: 12px; /* 배지 둥글게 */
+    font-size: 0.8em; /* 배지 폰트 사이즈 */
+    cursor: pointer;
+}
+
+/* 프로필 이미지 스타일 */
+.poster img {
+    width: 40px; /* 이미지 너비 설정 */
+    height: 40px; /* 이미지 높이 설정 */
+    border-radius: 50%; /* 원형으로 만들기 위한 설정 */
+    object-fit: cover; /* 이미지 비율 유지하면서 컨테이너에 맞게 조정 */
+    border: 2px solid #ddd; /* 이미지 주위에 테두리 추가 */
+    background-color: #f0f0f0; /* 배경색 설정 (필요에 따라 조정) */
+}

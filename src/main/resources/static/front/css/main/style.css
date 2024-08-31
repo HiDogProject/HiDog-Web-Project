@@ -18,8 +18,8 @@ body, html {
 }
 
 .main_img img {
-    width: 100%;
-    height: 450px;
+    width: 1100px;
+    height: 300px;
 }
 
 /* 이미지 아래 서브 메뉴 바 S */
@@ -171,51 +171,77 @@ body, html {
 }
 
 /* 서브 배너 */
-/* 제목 스타일 */
-.tn {
-    text-align: center; /* 제목 중앙 정렬 */
-    margin-bottom: 20px; /* 제목과 배너 간의 간격 */
+.bn {
+    text-align: center;
+    padding-bottom: 20px;
 }
 
-/* 배너 컨테이너 스타일 */
 .sub_banner {
-    display: flex; /* Flexbox 사용 */
-    justify-content: space-around; /* 컨테이너 내에서 항목들을 나란히 배치 */
-    align-items: flex-start; /* 항목들을 위쪽에 정렬 */
-    gap: 20px; /* 항목들 사이의 간격 */
-}
-
-/* 개별 아이템 컨테이너 스타일 */
-.item-container1,
-.item-container2,
-.item-container3 {
     display: flex;
-    flex-direction: column; /* 세로로 배치 */
-    align-items: center; /* 가운데 정렬 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    max-width: 200px; /* 필요에 따라 조정 */
-    border: 1px solid #ddd; /* 선택적: 컨테이너의 경계선 */
-    padding: 10px; /* 선택적: 패딩 */
-    background-color: #f9f9f9; /* 선택적: 배경색 */
+    justify-content: center;
 }
 
-/* item-container2에 대한 특별한 스타일 */
-.item-container2 {
-    flex-direction: column-reverse; /* 세로로 배치하되, 순서를 반대로 */
+.item-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+        "b1 su1 b2"
+        "su2 b3 su3";
+    width: 100%;
+    max-width: 1200px;
 }
 
-/* 개별 항목 스타일 */
-.item-container1 h3,
-.item-container2 h3,
-.item-container3 h3 {
-    margin: 0; /* 기본 여백 제거 */
-    font-size: 1.2rem; /* 제목 폰트 사이즈 */
+.box {
+    border: 1px solid #F0F0F0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
 }
 
-.item-container1 a img,
-.item-container2 a img,
-.item-container3 a img {
-    display: block; /* 이미지 블록 요소로 설정 */
-    max-width: 100%; /* 이미지가 부모 컨테이너에 맞게 조정 */
-    height: auto; /* 비율 유지 */
+.box img {
+    max-width: 100%;
+    height: 100%;
+}
+
+.p1 {
+    font-size: 30px;
+}
+
+.p2 {
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+.p3 {
+    font-size: 15px;
+    padding-bottom: 10px;
+    color: #30B1E3;
+}
+
+.b1 {
+    grid-area: b1;
+}
+
+.su1 {
+    grid-area: su1;
+}
+
+.b2 {
+    grid-area: b2;
+}
+
+.su2 {
+    grid-area: su2;
+}
+
+.b3 {
+    grid-area: b3;
+}
+
+.su3 {
+    grid-area: su3;
 }

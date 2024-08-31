@@ -129,6 +129,7 @@ header {
     height: 50px;
 }
 
+/* 제목 */
 .hn {
     font-size: 24px;
     font-weight: bold;
@@ -137,7 +138,7 @@ header {
     margin: 0;
 }
 
-/* 드롭다운 메뉴 */
+/* 드롭 다운 메뉴 바 */
 .drop {
     display: flex;
     align-items: center;
@@ -191,7 +192,7 @@ header {
 }
 
 /* 하단 메뉴 바 */
-nav {
+.nav .mm {
     background-color: #F2F2F2;
     /*padding: 10px 0;*/
 }
@@ -227,7 +228,7 @@ nav {
 }
 
 button.hb:hover {
-    background-color: #F5D2D2;
+    background-color: #27a7d9;
 }
 
 /* 로그인, 회원가입, 로그아웃, 마이 페이지, 관리자 페이지 */
@@ -264,11 +265,6 @@ footer .center_phone {
     font-size: 1.538rem;
     font-weight: 800;
     text-align: center;
-}
-
-footer .center_phone img {
-    height: 25px;
-    vertical-align: middle;
 }
 
 footer .choongang-info, footer .company-info {

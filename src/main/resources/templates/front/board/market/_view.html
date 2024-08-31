@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
 <dd th:fragment="view">
     <div class="container1" th:object="${boardData}">
         <div class="top-section">
-            <div class="image-section">
-                <img src="https://cdn.imweb.me/upload/S20211026228188315d8e6/d4365990c7671.jpg" alt="Product Image">
+            <div class="slider">
+                <div class="slides">
+                    <div th:each="file, status : *{attachFiles}" th:object="${file}" class="slide">
+                        <img th:src="${file.fileUrl}" alt="Image">
+                    </div>
+                </div>
+                <button class="prev">‹</button>
+                <button class="next">›</button>
             </div>
-
             <div class="details-wrapper">
                 <div class="details-section">
                     <span class="subject" th:text="*{subject}"></span>
@@ -48,21 +49,27 @@
                 <dl>
                     <dl th:text="#{상점정보}"></dl>
                     <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="item-link">
+                        <span class="post-info">
                         <div class="profile-image">
-                            <img th:if="${boardData.member != null and boardData.member.profileImage != null}"
-                                 th:src="@{${boardData.member.profileImage.fileUrl}}" alt="Profile Image">
+                            <th:block th:if="*{member != null && member.profileImage != null}">
+                        <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}"
+                             th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
+                            </th:block>
+                        <th:block th:if="*{member != null}" th:text="*{poster}"></th:block>
                         </div>
-                        <span th:text="*{poster}"></span>
+                        </span>
                     </a>
                 </dl>
+                <div class="links">
+                    <a class="btn" th:if="*{showEdit && editable}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}"
+                       th:text="#{수정}">수정</a>
+                    <a class="btn" th:if="*{showDelete && editable}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}"
+                       th:text="#{삭제}"
+                       onclick="return confirm('정말 삭제하겠습니까?');">삭제</a>
+                </div>
             </div>
         </div>
 
-        <div class="links">
-            <a class="btn" th:if="*{showEdit && editable}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}" th:text="#{수정}">수정</a>
-            <a class="btn" th:if="*{showDelete && editable}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}" th:text="#{삭제}"
-               onclick="return confirm('정말 삭제하겠습니까?');">삭제</a>
-        </div>
     </div>
 </dd>
 </body>
