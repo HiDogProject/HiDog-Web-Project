@@ -79,6 +79,7 @@ public class OrderController implements ExceptionProcessor {
     public String orderDetail(@PathVariable("orderNo") Long orderNo, Model model){
         OrderInfo orderInfo = infoService.get(orderNo, "detail");
         model.addAttribute("orderInfo", orderInfo);
+        model.addAttribute("addCss", List.of("order/detail"));
         return utils.tpl("order/detail");
     }
 }

@@ -9,5 +9,10 @@
 
 <!--    <th:block th:if="*{payMethod == 'CARD'}" th:replace="~{front/order/vBank/_view::view}"></th:block>-->
 
+    <div class="button-group">
+        <form th:action="${@utils.redirectUrl('/')}"  method="get">
+            <button type="submit" id="submitBtn" th:text="확인"></button>
+        </form>
+    </div>
 </main>
 </html>
