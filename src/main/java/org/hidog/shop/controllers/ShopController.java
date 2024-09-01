@@ -49,6 +49,7 @@ public class ShopController {
         Long mSeq = memberUtil.getMember().getSeq();
         List<OrderItem> orderItems = orderItemInfoService.getByMemberSeq(mSeq);
         model.addAttribute("items", orderItems);
+        model.addAttribute("addCss", List.of("shop/sell"));
         return utils.tpl("shop/sell");
     }
 
