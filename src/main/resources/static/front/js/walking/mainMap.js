@@ -15,8 +15,7 @@ window.addEventListener("DOMContentLoaded", function() {
     function toggleInfoBox() {
         if (infoBox.style.transform === 'translateX(100%)') {
             infoBox.style.transform = 'translateX(0)';
-            toggleButton.style.right = '400px';
-            map.style.right = '400px'
+            toggleButton.style.right = '375px';
             toggleButton.textContent = '>'; // 열렸을 때
             if (mainMapLib.seq == "" || mainMapLib.seq == null) {
                 iframe.style.display = 'none';
@@ -26,7 +25,6 @@ window.addEventListener("DOMContentLoaded", function() {
         } else {
             infoBox.style.transform = 'translateX(100%)';
             toggleButton.style.right = '0px';
-            map.style.right = '200px'
             toggleButton.textContent = '<'; // 닫혔을 때
             if (mainMapLib.seq == "" || mainMapLib.seq == null) {
                 iframe.style.display = 'none';
@@ -40,7 +38,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
     window.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
-            if (infoBox.style.transform === 'translateX(0)') {
+            if (toggleButton.style.right === '375px') {
                 toggleInfoBox();
             }
         }
