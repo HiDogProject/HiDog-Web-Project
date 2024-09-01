@@ -1,4 +1,8 @@
 /* find_pw.css */
+header {
+    width: 100% !important;
+}
+
  body {
      font-family: Arial, sans-serif; /* 기본 글꼴 설정 */
      display: flex;
