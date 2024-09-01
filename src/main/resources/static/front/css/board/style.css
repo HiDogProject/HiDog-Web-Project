@@ -111,7 +111,7 @@
 .comment_content button:hover { background-color: #27a7d9}
 .comment_content textarea { flex-grow: 1; border: 1px solid #d5d5d5; padding: 10px; resize: none; }
 
-.comment_items { margin-top: 10px; }
+.comment_items { margin-top: 10px; margin-bottom: 10px;}
 .comment_items > li { border: 1px solid #d5d5d5; padding: 10px; border-radius: 3px; }
 .comment_items > li + li { margin-top: 10px; }
 .comment_items .comment_top { display: flex; justify-content: space-between; height: 35px; align-items: center; border-bottom: 1px solid #222; margin-bottom: 10px; padding: 0 10px; }
