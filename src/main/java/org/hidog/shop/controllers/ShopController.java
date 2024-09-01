@@ -6,11 +6,13 @@ import org.hidog.board.services.BoardInfoService;
 import org.hidog.global.CommonSearch;
 import org.hidog.global.ListData;
 import org.hidog.global.Utils;
+import org.hidog.global.exceptions.script.AlertBackException;
 import org.hidog.member.MemberUtil;
 import org.hidog.member.entities.Member;
 import org.hidog.member.repositories.MemberRepository;
 import org.hidog.order.entities.OrderItem;
 import org.hidog.order.services.OrderItemInfoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +48,7 @@ public class ShopController {
 
     @GetMapping("/sell")
     public String listSell(@ModelAttribute CommonSearch search, Model model){
+        if(!memberUtil.isLogin()) throw new AlertBackException("회원 전용 페이지입니다.", HttpStatus.UNAUTHORIZED);
         Long mSeq = memberUtil.getMember().getSeq();
         List<OrderItem> orderItems = orderItemInfoService.getByMemberSeq(mSeq);
         model.addAttribute("items", orderItems);
