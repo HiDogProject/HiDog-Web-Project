@@ -53,18 +53,25 @@
 
 .photos .inner {
     display: flex;
+    gap: 0; /* 이미지 사이의 여백 제거 */
 }
 
 .photos .inner a {
-    flex: 1;
+    flex: 1; /* 각 이미지가 동일한 너비를 차지하도록 설정 */
+    height: 0;
+    padding-bottom: 50%; /* 2:1 비율 (세로 비율) */
+    position: relative;
+    margin: 0; /* 이미지 사이의 간격 제거 */
 }
 
 .photos .photo {
     width: 100%;
-    padding-top: 100%; /* 1:1 비율 유지 */
-    background-size: cover;
-    background-position: center;
+    height: 100%;
+    object-fit: cover; /* 이미지 비율을 유지하면서 부모 요소에 맞게 조정 */
     transition: opacity 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .photos .photo:hover {
