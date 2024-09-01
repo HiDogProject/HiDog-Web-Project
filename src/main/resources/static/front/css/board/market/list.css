@@ -1,7 +1,7 @@
 /* board_list에 대한 스타일 */
 .board_list {
+    margin-top: 100px;
     width: 100%;
-    padding: 0 16px; /* 좌우 패딩을 추가하여 양옆에 공백 추가 */
     box-sizing: border-box; /* 패딩을 포함하여 전체 너비 조정 */
 }
 

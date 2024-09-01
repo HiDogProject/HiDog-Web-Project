@@ -6,15 +6,14 @@
         <ul class="posts">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
                 th:text="#{조회된_게시글이_없습니다.}"></li>
-
-            <li th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}"
-                class="item">
+            <li th:unless="${items == null || items.isEmpty()}" th:each="item : ${items}" th:object="${item}" class="item">
                 <div class='photos' th:if="*{selectedImages != null && !selectedImages.empty}">
                     <div class="inner">
                         <a th:href="${@utils.redirectUrl('/board/view/' + item.seq)}"
                            th:each="image : *{selectedImages}" th:object="${image}">
                             <div th:style="*{#strings.concat('background:url(', thumbUrl ,'?seq=',seq,'&width=150&height=150) no-repeat center center; background-size: cover')}"
-                                 class="photo"></div>
+                                 class="photo">
+                            </div>
                         </a>
                     </div>
                     <span class="badge" th:if="*{selectedImages.size() > 1}"

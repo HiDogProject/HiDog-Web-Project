@@ -1,7 +1,7 @@
 /* 통합검색 공통 S */
 /* 검색 폼 컨테이너 */
 .top-box {
-    float: right;
+    float: left;
     display: flex; /* 가로로 배치 */
     align-items: center; /* 수직 가운데 정렬 */
     margin-bottom: 20px; /* 아래쪽 여백 */
@@ -11,9 +11,10 @@
 .top-box select {
     padding: 8px 12px; /* 내부 여백 */
     font-size: 14px; /* 글꼴 크기 */
-    border: 1.5px solid #444; /* 테두리 */
+    border: 1.5px solid #e1e1e1; /* 테두리 */
+    border-right: none;
     background-color: #fff; /* 배경색 */
-    appearance: none; /* 기본 브라우저 스타일 제거 */
+    color: #777;
 }
 
 /* 입력 필드 스타일 */
@@ -21,18 +22,20 @@
     flex-grow: 1; /* 가능한 공간을 모두 차지 */
     padding: 8px 12px; /* 내부 여백 */
     font-size: 14px; /* 글꼴 크기 */
-    border: 1.5px solid #444; /* 테두리 */
+    border: 1.5px solid #e1e1e1; /* 테두리 */
+    border-left: none;
+    border-right: none;
     outline: none; /* 포커스 시 외곽선 제거 */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 내측 그림자 */
 }
 
 /* 검색 버튼 스타일 */
 .top-box button {
     width: 100px;
-    padding: 10px; /* 내부 여백 */
+    padding: 5px; /* 내부 여백 */
     font-size: 14px; /* 글꼴 크기 */
-    border: 1px solid #444; /* 테두리 */
-    background-color: #444; /* 배경색 */
+    border: 1px solid #e1e1e1; /* 테두리 */
+    border-left: none;
+    background-color: #fff; /* 배경색 */
     color: white; /* 텍스트 색상 */
     cursor: pointer; /* 마우스 포인터 변경 */
     transition: background-color 0.3s ease; /* 배경색 전환 효과 */
@@ -47,24 +50,46 @@
 
 /* 통합검색 공통 E */
 
+
+
+/*마켓 메뉴 박스 공통 S*/
+.menu-box button{
+    float: right;
+    height: 40px;
+    background-color: #00a8e8; /* 버튼 배경색 */
+    color: #fff; /* 글자 색상 */
+    border: none; /* 기본 테두리 제거 */
+    padding: 10px 20px; /* 버튼 패딩 */
+    font-size: 1rem; /* 글자 크기 */
+    cursor: pointer; /* 커서 변경 */
+    transition: background-color 0.3s, transform 0.3s; /* 배경색과 변형 애니메이션 */
+    margin-left: 10px;
+}
+/*마켓 메뉴 공통 E*/
+
+
+
 /* 게시글 목록 공통 S */
 /* 전체 nav 컨테이너 스타일 - cateogory 영역 */
 .board-main .category-links {
     display: flex; /* 가로로 항목 배치 */
-    border-bottom: 1px solid #ddd; /* 하단 테두리 추가 */
+    border-bottom: 1px solid #F2F2F2; /* 하단 테두리 추가 */
     margin-bottom: 10px; /* 아래쪽 간격 추가 */
 }
 
 .board-main .category-links .link {
-    padding: 10px 20px; /* 링크 내부 여백 */
-    color: #333; /* 기본 텍스트 색상 */
+    width: 150px;
+    padding: 10px; /* 링크 내부 여백 */
+    color: #000; /* 기본 텍스트 색상 */
     text-decoration: none; /* 밑줄 제거 */
     display: inline-block; /* 링크를 블록 요소로 처리 */
-    border-right: 1px solid #ddd; /* 오른쪽 테두리 추가 */
+    border-right: 1px solid #F2F2F2; /* 오른쪽 테두리 추가 */
+    text-align: center;
     transition: background-color 0.3s, color 0.3s; /* 배경색과 텍스트 색상 전환 애니메이션 */
 }
 
 .board-main .category-links .link:hover {
+    background-color: #F2F2F2;
     color: #00a8e8; /* hover 시 텍스트 색상 변경 (파란색) */
     font-weight: bold; /* 활성화된 링크의 텍스트 굵기 */
 }
@@ -80,12 +105,17 @@
 }
 /* 게시글 목록 공통 E */
 
+.board-main .view-content {
+    border-top: 1px solid;
+    margin-top: 10px;
+}
+
 /* 게시글 보기 공통 S */
 .board-main .view-content .subject {
-    border: 1px solid #ccc;
     padding: 10px 15px;
-    font-size: 1.15rem;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
+    background-color: #F5F6F8;
+
 }
 
 .board-main .view-content .post-info {
@@ -129,7 +159,6 @@
 }
 /* 게시글 보기 공통 E */
 
-
 /* 테이블 스타일 공통 S */
 /* 테이블 스타일 */
 table {
@@ -137,6 +166,7 @@ table {
     border-collapse: collapse; /* 경계선 중복 제거 */
     align-content: center;
 }
+
 th.top-border {
     border-top: 1px solid ; /* 상단 경계선을 굵고 짙은 색상으로 설정 */
 }
@@ -144,7 +174,6 @@ th.top-border {
 th {
     text-align: left; /* 텍스트 왼쪽 정렬 */
     padding: 10px; /* 패딩 추가 */
-    background-color: #F5F6F8; /* 항목 영역 배경색 */
     border-top: 1px solid;
     border-bottom: 1px solid hsl(0, 0%, 80%); /* 연한 회색 테두리 */
     width: 150px; /* 항목명 너비 고정 */
@@ -177,8 +206,6 @@ input[type="text"], input[type="password"], textarea {
     box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
 }
 
-
-
 .short-input {
     width: 50px; /* 원하는 너비로 조정 */
 }
@@ -187,7 +214,6 @@ textarea {
     resize: vertical; /* 수직 크기 조정만 가능 */
 }
 /* 입력 필드 (input, textarea) 스타일 E */
-
 
 /* 오류 메시지의 스타일 S  */
 .error {
@@ -232,3 +258,194 @@ textarea {
     background-color: #5a6268; /* 호버 시 배경색 */
 }
 
+
+/* 리스트 게시판 공통*/
+
+/* board_list에 대한 스타일 */
+.board_list {
+    width: 100%;
+    padding: 0 16px; /* 좌우 패딩을 추가하여 양옆에 공백 추가 */
+    box-sizing: border-box; /* 패딩을 포함하여 전체 너비 조정 */
+}
+
+/* items 클래스를 그리드 컨테이너로 설정 */
+.posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 유연한 그리드 레이아웃 */
+    gap: 16px; /* 항목 간의 간격 */
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    margin: 0 auto; /* 가운데 정렬 */
+    max-width: 1200px; /* 최대 너비 설정 (필요에 따라 조정) */
+}
+
+/* 항목에 대한 스타일 */
+.item {
+    background: #ffffff; /* 배경색 (좀 더 깔끔한 흰색으로 설정) */
+    border: 1px solid #e0e0e0; /* 테두리 (부드러운 회색) */
+    padding: 16px; /* 패딩 (좀 더 넓게 설정) */
+    border-radius: 8px; /* 모서리 둥글게 (좀 더 둥글게 설정) */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+    box-sizing: border-box; /* 테두리와 패딩을 포함한 전체 너비/높이 조정 */
+    overflow: hidden; /* 콘텐츠가 넘칠 경우 숨기기 */
+    display: flex; /* 플렉스 박스 레이아웃 사용 */
+    flex-direction: column; /* 세로 방향 레이아웃 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 호버 시 애니메이션 효과 */
+}
+
+.item:hover {
+    transform: translateY(-8px); /* 호버 시 살짝 위로 이동 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강조 */
+}
+
+/* 링크 스타일 */
+.item-link {
+    display: block; /* 링크를 블록으로 설정하여 전체 영역을 클릭 가능하게 만듭니다 */
+    text-decoration: none; /* 기본 링크 밑줄 제거 */
+    color: inherit; /* 기본 색상 유지 */
+}
+
+/* 상품 정보에 대한 스타일 */
+.product_info {
+    display: flex;
+    flex-direction: column; /* 세로 방향 레이아웃 */
+    flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+}
+
+/* 제목 스타일 */
+.subject {
+    font-size: 1.2em; /* 제목 폰트 사이즈 (조정) */
+    margin-bottom: 8px; /* 제목 아래 여백 추가 */
+    white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+    overflow: hidden; /* 넘치는 텍스트 숨기기 */
+    text-overflow: ellipsis; /* 넘치는 부분을 '...'으로 표시 */
+}
+
+/* 가격에 대한 스타일 */
+.price {
+    font-size: 1.6em; /* 제목 폰트 사이즈 (조정) */
+    margin-bottom: 8px; /* 가격 아래 여백 추가 */
+}
+
+/* 게시물 정보에 대한 스타일 */
+.post_info {
+    display: flex; /* Flexbox를 사용하여 자식 요소를 수평으로 나열 */
+    flex-direction: column; /* Flex 항목을 수직으로 나열 */
+    align-items: flex-end; /* Flex 항목을 오른쪽으로 정렬 */
+    margin-top: 10px; /* 위쪽 마진 (필요에 따라 조정) */
+}
+
+.view-count {
+    display: flex; /* 각 항목을 Flexbox로 설정 */
+    align-items: center; /* 아이템을 수직으로 가운데 정렬 */
+}
+.post_date {
+    margin-top: 10px; /* 위쪽 마진 (필요에 따라 조정) */
+}
+
+/* 조회수 및 날짜 스타일 */
+.view_count, .post_date {
+    display: block;
+    margin-bottom: 4px; /* 아래쪽 여백 추가 */
+}
+
+/* 프로필 이미지 */
+.profile-image img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px; /* 프로필 이미지 옆 여백 추가 */
+}
+
+/* 사진 스타일 */
+.photos {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 비율을 유지하기 위해 padding-top 사용 */
+    border: 1px solid #ddd; /* 테두리 색상 조정 */
+    border-radius: 4px; /* 모서리 둥글게 */
+    overflow: hidden; /* 넘치는 부분 숨기기 */
+}
+
+.photos .inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    overflow: hidden;
+}
+
+.photos a {
+    flex: 1;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.5); /* 링크 배경색 (투명도 추가) */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 150px; /* 중앙 정렬을 위한 높이 설정 */
+}
+
+.photos .photo {
+    width: 100%;
+    height: 100%;
+    background-size: cover; /* 사진이 컨테이너에 맞게 조정 */
+}
+
+.photos .badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6); /* 배지 배경색 (투명도 추가) */
+    color: #fff; /* 배지 텍스트 색상 */
+    padding: 4px 8px;
+    border-radius: 12px; /* 배지 둥글게 */
+    font-size: 0.8em; /* 배지 폰트 사이즈 */
+    cursor: pointer;
+}
+
+/* 프로필 이미지 스타일 */
+.poster img {
+    width: 40px; /* 이미지 너비 설정 */
+    height: 40px; /* 이미지 높이 설정 */
+    border-radius: 50%; /* 원형으로 만들기 위한 설정 */
+    object-fit: cover; /* 이미지 비율 유지하면서 컨테이너에 맞게 조정 */
+    border: 2px solid #ddd; /* 이미지 주위에 테두리 추가 */
+    background-color: #f0f0f0; /* 배경색 설정 (필요에 따라 조정) */
+}
+
+
+/*판매완료된 판매글 판매완료 처리 S*/
+/* 판매 완료된 슬라이드에 대한 스타일 */
+.sold-out {
+    position: relative;
+}
+
+.sold-out .photo {
+    filter: grayscale(100%); /* 이미지 색상을 흑백으로 변환 */
+    opacity: 0.7; /* 약간 투명하게 */
+}
+
+/* 판매 완료 표시를 위한 오버레이 */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은색 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1; /* 기본적으로 보이도록 설정 */
+}
+
+/* 판매 완료 텍스트 스타일 */
+.sold-out-text {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+/*판매완료된 판매글 판매완료 처리 E*/
