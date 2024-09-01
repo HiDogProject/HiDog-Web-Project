@@ -41,6 +41,7 @@
                         <span class='confirmed' th:text="#{확인된_이메일입니다.}"></span>
                     </th:block>
                 </div>
+                <div class="error" th:if="${#fields.hasErrors('email')}" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
             </dd>
         </dl>
 
@@ -71,6 +72,7 @@
                     <button type="button" id="checkUserName" th:text="#{중복_확인}"></button>
                 </div>
                 <div id="userNameError" class="error"></div>
+                <div class="error" th:if="${#fields.hasErrors('userName')}" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
             </dd>
         </dl>
 

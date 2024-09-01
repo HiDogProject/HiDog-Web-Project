@@ -1,4 +1,9 @@
 /* 전체 스타일 */
+main {
+    min-height: 470px;
+    margin-top: 80px;
+}
+
 .layout-width {
     padding: 20px;
     text-align: center; /* 가운데 정렬 */
