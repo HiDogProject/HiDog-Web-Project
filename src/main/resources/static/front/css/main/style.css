@@ -48,7 +48,7 @@ body, html {
 
 .board-list {
     display: flex;
-    gap: 20px;
+    gap: 200px;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -78,7 +78,8 @@ body, html {
     height: 70%;
     background: #878787;
     position: absolute;
-    right: -10px;
+    left: 225%;
+    transform: translateX(50%);
     top: 15%;
 }
 
