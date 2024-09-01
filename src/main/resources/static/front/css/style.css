@@ -247,7 +247,6 @@ button.hb:hover {
 footer {
     background: #f9f9f9;
     padding: 25px 0 20px;
-    margin-top: 350px; /* 푸터를 화면 하단으로 이동 */
     text-align: center;
     width: 100%;
     display: block;
