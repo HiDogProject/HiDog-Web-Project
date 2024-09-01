@@ -1,16 +1,18 @@
 /* 전체 스타일 */
 .layout-width {
     padding: 20px;
-    text-align: center; /* 가운데 정렬 */
 }
 
-/* 테이블 컨테이너 스타일 */
-.tables-container {
+/* 스크롤 컨테이너 스타일 */
+.scroll-container {
+    padding: 10px 0; /* 상하 여백 추가 */
+}
+
+/* 테이블을 한 줄로 배치 */
+.tables-wrapper {
     display: flex;
-    justify-content: center; /* 가운데 정렬 */
-    flex-wrap: nowrap; /* 테이블을 한 줄로 배치 */
+    flex-wrap: nowrap;
     gap: 20px; /* 테이블 간의 간격 */
-    overflow: hidden; /* 스크롤 숨김 */
 }
 
 /* 테이블 래퍼 스타일 */
@@ -20,26 +22,30 @@
 }
 
 /* 테이블 스타일 */
-.tables-container table {
+.tables-wrapper table {
     border-collapse: collapse;
     font-size: 14px;
     border: 1px solid #ddd;
-    margin: 0; /* 기본 마진 제거 */
+    background-color: #fff; /* 테이블 배경색 */
 }
 
 /* 테이블 헤더와 데이터 셀 스타일 */
-.tables-container th, .tables-container td {
+.tables-wrapper th, .tables-wrapper td {
     padding: 10px;
     border: 1px solid #ddd;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    vertical-align: middle; /* 텍스트 중앙 정렬 */
+    min-height: 50px; /* 셀의 최소 높이 설정 */
+    box-sizing: border-box; /* 패딩과 보더를 포함한 높이 계산 */
 }
 
 /* 테이블 헤더 배경색 */
-.tables-container thead th {
+.tables-wrapper thead th {
     background-color: #f4f4f4;
 }
 
 /* 테이블 바디 데이터 */
-.tables-container tbody td {
+.tables-wrapper tbody td {
     background-color: #fff; /* 데이터 셀 배경색 */
 }
 
@@ -53,9 +59,22 @@
     background-color: #e0e0e0;
 }
 
-/* 기타 스타일 */
-.no_data {
-    text-align: center;
-    color: #888;
+/* 버튼을 텍스트처럼 스타일링 */
+.btn-text {
+    color: #00a8e8;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    font-size: 14px; /* 텍스트와 같은 크기 */
+    background: none; /* 버튼 배경 제거 */
+    border: none; /* 버튼 테두리 제거 */
+    display: block; /* 블록 레벨 요소로 설정 */
+    padding: 0; /* 여백 제거 */
 }
 
+/* 버튼에 대한 기본 스타일 */
+.btn-text:hover {
+    color: #0056b3; /* 호버 시 색상 변경 */
+}
+
+.btn-text:active {
+    color: #003d7a; /* 클릭 시 색상 변경 */
+}
