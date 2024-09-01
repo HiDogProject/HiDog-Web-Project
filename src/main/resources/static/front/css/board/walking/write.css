@@ -1,6 +1,6 @@
 /* 테이블 스타일 S */
 th {
-
+    background-color: #F5F6F8; /* 항목 영역 배경색 */
 }
 /* 테이블 스타일 E */
 
@@ -40,7 +40,6 @@ th {
 #resetBtn:hover {
     background-color: #5a6268; /* 호버 시 배경색 */
 }
-
 
 .writeMap {
     justify-content: center;
