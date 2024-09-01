@@ -54,7 +54,7 @@ public class Utils { // 빈의 이름 - utils
             gatewayHost = "hidog.xyz";
         }
 
-        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/admin" + url : request.getContextPath() + url;
+        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : request.getContextPath() + url;
     }
 
     public String adminUrl(String url){
