@@ -6,6 +6,10 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 dl, dt, dd { margin: 0; padding: 0; }
 img { border: 0; }
 
+.board-main .view-content {
+    margin-top: 0 !important;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -91,7 +95,6 @@ img { border: 0; }
 }
 
 .map {
-    position: absolute;
 }
 
 .subject {
