@@ -2,8 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap'); /* 나눔 고딕 변경 */
 
 /* 기본 공통 */
-/** { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; } */
-* { font-family: 'Nanum Gothic', sans-serif; color: #000; box-sizing: border-box; outline: none; }
+* { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; letter-spacing: -.3px;}
 html { font-size: 13px; }
 body { margin: 0; }
 a { text-decoration: none; }

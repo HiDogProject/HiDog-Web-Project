@@ -29,8 +29,9 @@
 
     <th:block th:if="${board.skin == 'market'}">
         <div th:replace="~{front/board/market/_common::pageTitle}"></div>
-        <div th:replace="~{common/_search_top::search}"></div>"
+        <div th:replace="~{common/_search_top::search}"></div>
+        <div th:replace="~{front/board/market/_menu::menu}"></div>
         <th:block th:replace="~{front/board/market/_list_items::items}"></th:block>
-    </div>
+    </th:block>
 </main>
 </html>
