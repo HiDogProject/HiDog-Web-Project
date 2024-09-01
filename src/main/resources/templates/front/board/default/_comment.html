@@ -13,9 +13,12 @@
                 <div class="comment_top">
                     <div>
                         <th:block th:text="*{commenter}"></th:block>
-                        <th:block th:if="*{member != null}" th:text="*{'(' + member.email + ')'}"></th:block>
                     </div>
-                    <div th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></div>
+                    <div class="comment_time">
+                        <span th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd')}"></span>
+                        <span class="separator">|</span>
+                        <span th:text="*{#temporals.format(createdAt, 'HH:mm:ss')}"></span>
+                    </div>
                 </div>
                 <!--// comment_top -->
                 <div class="comment" th:utext="*{@utils.nl2br(content)}"></div>
