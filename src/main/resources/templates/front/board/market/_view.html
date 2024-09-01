@@ -37,7 +37,16 @@
                     </button>
                     <a class="buy-button" th:href="*{@utils.redirectUrl('/order')}" th:text="#{구매}">구매</a>
                 </div>
+
             </div>
+        </div>
+
+        <div class="links">
+            <a class="btn" th:if="*{showEdit && editable}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}"
+               th:text="#{수정}">수정</a>
+            <a class="btn" th:if="*{showDelete && editable}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}"
+               th:text="#{삭제}"
+               onclick="return confirm('정말 삭제하겠습니까?');">삭제</a>
         </div>
 
         <div class="bottom-section">
@@ -60,16 +69,8 @@
                         </span>
                     </a>
                 </dl>
-                <div class="links">
-                    <a class="btn" th:if="*{showEdit && editable}" th:href="*{@utils.redirectUrl('/board/update/' + seq)}"
-                       th:text="#{수정}">수정</a>
-                    <a class="btn" th:if="*{showDelete && editable}" th:href="*{@utils.redirectUrl('/board/delete/' + seq)}"
-                       th:text="#{삭제}"
-                       onclick="return confirm('정말 삭제하겠습니까?');">삭제</a>
-                </div>
             </div>
         </div>
-
     </div>
 </dd>
 </body>
