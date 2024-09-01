@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front/layouts/main}">
 
     <main layout:fragment="content">
-
         <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css}">
 
         <script th:src="${@utils.url('/common/js/swiper/swiper-bundle.min.js')}"></script>
@@ -12,7 +11,6 @@
             <img th:src="${@utils.url('/common/img/maindog.jpg')}" alt="main img1">
         </div>
 
-        <!-- 게시판 -->
         <div class="Mboard-container">
             <h2>게시판</h2>
 
@@ -20,7 +18,7 @@
                 <ul class="board-list">
                     <!-- 첫 번째 게시판 항목 -->
                     <li class="board-item">
-                        <a th:href="@{'/app/board/list/' + ${boardList[0][0]}}">
+                        <a th:href="@{${utils.redirectUrl('/board/list/' + boardList[0][0])}}">
                             <img class="ii" th:src="${@utils.url('/common/img/new/walk.png')}" alt="산책하개">
                             <h3 class="board-title" th:text="${boardList[0][1]}"></h3>
                         </a>
@@ -28,7 +26,7 @@
 
                     <!-- 두 번째 게시판 항목 -->
                     <li class="board-item">
-                        <a th:href="@{'/app/board/list/' + ${boardList[1][0]}}">
+                        <a th:href="@{${utils.redirectUrl('/board/list/' + boardList[1][0])}}">
                             <img class="ii" th:src="${@utils.url('/common/img/new/message.png')}" alt="소통하개">
                             <h3 class="board-title" th:text="${boardList[1][1]}"></h3>
                         </a>
@@ -36,7 +34,7 @@
 
                     <!-- 세 번째 게시판 항목 -->
                     <li class="board-item">
-                        <a th:href="@{'/app/board/list/' + ${boardList[2][0]}}">
+                        <a th:href="@{${utils.redirectUrl('/board/list/' + boardList[2][0])}}">
                             <img class="ii" th:src="${@utils.url('/common/img/new/market.png')}" alt="화개장터">
                             <h3 class="board-title" th:text="${boardList[2][1]}"></h3>
                         </a>
@@ -44,7 +42,7 @@
 
                     <!-- 네 번째 게시판 항목 -->
                     <li class="board-item">
-                        <a th:href="@{'/app/board/list/' + ${boardList[3][0]}}">
+                        <a th:href="@{${utils.redirectUrl('/board/list/' + boardList[3][0])}}">
                             <img class="ii" th:src="${@utils.url('/common/img/new/dog.png')}" alt="자랑하개">
                             <h3 class="board-title" th:text="${boardList[3][1]}"></h3>
                         </a>
@@ -137,7 +135,7 @@
 
         <div class="sub_banner">
             <div class="item-container">
-                <a th:href="@{'/app/board/list/' + ${boardList[0][0]}}" class="box b1">
+                <a th:href="@{${utils.redirectUrl('/board/list/' + boardList[0][0])}}" class="box b1">
                     <div class="p3">Map for Walking</div>
                     <div class="p1">맵</div>
                     <div class="p2">산책하고 싶은 강아지 여기 모여라!</div>
@@ -151,16 +149,16 @@
                     <img th:src="${@utils.url('/common/img/map.png')}" alt="sub banner2">
                 </div>
 
-                <a th:href="@{'/app/board/list/' + ${boardList[2][0]}}" class="box b2">
+                <a th:href="@{${utils.redirectUrl('/board/list/' + boardList[2][0])}}" class="box b2">
                     <div class="p3">Buy or Sell for My Dog</div>
                     <div class="p1">화개장터</div>
-                    <div class="p2">우리 집 강아지 물품 팔아요!</div>
+                    <div class="p2">우리 집 강아지 물품 사고 팔아요!</div>
                 </a>
 
-                <a th:href="@{'/app/board/list/' + ${boardList[3][0]}}" class="box b3">
+                <a th:href="@{${utils.redirectUrl('/board/list/' + boardList[3][0])}}" class="box b3">
                     <div class="p3">I = Proud My Dog!</div>
                     <div class="p1">자랑하개</div>
-                    <div class="p2">누구 강아지가 제일 예쁘니?</div>
+                    <div class="p2">누구네 강아지가 제일 예쁘지?</div>
                 </a>
 
                 <div class="box su3">
