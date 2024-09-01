@@ -4,94 +4,97 @@
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
     <div class="layout-width">
-        <div class="tables-container">
-            <div class="table-wrapper">
-                <table class="sell-info">
-                    <thead>
-                    <tr>
-                        <th th:text="#{주문번호}"></th>
-                        <th th:text="#{상품금액}"></th>
-                        <th th:text="#{수량}"></th>
-                        <th th:text="#{총금액}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${items}">
-                        <td th:text="${item.orderInfo.orderNo}"></td>
-                        <td th:text="${item.price}"></td>
-                        <td th:text="${item.qty}"></td>
-                        <td th:text="${item.price * item.qty}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+        <th:block th:replace="~{front/shop/_myshop::form}"></th:block>
+        <div class="scroll-container">
+            <div class="tables-wrapper">
+                <div class="table-wrapper">
+                    <table class="sell-info">
+                        <thead>
+                        <tr>
+                            <th th:text="#{주문번호}"></th>
+                            <th th:text="#{상품금액}"></th>
+                            <th th:text="#{수량}"></th>
+                            <th th:text="#{총금액}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${items}">
+                            <td th:text="${item.orderInfo.orderNo}"></td>
+                            <td th:text="${item.price}"></td>
+                            <td th:text="${item.qty}"></td>
+                            <td th:text="${item.price * item.qty}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="table-wrapper">
-                <table class="item-info">
-                    <thead>
-                    <tr>
-                        <th th:text="#{상품정보}"></th>
-                        <th th:text="#{가격}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${items}">
-                        <td th:text="${item.boardData.text1}"></td>
-                        <td th:text="${item.boardData.num1}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                <div class="table-wrapper">
+                    <table class="item-info">
+                        <thead>
+                        <tr>
+                            <th th:text="#{상품정보}"></th>
+                            <th th:text="#{가격}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${items}">
+                            <td th:text="${item.boardData.text1}"></td>
+                            <td th:text="${item.boardData.num1}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="table-wrapper">
-                <table class="order-info">
-                    <thead>
-                    <tr>
-                        <th th:text="#{구매자}"></th>
-                        <th th:text="#{이메일}"></th>
-                        <th th:text="#{연락처}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${items}">
-                        <td th:text="${item.orderInfo.orderName}"></td>
-                        <td th:text="${item.orderInfo.orderEmail}"></td>
-                        <td th:text="${item.orderInfo.orderMobile}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                <div class="table-wrapper">
+                    <table class="order-info">
+                        <thead>
+                        <tr>
+                            <th th:text="#{구매자}"></th>
+                            <th th:text="#{이메일}"></th>
+                            <th th:text="#{연락처}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${items}">
+                            <td th:text="${item.orderInfo.orderName}"></td>
+                            <td th:text="${item.orderInfo.orderEmail}"></td>
+                            <td th:text="${item.orderInfo.orderMobile}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="table-wrapper">
-                <table class="order-state">
-                    <thead>
-                    <tr>
-                        <th th:text="#{주문상태}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${items}">
-                        <td th:text="${item.orderInfo.status.getTitle}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="table-wrapper">
+                    <table class="order-state">
+                        <thead>
+                        <tr>
+                            <th th:text="#{주문상태}"></th>
+                            <th th:text="승인 + '/' + 거절"></th> <!-- 버튼 컬럼 추가 -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${items}">
+                            <td th:text="${item.orderInfo.status.getTitle()}"></td>
+                            <td>
+                                <a th:if="${item.orderInfo.status.getTitle() == '주문접수'}"
+                                   th:href="*{@utils.redirectUrl('/payment/cancel/' + item.orderInfo.orderNo)}"
+                                   class="btn-text"
+                                   th:text="#{주문거절}"></a>
+                                <a th:if="${item.orderInfo.status.getTitle() == '입금확인'}"
+                                   th:href="*{@utils.redirectUrl('/order/change/PREPARE/' + item.orderInfo.orderNo)}"
+                                   class="btn-text"
+                                   th:text="#{주문승인}"></a>
+                                <a th:if="${item.orderInfo.status.getTitle() == '입금확인'}"
+                                   th:href="*{@utils.redirectUrl('/payment/cancel/' + item.orderInfo.orderNo)}"
+                                   class="btn-text"
+                                   th:text="#{주문거절}"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <div class="links">
-                <tr th:each="item : ${items}">
-                    <a class="btn" th:if="${item.orderInfo.status.getTitle == '주문접수'}" th:href="*{@utils.redirectUrl('/shop/sell')}"
-                       th:text="#{주문거절}"></a>
-                    <a class="btn" th:if="${item.orderInfo.status.getTitle == '입금확인'}" th:href="*{@utils.redirectUrl('/shop/sell')}"
-                       th:text="#{주문승인}"></a>
-                    <a class="btn" th:if="${item.orderInfo.status.getTitle == '입금확인'}" th:href="*{@utils.redirectUrl('/shop/sell')}"
-                       th:text="#{주문거절}"></a>
-                    <a class="btn" th:if="${item.orderInfo.status.getTitle == '상품_준비중'}" th:href="*{@utils.redirectUrl('/shop/sell')}"
-                       th:text="#{운송장_등록}"></a>
-                </tr>
-            </div>
-
         </div>
-
     </div>
 </main>
 </html>
