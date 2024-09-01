@@ -1,8 +1,14 @@
+main {
+    min-height: 470px;
+    margin-top: 80px;
+}
+
 .shop-container {
     margin-top: 30px;
     border: 2px solid #ccc;
-    padding: 10px;
+    padding: 20px;
     border-radius: 5px;
+    margin-bottom: 40px;
 }
 
 .shop-info {
@@ -17,6 +23,7 @@
 .shop-image img {
     width: 100px;
     height: 100px;
+    border-radius: 50%;
 }
 
 .shop-details .user-name {
@@ -27,4 +34,19 @@
 .shop-details .email {
     font-size: 1em;
     margin-top: 5px;
+}
+
+.board_list{
+    margin-top: 40px;
+}
+
+.links .btn {
+    background-color: #30B1E3;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 20px;
+    display: inline-block;
+    margin-right: 10px;
 }

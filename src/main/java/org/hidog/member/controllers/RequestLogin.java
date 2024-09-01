@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Data
 public class RequestLogin implements Serializable {
+
     @NotBlank
     private String email;
     @NotBlank

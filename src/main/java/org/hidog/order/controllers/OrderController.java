@@ -7,10 +7,12 @@ import org.hidog.board.entities.BoardData;
 import org.hidog.global.Utils;
 import org.hidog.global.exceptions.ExceptionProcessor;
 import org.hidog.member.MemberUtil;
+import org.hidog.order.constants.OrderStatus;
 import org.hidog.order.entities.OrderInfo;
 import org.hidog.order.services.OrderInfoService;
 import org.hidog.order.services.OrderPayService;
 import org.hidog.order.services.OrderSaveService;
+import org.hidog.order.services.OrderStatusService;
 import org.hidog.payment.constants.BankCode;
 import org.hidog.payment.constants.PayMethod;
 import org.hidog.payment.services.PaymentConfig;
@@ -30,6 +32,7 @@ public class OrderController implements ExceptionProcessor {
     private final OrderInfoService infoService;
     private final OrderSaveService saveService;
     private final OrderPayService payService;
+    private final OrderStatusService statusService;
     private final MemberUtil memberUtil;
 
     @ModelAttribute("payMethods")
@@ -81,5 +84,12 @@ public class OrderController implements ExceptionProcessor {
         model.addAttribute("orderInfo", orderInfo);
         model.addAttribute("addCss", List.of("order/detail"));
         return utils.tpl("order/detail");
+    }
+
+    //주문 상태 변경
+    @PostMapping("/change/{state}/{orderNo}")
+    public String orderStateChange(@PathVariable("state") OrderStatus state, @PathVariable("orderNo") Long orderNo, Model model){
+        statusService.change(orderNo, state);
+        return utils.redirectUrl("shop/sell");
     }
 }

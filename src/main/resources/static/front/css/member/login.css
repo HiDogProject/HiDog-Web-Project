@@ -1,9 +1,12 @@
-/* login.css */
-/* 폼 전체 스타일 */
+
 header {
     width: 100% !important;
 }
 
+main {
+    min-height: 470px;
+    margin-top: 80px;
+}
 form[name="frmLogin"] {
     max-width: 400px;
     margin: 0 auto;
@@ -15,7 +18,7 @@ form[name="frmLogin"] {
 
 h1 {
     margin-bottom: 20px; /* 제목과 다른 요소 간의 간격 조정 */
-    color: #333; /* 제목 색상 설정 */
+    color: #555; /* 제목 색상 설정 */
     text-align: center;
     font-weight: normal;
 }
@@ -66,7 +69,7 @@ form[name="frmLogin"] .error {
 /* 아이디/비밀번호 찾기 링크 스타일 */
 form[name="frmLogin"] div a {
     margin-right: 10px;
-    color: black;
+    color: #555;
     text-decoration: none;
     text-align: center;
 }

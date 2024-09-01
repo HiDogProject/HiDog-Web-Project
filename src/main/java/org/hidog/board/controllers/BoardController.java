@@ -270,6 +270,8 @@ public class BoardController implements ExceptionProcessor {
         String script = "parent.location.reload();";
         model.addAttribute("script", script);
 
+        model.addAttribute("applyCss", true);
+
         return "common/_execute_script";
     }
 
