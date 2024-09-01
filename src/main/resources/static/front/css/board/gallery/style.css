@@ -134,3 +134,40 @@ textarea {
 #search_top {
     margin-top: 20px;
 }
+
+
+/* 작성하기 버튼 스타일 */
+#submitBtn {
+    padding: 10px 20px; /* 안쪽 여백 */
+    font-size: 16px; /* 글자 크기 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 모양 변경 */
+    margin-top: 20px; /* 위쪽 여백 */
+    background-color: #0064C5; /* 배경색 */
+    color: white; /* 글자 색상 */
+}
+
+/* 작성하기, 다시입력 공통 S */
+/* 리셋 버튼 스타일 */
+#resetBtn {
+    padding: 10px 20px; /* 안쪽 여백 */
+    font-size: 16px; /* 글자 크기 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 커서 모양 변경 */
+    margin-top: 20px; /* 위쪽 여백 */
+    background-color: #6c757d; /* 배경색 */
+    color: white; /* 글자 색상 */
+}
+.button-group {
+    text-align: center; /* 버튼을 가운데 정렬 */
+    padding: 10px 0; /* 버튼 상하 여백 추가 */
+}
+/* 작성하기 버튼 호버 효과 */
+#submitBtn:hover {
+    background-color: #0056b3; /* 호버 시 배경색 */
+}
+
+/* 리셋 버튼 호버 효과 */
+#resetBtn:hover {
+    background-color: #5a6268; /* 호버 시 배경색 */
+}

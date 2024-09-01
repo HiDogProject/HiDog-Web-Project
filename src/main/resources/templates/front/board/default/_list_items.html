@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
+    <div class="board_png">
+        <img th:src="${@utils.url('/common/img/board/dogbanner.png')}" alt="dogbanner">
+    </div>
     <nav th:replace="~{front/board/default/_common::categorylink}"></nav>
     <div th:replace="~{common/_search_top::search}"></div>
 
