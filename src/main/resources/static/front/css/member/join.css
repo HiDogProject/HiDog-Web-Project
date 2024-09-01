@@ -16,7 +16,8 @@ header {
 }
 
 main {
-    margin-top: 50px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,10 +31,10 @@ main {
 }
 
 h1 {
-    font-size: 2.5em; /* 제목 글씨 크기 조정 */
     margin-bottom: 20px; /* 제목과 다른 요소 간의 간격 조정 */
     color: #333; /* 제목 색상 설정 */
     text-align: center;
+    font-weight: normal;
 }
 
 /* 폼 레이아웃 */
@@ -115,27 +116,19 @@ button:hover {
 }
 
 /* 인증 코드 입력창과 버튼 스타일 */
-.auth_box {
-    margin-top: 10px; /* 상단 여백 설정 */
-}
-
 .auth_box #auth_count {
     margin-left: 10px; /* 카운트와 입력 필드 간의 간격 설정 */
     font-size: 1em; /* 카운트 글씨 크기 설정 */
 }
 
-/* 닉네임 입력 및 버튼 */
-.nickName_box {
-    margin-bottom: 10px; /* 닉네임 박스와 다음 요소 간의 간격 설정 */
+.confirmed {
+    color: green;
 }
-
-
 
 .address_box1,
 .address_box2 {
     display: flex;
     align-items: center; /* 수직 중앙 정렬 */
-    margin-bottom: 10px; /* 요소 간의 간격 설정 */
 }
 
 .address_box1 input[type="text"],
@@ -201,14 +194,9 @@ button:hover {
 .error {
     color: #d9534f; /* 오류 메시지 색상 설정 */
     font-size: 0.9em; /* 오류 메시지 글씨 크기 조정 */
-    margin-top: 5px; /* 오류 메시지와 다른 요소 간의 간격 설정 */
 }
 
 /* 약관 동의 박스 */
-.terms {
-    margin: 20px 0; /* 약관 동의 박스 간의 간격 설정 */
-    text-align: left;
-}
 
 .terms .tit {
     font-size: 1.2em; /* 약관 제목 글씨 크기 조정 */
@@ -244,6 +232,9 @@ button:hover {
     transition: background-color 0.3s; /* 배경색 변화 효과 */
 }
 
+#joinBtn {
+    margin-top: 20px;
+}
 
 /* 모달 스타일 */
 #termsModal {
