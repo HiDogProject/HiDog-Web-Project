@@ -10,35 +10,6 @@
                 </div>
             </div>
 
-            <!-- 로그인 / 회원가입 버튼 -->
-            <nav class="mm">
-                <ul class="menus">
-                    <li th:block class="iL" th:if="${isLogin == null || !isLogin}">
-                        <a class="hba" th:href="${@utils.redirectUrl('/member/login')}">
-                            <button type="submit" class="hb" th:text="#{로그인}"></button>
-                        </a>
-
-                        <a class="hba" th:href="${@utils.redirectUrl('/member/join')}">
-                            <button type="submit" class="hb" th:text="#{회원가입}"></button>
-                        </a>
-                    </li>
-
-                    <li th:block class="iL" th:if="${isLogin != null && isLogin}">
-                        <a class="hba" th:href="${@utils.redirectUrl('/member/logout')}">
-                            <button type="submit" class="hb" th:text="#{로그아웃}"></button>
-                        </a>
-
-                        <a class="hba" th:href="${@utils.redirectUrl('/mypage')}">
-                            <button type="submit" class="hb" th:text="#{마이_페이지}"></button>
-                        </a>
-
-                        <a class="hba" sec:authorize="hasAnyAuthority('ADMIN')" th:href="${@utils.adminUrl('/')}" target="_blank">
-                            <button type="submit" class="hb" th:text="#{관리자_페이지}"></button>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
             <!-- 드롭다운 메뉴 -->
             <div class="drop">
                 <div class="dropdown">
@@ -95,6 +66,37 @@
                     </ul>
                 </div>
             </div>
+
+
+            <!-- 로그인 / 회원가입 버튼 -->
+            <nav class="mm">
+                <ul class="menus">
+                    <li th:block class="iL" th:if="${isLogin == null || !isLogin}">
+                        <a class="hba" th:href="${@utils.redirectUrl('/member/login')}">
+                            <button type="submit" class="hb" th:text="#{로그인}"></button>
+                        </a>
+
+                        <a class="hba" th:href="${@utils.redirectUrl('/member/join')}">
+                            <button type="submit" class="hb" th:text="#{회원가입}"></button>
+                        </a>
+                    </li>
+
+                    <li th:block class="iL" th:if="${isLogin != null && isLogin}">
+                        <a class="hba" th:href="${@utils.redirectUrl('/member/logout')}">
+                            <button type="submit" class="hb" th:text="#{로그아웃}"></button>
+                        </a>
+
+                        <a class="hba" th:href="${@utils.redirectUrl('/mypage')}">
+                            <button type="submit" class="hb" th:text="#{마이_페이지}"></button>
+                        </a>
+
+                        <a class="hba" sec:authorize="hasAnyAuthority('ADMIN')" th:href="${@utils.adminUrl('/')}" target="_blank">
+                            <button type="submit" class="hb" th:text="#{관리자_페이지}"></button>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </header>
 </html>
