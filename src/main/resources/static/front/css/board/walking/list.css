@@ -91,7 +91,7 @@ th {
 }
 
 .write_btn:hover {
-    background-color: #0056b3; /* 호버 시 배경색 변경 */
+    background-color: #27a7d9; /* 호버 시 배경색 변경 */
     /*transform: translateY(-2px); !* 호버 시 살짝 위로 올라가는 효과 *!*/
 }
 

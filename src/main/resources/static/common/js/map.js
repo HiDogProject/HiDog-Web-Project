@@ -39,8 +39,8 @@ const tmapLib = {
                     }
                     this.departure = e.latLng;
                     this.arrival = e.latLng;
-                    opt.icon = 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9'
-                    opt.iconSize = new Tmapv2.Size(50, 50);
+                    opt.icon = 'https://github.com/user-attachments/assets/b5ebd073-5aa0-4436-b942-82ba95b1fbfb'
+                    opt.iconSize = new Tmapv2.Size(70, 70);
                     const startMarker = new Tmapv2.Marker(opt);
                     this.markers.push(startMarker);
                     this.currentAction = null;
@@ -65,7 +65,7 @@ const tmapLib = {
                         return;
                     }
                     this.via.push(e.latLng);
-                    opt.icon = 'https://github.com/user-attachments/assets/62de235a-400d-4f78-b865-e4ab7d061828'
+                    opt.icon = 'https://github.com/user-attachments/assets/61acee9b-d530-4099-8e90-8566eb977c9f'
                     opt.iconSize = new Tmapv2.Size(35, 35);
                     const marker = new Tmapv2.Marker(opt);
                     this.markers.push(marker);
@@ -156,12 +156,12 @@ const tmapLib = {
     drawLine(arrPoint) {
         const polyline_ = new Tmapv2.Polyline({
             path: [], // 초기 경로는 빈 배열입니다.
-            strokeColor: 'rgba(178,102,53,0.22)',
+            strokeColor: '#1494f1',
             strokeWeight: 9,
             direction: true,
             strokeStyle: 'solid',
             directionColor: "white",
-            directionOpacity: 0.6,
+            directionOpacity: 1,
             map: this.map
         });
 

@@ -25,8 +25,8 @@ const mainMapLib = {
             const opt = {
                 position: new Tmapv2.LatLng(lat, lng),
                 map: this.map,
-                icon: 'https://github.com/user-attachments/assets/dfb7b9b2-49c2-4ac1-a3cb-d129d9b36eb9',
-                iconSize: new Tmapv2.Size(50, 50),
+                icon: 'https://github.com/user-attachments/assets/b5ebd073-5aa0-4436-b942-82ba95b1fbfb',
+                iconSize: new Tmapv2.Size(70, 70),
                 animation: Tmapv2.MarkerOptions.ANIMATE_BOUNCE,
                 animationLength: 900,
             };
@@ -170,12 +170,12 @@ const mainMapLib = {
     drawLine(arrPoint) {
         const polyline_ = new Tmapv2.Polyline({
             path: [], // 초기 경로는 빈 배열입니다.
-            strokeColor: 'rgba(178,102,53,0.22)',
+            strokeColor: '#1494f1',
             strokeWeight: 9,
             direction: true,
             strokeStyle: 'solid',
             directionColor: "white",
-            directionOpacity: 0.6,
+            directionOpacity: 1,
             map: this.map
         });
 
@@ -219,7 +219,7 @@ const mainMapLib = {
             const opt = {
                 position: new Tmapv2.LatLng(lat, lng),
                 map: this.map,
-                icon: 'https://github.com/user-attachments/assets/62de235a-400d-4f78-b865-e4ab7d061828',
+                icon: 'https://github.com/user-attachments/assets/61acee9b-d530-4099-8e90-8566eb977c9f',
                 iconSize: new Tmapv2.Size(35, 35),
                 animation: Tmapv2.MarkerOptions.ANIMATE_BALLOON,
             };
