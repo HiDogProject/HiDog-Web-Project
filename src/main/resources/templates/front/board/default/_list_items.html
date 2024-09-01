@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
-
-
     <nav th:replace="~{front/board/default/_common::categorylink}"></nav>
     <div th:replace="~{common/_search_top::search}"></div>
-
 
     <div class="links" th:if="${mode == null || mode != 'search'}">
         <form th:action="${@utils.redirectUrl('/board/write/' + board.bid)}" method="get">
@@ -13,8 +10,8 @@
         </form>
     </div>
 
+    <th:block th:fragment="boardList">
     <table class="board-list">
-        <thead>
         <thead>
         <tr>
             <th class="no" th:text="#{제목}"></th>
@@ -58,5 +55,6 @@
 
     <!--// board_list -->
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+    </th:block>
 </th:block>
 </html>

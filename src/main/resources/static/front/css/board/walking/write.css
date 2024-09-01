@@ -40,3 +40,17 @@ th {
 #resetBtn:hover {
     background-color: #5a6268; /* 호버 시 배경색 */
 }
+
+
+.writeMap {
+    justify-content: center;
+    z-index: 1; /* 낮은 z-index */
+}
+
+.mapButton-group {
+    position: absolute; /* 절대 위치로 설정 */
+    z-index: 2; /* 높은 z-index */
+    top: 50%; /* 상단에서 중앙으로 */
+    left: 50%; /* 좌측에서 중앙으로 */
+    margin-top: 430px;
+}
