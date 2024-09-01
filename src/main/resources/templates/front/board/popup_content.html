@@ -30,7 +30,7 @@
             <div class="inner" th:unless="*{editorView}" th:utext="*{@utils.nl2br(content)}"></div>
             <button type="button" class="more" th:text="#{더보기}"></button>
         </div>
-
+        <a th:href="@{${utils.redirectUrl('/board/view/' + seq)}}" target="_parent" class="move-post">이동</a>
     </div>  <!--// view-content -->
     <th:block th:if="${board.useComment}">
         <th:block  th:replace="~{front/board/_comment::comment}"></th:block>

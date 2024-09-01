@@ -1,5 +1,6 @@
 .ck-editor__editable {
     height: 350px;
+    word-break: break-all;
 }
 .dn { display: none; }
 
@@ -75,6 +76,7 @@
     border-left: none;
     border-right: none;
     outline: none; /* 포커스 시 외곽선 제거 */
+
 }
 
 /* 검색 버튼 스타일 */
