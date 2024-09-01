@@ -101,7 +101,7 @@
                 <div id="modalOverlay"></div>
             </div>
             <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}" />
-            <label for="agree" th:text="#{약관_동의}"></label>
+            <label for="agree" id="agreeText" th:text="#{약관_동의}"></label>
             <div class="error" th:if="${#fields.hasErrors('agree')}" th:each="err : ${#fields.errors('agree')}" th:text="${err}"></div>
         </div>
 
