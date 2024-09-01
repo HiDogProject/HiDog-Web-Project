@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
-
     <div class="board_list">
         <ul class="posts">
             <li th:if="${items == null || items.isEmpty()}" class="no_data"
@@ -23,39 +22,28 @@
                     <dl class="subject">
                         <dd th:text="*{subject}"></dd>
                     </dl>
-
                     <dl class="product_info">
-                        <dt class="product_name">
-                        <dd th:text="*{text1}"></dd>
-                        </dt>
                         <dt class="price">
                         <dd th:if="*{num1 == 0}" class="free" th:text="#{무료나눔}"></dd>
                         <dd th:unless="*{num1 == 0}" th:text="*{#numbers.formatInteger(num1, 1, 'COMMA')} + '원'"></dd>
                         </dt>
                     </dl>
                     <dl class="post_info">
-                        <div class="view-count">
-                            <dt th:text="조회수">
-                            <dd th:text="*{viewCount >= 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA') : viewCount}"></dd>
-                            </dt>
+                        <div class="profile-info">
+                            <div class="profile-image">
+                                <th:block th:if="*{member != null && member.profileImage != null}">
+                                    <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}"
+                                         th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
+                                </th:block>
+                                <th:block th:if="*{member != null}" th:text="*{poster}"></th:block>
+                            </div>
+                            <div class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></div>
                         </div>
-                        <dd class="post_date" th:text="*{@timeUtils.formatRelativeTime(createdAt)}"></dd>
+                        <div class="post_info-separator"></div>
                     </dl>
-                </a>
-                <a th:href="*{@utils.redirectUrl('/shop/' + member)}" class="shop-link">
-                    <span class="post-info">
-                        <div class="profile-image">
-                            <th:block th:if="*{member != null && member.profileImage != null}">
-                        <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}"
-                             th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
-                            </th:block>
-                        <th:block th:if="*{member != null}" th:text="*{poster}"></th:block>
-                        </div>
-                    </span>
                 </a>
             </li>
         </ul>
-        <!--// list_search -->
     </div>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </th:block>
