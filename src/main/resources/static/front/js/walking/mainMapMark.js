@@ -274,10 +274,3 @@ const mainMapLib = {
         }
     }
 };
-document.addEventListener('DOMContentLoaded', function() {
-    // 특정 요소를 제거하는 자바스크립트
-    var menus = document.querySelector('.menus');
-    if (menus) {
-        menus.remove();
-    }
-});
