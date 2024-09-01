@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap'); /* 나눔 고딕 변경 */
 
 /* 기본 공통 */
 * { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; letter-spacing: -.3px;}
@@ -16,7 +17,6 @@ img { border: 0; }
     margin: 0 auto;
     padding: 0 10px;
 }
-
 
 /* 파일 공통 S */
 .image-file-box {
@@ -46,7 +46,6 @@ img { border: 0; }
     text-align: center;
     line-height: 20px;
 }
-
 /* 파일 공통 E */
 
 /* 프로필 공통 S */
@@ -102,12 +101,12 @@ img { border: 0; }
 }
 /* 파일 공통 E */
 
-/* 헤더 영역 */
+/* 헤더 영역 S */
 header {
     background-color: #F2F2F2;
 }
 
-/* 상단 바 (로고, 제목, 드롭다운 메뉴) */
+/* 로고, 제목, 드롭다운 메뉴 바 */
 .top-bar {
     display: flex;
     align-items: center;
@@ -119,8 +118,9 @@ header {
 .logo-container {
     display: flex;
     align-items: center;
+    margin-right: 30px;
     padding-top: 20px;
-    padding-left: 150px;
+    padding-left: 50px;
 }
 
 .logo img {
@@ -128,72 +128,14 @@ header {
     width: 180px;
 }
 
-/* 제목 */
-.hn {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: left;
-    color: #333;
-    margin: 0;
-}
-
-/* 드롭 다운 메뉴 바 */
-.drop {
+/* 버튼 */
+.mm {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding-right: 50px;
-}
-
-.dropdown {
-    position: relative;
-}
-
-.nav_title {
-    display: flex;
-    align-items: center;
-    height: 40px;
-}
-
-.nav_title a {
-    text-decoration: none;
-    color: #333;
-    padding: 10px 20px;
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ccc;
-    z-index: 1000;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown-content li a {
-    padding: 10px;
-    text-decoration: none;
-    color: #333;
-}
-
-.dropdown-content li a:hover {
-    background-color: #30B1E3;
-}
-
-/* 하단 메뉴 바 */
-.nav .mm {
     background-color: #F2F2F2;
-    /*padding: 10px 0;*/
+    margin-right: 450px;
+    padding-top: 18px;
+    gap: 10px;
 }
 
 .menus {
@@ -236,6 +178,69 @@ button.hb:hover {
     align-items: center;
     gap: 10px;
 }
+
+/* 드롭 다운 메뉴 바 */
+.drop {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-right: 50px;
+}
+
+.dropdown {
+    position: relative;
+}
+
+/* 드롭 다운 메뉴바 글씨 */
+.nav_title {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.nav_title a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.nav_title:hover a {
+    color: #30B1E3;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    padding: 0;
+    margin-left: 12px;
+    z-index: 1000;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li {
+    padding: 10px 0;
+}
+
+.dropdown-content li a {
+    padding: 10px;
+    text-decoration: none;
+    color: #878787;
+}
+
+.dropdown-content li a:hover {
+    color: #30B1E3;
+}
+/* 헤더 영역 E */
 
 /* 푸터 영역 S */
 footer {
