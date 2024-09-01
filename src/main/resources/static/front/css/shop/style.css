@@ -1,3 +1,8 @@
+main {
+    min-height: 470px;
+    margin-top: 80px;
+}
+
 .shop-container {
     margin-top: 30px;
     border: 2px solid #ccc;

@@ -16,7 +16,7 @@
             </dd>
         </dl>
         <dl>
-            <dt th:text="#{닉네임}"></dt>
+            <dt th:text="#{닉네임}" id="dtNickName"></dt>
             <dd>
                 <input type="text" name="email" th:field="*{userName}">
                 <div class="error" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
