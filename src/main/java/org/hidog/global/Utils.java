@@ -45,12 +45,16 @@ public class Utils { // 빈의 이름 - utils
         }
     }
 
-    public String redirectUrl(String url) {
+    public String redirectUrl(String url) { //게이트웨이를 통해 접속할 때 url주소
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
         boolean fromGateway = _fromGateway.equals("true");
 
-        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/app" + url : String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+        if (gatewayHost.equals("@http_host")) {
+            gatewayHost = "hidog.xyz";
+        }
+
+        return fromGateway ? request.getScheme() + "://" + gatewayHost + "/admin" + url : request.getContextPath() + url;
     }
 
     public String adminUrl(String url){
