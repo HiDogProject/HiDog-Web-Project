@@ -92,8 +92,8 @@ const mainMapLib = {
     },
 
     load(mapId, width, height, zoom) {
-        this.width = width ?? '70%';
-        this.height = height ?? '600px';
+        this.width = width ?? '100%';
+        this.height = height ?? '90%';
         this.zoom = zoom || 17;
 
 
@@ -268,9 +268,16 @@ const mainMapLib = {
         } else {
             // 인포창이 닫혀 있을 때 열기
             infoBox.style.transform = 'translateX(0)';
-            toggleButton.style.right = '400px';
+            toggleButton.style.right = '375px';
             toggleButton.textContent = '>'; // 열렸을 때
             iframe.style.display = 'block';
         }
     }
 };
+document.addEventListener('DOMContentLoaded', function() {
+    // 특정 요소를 제거하는 자바스크립트
+    var menus = document.querySelector('.menus');
+    if (menus) {
+        menus.remove();
+    }
+});

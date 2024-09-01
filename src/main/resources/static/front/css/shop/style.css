@@ -1,0 +1,30 @@
+.shop-container {
+    margin-top: 30px;
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.shop-info {
+    display: flex;
+    align-items: center;
+}
+
+.shop-image {
+    margin-right: 10px;
+}
+
+.shop-image img {
+    width: 100px;
+    height: 100px;
+}
+
+.shop-details .user-name {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.shop-details .email {
+    font-size: 1em;
+    margin-top: 5px;
+}

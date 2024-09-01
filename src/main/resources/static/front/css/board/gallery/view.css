@@ -1,7 +1,7 @@
 /* 게시글 보기 공통 S */
 .board-main .view-content .subject {
     padding: 10px 15px;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     background-color: #F5F6F8;
 
 }
@@ -108,7 +108,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 14px;
+    font-size: 1rem;
     color: #666;
     padding: 10px 0;
     border-bottom: 1px solid #eee;
