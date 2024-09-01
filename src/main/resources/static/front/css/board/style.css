@@ -10,14 +10,79 @@
 .pagination .page + .page { margin-left: 3px; }
 /* 페이징 공통 E */
 
-/* 프로필 이미지 스타일 */
-.post-info .profile-image img {
+/* 프로필 이미지 스타일 S */
+/* 게시글 리스트 */
+.post_info .profile-image img {
     width: 30px;  /* 고정된 너비 설정 */
     height: 30px; /* 고정된 높이 설정 */
     border-radius: 50%; /* 원형으로 만들기 */
     margin-right: 8px;
     vertical-align: middle;
 }
+
+/* 게시글 보기 - view.html */
+.view-content .post-info .left img {
+    width: 30px;  /* 고정된 너비 설정 */
+    height: 30px; /* 고정된 높이 설정 */
+    border-radius: 50%; /* 원형으로 만들기 */
+    margin-right: 8px;
+    vertical-align: middle;
+    padding-left: 5px;
+}
+/* 프로필 이미지 스타일 E */
+
+/* 통합검색 공통 S */
+/* 검색 폼 컨테이너 */
+.top-box {
+    float: left;
+    display: flex; /* 가로로 배치 */
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+}
+
+/* 셀렉트 박스 스타일 */
+.top-box select {
+    padding: 8px 12px; /* 내부 여백 */
+    font-size: 14px; /* 글꼴 크기 */
+    border: 1.5px solid #e1e1e1; /* 테두리 */
+    border-right: none;
+    background-color: #fff; /* 배경색 */
+    color: #777;
+}
+
+/* 입력 필드 스타일 */
+.top-box input[type="text"] {
+    flex-grow: 1; /* 가능한 공간을 모두 차지 */
+    padding: 8px 12px; /* 내부 여백 */
+    font-size: 14px; /* 글꼴 크기 */
+    border: 1.5px solid #e1e1e1; /* 테두리 */
+    border-left: none;
+    border-right: none;
+    outline: none; /* 포커스 시 외곽선 제거 */
+}
+
+/* 검색 버튼 스타일 */
+.top-box button {
+    width: 100px;
+    padding: 5px; /* 내부 여백 */
+    font-size: 14px; /* 글꼴 크기 */
+    border: 1px solid #e1e1e1; /* 테두리 */
+    border-left: none;
+    background-color: #fff; /* 배경색 */
+    color: white; /* 텍스트 색상 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+    transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+}
+
+/* 검색 폼의 모든 요소에 공통적으로 적용되는 스타일 */
+.top-box select,
+.top-box input[type="text"],
+.top-box button {
+    height: 40px; /* 높이 설정 */
+}
+
+/* 통합검색 공통 E */
+
 
 /* 댓글 */
 #frmComment { margin: 20px 0 30px; }
@@ -37,3 +102,10 @@
 .comment_items .btns { text-align: right; }
 .comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
 .comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
+
+/* 비밀번호 문구 */
+#password-message {
+    color: #666; /* 안내 문구의 색상 */
+    font-size: 0.9em; /* 글자 크기 */
+    margin-top: 5px; /* 입력란과 문구 사이의 간격 */
+}
