@@ -41,7 +41,7 @@
 
 /* 게시글 보기 공통 S */
 .board-main .view-content .subject {
-    padding: 10px 15px;
+    padding: 18px 10px 18px 15px;
     font-size: 1.5rem;
     background-color: #F5F6F8;
 
@@ -49,14 +49,13 @@
 
 .board-main .view-content .post-info {
     border-top: 1px solid #ededed;
-    padding: 10px 15px;
+    padding: 18px 10px 18px 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .board-main .view-content .contents {
-    border-top: 1px solid #ededed;
     border-bottom: 1px solid #ccc;
     font-weight: lighter;
     font-size: 1.25rem;

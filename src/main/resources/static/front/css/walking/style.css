@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+/* 기본 공통 */
 * { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; }
 html { font-size: 13px; }
 body { margin: 0; overflow-x: hidden; } /* 가로 스크롤 방지 */
@@ -8,8 +11,11 @@ img { border: 0; }
 
 .board-main .view-content {
     margin-top: 0 !important;
+    border-bottom: 1px solid;
 }
-
+.view-content {
+    letter-spacing: -.3px;
+}
 .container {
     display: flex;
     justify-content: center;
@@ -103,4 +109,5 @@ img { border: 0; }
 
 .post-info {
     text-align: center;
+    border-bottom: 1px solid #eee;
 }

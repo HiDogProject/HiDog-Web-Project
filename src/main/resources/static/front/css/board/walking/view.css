@@ -50,3 +50,15 @@
     width: 80%; /* 너비는 필요에 맞게 설정 */
     max-width: 600px; /* 최대 너비 설정 */
 }
+.separator {
+    color: #cccccc; /* 옅은 회색 */
+    font-size: 0.6em; /* 텍스트보다 조금 작은 크기 */
+    line-height: 1; /* 기본 줄 높이 설정 */
+    position: relative;
+    top: -1.8px; /* 텍스트를 약간 위로 이동 */
+    padding: 0 1em; /* 양쪽으로 0.5em 여백 추가 */
+}
+
+.viewPoster {
+    color: #666666; /* 텍스트 색상 설정 */
+}

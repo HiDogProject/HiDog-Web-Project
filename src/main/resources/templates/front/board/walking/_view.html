@@ -7,11 +7,12 @@
     <div class="view-content" th:object="${boardData}">
         <div class="subject">
             <span th:if="*{category != null && !#strings.isEmpty(#strings.trim(category))}" th:text="*{'[' + category + ']'}"></span>
-            <th:text th:text="*{subject}"></th:text>
+            <th:block th:text="*{subject}"></th:block>
         </div>
         <div class="post-info">
             <div class="left">
-                <th:block th:text="#{작성자}"></th:block> :
+                <span th:text="#{작성자}" class="viewPoster"></span>
+                <span class="separator">|</span>
                 <th:block th:if="*{member != null && member.profileImage != null}">
                     <img th:src="*{@utils.getThumbUrl(member.profileImage.seq, 40, 40)}" th:alt="*{#strings.concat(poster, '(', member.email, ')')}">
                 </th:block>
@@ -19,7 +20,7 @@
                 <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
             </div>
             <div class="right">
-                <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">★</span>
+                <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'"></span>
                 <th:block th:text="#{작성일시}"></th:block> :
                 <span th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm:ss')}"></span>
                 <th:block th:text="#{조회수}"></th:block>: <span th:text="*{viewCount > 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA'): viewCount}"></span>
