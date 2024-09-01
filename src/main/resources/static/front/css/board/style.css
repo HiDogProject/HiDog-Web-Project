@@ -31,6 +31,20 @@
     vertical-align: middle;
     padding-left: 5px;
 }
+
+.right {
+    display: flex;
+    color: #666666; /* 텍스트 색상 설정 */
+}
+
+
+.right .post_time span {
+    color: #666666; /* 포스트 시간 텍스트 색상 설정 */
+}
+
+.post_time {
+    margin-right: 20px;
+}
 /* 프로필 이미지 스타일 E */
 
 /* 통합검색 공통 S */
@@ -88,10 +102,10 @@
 
 /* 댓글 */
 #frmComment { margin: 20px 0 30px; }
-.commenter_info { margin-bottom: 5px;}
-.commenter_info input { width: 120px; }
+.commenter_info { display: flex;  margin-bottom: 5px;}
+.commenter_info input { width: 120px; margin-top: 30px; font-size: 12px !important;}
 .comment_content { display: flex; height: 100px; }
-.comment_content button { width: 100px; background: #000; color: #fff; border: 0; cursor: pointer; font-size: 1.15rem; }
+.comment_content button { width: 100px; background: #30B1E3; color: #fff; border: 0; cursor: pointer; font-size: 1.15rem; }
 .comment_content textarea { flex-grow: 1; border: 1px solid #d5d5d5; padding: 10px; resize: none; }
 
 .comment_items { margin-top: 10px; }
@@ -100,7 +114,6 @@
 .comment_items .comment_top { display: flex; justify-content: space-between; height: 35px; align-items: center; border-bottom: 1px solid #222; margin-bottom: 10px; padding: 0 10px; }
 .comment_items .comment { padding: 10px; background: #f8f8f8; border-radius: 3px; margin-bottom: 10px; }
 .comment_items .comment textarea { width: 100%; height: 150px; border: 1px solid #d5d5d5; padding: 10px; border-radius: 3px; resize: none; }
-
 .comment_items .btns { text-align: right; }
 .comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
 .comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
@@ -110,4 +123,22 @@
     color: #666; /* 안내 문구의 색상 */
     font-size: 0.9em; /* 글자 크기 */
     margin-top: 5px; /* 입력란과 문구 사이의 간격 */
+}
+
+.separator {
+    color: #cccccc; /* 옅은 회색 */
+    font-size: 0.6em; /* 텍스트보다 조금 작은 크기 */
+    line-height: 1; /* 기본 줄 높이 설정 */
+    position: relative;
+    top: -3px; /* 텍스트를 약간 위로 이동 */
+    padding: 0 1em; /* 양쪽으로 0.5em 여백 추가 */
+}
+
+.right .separator {
+    color: #cccccc; /* 옅은 회색 */
+    font-size: 0.6em; /* 텍스트보다 조금 작은 크기 */
+    line-height: 1; /* 기본 줄 높이 설정 */
+    position: relative;
+    top: 4.5px; /* 텍스트를 약간 위로 이동 */
+    padding: 0 1.5em 0 1em; /* 양쪽으로 0.5em 여백 추가 */
 }
