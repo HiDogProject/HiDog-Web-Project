@@ -1,140 +1,136 @@
-/* 리스트 아이템 그리드 레이아웃 */
-.list-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    list-style: none;
+/* 게시글 목록 공통 S */
+/* 전체 nav 컨테이너 스타일 - cateogory 영역 */
+.board-main .category-links {
+    display: flex; /* 가로로 항목 배치 */
+    border-bottom: 1px solid #F2F2F2; /* 하단 테두리 추가 */
+    margin-bottom: 30px; /* 아래쪽 간격 추가 */
 }
 
-/* 게시글 박스 스타일 */
-.list-items li {
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 15px;
-    transition: box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 300px; /* 박스 높이 통일 */
-    overflow: hidden;
+.board-main .category-links .link {
+    width: 150px;
+    padding: 10px; /* 링크 내부 여백 */
+    color: #000; /* 기본 텍스트 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    display: inline-block; /* 링크를 블록 요소로 처리 */
+    border-right: 1px solid #F2F2F2; /* 오른쪽 테두리 추가 */
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s; /* 배경색과 텍스트 색상 전환 애니메이션 */
+}
+
+.board-main .category-links .link:hover {
+    background-color: #F2F2F2;
+    color: #00a8e8; /* hover 시 텍스트 색상 변경 (파란색) */
+    font-weight: bold; /* 활성화된 링크의 텍스트 굵기 */
+}
+
+.board-main .category-links .link.on {
+    background-color: #00a8e8; /* 활성화된 링크의 배경색 */
+    color: white; /* 활성화된 링크의 텍스트 색상 */
+    font-weight: bold; /* 활성화된 링크의 텍스트 굵기 */
+}
+
+.board-main .category-links .link:last-child {
+    border-right: none; /* 마지막 항목의 오른쪽 테두리 제거 */
+}
+
+/* 카테고리 라디오 */
+/* 라디오 버튼 스타일 */
+.category-tab input[type="radio"] {
+    margin-right: 8px;
+    accent-color: #00a8e8; /* 원하는 색상으로 조정하세요 */
+}
+
+/* 레이블 스타일 */
+.category-tab label {
+    margin-right: 15px;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
     position: relative;
 }
 
-.list-items li:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.list-items img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-
-/* 썸네일 이미지 스타일 */
-.list-items .photos {
-    position: relative;
-    width: 100%;
-    height: 150px; /* 고정된 높이 설정 */
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.list-items .photos .photo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
-    transition: opacity 0.5s ease;
-    z-index: 1;
-}
-
-.list-items .photos .photo:nth-child(n+2) {
-    opacity: 0;
-}
-
-.list-items li:hover .photos .photo {
-    animation: slideShow 7s ease infinite;
-}
-
-/* 슬라이드 애니메이션 */
-@keyframes slideShow {
-    0%, 30% { opacity: 1; z-index: 1; } /* 첫 번째 이미지 */
-    35%, 55% { opacity: 0; z-index: 0; } /* 첫 번째 이미지 사라짐 */
-    60%, 80% { opacity: 1; z-index: 1; } /* 두 번째 이미지 */
-    85%, 100% { opacity: 0; z-index: 0; } /* 두 번째 이미지 사라짐 */
-}
-
-/* 게시글 제목 및 내용 */
-.list-items .subject {
-    color: #333;
-    font-size: 14px;
+/* 선택된 라디오 버튼의 레이블 스타일 */
+.category-tab input[type="radio"]:checked + label {
     font-weight: bold;
-    margin-bottom: 5px;
-    text-decoration: none;
+    color: #00a8e8; /* 원하는 색상으로 조정하세요 */
+}
+/* 게시글 목록 공통 E */
+
+.board-main .view-content {
+    border-top: 1px solid;
+    margin-top: 10px;
 }
 
-.list-items .post-info {
-    font-size: 12px;
-    color: #999;
-    display: flex;
-    align-items: center;
+/* 테이블 스타일 공통 S */
+/* 테이블 스타일 */
+table {
+    width: 100%; /* 테이블 전체 너비 사용 */
+    border-collapse: collapse; /* 경계선 중복 제거 */
+    align-content: center;
 }
 
-.list-items .post-info span {
-    margin-right: 5px;
+th.top-border {
+    border-top: 1px solid ; /* 상단 경계선을 굵고 짙은 색상으로 설정 */
 }
-
-.list-items .price {
-    color: #ff5a5f;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.list-items .info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #999;
-}
-
-/* 하단 고정 박스 */
-.bottom-box {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    width: 200px;
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.bottom-box .btn {
-    background-color: #ff5a5f;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 20px;
-    text-decoration: none;
-    display: block;
+/* 테이블 헤더 셀 스타일 */
+th {
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    padding: 10px; /* 패딩 추가 */
+    border-top: 1px solid;
+    border-bottom: 1px solid hsl(0, 0%, 80%); /* 연한 회색 테두리 */
+    width: 150px; /* 항목명 너비 고정 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    font-weight: bold; /* 글자 굵게 */
+    color: #333; /* 글자 색상 */
     text-align: center;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease;
 }
 
-.bottom-box .btn:hover {
-    background-color: #e14b50;
+/* 테이블 데이터 셀 스타일 */
+td {
+    padding: 10px; /* 패딩 추가 */
+    border-bottom: 1px solid hsl(0, 0%, 80%); /* 연한 회색 테두리 */
+    border-top: 1px solid;
+}
+/* 테이블 스타일 공통 E */
+
+
+.short-input {
+    max-width: 20%;
 }
 
-.bottom-box .recent-items {
-    color: #999;
-    font-size: 14px;
-    text-align: center;
+/* 입력 필드 (input, textarea) 스타일 S */
+input[type="text"], input[type="password"], textarea {
+    width: 100%; /* 입력 필드 전체 너비 */
+    padding: 8px; /* 안쪽 여백 */
+    border: 1px solid #ccc; /* 테두리 색상 */
+    font-size: 14px; /* 글자 크기 */
+    background-color: white; /* 입력 박스 배경색 흰색 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+}
+
+.short-input {
+    width: 50px; /* 원하는 너비로 조정 */
+}
+
+textarea {
+    resize: vertical; /* 수직 크기 조정만 가능 */
+}
+/* 입력 필드 (input, textarea) 스타일 E */
+
+/* 오류 메시지의 스타일 S  */
+.error {
+    color: #d9534f; /* 오류 글자 색상 */
+    font-size: 12px; /* 글자 크기 */
+    margin-top: 5px; /* 위쪽 여백 */
+}
+/* 오류 메시지의 스타일 E */
+
+/* 게시판 이름 S */
+.page-title {
+    padding: 40px 0;
+}
+/* 게시판 이름 E */
+
+#search_top {
+    margin-top: 20px;
 }

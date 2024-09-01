@@ -1,3 +1,73 @@
+/* 게시글 보기 공통 S */
+.board-main .view-content .subject {
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    background-color: #F5F6F8;
+
+}
+
+.board-main .view-content .post-info {
+    border-top: 1px solid #ededed;
+    padding: 18px 10px 18px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.board-main .view-content .contents {
+    border-bottom: 1px solid #ccc;
+    font-weight: lighter;
+    font-size: 1.25rem;
+    min-height: 350px;
+    padding: 15px;
+    word-break: break-all;
+}
+
+.board-main .view-content .contents img {
+    max-width: 960px;
+    width: auto !important;
+    height: auto !important;
+}
+
+.board-main .downloads {
+    margin-bottom: 20px;
+}
+
+.board-main .downloads li {
+    height: 35px;
+    border-bottom: 1px solid #ccc;
+    padding: 0 15px;
+}
+.board-main .downloads li a {
+    font-size: 1.15rem;
+    line-height: 34px;
+}
+.border-main .downloads li a:hover {
+    text-decoration: underline;
+}
+/* 게시글 보기 공통 E */
+
+
+
+/* 내용, 이미지 한 영역안에 오기 S */
+.contents {
+    /* 기존 스타일 유지 */
+    position: relative;
+}
+
+.downloads {
+    margin-top: 20px; /* 필요에 따라 여백 조정 */
+    display: flex;     /* 플렉스 박스를 이용해 이미지들을 수평으로 배치 */
+    flex-wrap: wrap;   /* 이미지가 영역을 넘길 경우 자동으로 줄바꿈 */
+}
+
+.downloads img {
+    max-width: 100px;  /* 이미지 최대 폭 설정, 필요에 따라 조정 */
+    margin-right: 10px; /* 이미지 사이 여백 조정 */
+    margin-bottom: 10px; /* 이미지 아래 여백 조정 */
+}
+/* 내용, 이미지 한 영역안에 오기 E */
+
 /* 글쓰기, 글수정, 글삭제, 글목록 버튼 스타일링 S */
 .links {
     display: flex; /* 버튼들을 한 줄에 배치 */
@@ -32,6 +102,7 @@
 /* 글쓰기, 글수정, 글삭제, 글목록 버튼 스타일링 E */
 
 /* 작성자, 작성일시, 조회수 S */
+
 /* 기본 레이아웃 및 정렬 */
 .post-info {
     display: flex;
@@ -43,13 +114,6 @@
     border-bottom: 1px solid #eee;
 }
 
-.map {
-    /* 페이지 중앙으로 오도록 설정 */
-    margin: 20px auto; /* Y축 상단 요소와의 거리 20px, X축 중앙 정렬 */
-    display: block; /* 요소를 블록으로 처리해서 중앙 정렬이 제대로 적용되도록 함 */
-    width: 80%; /* 너비는 필요에 맞게 설정 */
-    max-width: 600px; /* 최대 너비 설정 */
-}
 .separator {
     color: #cccccc; /* 옅은 회색 */
     font-size: 0.6em; /* 텍스트보다 조금 작은 크기 */

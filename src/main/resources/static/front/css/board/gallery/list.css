@@ -1,0 +1,150 @@
+/* 전체 목록 스타일 */
+.list-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+/* 게시글 아이템 스타일 */
+.list-items li {
+    width: calc(33.333% - 20px); /* 세 개의 아이템이 한 줄에 나타나도록 */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-items li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 게시글 제목 스타일 */
+.list-items li .subject {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    border-bottom: 1px solid #eee;
+}
+
+/* 공지 및 카테고리 스타일 */
+.list-items li .subject .category,
+.list-items li .subject span[th\:if="*{notice}"] {
+    display: inline-block;
+    font-size: 0.9em;
+    color: #3498db;
+    margin-right: 5px;
+}
+
+/* 이미지 썸네일 섹션 스타일 */
+.photos {
+    position: relative;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+
+.photos .inner {
+    display: flex;
+    gap: 0; /* 이미지 사이의 여백 제거 */
+}
+
+.photos .inner a {
+    flex: 1; /* 각 이미지가 동일한 너비를 차지하도록 설정 */
+    height: 0;
+    padding-bottom: 50%; /* 2:1 비율 (세로 비율) */
+    position: relative;
+    margin: 0; /* 이미지 사이의 간격 제거 */
+}
+
+.photos .photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지 비율을 유지하면서 부모 요소에 맞게 조정 */
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.photos .photo:hover {
+    opacity: 0.85;
+}
+
+/* 여러 이미지가 있을 때 나타나는 배지 스타일 */
+.photos .badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 0.9em;
+    padding: 5px 10px;
+}
+
+/* 게시글 정보 스타일 */
+.post-info {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.post-info .poster {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+}
+
+#profile-image-container img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.post-info .view-count {
+    margin-left: 20px;
+}
+
+.post-info .datetime {
+    margin-left: 20px;
+}
+
+/* 글쓰기 버튼 S */
+/* 링크 컨테이너 */
+.links {
+    margin-top: 20px;
+    text-align: right; /* 버튼을 오른쪽 정렬 */
+}
+
+/* 글쓰기 버튼 스타일 */
+.write_btn {
+    background-color: #00a8e8; /* 버튼 배경색 */
+    color: #fff; /* 글자 색상 */
+    border: none; /* 기본 테두리 제거 */
+    padding: 10px 20px; /* 버튼 패딩 */
+    font-size: 1rem; /* 글자 크기 */
+    cursor: pointer; /* 커서 변경 */
+    /*transition: background-color 0.3s, transform 0.3s; !* 배경색과 변형 애니메이션 *!*/
+}
+
+.write_btn:hover {
+    background-color: #0056b3; /* 호버 시 배경색 변경 */
+    /*transform: translateY(-2px); !* 호버 시 살짝 위로 올라가는 효과 *!*/
+}
+
+.write_btn:active {
+    background-color: #0056b3; /* 클릭 시 배경색 변경 */
+    /*transform: translateY(0); !* 클릭 시 원래 위치로 돌아옴 *!*/
+}
+/* 글쓰기 버튼 E */

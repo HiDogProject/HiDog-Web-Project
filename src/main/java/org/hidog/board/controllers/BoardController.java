@@ -303,6 +303,10 @@ public class BoardController implements ExceptionProcessor {
             addCss.add("board/default/" + mode);
         }
 
+        if(skin.equals("gallery")){
+            addCss.add("board/gallery/" + mode);
+        }
+
         if(skin.equals("market")){
            addCss.add("board/market/" + mode);
         }

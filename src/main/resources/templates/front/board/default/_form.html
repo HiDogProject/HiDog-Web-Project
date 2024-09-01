@@ -4,10 +4,14 @@
     <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <input type="hidden" name="gid" th:field="*{gid}">
 
-    <div th:replace="~{front/board/default/_common::category}"></div>
-
     <table>
         <tbody>
+        <tr>
+            <th th:text="#{카테고리}"></th>
+            <td>
+                <div th:replace="~{front/board/default/_common::category}"></div>
+            </td>
+        </tr>
         <tr>
             <th th:text="#{작성자}" ></th>
             <td>
@@ -26,6 +30,7 @@
             <th th:text="#{비밀번호}"></th>
             <td>
                 <input type="password" name="guestPw" th:field="*{guestPw}" class="short-input">
+                <div id="password-message" th:text="'※ 비밀번호는 영어, 숫자 조합으로 4자 이상 입력해주세요.'"></div> <!-- 안내 문구 추가 -->
                 <div class="error" th:each="err : ${#fields.errors('guestPw')}" th:text="${err}"></div>
             </td>
         </tr>

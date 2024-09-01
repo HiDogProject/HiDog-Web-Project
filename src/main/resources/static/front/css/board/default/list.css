@@ -72,7 +72,7 @@ th {
     text-align: center;
 }
 
-/* 글쓰기 버튼 */
+/* 글쓰기 버튼 S */
 /* 링크 컨테이너 */
 .links {
     margin-top: 20px;
@@ -87,16 +87,16 @@ th {
     padding: 10px 20px; /* 버튼 패딩 */
     font-size: 1rem; /* 글자 크기 */
     cursor: pointer; /* 커서 변경 */
-    transition: background-color 0.3s, transform 0.3s; /* 배경색과 변형 애니메이션 */
+    /*transition: background-color 0.3s, transform 0.3s; !* 배경색과 변형 애니메이션 *!*/
 }
 
 .write_btn:hover {
     background-color: #0056b3; /* 호버 시 배경색 변경 */
-    transform: translateY(-2px); /* 호버 시 살짝 위로 올라가는 효과 */
+    /*transform: translateY(-2px); !* 호버 시 살짝 위로 올라가는 효과 *!*/
 }
 
 .write_btn:active {
     background-color: #0056b3; /* 클릭 시 배경색 변경 */
-    transform: translateY(0); /* 클릭 시 원래 위치로 돌아옴 */
+    /*transform: translateY(0); !* 클릭 시 원래 위치로 돌아옴 *!*/
 }
-
+/* 글쓰기 버튼 E */
