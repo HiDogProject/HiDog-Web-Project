@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" th:href="${@utils.url('/front/css/member/find_pw_done.css')}">
 </head>
 <main layout:fragment="content">
-    <h1 th:text="#{비밀번호_찾기}"></h1>
+    <h1 th:text="#{비밀번호_초기화}"></h1>
     <div th:text="#{비밀번호를_가입하신_이메일로_전송하였습니다.}"></div>
-    <a th:href="${@utils.redirectUrl('/member/login')}" th:text="#{로그인}"></a>
+    <a th:href="${@utils.redirectUrl('/member/login')}" th:text="#{로그인_페이지로_이동}"></a>
 </main>
 </html>

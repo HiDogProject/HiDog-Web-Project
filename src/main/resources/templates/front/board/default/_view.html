@@ -7,7 +7,7 @@
     <div class="view-content" th:object="${boardData}">
         <div class="subject">
             <span th:if="*{category != null && !#strings.isEmpty(#strings.trim(category))}" th:text="*{'[' + category + ']'}"></span>
-            <th:text th:text="*{subject}"></th:text>
+            <th:block th:text="*{subject}"></th:block>
         </div>
         <div class="post-info">
             <div class="left">
@@ -20,11 +20,17 @@
                 <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
             </div>
             <div class="right">
-                <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">★</span>
-                <th:block th:text="#{작성일시}"></th:block> :
-                <span th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm:ss')}"></span>
-                <th:block th:text="#{조회수}"></th:block>: <span th:text="*{viewCount > 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA'): viewCount}"></span>
-<!--                IP: <span th:text="*{ip}"></span>-->
+                <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'"></span>
+                <th:block th:text="#{등록일}"></th:block>
+                <span class="separator">|</span>
+                <div class="post_time">
+                    <span th:text="*{#temporals.format(createdAt, 'yy-MM-dd')}"></span>
+                    <span th:text="*{#temporals.format(createdAt, 'HH:mm:ss')}"></span>
+                </div>
+                <th:block th:text="#{조회}"></th:block>
+                <span class="separator">|</span>
+                <span th:text="*{viewCount > 1000 ? #numbers.formatInteger(viewCount, 3, 'COMMA'): viewCount}"></span>
+                회
             </div>
         </div> <!--// post-info -->
         <div class="contents" th:if="*{editorView}" th:utext="*{content}"></div>
@@ -44,7 +50,6 @@
 
             <a th:if="*{showList}" th:href="${@utils.redirectUrl('/board/list/' + board.bid)}" th:text="#{글목록}" class="btn"></a>
         </div>
-        <div id="mapId" class="map"></div>
     </div>  <!--// view-content -->
 
 </th:block>

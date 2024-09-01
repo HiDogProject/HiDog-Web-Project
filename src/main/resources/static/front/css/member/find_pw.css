@@ -1,5 +1,14 @@
 /* find_pw.css */
+header {
+    width: 100% !important;
+}
 
+h1 {
+    margin-bottom: 20px; /* 제목과 다른 요소 간의 간격 조정 */
+    color: #333; /* 제목 색상 설정 */
+    text-align: center;
+    font-weight: normal;
+}
 /* 폼 전체 스타일 */
 form[name="frmFindPw"] {
     max-width: 400px;
@@ -23,12 +32,16 @@ form[name="frmFindPw"] input[type="text"] {
 form[name="frmFindPw"] button[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: #9dc5f6;
+    background-color: #30B1E3;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 19px;
+    font-size: 1em;
+}
+
+form[name="frmFindPw"] button[type="submit"]:hover {
+    background-color: #27a7d9;
 }
 
 /* 에러 메시지 스타일 */

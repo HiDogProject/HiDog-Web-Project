@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="${@utils.url('/front/css/member/find_pw.css')}">
 </head>
   <main layout:fragment="content">
-    <h1 th:text="#{비밀번호_찾기}"></h1>
+    <h1 th:text="#{비밀번호_초기화}"></h1>
     <form name="frmFindPw" method="post" th:action="${@utils.redirectUrl('/member/find_pw')}" autocomplete="off" th:object="${requestFindPw}">
         <dl>
             <dt th:text="#{이메일}"></dt>
@@ -16,13 +16,13 @@
             </dd>
         </dl>
         <dl>
-            <dt th:text="#{회원명}"></dt>
+            <dt th:text="#{닉네임}"></dt>
             <dd>
                 <input type="text" name="email" th:field="*{userName}">
                 <div class="error" th:each="err : ${#fields.errors('userName')}" th:text="${err}"></div>
             </dd>
         </dl>
-        <button type="submit" th:text="#{비밀번호_찾기}"></button>
+        <button type="submit" th:text="#{비밀번호_초기화}"></button>
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     </form>
 </main>

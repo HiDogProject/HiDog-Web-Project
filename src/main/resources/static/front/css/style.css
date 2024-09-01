@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap'); /* 나눔 고딕 변경 */
 
 /* 기본 공통 */
-* { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; letter-spacing: -.3px;}
-html { font-size: 13px; }
+* { font-family: 'Noto Sans KR', sans-serif; color: #000; box-sizing: border-box; outline: none; letter-spacing: -1px;}
+html { font-size: 14px; }
 body { margin: 0; }
 a { text-decoration: none; }
 ul, ol { list-style: none; margin: 0; padding: 0; }
@@ -104,6 +104,8 @@ img { border: 0; }
 /* 헤더 영역 S */
 header {
     background-color: #F2F2F2;
+    display: flex;
+    flex-direction: column;
 }
 
 /* 로고, 제목, 드롭다운 메뉴 바 */
@@ -119,8 +121,8 @@ header {
     display: flex;
     align-items: center;
     margin-right: 30px;
-    padding-top: 20px;
-    padding-left: 50px;
+    padding-top: 5px;
+    padding-left: 30px;
 }
 
 .logo img {
@@ -133,8 +135,6 @@ header {
     display: flex;
     align-items: center;
     background-color: #F2F2F2;
-    margin-right: 450px;
-    padding-top: 18px;
     gap: 10px;
 }
 
@@ -177,6 +177,7 @@ button.hb:hover {
     display: flex;
     align-items: center;
     gap: 10px;
+    justify-content: flex-end;
 }
 
 /* 드롭 다운 메뉴 바 */
@@ -246,9 +247,9 @@ button.hb:hover {
 footer {
     background: #f9f9f9;
     padding: 25px 0 20px;
-    margin-top: auto; /* 푸터를 화면 하단으로 이동 */
     text-align: center;
     width: 100%;
+    display: block;
 }
 
 footer .I {
@@ -318,3 +319,4 @@ footer .links a:not(.last)::after {
 .cancelBtn {
     color: #BBBBBB;
 }
+

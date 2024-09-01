@@ -214,6 +214,10 @@ public class BoardController implements ExceptionProcessor {
             model.addAttribute("markerPoint", jsonString);
         }
 
+        if(skin.equals("market")){ //마켓 리스트 css
+            model.addAttribute("addcss", "board/market/list");
+        }
+
         return utils.tpl("board/view");
     }
 

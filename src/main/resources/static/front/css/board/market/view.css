@@ -1,14 +1,14 @@
+/* .top-section */
 .top-section {
     display: flex;
     justify-content: space-between;
     margin-top: 30px; /* 위 요소와의 간격 */
     padding-top: 30px; /* 줄과 콘텐츠 사이에 간격 추가 */
-    border-top: 1px solid rgb(0, 0, 0);/* 위에 줄을 그림 */
+    border-top: 1px solid rgb(0, 0, 0); /* 위에 줄을 그림 */
     gap: 20px; /* image-section과 details-wrapper 사이의 간격 */
     margin-bottom: 100px;
 }
 
-/*이미지 슬라이드 S*/
 /* 슬라이더 전체 컨테이너 */
 .slider {
     position: relative;
@@ -77,9 +77,9 @@ button.next {
 button.prev:hover, button.next:hover {
     background-color: rgba(0, 0, 0, 0.7);
 }
-/*이미지 슬라이드 E*/
 
-.image-section{
+/* .image-section */
+.image-section {
     flex: 1;
     max-width: 50%;
 }
@@ -91,6 +91,7 @@ button.prev:hover, button.next:hover {
     border-radius: 5px;
 }
 
+/* .details-wrapper */
 .details-wrapper {
     flex: 1; /* details-wrapper가 오른쪽에 위치 */
     display: flex;
@@ -98,15 +99,14 @@ button.prev:hover, button.next:hover {
     justify-content: space-between;
 }
 
-
-
+/* .subject */
 .subject {
     font-size: 24px;
     font-weight: 600;
     line-height: 1.4;
 }
 
-
+/* .price-section */
 .price-section {
     font-size: 25px;
     font-weight: 500;
@@ -114,11 +114,12 @@ button.prev:hover, button.next:hover {
     border-bottom: 2px solid rgb(238, 238, 238);
 }
 
-
+/* .free */
 .free {
     color: #ff0000;
 }
 
+/* .info-section */
 .info-section {
     font-size: 16px;
     height: 40%;
@@ -130,13 +131,14 @@ button.prev:hover, button.next:hover {
     margin-right: 20px;
 }
 
-
+/* .links */
 .links {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
+/* .wishlist-toggle 및 .buy-button */
 .wishlist-toggle,
 .buy-button {
     background-color: #fff;
@@ -176,8 +178,7 @@ button.prev:hover, button.next:hover {
     display: inline-block;
 }
 
-
-/* bottom-section layout */
+/* .bottom-section */
 .bottom-section {
     display: flex;
     justify-content: space-between;
@@ -186,9 +187,10 @@ button.prev:hover, button.next:hover {
     margin-bottom: 30px;
     padding-top: 10px; /* 줄과 콘텐츠 사이에 간격 추가 */
     border-bottom: 1px solid rgb(0, 0, 0);
-    border-top: 1px solid rgb(0, 0, 0);/* 위에 줄을 그림 */
+    border-top: 1px solid rgb(0, 0, 0); /* 위에 줄을 그림 */
 }
 
+/* .content-section */
 .content-section {
     flex: 2; /* content-section이 더 많은 공간을 차지 */
     font-size: 16px;
@@ -198,20 +200,20 @@ button.prev:hover, button.next:hover {
     height: 300px;
 }
 
+/* .poster-info */
 .poster-info {
     flex: 1; /* poster-info가 content-section에 비해 더 적은 공간을 차지 */
     margin-top: 0;
 }
 
-
-
+/* .content-section dl, .poster-info dl */
 .content-section dl,
-.poster-info dl{
+.poster-info dl {
     font-size: 20px;
-    border-bottom: 2px solid rgb(238, 238, 238);/* 위에 줄을 그림 */
-
+    border-bottom: 2px solid rgb(238, 238, 238); /* 위에 줄을 그림 */
 }
 
+/* .poster-info .item-link */
 .poster-info .item-link {
     display: flex;
     align-items: center;
@@ -219,6 +221,7 @@ button.prev:hover, button.next:hover {
     color: #333;
 }
 
+/* .links .btn */
 .links .btn {
     background-color: #30B1E3;
     color: #fff;

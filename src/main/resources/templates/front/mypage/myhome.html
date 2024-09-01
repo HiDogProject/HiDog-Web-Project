@@ -26,11 +26,11 @@
             </a>
 
             <a th:href="${@utils.redirectUrl('/mypage/wishlist')}" class="btn-wrapper">
-                <button type="button" class="btn" th:text="#{찜_목록_보기}"></button>
+                <button type="button" class="btn" th:text="#{관심_목록_보기}"></button>
             </a>
 
             <a th:href="${@utils.redirectUrl('/mypage/post')}" class="btn-wrapper">
-                <button type="button" class="btn" th:text="#{내가_쓴_글_보기}"></button>
+                <button type="button" class="btn" th:text="#{내_게시글_보기}"></button>
             </a>
             <a th:href="${@utils.redirectUrl('/shop/' + @memberUtil.getMember().getSeq())}" class="btn-wrapper">
                 <button type="button" class="btn" th:text="#{내_상점}"></button>
