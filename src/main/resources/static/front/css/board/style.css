@@ -79,7 +79,7 @@
 
 /* 검색 버튼 스타일 */
 .top-box button {
-    width: 100px;
+    width: 70px;
     padding: 5px; /* 내부 여백 */
     font-size: 14px; /* 글꼴 크기 */
     border: 1px solid #e1e1e1; /* 테두리 */
@@ -116,8 +116,8 @@
 .comment_items .comment { padding: 10px; background: #f8f8f8; border-radius: 3px; margin-bottom: 10px; }
 .comment_items .comment textarea { width: 100%; height: 150px; border: 1px solid #d5d5d5; padding: 10px; border-radius: 3px; resize: none; }
 .comment_items .btns { text-align: right; }
-.comment_items button, .comment_items .btns a { border: 1px solid #596b99; background: #fff; height: 35px; padding: 0 15px; color: #596b99; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
-.comment_items button:hover, .comment_items .btns a:hover { background: #596b99; color: #fff; }
+.comment_items button, .comment_items .btns a { border: 1px solid #30B1E3; background: #fff; height: 35px; padding: 0 15px; color: #30B1E3; cursor: pointer; transition: all 0.5s; border-radius: 3px; display: inline-block; line-height: 33px; }
+.comment_items button:hover, .comment_items .btns a:hover { background: #30B1E3; color: #fff; }
 
 /* 비밀번호 문구 S */
 #password-message {
