@@ -31,7 +31,7 @@
                     <thead>
                     <tr>
                         <th th:text="#{상품정보}"></th>
-                        <th th:text="#{추가정보}"></th>
+                        <th th:text="#{가격}"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -76,6 +76,20 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="links">
+                <tr th:each="item : ${items}">
+                    <a class="btn" th:if="${item.orderInfo.status.getTitle == '주문접수'}" th:href="*{@utils.redirectUrl('/shop/sell')}"
+                       th:text="#{주문거절}"></a>
+                    <a class="btn" th:if="${item.orderInfo.status.getTitle == '입금확인'}" th:href="*{@utils.redirectUrl('/shop/sell')}"
+                       th:text="#{주문승인}"></a>
+                    <a class="btn" th:if="${item.orderInfo.status.getTitle == '입금확인'}" th:href="*{@utils.redirectUrl('/shop/sell')}"
+                       th:text="#{주문거절}"></a>
+                    <a class="btn" th:if="${item.orderInfo.status.getTitle == '상품_준비중'}" th:href="*{@utils.redirectUrl('/shop/sell')}"
+                       th:text="#{운송장_등록}"></a>
+                </tr>
+            </div>
+
         </div>
 
     </div>

@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
+<head>
+    <link rel="stylesheet" href="styles/shop.css">
+</head>
+<body>
 <main layout:fragment="content">
     <div class="layout-width" th:object="${member}">
         <div class="shop-container">
@@ -14,7 +18,7 @@
                 </div>
                 <div class="shop-details">
                     <div class="user-name">
-                        <span th:text="*{userName} + '님의_상점'"></span>
+                        <span th:text="*{userName} + #{'님의_상점'}"></span>
                     </div>
                     <div class="email">
                         <span th:text="*{email}"></span>
@@ -22,8 +26,21 @@
                 </div>
             </div>
         </div>
+        <div class="links">
+            <th:block th:if="*{@memberUtil.isLogin}">
+                <a class="btn" th:if="*{@memberUtil.getMember.getSeq == seq}" th:href="*{@utils.redirectUrl('/shop/' + seq)}"
+                   th:text="#{판매글}"></a>
+                <a class="btn" th:if="*{@memberUtil.getMember.getSeq == seq}"
+                   th:href="*{@utils.redirectUrl('/shop/sell')}"
+                   th:text="#{판매내역}"></a>
+                <a class="btn" th:if="*{@memberUtil.getMember.getSeq == seq}"
+                   th:href="*{@utils.redirectUrl('/shop/buy')}"
+                   th:text="#{구매내역}"></a>
+            </th:block>
+        </div>
         <th:block th:replace="~{front/board/market/_list_items::items}"></th:block>
     </div>
 </main>
 <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+</body>
 </html>
