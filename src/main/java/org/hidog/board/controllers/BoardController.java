@@ -163,6 +163,11 @@ public class BoardController implements ExceptionProcessor {
     public String list(@PathVariable("bid") String bid, @ModelAttribute BoardDataSearch search, Model model) {
         commonProcess(bid, "list", model);
 
+        // 정렬 옵션 추가: "viewCount_DESC"는 조회수 내림차순 정렬
+        if ("viewCount".equals(search.getSort())) {
+            search.setSort("viewCount_DESC");
+        }
+
         ListData<BoardData> data = boardInfoService.getList(bid, search);
 
         model.addAttribute("items", data.getItems());

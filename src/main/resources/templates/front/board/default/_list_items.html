@@ -9,9 +9,13 @@
             <button type="submit" class="write_btn" th:text="#{글쓰기}"></button>
         </form>
     </div>
+    <div class="sort-buttons">
+        <!-- 조회수 순 정렬 버튼 -->
+        <a th:href="${@utils.redirectUrl('/board/list/' + board.bid) + '?sort=viewCount'}" class="btn btn-primary">조회수 순 정렬</a>
+    </div>
 
     <th:block th:fragment="boardList">
-    <table class="board-list">
+        <table class="board-list">
         <thead>
         <tr>
             <th class="no" th:text="#{제목}"></th>
