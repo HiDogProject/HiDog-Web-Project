@@ -20,6 +20,8 @@
     vertical-align: middle;
 }
 
+
+
 /* 게시글 보기 - view.html */
 .view-content .post-info .left img {
     width: 30px;  /* 고정된 너비 설정 */
@@ -86,7 +88,7 @@
 
 /* 댓글 */
 #frmComment { margin: 20px 0 30px; }
-.commenter_info { margin-bottom: 5px; }
+.commenter_info { margin-bottom: 5px;}
 .commenter_info input { width: 120px; }
 .comment_content { display: flex; height: 100px; }
 .comment_content button { width: 100px; background: #000; color: #fff; border: 0; cursor: pointer; font-size: 1.15rem; }

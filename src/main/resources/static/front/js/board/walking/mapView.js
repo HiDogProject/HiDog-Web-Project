@@ -61,7 +61,7 @@ const viewMapLib = {
     },
 
     load(mapId, width, height, zoom) {
-        this.width = width ?? '10%';
+        this.width = width ?? '70%';
         this.height = height ?? '500px';
         this.zoom = zoom || 17;
 

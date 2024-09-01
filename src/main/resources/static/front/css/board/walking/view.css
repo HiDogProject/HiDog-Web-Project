@@ -1,0 +1,64 @@
+/* 글쓰기, 글수정, 글삭제, 글목록 버튼 스타일링 S */
+.links {
+    display: flex; /* 버튼들을 한 줄에 배치 */
+    justify-content: center; /* 버튼들을 가로축 기준으로 가운데 정렬 */
+    gap: 10px; /* 버튼들 사이의 간격 */
+    margin-top: 30px; /* 상단에 여백 추가 */
+}
+
+.links .btn {
+    display: inline-block;
+    padding: 10px 20px; /* 버튼의 내부 여백 */
+    background-color: #0064C5; /* 배경색: 파란색 */
+    color: #fff; /* 글자색: 흰색 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    font-size: 16px; /* 글자 크기 */
+    transition: background-color 0.3s; /* 배경색 전환 애니메이션 */
+}
+
+.links .btn:hover {
+    background-color: #0056b3; /* 마우스를 올렸을 때 배경색 변경 */
+}
+
+.links .btn:active {
+    background-color: #003d7a; /* 버튼을 클릭했을 때 배경색 변경 */
+}
+
+.links .btn:disabled {
+    background-color: #c0c0c0; /* 비활성화 상태일 때 배경색 */
+    cursor: not-allowed; /* 커서를 비활성화 상태로 변경 */
+}
+/* 글쓰기, 글수정, 글삭제, 글목록 버튼 스타일링 E */
+
+/* 작성자, 작성일시, 조회수 S */
+/* 기본 레이아웃 및 정렬 */
+.post-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.map {
+    /* 페이지 중앙으로 오도록 설정 */
+    margin: 20px auto; /* Y축 상단 요소와의 거리 20px, X축 중앙 정렬 */
+    display: block; /* 요소를 블록으로 처리해서 중앙 정렬이 제대로 적용되도록 함 */
+    width: 80%; /* 너비는 필요에 맞게 설정 */
+    max-width: 600px; /* 최대 너비 설정 */
+}
+.separator {
+    color: #cccccc; /* 옅은 회색 */
+    font-size: 0.6em; /* 텍스트보다 조금 작은 크기 */
+    line-height: 1; /* 기본 줄 높이 설정 */
+    position: relative;
+    top: -1.8px; /* 텍스트를 약간 위로 이동 */
+    padding: 0 1em; /* 양쪽으로 0.5em 여백 추가 */
+}
+
+.viewPoster {
+    color: #666666; /* 텍스트 색상 설정 */
+}
