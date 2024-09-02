@@ -20,7 +20,7 @@
                 <th:block th:if="*{member != null}" th:text="*{#strings.concat('(', member.email, ')')}"></th:block>
             </div>
             <div class="right">
-                <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'">★</span>
+                <span th:class="${'wishlist-toggle' + (isLogin? '' : ' required-login')}" th:data-seq="*{seq}" data-type="BOARD" th:classappend="*{@wishListService.check(seq, 'BOARD')} ? 'on'"></span>
                 <th:block th:text="#{등록일}"></th:block>
                 <span class="separator">|</span>
                 <div class="post_time">
