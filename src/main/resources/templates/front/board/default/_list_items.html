@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="items">
-    <div class="board_png">
-        <img th:src="${@utils.url('/common/img/board/dogbanner.png')}" alt="dogbanner">
-    </div>
     <nav th:replace="~{front/board/default/_common::categorylink}"></nav>
     <div th:replace="~{common/_search_top::search}"></div>
 
@@ -12,9 +9,13 @@
             <button type="submit" class="write_btn" th:text="#{글쓰기}"></button>
         </form>
     </div>
+<!--    <div class="sort-buttons">-->
+<!--        &lt;!&ndash; 조회수 순 정렬 버튼 &ndash;&gt;-->
+<!--        <a th:href="${@utils.redirectUrl('/board/list/' + board.bid) + '?sort=viewCount'}" class="btn btn-primary">조회수 순 정렬</a>-->
+<!--    </div>-->
 
     <th:block th:fragment="boardList">
-    <table class="board-list">
+        <table class="board-list">
         <thead>
         <tr>
             <th class="no" th:text="#{제목}"></th>
@@ -40,8 +41,8 @@
                     </a>
                 </td>
                 <td class="post_info">
-                    <span class="poster" id="profile-image-container">
-                        <th:block th:if="*{member == null}" th:text="*{poster}"></th:block>
+                    <span class="poster" >
+                        <th:block th:text="*{poster}"></th:block>
                     </span>
                 </td>
                 <td class="post_date" th:text="*{#temporals.format(createdAt, 'yyyy.MM.dd HH:mm')}"></td>

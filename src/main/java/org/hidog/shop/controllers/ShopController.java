@@ -41,7 +41,7 @@ public class ShopController {
 
         model.addAttribute("member", member);
         model.addAttribute("items", data.getItems());
-        model.addAttribute("addCss", List.of("board/market/list","shop/style","style"));
+        model.addAttribute("addCss", List.of("board/market/list", "shop/style", "style"));
 
         return utils.tpl("shop/shop");
     }
@@ -49,10 +49,12 @@ public class ShopController {
     @GetMapping("/sell")
     public String listSell(@ModelAttribute CommonSearch search, Model model){
         if(!memberUtil.isLogin()) throw new AlertBackException("회원 전용 페이지입니다.", HttpStatus.UNAUTHORIZED);
+        Member member = memberUtil.getMember();
         Long mSeq = memberUtil.getMember().getSeq();
         List<OrderItem> orderItems = orderItemInfoService.getByMemberSeq(mSeq);
+        model.addAttribute("member", member);
         model.addAttribute("items", orderItems);
-        model.addAttribute("addCss", List.of("shop/sell"));
+        model.addAttribute("addCss", List.of("shop/sell", "shop/style"));
         return utils.tpl("shop/sell");
     }
 

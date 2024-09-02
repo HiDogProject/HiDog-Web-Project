@@ -43,9 +43,9 @@ public class MemberUtil {
             if(member == null){
                 member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
 
-                memberInfo.setMember(member);
-
                 infoService.addInfo(member);
+
+                memberInfo.setMember(member);
             }
         }
         return member;

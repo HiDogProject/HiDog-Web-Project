@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="form" th:object="${member}">
+        <div class="layout-width">
+            <div class="shop-container">
+                <div class="shop-info">
+                    <div class="shop-image">
+                        <th:block th:if="${member != null && member.profileImage != null}">
+                            <img th:src="${@utils.getThumbUrl(member.profileImage.seq, 100, 100)}"
+                                 th:alt="${#strings.concat(poster, '(', member.email, ')')}">
+                        </th:block>
+                    </div>
+                    <div class="shop-details">
+                        <div class="user-name">
+                            <span th:text="*{userName} + #{'님의_상점'}"></span>
+                        </div>
+                        <div class="email">
+                            <span th:text="*{email}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="links">
+                <th:block th:if="*{@memberUtil.isLogin}">
+                    <a class="btn" th:if="*{@memberUtil.getMember.getSeq == seq}"
+                       th:href="*{@utils.redirectUrl('/shop/' + seq)}"
+                       th:text="#{판매글}"></a>
+                    <a class="btn" th:if="*{@memberUtil.getMember.getSeq == seq}"
+                       th:href="*{@utils.redirectUrl('/shop/sell')}"
+                       th:text="#{판매내역}"></a>
+                    <a class="btn" th:if="*{@memberUtil.getMember.getSeq == seq}"
+                       th:href="*{@utils.redirectUrl('/shop/buy')}"
+                       th:text="#{구매내역}"></a>
+                </th:block>
+            </div>
+        </div>
+</th:block>
+</html>
+

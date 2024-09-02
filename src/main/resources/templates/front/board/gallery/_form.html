@@ -14,7 +14,7 @@
         <tr>
             <th th:text="#{작성자}"></th>
             <td>
-                <input type="text" name="poster" th:field="*{poster}" th:attr="readonly=${@memberUtil.isLogin != null and isLogin ? 'readonly' : null}">
+                <input type="text" name="poster" th:field="*{poster}" class="short-input"  th:attr="readonly=${@memberUtil.isLogin != null and isLogin ? 'readonly' : null}">
                 <div class="error" th:each="err : ${#fields.errors('poster')}" th:text="${err}"></div>
             </td>
         </tr>
@@ -30,7 +30,7 @@
         <tr th:if="*{ guest }">
             <th th:text="#{비밀번호}"></th>
             <td>
-                <input type="password" name="guestPw" th:field="*{guestPw}">
+                <input type="password" name="guestPw" th:field="*{guestPw}" class="short-input" >
                 <div id="password-message" th:text="'※ 비밀번호는 영어, 숫자 조합으로 4자 이상 입력해주세요.'"></div> <!-- 안내 문구 추가 -->
                 <div class="error" th:each="err : ${#fields.errors('guestPw')}" th:text="${err}"></div>
             </td>

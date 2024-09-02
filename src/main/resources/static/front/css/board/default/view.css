@@ -56,3 +56,4 @@
     color: #666666; /* 텍스트 색상 설정 */
 }
 
+.commenter_info input { width: 15% !important;}
