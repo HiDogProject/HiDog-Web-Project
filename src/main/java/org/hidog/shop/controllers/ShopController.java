@@ -24,7 +24,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("shop")
+@RequestMapping("/shop")
 public class ShopController {
 
     private final BoardInfoService boardInfoService;

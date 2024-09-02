@@ -43,7 +43,7 @@ public class PaymentController implements ExceptionProcessor {
 
         cancelService.cancel(orderNo,"단순변심");
 
-        return "redirect:" + utils.redirectUrl("/board/list/market");
+        return utils.redirectUrl("/shop/sell");
     }
 
     @RequestMapping("/close")

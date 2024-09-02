@@ -67,6 +67,7 @@ public class OrderController implements ExceptionProcessor {
         if (boardData != null) {
             form.setBSeq(boardData.getSeq());
             model.addAttribute("boardData", boardData);
+            model.addAttribute("addCss", List.of("order/form"));
         }
         OrderInfo orderInfo = saveService.save(form);
         if(!erros.hasErrors()){

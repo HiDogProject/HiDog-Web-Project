@@ -28,9 +28,6 @@
                     <a class="btn" th:if="*{@memberUtil.getMember.getSeq == seq}"
                        th:href="*{@utils.redirectUrl('/shop/sell')}"
                        th:text="#{판매내역}"></a>
-                    <a class="btn" th:if="*{@memberUtil.getMember.getSeq == seq}"
-                       th:href="*{@utils.redirectUrl('/shop/buy')}"
-                       th:text="#{구매내역}"></a>
                 </th:block>
             </div>
         </div>
