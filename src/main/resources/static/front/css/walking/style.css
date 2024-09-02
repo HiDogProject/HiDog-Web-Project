@@ -109,6 +109,7 @@ img { border: 0; }
 
 .subject {
     text-align: center;
+    font-weight: bold;
 }
 
 .post-info {
