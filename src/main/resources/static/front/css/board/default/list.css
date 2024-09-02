@@ -100,3 +100,35 @@ th {
     /*transform: translateY(0); !* 클릭 시 원래 위치로 돌아옴 *!*/
 }
 /* 글쓰기 버튼 E */
+
+/* 정렬 S */
+.sort-buttons {
+    margin-bottom: 20px; /* 버튼과 게시글 목록 사이의 간격 */
+}
+
+.sort-buttons .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.sort-buttons .btn:hover {
+    background-color: #0056b3;
+}
+
+.board-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.board-list li {
+    margin: 10px 0;
+}
+
+.view-count {
+    margin-left: 10px;
+    color: #666;
+}
+/* 정렬 E */
