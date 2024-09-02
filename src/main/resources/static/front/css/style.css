@@ -241,33 +241,9 @@ footer {
     display: block;
 }
 
-footer .I {
-    font-size: 30px;
-    text-align: center;
-    margin: 0 auto 12px;
-    display: block;
-    text-decoration: none; /* 링크 기본 스타일 제거 */
-    color: inherit; /* 부모의 색상 상속 */
-}
-
-footer .center_phone {
-    border: 2px solid #2a2a2a;
-    border-radius: 20px;
-    height: 35px;
-    line-height: 31px;
-    width: 190px;
-    display: block;
-    margin: 0 auto 7px;
-    font-size: 1.538rem;
-    font-weight: 800;
-    text-align: center;
-    text-decoration: none; /* 링크 기본 스타일 제거 */
-    color: inherit; /* 부모의 색상 상속 */
-}
-
 footer .choongang-info, footer .company-info {
     font-size: 0.923rem;
-    color: #2a2a2a;
+    color: #878787;
     text-align: center;
 }
 
