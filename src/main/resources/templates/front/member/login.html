@@ -8,6 +8,7 @@ layout:decorate="~{front/layouts/main}">
 </head>
 
 <main layout:fragment="content">
+    <div class="login">
     <h1 th:text="#{로그인}"></h1>
     <form name="frmLogin" method="post" th:action="${@utils.redirectUrl('/member/login')}" autocomplete="off" th:object="${requestLogin}">
         <input type="hidden" name="redirectUrl" th:field="*{redirectUrl}">
@@ -37,6 +38,7 @@ layout:decorate="~{front/layouts/main}">
         <a th:href="${@utils.redirectUrl('/member/find_pw')}" th:text="#{비밀번호를_잊으셨나요?}"></a>
         </div>
     </form>
+    </div>
 </main>
 
 </html>
