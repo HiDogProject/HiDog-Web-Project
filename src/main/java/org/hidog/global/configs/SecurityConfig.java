@@ -57,12 +57,12 @@ public class SecurityConfig {
         /* 로그인, 로그아웃 E */
         /* 인가(접근 통제) 설정 S*/
         http.authorizeRequests(authorizeRequests -> {
-            authorizeRequests.requestMatchers("/mypage/**", "/order").authenticated()//회원 전용
+            authorizeRequests.requestMatchers("/mypage/**", "/order", "/walking/map").authenticated()//회원 전용
                     .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                     .anyRequest().permitAll();
         });
         http.exceptionHandling(c -> {
-            c.authenticationEntryPoint(new MemberAuthenticationEntryPoint())//예외
+            c.authenticationEntryPoint(new MemberAuthenticationEntryPoint(utils))//예외
                     .accessDeniedHandler((req, res, e) -> {
                         res.sendError(HttpStatus.UNAUTHORIZED.value());
                     });
