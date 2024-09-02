@@ -64,7 +64,7 @@ public class JoinValidator implements Validator, PasswordValidator {
         // 5. 이메일 인증 여부 체크
         Boolean emailVerified = (Boolean)session.getAttribute("EmailAuthVerified");
         if (emailVerified == null || !emailVerified) {
-            // errors.rejectValue("email","NotVerified");
+            errors.rejectValue("email","NotVerified");
         }
     }
 }
