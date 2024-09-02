@@ -104,18 +104,19 @@ th {
 /* 정렬 S */
 .sort-buttons {
     margin-bottom: 20px; /* 버튼과 게시글 목록 사이의 간격 */
+    margin-top: 15px;
+    float: right;
 }
 
 .sort-buttons .btn {
-    background-color: #007bff;
+    background-color: #27a7d9;
     color: white;
     padding: 10px 20px;
     text-decoration: none;
-    border-radius: 5px;
 }
 
 .sort-buttons .btn:hover {
-    background-color: #0056b3;
+    background-color: #2980b9;
 }
 
 .board-list ul {
