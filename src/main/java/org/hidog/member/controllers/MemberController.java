@@ -85,8 +85,6 @@ public class MemberController implements ExceptionProcessor {
             //비번이 만료인 경우 비번 재설정 페이지 이동
             if (code.equals("CredentialsExpired.Login")) {
                 return "redirect:" + utils.redirectUrl("/member/password/reset");
-
-
             }
         }
 
