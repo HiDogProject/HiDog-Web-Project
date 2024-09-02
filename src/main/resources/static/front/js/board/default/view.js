@@ -1,10 +1,11 @@
 window.addEventListener("DOMContentLoaded", function() {
+    console.log("유입")
     // 댓글 작성 후 URL에 comment_id=댓글 등록번호 -> hash 추가 -> 이동
     if (location.search.indexOf("comment_id=") != -1) {
         const searchParams = new URLSearchParams(location.search);
-
+        console.log("search", searchParams)
         const seq = searchParams.get("comment_id");
-
+        console.log("seq", seq)
         location.hash=`#comment_${seq}`;
     }
 
